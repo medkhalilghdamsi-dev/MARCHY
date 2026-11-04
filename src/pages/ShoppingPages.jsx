@@ -142,7 +142,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     setOrDelete('deal', dealsOnly ? 'true' : '', '')
     setOrDelete('sort', sort, 'featured')
     if (next.toString() !== params.toString()) setParams(next, { replace: true })
-  }, [term, category, city, minPrice, maxPrice, dealsOnly, sort, catalogueMaxPrice, routeCategory, params, setParams])
+  }, [term, category, city, minPrice, maxPrice, dealsOnly, sort, catalogueMaxPrice, routeCategory, setParams])
   const updateTerm = value => {
     setTerm(value)
     const next = new URLSearchParams(params)
