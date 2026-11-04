@@ -52,3 +52,59 @@
 .marchy-case-summary small{font-size:11px;color:#806b4d}
 .marchy-buyer-case-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0}
 .marchy-case-pending{font-size:12px;color:#72552b}
+
+
+/* Buyer account and order tracking: compact, touch-friendly mobile hierarchy. */
+@media(max-width:640px){
+ .marchy-buyer-orders{padding-bottom:28px}
+ .marchy-orders-heading{gap:12px;margin:18px 0 20px}
+ .marchy-orders-heading h1{font-size:clamp(29px,8vw,36px);line-height:1.08}
+ .marchy-orders-heading p{font-size:13px;max-width:34ch}
+ .marchy-demo-stamp{font-size:9px;padding:7px 10px}
+ .marchy-buyer-order-list{gap:12px}
+ .marchy-buyer-order-card{padding:15px;border-radius:13px}
+ .marchy-buyer-order-top{display:grid;grid-template-columns:minmax(0,1fr);gap:9px}
+ .marchy-buyer-order-top>div{min-width:0}
+ .marchy-buyer-order-top h2{font-size:16px;line-height:1.25}
+ .marchy-buyer-order-top small{display:block;line-height:1.5}
+ .marchy-order-status{justify-self:start;white-space:normal;max-width:100%;line-height:1.25}
+ .marchy-buyer-order-product{gap:0;padding:12px 0}
+ .marchy-buyer-order-product>div{align-items:flex-start;gap:10px;padding:7px 0;font-size:12px;line-height:1.45}
+ .marchy-buyer-order-product>div>span{min-width:0;overflow-wrap:anywhere}
+ .marchy-buyer-order-product strong{font-size:12px}
+ .marchy-buyer-order-product>div:last-child{border-top:1px solid var(--border,#e7e9e5);margin-top:5px;padding-top:11px}
+ .marchy-order-timeline{grid-template-columns:repeat(5,minmax(58px,1fr));gap:5px;overflow-x:auto;overscroll-behavior-x:contain;padding:2px 1px 9px;margin:17px 0;scrollbar-width:thin}
+ .marchy-order-timeline li{min-width:58px;gap:6px;font-size:9px;line-height:1.25}
+ .marchy-order-timeline li i{width:26px;height:26px}
+ .marchy-order-timeline li span{max-width:64px;overflow-wrap:anywhere}
+ .marchy-buyer-case-actions{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+ .marchy-buyer-case-actions .outline-btn{width:100%;min-height:44px;justify-content:center}
+ .marchy-case-pending{line-height:1.5}
+ .marchy-buyer-order-foot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 12px;line-height:1.45;overflow-wrap:anywhere}
+ .marchy-order-notice{line-height:1.5}
+ .marchy-orders-refresh{gap:12px}
+ .marchy-orders-refresh .outline-btn{width:100%;min-height:44px;justify-content:center}
+ .marchy-orders-refresh .text-link{min-height:40px;display:inline-flex;align-items:center}
+ .account-welcome{gap:16px}
+ .account-guest-status{max-width:100%;min-width:0}
+ .account-auth-prompt{gap:16px}
+ .account-auth-prompt>div:last-child{display:grid;grid-template-columns:1fr;gap:9px;width:100%}
+ .account-auth-prompt .outline-btn,.account-auth-prompt .primary-btn{min-height:44px;justify-content:center}
+ .account-overview-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .account-overview-card{min-width:0;padding:13px;gap:9px}
+ .account-overview-card>span:nth-child(2){min-width:0}
+ .account-overview-card b{overflow-wrap:anywhere}
+ .account-content-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+ .account-panel{min-width:0;padding:15px}
+ .account-panel-heading{gap:10px;align-items:flex-start}
+ .account-saved-item{grid-template-columns:54px minmax(0,1fr);gap:10px}
+ .account-saved-item>strong{grid-column:2}
+ .account-shortcuts>div:last-child{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ .account-shortcuts>div:last-child a{min-width:0;padding:11px;border:1px solid var(--border,#e7e9e5);border-radius:9px;line-height:1.4}
+}
+@media(max-width:380px){
+ .marchy-buyer-order-card{padding:13px}
+ .marchy-buyer-order-foot{grid-template-columns:1fr}
+ .account-overview-card{padding:11px}
+ .account-shortcuts>div:last-child{grid-template-columns:1fr}
+}
