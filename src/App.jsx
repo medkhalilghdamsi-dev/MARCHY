@@ -911,6 +911,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const [shareFeedback,setShareFeedback]=useState('')
   const [isCompared,setIsCompared]=useState(()=>readJson('marchy-compare',[]).includes(Number(id)))
   const [compareFeedback,setCompareFeedback]=useState('')
+  useEffect(()=>{setIsCompared(readJson('marchy-compare',[]).includes(Number(id)));setCompareFeedback('')},[id])
   const toggleProductCompare=()=>{
     const selected=readJson('marchy-compare',[]).filter(item=>products.some(entry=>entry.id===item))
     if(selected.includes(Number(id))){writeJson('marchy-compare',selected.filter(item=>item!==Number(id)));setIsCompared(false);setCompareFeedback('Removed from comparison')}
