@@ -211,7 +211,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const [shareFeedback,setShareFeedback]=useState('')
   const [isCompared,setIsCompared]=useState(()=>readJson('marchy-compare',[]).includes(Number(id)))
   const [compareFeedback,setCompareFeedback]=useState('')
-  useEffect(()=>{setIsCompared(readJson('marchy-compare',[]).includes(Number(id)));setCompareFeedback('')},[id])
+  useEffect(()=>{setIsCompared(readJson('marchy-compare',[]).includes(Number(id)));setCompareFeedback('');setQty(1);setAdded(false)},[id])
   const toggleProductCompare=()=>{
     const selected=readJson('marchy-compare',[]).filter(item=>products.some(entry=>entry.id===item))
     if(selected.includes(Number(id))){writeJson('marchy-compare',selected.filter(item=>item!==Number(id)));setIsCompared(false);setCompareFeedback('Removed from comparison')}
@@ -297,7 +297,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
           <div className="product-purchase-row">
             <div className="quantity product-quantity" role="group" aria-label="Quantity">
               <button type="button" aria-label="Decrease quantity" disabled={qty <= 1} onClick={() => setQty(v => Math.max(1, v - 1))}>−</button>
-              <output id="product-quantity" aria-label="Selected quantity" aria-live="polite">{qty}</output>
+              <input id="product-quantity" className="product-quantity-input" aria-label="Quantity" type="number" inputMode="numeric" min="1" max="99" step="1" value={qty} onChange={event=>setQty(Math.min(99,Math.max(1,Number.parseInt(event.target.value,10)||1)))}/>
               <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => setQty(v => Math.min(99, v + 1))}>＋</button>
             </div>
             <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
