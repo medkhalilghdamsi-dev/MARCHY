@@ -28,6 +28,11 @@ jobs:
         run: |
           npm audit --json > npm-audit.json || true
           node -e "const a=require('./npm-audit.json'); for (const [name, issue] of Object.entries(a.vulnerabilities || {})) console.log(name + ': ' + issue.severity + ', fix available: ' + JSON.stringify(issue.fixAvailable))"
+      - name: Upload dependency audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: marchy-dependency-audit
+          path: npm-audit.json
 
   browser-regression:
     name: Responsive browser regression
@@ -49,8 +54,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: marchy-quality-reports
-          path: |
-            test-results/
-            npm-audit.json
+          name: marchy-browser-failures
+          path: test-results/
           if-no-files-found: ignore
