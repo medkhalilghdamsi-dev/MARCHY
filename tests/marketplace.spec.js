@@ -364,3 +364,15 @@ test('buyer search filters restore from a shareable URL', async ({ page }) => {
   await expect(page.getByRole('textbox', { name: 'Search marketplace' })).toHaveValue('')
   await expect(page.getByRole('combobox', { name: 'Seller location' })).toHaveValue('All')
 })
+
+
+test('mobile product page keeps the purchase action reachable in the sticky buy bar', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/product/1')
+  const buyBar = page.locator('.product-mobile-buybar')
+  await expect(buyBar).toBeVisible()
+  await expect(buyBar.getByText('189.000 TND')).toBeVisible()
+  await buyBar.getByRole('button', { name: 'Add to cart' }).click()
+  await expect(buyBar.getByRole('button', { name: 'Added ✓' })).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: 'Added to your demo cart' })).toBeVisible()
+})
