@@ -668,3 +668,20 @@ Object.assign(translations, {
  "Track demo order →":["Suivre la commande démo →","تتبع الطلب التجريبي ←"],
  "Track demo orders →":["Suivre les commandes démo →","تتبع الطلبات التجريبية ←"]
 });
+
+Object.assign(translations, {
+ "Standard delivery · 3–5 days":["Livraison standard · 3–5 jours","توصيل عادي · 3–5 أيام"],
+ "Express delivery · 1–2 days":["Livraison express · 1–2 jours","توصيل سريع · 1–2 يوم"],
+ "Seller collection · timing to confirm":["Retrait chez le vendeur · horaire à confirmer","الاستلام من البائع · الموعد قيد التأكيد"],
+ "Delivery method":["Mode de livraison","طريقة التوصيل"],
+ "Illustrative delivery fee":["Frais de livraison indicatifs","رسوم توصيل تقديرية"],
+ "Stock and final delivery details":["Stock et détails définitifs de livraison","المخزون وتفاصيل التوصيل النهائية"],
+ "Seller confirmation required":["Confirmation du vendeur requise","يتطلب تأكيد البائع"],
+ "Demo estimates only. These rates, delivery windows and collection options are illustrative and are not seller quotes or service commitments.":["Estimations de démonstration uniquement. Ces tarifs, délais et options de retrait sont indicatifs et ne constituent ni des devis ni des engagements des vendeurs.","تقديرات تجريبية فقط. هذه الأسعار ومواعيد التوصيل وخيارات الاستلام توضيحية وليست عروض أسعار أو التزامات من البائعين."],
+ "Sample delivery fees":["Frais de livraison indicatifs","رسوم التوصيل التقديرية"],
+ "Calculated at review":["Calculés lors de la vérification","يتم حسابها عند المراجعة"],
+ "Estimated demo total":["Total estimé de la démo","الإجمالي التقديري التجريبي"],
+ "Illustrative rates only. Actual delivery fees, coverage and timing require seller confirmation.":["Tarifs indicatifs uniquement. Les frais, la couverture et les délais réels doivent être confirmés par le vendeur.","الأسعار توضيحية فقط. يجب تأكيد رسوم التوصيل والتغطية والوقت الفعلي من البائع."],
+ "Sample delivery fee":["Frais de livraison indicatifs","رسوم التوصيل التجريبية"],
+ "Demo order total":["Total de la commande démo","إجمالي الطلب التجريبي"]
+});
