@@ -1,0 +1,90 @@
+/* MARCHY 2.0 — shared visual and interaction system across buyer and seller journeys. */
+:root{
+  --marchy-brand:#174b38;
+  --marchy-brand-hover:#103b2c;
+  --marchy-brand-soft:#edf4ef;
+  --marchy-accent:#df7548;
+  --marchy-accent-soft:#fff3ed;
+  --marchy-text:#20332b;
+  --marchy-muted:#586b60;
+  --marchy-border:#e1e9e2;
+  --marchy-surface:#fff;
+  --marchy-canvas:#f7f9f6;
+  --marchy-card-radius:14px;
+  --marchy-control-radius:8px;
+  --marchy-card-shadow:0 8px 26px rgba(23,63,50,.055);
+  --marchy-card-shadow-hover:0 16px 34px rgba(23,63,50,.105);
+}
+html{scroll-behavior:smooth;scroll-padding-top:112px}
+body{color:var(--marchy-text);background:var(--marchy-canvas);-webkit-font-smoothing:antialiased}
+::selection{background:rgba(223,117,72,.2);color:var(--marchy-text)}
+a,button,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button:disabled{cursor:not-allowed}
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{
+  outline:3px solid var(--marchy-accent);
+  outline-offset:3px;
+}
+:where(input:not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea){
+  border-radius:var(--marchy-control-radius);
+}
+:where(input:not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea):focus{
+  border-color:#719784;
+  box-shadow:0 0 0 3px rgba(23,75,56,.1);
+}
+:where(.primary-btn,.filter-apply,.cart-checkout-button,.checkout-form-actions button,.checkout-review-actions button,.seller-preview-button){
+  min-height:44px;
+  border-radius:var(--marchy-control-radius);
+  font-weight:750;
+  transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+:where(.primary-btn,.filter-apply,.cart-checkout-button,.checkout-form-actions button,.checkout-review-actions button,.seller-preview-button):hover:not(:disabled){
+  transform:translateY(-1px);
+}
+:where(.product-card,.seller-directory-card,.category-directory-card,.product-buy-panel,.product-information-card,.cart-items-panel,.cart-summary,.checkout-main-panel,.checkout-summary,.seller-dashboard-main,.seller-dashboard-sidebar,.seller-dashboard-panel){
+  border-color:var(--marchy-border);
+  border-radius:var(--marchy-card-radius);
+}
+:where(.product-card,.seller-directory-card,.category-directory-card,.product-buy-panel,.product-information-card,.cart-items-panel,.cart-summary,.checkout-main-panel,.checkout-summary,.seller-dashboard-main,.seller-dashboard-sidebar){
+  box-shadow:var(--marchy-card-shadow);
+}
+:where(.product-card,.seller-directory-card,.category-directory-card){
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+:where(.product-card,.seller-directory-card,.category-directory-card):hover{
+  border-color:#cbdccf;
+  box-shadow:var(--marchy-card-shadow-hover);
+}
+:where(.section-heading h2,.marchy-listing-head h1,.marchy-seller-heading h1,.checkout-heading h1,.cart-page-heading h1){
+  text-wrap:balance;
+}
+:where(.section-heading p,.marchy-listing-head p,.marchy-seller-heading p,.checkout-panel-title p){
+  line-height:1.7;
+}
+:where(.breadcrumbs a,.text-link,.seller-dashboard-text-button){
+  text-underline-offset:3px;
+}
+:where(.product-grid,.home-category-grid,.seller-directory-grid){
+  align-items:stretch;
+}
+:where(.product-card,.seller-directory-card,.category-directory-card){
+  min-width:0;
+}
+:where(.product-name,.seller-directory-card h2,.seller-dashboard-product-cell b){
+  overflow-wrap:anywhere;
+}
+:where(.checkout-fields input,.checkout-fields textarea,.seller-draft-fields input,.seller-draft-fields textarea,.seller-planner-form input,.seller-planner-form select,.seller-planner-form textarea){
+  min-height:44px;
+}
+:where(.checkout-fields textarea,.seller-draft-fields textarea,.seller-planner-form textarea){min-height:88px}
+@media(max-width:760px){
+  html{scroll-padding-top:84px}
+  :where(.shell){width:calc(100% - 28px)}
+  :where(.section-heading){gap:12px}
+  :where(.product-grid){gap:11px}
+  :where(.product-card,.seller-directory-card,.category-directory-card){border-radius:11px}
+  :where(.checkout-fields input,.checkout-fields textarea,.seller-draft-fields input,.seller-draft-fields textarea,.seller-planner-form input,.seller-planner-form select,.seller-planner-form textarea){font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
