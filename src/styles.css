@@ -1285,3 +1285,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
  .product-card,.product-photo img,.product-quick-view,.wish-btn,.add-btn{transition:none!important}
  .product-card:hover{transform:none}
 }
+
+
+/* Navigation and keyboard-accessibility finishing pass */
+.skip-to-content{position:fixed;z-index:2000;top:10px;left:10px;transform:translateY(-160%);padding:11px 15px;border-radius:7px;background:#17212b;color:#fff;font-size:12px;font-weight:800;box-shadow:0 5px 20px rgba(0,0,0,.2)}
+.skip-to-content:focus{transform:translateY(0);outline:3px solid #f36b35;outline-offset:3px}
+#main-content{scroll-margin-top:18px}
+.mobile-tabbar a.is-active{color:var(--orange-dark)}
+.mobile-tabbar a.is-active>span{color:var(--orange-dark)}
+.mobile-tabbar a.is-active small{font-weight:850}
+.nav-inner a:focus-visible,.header a:focus-visible,.header button:focus-visible,.mobile-tabbar a:focus-visible{outline:3px solid rgba(243,107,53,.45);outline-offset:3px;border-radius:5px}
+@media(max-width:640px){
+ .mobile-tabbar a.is-active:before{content:"";position:absolute;top:0;width:25px;height:2px;border-radius:0 0 3px 3px;background:var(--orange)}
+ .mobile-tabbar a{position:relative}
+}
