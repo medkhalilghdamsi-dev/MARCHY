@@ -1,4 +1,9 @@
-const money = value => `${Number(value).toFixed(3)} TND`
+const money = value => {
+  const amount = Number(value)
+  if (!Number.isFinite(amount)) return '—'
+  const formatted = new Intl.NumberFormat('en-TN', { maximumFractionDigits: 3 }).format(amount)
+  return `${formatted} DT`
+}
 const searchSynonyms = {
   headphones: ['headphone','earphones','earbuds','headset','casque','ecouteurs','سماعات'],
   lamp: ['light','lighting','lampe','مصباح'],
