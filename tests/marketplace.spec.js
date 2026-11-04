@@ -409,3 +409,30 @@ test('mobile cart and checkout keep multi-seller totals and delivery review read
   overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
   expect(overflow).toBeLessThanOrEqual(1)
 })
+
+
+test('mobile buyer account and order tracking keep key actions usable at 360px', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 })
+  await page.goto('/account')
+  await expect(page.locator('.account-overview-grid')).toBeVisible()
+  await expect(page.locator('.account-overview-card').filter({ hasText: 'ORDER ACTIVITY' })).toBeVisible()
+  let overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+  expect(overflow).toBeLessThanOrEqual(1)
+
+  await page.getByRole('link', { name: /Track.*Demo order updates/ }).click()
+  await expect(page).toHaveURL(/\/orders$/)
+  const orderCards = page.locator('.marchy-buyer-order-card')
+  await expect(orderCards).toHaveCount(3)
+  await expect(orderCards.first().locator('.marchy-order-timeline')).toBeVisible()
+  await expect(orderCards.first()).toContainText('Preparing')
+  await orderCards.first().getByRole('button', { name: 'Request cancellation' }).click()
+  await expect(orderCards.first().locator('.marchy-case-summary')).toContainText('Buyer requested cancellation')
+  await expect(orderCards.first()).toContainText('awaiting seller review')
+
+  const deliveredOrder = orderCards.filter({ hasText: 'Delivered' }).first()
+  await deliveredOrder.getByRole('button', { name: 'Request a return' }).click()
+  await expect(deliveredOrder.locator('.marchy-case-summary')).toContainText('Buyer requested a return')
+  overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+  expect(overflow).toBeLessThanOrEqual(1)
+  await expect(orderCards.first().getByRole('button', { name: 'Request cancellation' })).toHaveCount(0)
+})
