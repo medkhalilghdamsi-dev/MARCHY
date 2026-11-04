@@ -343,7 +343,7 @@ const translations = {
   ,"sellers":["vendeurs","بائعين"]
   ,"each":["l’unité","للوحدة"]
   ,"Remove item":["Supprimer l’article","إزالة المنتج"]
-  ,"Quantity":["Quantité","الكمية"]
+  ,
   ,"Need something else?":["Besoin d’autre chose ?","هل تبحث عن شيء آخر؟"]
   ,"Your order":["Votre commande","طلبك"]
   ,"Products subtotal":["Sous-total des produits","المجموع الفرعي للمنتجات"]
