@@ -398,6 +398,9 @@ function CheckoutPage({cart,language,onPlaceDemoOrder}) {
   const [details,setDetails]=useState({name:'',phone:'',city:'',address:'',notes:''})
   const [orderIds,setOrderIds]=useState([])
   const [deliveryChoice,setDeliveryChoice]=useState('standard')
+  const checkoutStepHeadingRef=useRef(null)
+  const previousCheckoutStepRef=useRef(step)
+  useEffect(()=>{if(previousCheckoutStepRef.current!==step){checkoutStepHeadingRef.current?.focus();previousCheckoutStepRef.current=step}},[step])
   const navigate=useNavigate()
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0)
   const itemCount=cart.reduce((sum,item)=>sum+item.qty,0)
@@ -424,7 +427,7 @@ function CheckoutPage({cart,language,onPlaceDemoOrder}) {
     <div className="checkout-layout">
       <section className="checkout-main-panel" aria-live="polite">
         {step===1&&<form className="checkout-form" onSubmit={event=>{event.preventDefault();setStep(2);window.scrollTo({top:0,behavior:'smooth'})}}>
-          <div className="checkout-panel-title"><span className="eyebrow">STEP 01</span><h2>Where should we deliver your order?</h2><p>Your details are used to prepare the MARCHY delivery preview and stay in this page session.</p></div>
+          <div className="checkout-panel-title"><span className="eyebrow">STEP 01</span><h2 ref={checkoutStepHeadingRef} tabIndex="-1">Where should we deliver your order?</h2><p>Your details are used to prepare the MARCHY delivery preview and stay in this page session.</p></div>
           <div className="checkout-fields">
             <label>Full name<input autoComplete="name" required value={details.name} onChange={e=>update('name',e.target.value)} placeholder="Your full name"/></label>
             <label>Phone number<input autoComplete="tel" type="tel" required inputMode="tel" pattern="[+0-9() .-]{7,20}" value={details.phone} onChange={e=>update('phone',e.target.value)} placeholder="+216 XX XXX XXX"/></label>
@@ -435,19 +438,19 @@ function CheckoutPage({cart,language,onPlaceDemoOrder}) {
           <div className="checkout-form-actions"><span>Required fields are marked by the browser.</span><button type="submit" className="primary-btn">Review order <span>→</span></button></div>
         </form>}
         {step===2&&<section className="checkout-review">
-          <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2>Review before proceeding</h2><p>Review each seller's products and select a delivery option managed by MARCHY.</p></div>
+          <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2 ref={checkoutStepHeadingRef} tabIndex="-1">Review before proceeding</h2><p>Review each seller's products and select a delivery option managed by MARCHY.</p></div>
           <div className="checkout-contact-review"><div><b>Delivery details</b><button type="button" className="text-link" onClick={()=>setStep(1)}>Edit details</button></div><p>{details.name} · {details.phone}</p><p>{details.address}, {details.city}</p>{details.notes&&<small>{details.notes}</small>}</div>
           <div className="checkout-delivery-choice marchy-central-delivery-choice"><label>MARCHY delivery option<select value={selectedDelivery?.id||''} disabled={!deliveryOptions.length} onChange={event=>chooseDelivery(event.target.value)}>{deliveryOptions.map(option=><option value={option.id} key={option.id}>{option.label} — {money(option.fee)} per seller parcel</option>)}</select></label><p>MARCHY controls the customer-facing delivery choices and coordinates fulfilment with its delivery partner. The displayed fee is an illustrative frontend estimate.</p></div>
           {groups.map(group=><article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={item.id}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-status"><span>MARCHY delivery · {selectedDelivery?.label||'To be confirmed'}</span><b>{money(selectedDelivery?.fee||0)} parcel estimate</b></div></article>)}<p className="checkout-demo-rate-note">Illustrative frontend estimates only. Actual delivery coverage, service levels, fees and timing will be set by MARCHY with its delivery partner before launch.</p>
           <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" disabled={!deliveryOptions.length} onClick={()=>setStep(3)}>Continue to final preview <span>→</span></button></div>
         </section>}
         {step===3&&<section className="checkout-complete-preview">
-          <div className="checkout-preview-icon">✓</div><span className="eyebrow">DEMO ORDER CONFIRMATION</span><h2>Ready to create your sample order?</h2><p>Confirming creates a fictional order record in this browser, clears this demo basket and makes the order visible in Buyer Tracking and the relevant seller workspace. No seller is contacted and no payment or delivery is arranged.</p>
+          <div className="checkout-preview-icon">✓</div><span className="eyebrow">DEMO ORDER CONFIRMATION</span><h2 ref={checkoutStepHeadingRef} tabIndex="-1">Ready to create your sample order?</h2><p>Confirming creates a fictional order record in this browser, clears this demo basket and makes the order visible in Buyer Tracking and the relevant seller workspace. No seller is contacted and no payment or delivery is arranged.</p>
           <div className="checkout-next-list"><b>Before confirming</b><ul><li>Delivery fees are illustrative estimates, not confirmed seller quotes</li><li>Stock and availability have not been verified</li><li>Payment is not collected</li><li>Each seller receives a separate sample order</li></ul></div>
           <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(2)}>← Back to review</button><button type="button" className="primary-btn" onClick={()=>{setOrderIds(onPlaceDemoOrder(details,cart,Object.fromEntries(groups.map(group=>[group.seller.slug,{label:selectedDelivery?.label||'MARCHY delivery · to be confirmed',fee:selectedDelivery?.fee??0}]))));setStep(4)}}>Create demo order <span>→</span></button></div>
         </section>}
         {step===4&&<section className="checkout-complete-preview marchy-order-created">
-          <div className="checkout-preview-icon">✓</div><span className="eyebrow">SAMPLE ORDER CREATED</span><h2>Your demo order is ready to follow.</h2><p>{orderIds.length} seller-specific sample {orderIds.length===1?'order has':'orders have'} been saved on this device. You can view the new order records in your tracking page.</p>
+          <div className="checkout-preview-icon">✓</div><span className="eyebrow">SAMPLE ORDER CREATED</span><h2 ref={checkoutStepHeadingRef} tabIndex="-1">Your demo order is ready to follow.</h2><p>{orderIds.length} seller-specific sample {orderIds.length===1?'order has':'orders have'} been saved on this device. You can view the new order records in your tracking page.</p>
           <div className="checkout-next-list"><b>Your sample order reference{orderIds.length===1?'':'s'}</b><ul>{orderIds.map(id=><li key={id}>{id}</li>)}</ul></div>
           <p className="catalogue-note">This is not a real purchase. No payment was taken, inventory reserved, seller notified or parcel booked.</p>
           <div className="checkout-review-actions"><Link to="/orders" className="primary-btn">Track demo order{orderIds.length===1?'':'s'} →</Link><button type="button" className="outline-btn" onClick={()=>navigate('/search')}>Continue shopping</button></div>
