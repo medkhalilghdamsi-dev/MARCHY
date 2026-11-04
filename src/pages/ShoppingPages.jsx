@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { categories, products } from '../data/products'
 import { sellers, sellerByCategory, sellerForProduct } from '../data/sellers'
-import { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText, readJson, writeJson } from '../utils/marketplace'
+import { money, searchSynonyms, normalizeSearchText, searchTextMatches, searchSynonyms, readText, readJson, writeJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
 import { ProductCard } from '../components/MarketplaceChrome'
 
@@ -127,13 +127,18 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
         let total = 0
         let matchedTokens = 0
         for (const token of tokens) {
+          const variants = [token, ...Object.entries(searchSynonyms)
+            .filter(([key, values]) => normalizeSearchText(key) === token || values.some(value => normalizeSearchText(value) === token))
+            .flatMap(([key, values]) => [key, ...values].map(normalizeSearchText))]
           let best = 0
           for (const field of fields) {
             const words = field.value.split(/\s+/)
-            if (field.value === token) best = Math.max(best, field.weight * 3)
-            else if (words.some(word => word === token)) best = Math.max(best, field.weight * 2)
-            else if (words.some(word => word.startsWith(token))) best = Math.max(best, field.weight * 1.5)
-            else if (field.value.includes(token)) best = Math.max(best, field.weight)
+            for (const variant of variants) {
+              if (field.value === variant) best = Math.max(best, field.weight * 3)
+              else if (words.some(word => word === variant)) best = Math.max(best, field.weight * 2)
+              else if (words.some(word => word.startsWith(variant))) best = Math.max(best, field.weight * 1.5)
+              else if (field.value.includes(variant)) best = Math.max(best, field.weight)
+            }
           }
           if (best > 0) matchedTokens += 1
           total += best
