@@ -1,0 +1,108 @@
+/* MARCHY theme system — persistent buyer-facing light and dark modes */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ink:#edf1f4;--forest:#e7eee9;--muted:#aab5bf;--line:#303b45;
+  --page:#111820;--surface:#1a242e;--surface-soft:#202c37;
+  --shadow-card:0 8px 28px rgba(0,0,0,.22);--shadow-raised:0 18px 48px rgba(0,0,0,.34);
+  --marchy-ink:#edf1f4;--marchy-muted:#aab5bf;--marchy-line:#303b45;
+  --marchy-surface:#1a242e;--marchy-canvas:#111820;--marchy-shadow:0 12px 34px rgba(0,0,0,.25);
+  background:#111820;
+}
+:root[data-theme="dark"] body,:root[data-theme="dark"] .app-root{background:#111820;color:#edf1f4}
+:root[data-theme="dark"] .header,:root[data-theme="dark"] .nav,
+:root[data-theme="dark"] .product-card,:root[data-theme="dark"] .filters,
+:root[data-theme="dark"] .detail-layout,:root[data-theme="dark"] .product-buy-panel,
+:root[data-theme="dark"] .product-information-card,:root[data-theme="dark"] .cart-items-panel,
+:root[data-theme="dark"] .cart-summary,:root[data-theme="dark"] .checkout-main-panel,
+:root[data-theme="dark"] .checkout-summary,:root[data-theme="dark"] .seller-directory-card,
+:root[data-theme="dark"] .seller-store-hero,:root[data-theme="dark"] .empty-state,
+:root[data-theme="dark"] .cart-empty-state,:root[data-theme="dark"] .wishlist-empty,
+:root[data-theme="dark"] .compare-tray,:root[data-theme="dark"] .product-buyer-highlights>div,
+:root[data-theme="dark"] .home-budget-discovery,:root[data-theme="dark"] .market-benefits,
+:root[data-theme="dark"] .trust-strip,:root[data-theme="dark"] .seller-cta,
+:root[data-theme="dark"] .home-seller-cta{
+  background:#1a242e!important;color:#edf1f4;border-color:#303b45!important;
+  box-shadow:0 8px 26px rgba(0,0,0,.16);
+}
+:root[data-theme="dark"] .topline,:root[data-theme="dark"] .footer{background:#0b1117;color:#dce3e8}
+:root[data-theme="dark"] .nav-inner a,:root[data-theme="dark"] .nav-inner>a:first-child,
+:root[data-theme="dark"] .product-name,:root[data-theme="dark"] .product-info,
+:root[data-theme="dark"] .seller-name,:root[data-theme="dark"] .breadcrumbs,
+:root[data-theme="dark"] .breadcrumbs a,:root[data-theme="dark"] .section-heading h2,
+:root[data-theme="dark"] .listing-head h1,:root[data-theme="dark"] .detail-info h1,
+:root[data-theme="dark"] .cart-page-heading h1,:root[data-theme="dark"] .checkout-heading h1,
+:root[data-theme="dark"] .wishlist-heading h1,:root[data-theme="dark"] .product-information-card h2,
+:root[data-theme="dark"] .cart-summary-title,:root[data-theme="dark"] .cart-summary-row,
+:root[data-theme="dark"] .cart-item-info,:root[data-theme="dark"] .seller-directory-card h2,
+:root[data-theme="dark"] .seller-store-identity,:root[data-theme="dark"] .filter-group label,
+:root[data-theme="dark"] .filter-group>b,:root[data-theme="dark"] .results-toolbar,
+:root[data-theme="dark"] .muted{color:#d5dde3!important}
+:root[data-theme="dark"] .searchbar,:root[data-theme="dark"] .listing-search,
+:root[data-theme="dark"] .results-toolbar,:root[data-theme="dark"] .global-search-suggestions,
+:root[data-theme="dark"] .quick-view-dialog,:root[data-theme="dark"] .product-image-lightbox-dialog,
+:root[data-theme="dark"] .compare-table thead th,:root[data-theme="dark"] .compare-table tbody tr:nth-child(even),
+:root[data-theme="dark"] .cart-panel-heading,:root[data-theme="dark"] .cart-seller-group-heading,
+:root[data-theme="dark"] .checkout-contact-review,:root[data-theme="dark"] .checkout-seller-review,
+:root[data-theme="dark"] .checkout-review-item,:root[data-theme="dark"] .checkout-delivery-status,
+:root[data-theme="dark"] .checkout-next-list{
+  background:#202c37!important;color:#e8edf1;border-color:#35424d!important;
+}
+:root[data-theme="dark"] .searchbar input,:root[data-theme="dark"] .listing-search input,
+:root[data-theme="dark"] input,:root[data-theme="dark"] select,:root[data-theme="dark"] textarea{
+  background-color:#17212a;color:#edf1f4;border-color:#3a4752;
+}
+:root[data-theme="dark"] input::placeholder,:root[data-theme="dark"] textarea::placeholder{color:#84919c}
+:root[data-theme="dark"] .product-photo,:root[data-theme="dark"] .product-image-stage,
+:root[data-theme="dark"] .quick-view-image,:root[data-theme="dark"] .detail-image{background:#222e38!important}
+:root[data-theme="dark"] .product-photo:before{border-color:rgba(255,255,255,.08)}
+:root[data-theme="dark"] .product-tag,:root[data-theme="dark"] .wish-btn,
+:root[data-theme="dark"] .product-quick-view,:root[data-theme="dark"] .outline-btn,
+:root[data-theme="dark"] .compare-clear,:root[data-theme="dark"] .compare-product-button,
+:root[data-theme="dark"] .active-filter-chips button,:root[data-theme="dark"] .filter-budget-presets button{
+  background:#26333e!important;color:#e3e9ee!important;border-color:#3b4853!important;
+}
+:root[data-theme="dark"] .product-tag{background:#26333eee!important}
+:root[data-theme="dark"] .home-budget-links a,:root[data-theme="dark"] .nav-inner a{
+  background:#202c37;color:#e5ebef;border-color:#34414c;
+}
+:root[data-theme="dark"] .market-hero,:root[data-theme="dark"] .market-hero-premium{
+  background:#202a33!important;border-color:#34414c!important;
+}
+:root[data-theme="dark"] .market-hero-premium:before{background:linear-gradient(135deg,#1a242e,#202c37 75%,#29343d)}
+:root[data-theme="dark"] .market-hero-copy>p,:root[data-theme="dark"] .hero-kicker,
+:root[data-theme="dark"] .home-budget-discovery p,:root[data-theme="dark"] .product-information-card p,
+:root[data-theme="dark"] .cart-summary-note,:root[data-theme="dark"] .cart-trust-note p,
+:root[data-theme="dark"] .wishlist-heading p,:root[data-theme="dark"] .checkout-panel-title p{color:#aab6c0!important}
+:root[data-theme="dark"] .home-deals-section{background:#202c37!important}
+:root[data-theme="dark"] .promo-banner,:root[data-theme="dark"] .home-seller-banner{background:#0d151c!important}
+:root[data-theme="dark"] .market-benefits>div,:root[data-theme="dark"] .trust-strip>div,
+:root[data-theme="dark"] .cart-item,:root[data-theme="dark"] .cart-seller-group,
+:root[data-theme="dark"] .checkout-review-item,:root[data-theme="dark"] .footer-bottom,
+:root[data-theme="dark"] .cart-seller-group-footer,:root[data-theme="dark"] .summary-total,
+:root[data-theme="dark"] .cart-panel-footer{border-color:#303b45!important}
+:root[data-theme="dark"] .price-inputs input,:root[data-theme="dark"] .results-toolbar select,
+:root[data-theme="dark"] .filter-group select,:root[data-theme="dark"] .checkout-form input,
+:root[data-theme="dark"] .checkout-form textarea{
+  background:#17212a!important;color:#edf1f4!important;border-color:#3a4752!important;
+}
+:root[data-theme="dark"] .seller-avatar{background:#34463f;color:#c7e4d4}
+:root[data-theme="dark"] .mobile-tabbar{background:rgba(20,29,37,.96);border-color:#34414c;backdrop-filter:blur(16px)}
+:root[data-theme="dark"] .mobile-tabbar a{color:#aeb9c3}
+:root[data-theme="dark"] .mobile-tabbar a.is-active{color:#f39a75}
+:root[data-theme="dark"] .mobile-filter-toggle{background:rgba(17,24,32,.94)}
+:root[data-theme="dark"] .search-suggestion-heading,
+:root[data-theme="dark"] .search-suggestion-empty,
+:root[data-theme="dark"] .global-search-suggestions a{color:#e4ebf0}
+:root[data-theme="dark"] .footer-main a:not(.logo){color:#b5c0c9}
+:root[data-theme="dark"] .footer-main a:hover{color:#fff}
+:root[data-theme="dark"] .theme-toggle{background:#293641;border-color:#46535e;color:#f8c58c}
+.theme-toggle{
+  display:inline-grid;place-items:center;width:36px;height:36px;flex:0 0 36px;
+  border:1px solid #e0e5e9;border-radius:50%;background:#fff;color:#52606b;
+  font-size:18px;line-height:1;
+  transition:background .18s,border-color .18s,color .18s,transform .18s;
+}
+.theme-toggle:hover{transform:rotate(-10deg);border-color:#dba184;background:#fff7f2;color:#a94421}
+.theme-toggle:focus-visible{outline:3px solid #d85a2c;outline-offset:3px}
+@media(max-width:640px){.theme-toggle{width:34px;height:34px;flex-basis:34px;font-size:16px}.header-actions{gap:7px}}
+@media(prefers-reduced-motion:reduce){.theme-toggle{transition:none}}
