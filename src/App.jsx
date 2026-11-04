@@ -277,6 +277,32 @@ const translations = {
   "SELLER HELP":["AIDE AUX VENDEURS","مساعدة البائعين"],
   "Seller tools are coming later.":["Les outils vendeurs arriveront plus tard.","أدوات البائعين قادمة لاحقاً."],
   "Seller onboarding, listing management and support tools are not connected in this frontend prototype.":["L’inscription des vendeurs, la gestion des annonces et les outils d’assistance ne sont pas connectés dans ce prototype frontend.","لم يتم ربط تسجيل البائعين وإدارة الإعلانات وأدوات الدعم في هذا النموذج الأولي."]
+  ,"Product details":["Détails du produit","تفاصيل المنتج"]
+  ,"About this listing":["À propos de cette annonce","حول هذا العرض"]
+  ,"Before you order":["Avant de commander","قبل الطلب"]
+  ,"Confirm these details with the seller":["Confirmez ces détails auprès du vendeur","تأكد من هذه التفاصيل مع البائع"]
+  ,"Product condition and included items":["État du produit et éléments inclus","حالة المنتج والعناصر المرفقة"]
+  ,"Current availability and final price":["Disponibilité actuelle et prix final","التوفر الحالي والسعر النهائي"]
+  ,"Delivery cost, coverage and timing":["Coût, zone et délai de livraison","تكلفة التوصيل ونطاقه وموعده"]
+  ,"Returns, exchanges and warranty terms":["Conditions de retour, d’échange et de garantie","شروط الإرجاع والاستبدال والضمان"]
+  ,"Seller storefront":["Boutique du vendeur","متجر البائع"]
+  ,"View seller":["Voir le vendeur","عرض البائع"]
+  ,"Sample listing":["Annonce de démonstration","عرض تجريبي"]
+  ,"Availability to be confirmed":["Disponibilité à confirmer","يجب تأكيد التوفر"]
+  ,"Quantity":["Quantité","الكمية"]
+  ,"Added to cart ✓":["Ajouté au panier ✓","أُضيف إلى السلة ✓"]
+  ,"Save for later":["Enregistrer pour plus tard","احفظه لوقت لاحق"]
+  ,"Remove from saved items":["Retirer des favoris","إزالة من المحفوظات"]
+  ,"More from this category":["Plus dans cette catégorie","المزيد من هذه الفئة"]
+  ,"Browse category":["Parcourir la catégorie","تصفح الفئة"]
+  ,"No product information has been supplied for this sample listing. Contact the seller to confirm the exact product, condition, specifications and what is included.":["Aucune information produit n’a été fournie pour cette annonce de démonstration. Contactez le vendeur pour confirmer le produit, son état, ses caractéristiques et les éléments inclus.","لم يتم توفير معلومات عن المنتج في هذا العرض التجريبي. تواصل مع البائع لتأكيد المنتج وحالته ومواصفاته والعناصر المرفقة."]
+  ,"This is not live stock information.":["Il ne s’agit pas d’informations de stock en temps réel.","هذه ليست معلومات مخزون مباشرة."]
+  ,"Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.":["Affiché en dinars tunisiens (TND). Le prix final et la disponibilité doivent être confirmés auprès du vendeur.","السعر معروض بالدينار التونسي. يجب تأكيد السعر النهائي والتوفر مع البائع."]
+  ,"Ask the seller about delivery coverage, cost and estimated timing before placing an order.":["Demandez au vendeur la zone, le coût et le délai estimé de livraison avant de commander.","اسأل البائع عن نطاق التوصيل وتكلفته والمدة المتوقعة قبل الطلب."]
+  ,"Frontend demonstration only. No order, payment or delivery booking is submitted.":["Démonstration frontend uniquement. Aucune commande, aucun paiement ni réservation de livraison n’est effectué.","واجهة تجريبية فقط. لا يتم إرسال طلب أو دفع أو حجز توصيل."]
+  ,"Added to your demo cart. You can review it whenever you're ready.":["Ajouté à votre panier de démonstration. Vous pouvez le consulter à tout moment.","تمت الإضافة إلى سلة العرض التجريبية. يمكنك مراجعتها في أي وقت."]
+  ,"Price":["Prix","السعر"]
+
 
 };
 function translateText(value, lang) {
@@ -401,12 +427,71 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
 }
 
 function ProductPage({ addToCart, wishlist, toggleWish, language }) {
-  const { id } = useParams(); const product = products.find(p=>p.id===Number(id))
-  const [qty,setQty] = useState(1)
-  if(!product) return translateTree(<main className="shell page empty-state"><h2>Product not found</h2><Link to="/search" className="text-link">Back to marketplace →</Link></main>,language)
-  const seller=sellerForProduct(product)
-  const related=products.filter(p=>p.category===product.category&&p.id!==product.id).slice(0,4)
-  return translateTree(<main className="shell page product-page"><div className="breadcrumbs"><Link to="/">Home</Link> / <Link to="/search">Marketplace</Link> / <Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link> / {product.name}</div><div className="detail-layout"><div className="detail-gallery"><div className="detail-image"><img src={product.image} alt={product.name}/><span className="gallery-count">01 / 01</span></div><p className="gallery-caption">Product image supplied for this illustrative listing</p></div><div className="detail-info"><span className="eyebrow">{product.category}</span><h1>{product.name}</h1><div className="detail-price">{money(product.price)} {product.oldPrice&&<del>{money(product.oldPrice)}</del>}</div>{product.oldPrice&&<span className="saving-note">Illustrative previous price: {money(product.oldPrice)}</span>}<p className="muted">This is a sample product listing, not confirmed live inventory. Confirm the product condition, specifications, availability and terms directly with the seller.</p><Link className="detail-seller-card" to={`/seller/${seller.slug}`}><span className="seller-avatar">{seller.name.slice(0,1)}</span><span><small>Sold by</small><b>{seller.name}</b><small>{seller.city}, Tunisia · Demo storefront</small></span><strong>Visit shop →</strong></Link><div className="delivery-box">✓ <div><b>{product.delivery}</b><small>Confirm delivery cost and timing with the seller before ordering.</small></div></div><div className="detail-purchase-label">Quantity</div><div className="buy-row"><div className="quantity" aria-label="Quantity selector"><button aria-label="Decrease quantity" disabled={qty<=1} onClick={()=>setQty(Math.max(1,qty-1))}>−</button><b aria-live="polite">{qty}</b><button aria-label="Increase quantity" disabled={qty>=99} onClick={()=>setQty(Math.min(99,qty+1))}>＋</button></div><button className="primary-btn" onClick={()=>addToCart(product,qty)}>Add to cart</button><button aria-label="Toggle wishlist" aria-pressed={wishlist.includes(product.id)} className={`wish-detail ${wishlist.includes(product.id)?'wished':''}`} onClick={()=>toggleWish(product.id)}>{wishlist.includes(product.id)?'♥':'♡'}</button></div><div className="detail-perks"><span>✓ Prices shown in TND</span><span>✓ Seller details visible</span><span>✓ Local marketplace</span></div><div className="detail-disclaimer">MARCHY is currently a frontend demonstration. No purchase, payment or delivery booking is made here.</div></div></div><section className="product-facts"><div><span className="eyebrow">PRODUCT OVERVIEW</span><h2>About this listing</h2><p>This listing is part of the MARCHY sample catalogue. Product details, seller information, price and availability must be confirmed before any transaction.</p></div><dl><div><dt>Category</dt><dd>{product.category}</dd></div><div><dt>Seller location</dt><dd>{seller.city}, Tunisia</dd></div><div><dt>Price display</dt><dd>Tunisian dinar (TND)</dd></div><div><dt>Listing status</dt><dd>Demonstration content</dd></div></dl></section>{related.length>0&&<section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>More in {product.category}</h2></div><Link to={`/category/${product.category.toLowerCase()}`} className="text-link">View category →</Link></div><div className="product-grid">{related.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}</main>,language)
+  const { id } = useParams()
+  const product = products.find(p => p.id === Number(id))
+  const [qty, setQty] = useState(1)
+  const [added, setAdded] = useState(false)
+  if (!product) return translateTree(<main className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
+  const seller = sellerForProduct(product)
+  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
+  const saved = wishlist.includes(product.id)
+  const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
+  const handleAdd = () => { addToCart(product, qty); setAdded(true) }
+  return translateTree(<main className="shell page product-page">
+    <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to="/search">Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
+    <div className="product-detail-layout">
+      <section className="product-visual-column" aria-label="Product images">
+        <div className="product-image-stage">
+          <img src={product.image} alt={product.name} fetchPriority="high" />
+          <span className="product-image-label">MARCHY SAMPLE</span>
+          {discount > 0 && <span className="product-image-discount">-{discount}%</span>}
+        </div>
+        <div className="product-image-caption"><span>01 / 01</span><span>Product image for this illustrative listing</span></div>
+        <div className="product-visual-note"><span>ⓘ</span><p>Images and listing information are provided as demonstration content. Confirm the exact item with the seller before ordering.</p></div>
+      </section>
+      <section className="product-buy-panel">
+        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><span className="sample-status">Sample listing</span></div>
+        <h1>{product.name}</h1>
+        <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
+        <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
+        <div className="product-listing-status"><span className="status-dot"></span><div><b>Availability to be confirmed</b><small>This is not live stock information.</small></div></div>
+        <div className="product-purchase-controls">
+          <label htmlFor="product-quantity">Quantity</label>
+          <div className="product-purchase-row">
+            <div className="quantity product-quantity">
+              <button type="button" aria-label="Decrease quantity" disabled={qty <= 1} onClick={() => setQty(v => Math.max(1, v - 1))}>−</button>
+              <output id="product-quantity" aria-live="polite">{qty}</output>
+              <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => setQty(v => Math.min(99, v + 1))}>＋</button>
+            </div>
+            <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
+            <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={() => toggleWish(product.id)}>{saved ? '♥' : '♡'}</button>
+          </div>
+          {added && <p className="product-added-feedback" role="status">Added to your demo cart. You can review it whenever you're ready.</p>}
+        </div>
+        <div className="product-seller-card">
+          <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
+          <div className="product-seller-copy"><small>Seller storefront</small><b>{seller.name}</b><span>{seller.city}, Tunisia · Demo profile</span></div>
+          <Link to={`/seller/${seller.slug}`}>View seller <span>→</span></Link>
+        </div>
+        <div className="product-delivery-card"><span className="delivery-symbol">⌖</span><div><b>Delivery details confirmed by seller</b><p>Ask the seller about delivery coverage, cost and estimated timing before placing an order.</p></div></div>
+        <p className="product-demo-disclaimer">Frontend demonstration only. No order, payment or delivery booking is submitted.</p>
+      </section>
+    </div>
+    <section className="product-information-grid">
+      <article className="product-information-card">
+        <span className="eyebrow">PRODUCT DETAILS</span><h2>About this listing</h2>
+        <p>{product.description || 'No product information has been supplied for this sample listing. Contact the seller to confirm the exact product, condition, specifications and what is included.'}</p>
+        <dl className="product-attribute-list"><div><dt>Category</dt><dd>{product.category}</dd></div><div><dt>Seller location</dt><dd>{seller.city}, Tunisia</dd></div><div><dt>Price display</dt><dd>Tunisian dinar (TND)</dd></div><div><dt>Listing type</dt><dd>Sample catalogue</dd></div></dl>
+      </article>
+      <article className="product-information-card product-order-checklist">
+        <span className="eyebrow">BEFORE YOU ORDER</span><h2>Confirm these details with the seller</h2>
+        <ul><li>Product condition and included items</li><li>Current availability and final price</li><li>Delivery cost, coverage and timing</li><li>Returns, exchanges and warranty terms</li></ul>
+        <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront →</Link>
+      </article>
+    </section>
+    {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>More from {product.category}</h2></div><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="text-link">Browse category →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
+    <div className="product-mobile-buybar"><div><small>Price</small><b>{money(product.price)}</b></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? 'Added ✓' : 'Add to cart'}</button></div>
+  </main>, language)
 }
 
 function CartPage({ cart, updateQty, removeItem, language }) {
