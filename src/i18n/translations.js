@@ -702,3 +702,7 @@ Object.assign(translations, {
  "Sample delivery fee":["Frais de livraison indicatifs","رسوم التوصيل التجريبية"],
  "Demo order total":["Total de la commande démo","إجمالي الطلب التجريبي"]
 });
+
+Object.assign(translations, {
+ "Delivery fees are illustrative estimates, not confirmed seller quotes":["Les frais de livraison sont des estimations indicatives, pas des devis confirmés par les vendeurs.","رسوم التوصيل تقديرات توضيحية وليست عروض أسعار مؤكدة من البائعين."]
+});
