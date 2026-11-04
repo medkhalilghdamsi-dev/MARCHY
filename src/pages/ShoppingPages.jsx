@@ -114,13 +114,38 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     if (sort === 'savings') return ((b.oldPrice || b.price) - b.price) - ((a.oldPrice || a.price) - a.price)
     if (term.trim()) {
       const score = product => {
-        const q = normalizeSearchText(term)
+        const query = normalizeSearchText(term)
+        const tokens = query.split(/\\s+/).filter(Boolean)
+        const seller = sellerForProduct(product)
+        const fields = [
+          { value: normalizeSearchText(product.name), weight: 12 },
+          { value: normalizeSearchText(product.category), weight: 8 },
+          { value: normalizeSearchText(seller.name), weight: 5 },
+          { value: normalizeSearchText(seller.city), weight: 3 },
+          { value: normalizeSearchText(product.description), weight: 1 }
+        ]
+        let total = 0
+        let matchedTokens = 0
+        for (const token of tokens) {
+          let best = 0
+          for (const field of fields) {
+            const words = field.value.split(/\\s+/)
+            if (field.value === token) best = Math.max(best, field.weight * 3)
+            else if (words.some(word => word === token)) best = Math.max(best, field.weight * 2)
+            else if (words.some(word => word.startsWith(token))) best = Math.max(best, field.weight * 1.5)
+            else if (field.value.includes(token)) best = Math.max(best, field.weight)
+          }
+          if (best > 0) matchedTokens += 1
+          total += best
+        }
         const name = normalizeSearchText(product.name)
-        const categoryName = normalizeSearchText(product.category)
-        const sellerName = normalizeSearchText(sellerForProduct(product).name)
-        return (name === q ? 100 : name.startsWith(q) ? 60 : name.includes(q) ? 40 : 0) + (categoryName.includes(q) ? 18 : 0) + (sellerName.includes(q) ? 8 : 0)
+        if (name === query) total += 100
+        else if (name.startsWith(query)) total += 55
+        else if (name.includes(query)) total += 35
+        if (matchedTokens === tokens.length) total += 18
+        return total
       }
-      return score(b) - score(a)
+      return score(b) - score(a) || b.id - a.id
     }
     return b.id - a.id
   }), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
@@ -276,7 +301,27 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   }, [product?.id])
   if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
   const seller = sellerForProduct(product)
-  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
+  const relatedCategoryMap = {
+    Electronics: ['Accessories', 'Home'],
+    Groceries: ['Home', 'Beauty'],
+    Home: ['Garden & DIY', 'Accessories'],
+    Fashion: ['Accessories', 'Beauty'],
+    Beauty: ['Fashion', 'Accessories'],
+    Sports: ['Accessories', 'Fashion'],
+    Accessories: ['Electronics', 'Fashion'],
+    Automotive: ['Garden & DIY', 'Accessories'],
+    Books: ['Toys & Games', 'Baby & Kids'],
+    'Toys & Games': ['Books', 'Baby & Kids'],
+    'Baby & Kids': ['Home', 'Toys & Games'],
+    Pets: ['Garden & DIY', 'Home'],
+    'Garden & DIY': ['Home', 'Pets']
+  }
+  const sameCategory = products.filter(p => p.category === product.category && p.id !== product.id)
+  const complementary = (relatedCategoryMap[product.category] || [])
+    .flatMap(categoryName => products.filter(p => p.category === categoryName && p.id !== product.id))
+  const related = [...sameCategory, ...complementary]
+    .filter((item, index, all) => all.findIndex(entry => entry.id === item.id) === index)
+    .slice(0, 4)
   const sellerQuestions = ({
     Electronics:['Exact model, technical specifications and compatibility','Condition, included accessories and original packaging','Warranty coverage and proof of purchase','Current availability and final price'],
     Fashion:['Size measurements, fit and available variants','Material composition and care instructions','Condition and any visible defects','Exchange and return conditions'],
@@ -353,7 +398,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront →</Link>
       </article>
     </section>
-    {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>More from {product.category}</h2></div><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="text-link">Browse category →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
+    {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>{related.some(item => item.category !== product.category) ? "You may also like" : "More from " + product.category}</h2></div><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="text-link">Browse category →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
     {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={product.image} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
     <div className="product-mobile-buybar"><div><small>Subtotal · {qty} {qty === 1 ? 'item' : 'items'}</small><b>{money(product.price * qty)}</b></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? 'Added ✓' : 'Add to cart'}</button></div>
   </main>, language)
