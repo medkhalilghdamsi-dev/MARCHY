@@ -1,0 +1,87 @@
+/* MARCHY global marketplace shell — shared navigation and search */
+.marchy-topline{background:#173f32;color:#e6eee9;font-size:11px;letter-spacing:.01em}
+.marchy-topline .topline-inner{min-height:32px;height:auto;padding-block:7px}
+.marchy-topline .topline-inner>div{display:flex;align-items:center;gap:8px;color:#d0dfd7}
+.marchy-topline .top-sep{margin:0;color:#89a99a}
+.marchy-header{z-index:30;background:#fff;box-shadow:0 5px 22px rgba(23,33,43,.055)}
+.marchy-header-main{min-height:88px;height:auto;gap:clamp(16px,2.2vw,32px);padding-block:14px}
+.marchy-logo{display:inline-flex;align-items:center;gap:2px;flex:0 0 auto;color:#173f32;font-size:28px;letter-spacing:-1.7px}
+.marchy-logo .logo-mark{width:36px;height:36px;object-fit:contain;margin-right:5px}
+.marchy-logo .logo-word{color:#173f32}
+.marchy-logo .logo-period{color:#df7548}
+.marchy-searchbar{height:48px;max-width:none;min-width:180px;flex:1;border:1px solid #dce5df;border-radius:10px;background:#f8faf8;overflow:visible;position:relative;box-shadow:inset 0 1px 2px rgba(23,63,50,.025)}
+.marchy-searchbar:focus-within{border-color:#729887;background:#fff;box-shadow:0 0 0 3px rgba(23,100,72,.09)}
+.marchy-searchbar .search-symbol{font-size:25px;color:#547366;padding-inline:16px}
+.marchy-searchbar input{font-size:13px;color:#20332b;outline:0;min-width:0}
+.marchy-searchbar input::placeholder{color:#84938b}
+.marchy-searchbar>button[type=submit]{height:38px;margin:4px;border-radius:7px;padding-inline:19px;background:#174b38;color:#fff;font-size:12px;display:flex;align-items:center;gap:9px;transition:background .16s,transform .16s}
+.marchy-searchbar>button[type=submit]:hover{background:#103b2c;transform:translateY(-1px)}
+.marchy-header-actions{gap:clamp(10px,1.4vw,20px);margin-left:0;flex:0 0 auto}
+.marchy-header-action{gap:7px;min-height:42px}
+.marchy-header-action .action-icon{font-size:21px;color:#345c4b}
+.marchy-header-action small{font-size:9px;color:#7b8981}
+.marchy-header-action b{font-size:11px;color:#263b31}
+.marchy-language-picker select{height:36px;border:1px solid #e0e7e2;border-radius:8px;background:#fff;color:#344a3f;padding:0 8px;font-size:11px;font-weight:700}
+.marchy-header .header-join-link{min-height:38px;display:inline-flex;align-items:center;gap:8px;padding:0 13px;border-radius:8px;background:#f4f7f4;color:#174b38;font-size:11px;font-weight:750;white-space:nowrap}
+.marchy-header .header-join-link:hover{background:#e9f1eb}
+.marchy-cart-link .cart-icon{font-size:20px;color:#244a38}
+.marchy-cart-link .cart-icon i{background:#df7548;right:-8px;top:-7px;min-width:17px;height:17px;font-size:9px}
+.marchy-nav{border-top:1px solid #edf1ee;border-bottom:1px solid #edf1ee;background:#fff}
+.marchy-nav-inner{height:46px;gap:clamp(18px,2.4vw,34px);font-size:11px;color:#59685f}
+.marchy-nav-inner>a{height:100%;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:color .15s}
+.marchy-nav-inner>a:hover{color:#174b38}
+.marchy-nav-inner>.marchy-category-entry{color:#174b38;font-weight:700;margin-right:4px}
+.marchy-category-entry>span{font-size:16px}
+.marchy-nav-inner .nav-deal{color:#b85c35!important;margin-left:auto;font-weight:750}
+.marchy-nav-inner .nav-deal:hover{color:#8e4326!important}
+.marchy-search-suggestions{z-index:60;top:calc(100% + 8px);left:0;right:0;max-height:min(70vh,520px);overflow:auto;border:1px solid #e1e9e3;border-radius:12px;box-shadow:0 18px 44px rgba(19,48,35,.16)}
+.marchy-menu-toggle{border:1px solid #e2e9e4;background:#fff;color:#174b38;border-radius:9px;width:40px;height:40px}
+.marchy-searchbar .marchy-search-clear{height:32px;width:32px;padding:0;border:0;background:transparent;color:#65786d;font-size:19px}
+.marchy-header a:focus-visible,.marchy-header button:focus-visible,.marchy-header input:focus-visible,.marchy-header select:focus-visible{outline:3px solid #df9a78;outline-offset:3px}
+@media(max-width:1120px){
+ .marchy-header-main{gap:16px}
+ .marchy-header-actions{gap:11px}
+ .marchy-header-action span:not(.action-icon){display:none}
+ .marchy-nav-inner{gap:18px}
+}
+@media(max-width:760px){
+ .marchy-topline .topline-inner{font-size:9px;gap:8px}
+ .marchy-topline .topline-inner>span{max-width:58%;line-height:1.35}
+ .marchy-header-main{display:flex;flex-wrap:wrap;min-height:0;padding-block:12px;gap:10px}
+ .marchy-menu-toggle{display:inline-grid;place-items:center;order:0;flex:0 0 40px}
+ .marchy-logo{order:1;font-size:24px;margin-right:auto}
+ .marchy-logo .logo-mark{width:31px;height:31px}
+ .marchy-header-actions{order:2;margin-left:0;gap:9px}
+ .marchy-header-action,.marchy-header .header-join-link{display:none}
+ .marchy-language-picker select{height:35px}
+ .marchy-cart-link{display:flex;min-height:38px}
+ .marchy-cart-link>span:last-child{display:none}
+ .marchy-searchbar{order:3;flex:0 0 100%;width:100%;height:44px}
+ .marchy-searchbar .search-symbol{padding-inline:12px}
+ .marchy-searchbar input{font-size:12px}
+ .marchy-searchbar>button[type=submit]{height:36px;padding-inline:13px;font-size:11px}
+ .marchy-nav{display:none;position:absolute;top:100%;left:0;right:0;border-top:1px solid #e8eee9;box-shadow:0 18px 28px rgba(23,33,43,.12)}
+ .marchy-nav.nav-open{display:block}
+ .marchy-nav-inner{height:auto;display:flex;flex-direction:column;align-items:stretch;gap:0;padding-block:8px}
+ .marchy-nav-inner>a{min-height:43px;border-bottom:1px solid #eff2ef;font-size:12px}
+ .marchy-nav-inner>a:last-child{border-bottom:0}
+ .marchy-nav-inner>.nav-deal{margin-left:0}
+ .marchy-search-suggestions{position:absolute;max-height:60vh}
+}
+@media(max-width:380px){
+ .marchy-topline .topline-inner>div{gap:4px}
+ .marchy-header-main{gap:8px}
+ .marchy-logo{font-size:21px}
+ .marchy-menu-toggle{width:36px;height:36px;flex-basis:36px}
+ .marchy-header-actions{gap:6px}
+}
+.is-rtl .marchy-header-main,.is-rtl .marchy-nav-inner{direction:rtl}
+.is-rtl .marchy-header-actions{margin-left:0;margin-right:auto}
+.is-rtl .marchy-nav-inner .nav-deal{margin-left:0;margin-right:auto}
+.is-rtl .marchy-searchbar .search-symbol{padding-inline:16px}
+.is-rtl .marchy-searchbar>button[type=submit]{flex-direction:row-reverse}
+@media(max-width:760px){
+ .is-rtl .marchy-logo{margin-right:0;margin-left:auto}
+ .is-rtl .marchy-header-actions{margin-right:0;margin-left:0}
+ .is-rtl .marchy-nav-inner .nav-deal{margin-right:0}
+}
