@@ -2019,3 +2019,11 @@ input,select,textarea{accent-color:var(--orange)}
 .store-active-filters button.store-clear-all{border-color:transparent;background:transparent;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
 .store-active-filters button:focus-visible,.seller-store-hero-actions button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
 @media(max-width:560px){.seller-store-hero-actions{align-items:stretch}.seller-store-hero-actions>*{flex:1}.store-active-filters{align-items:flex-start}.store-active-filters>span{flex-basis:100%}}
+
+
+/* Local seller draft editing controls */
+.seller-local-draft-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.seller-local-draft-actions button{border:1px solid var(--border,#e5e7eb);background:#fff;border-radius:8px;padding:7px 11px;color:var(--ink,#17212b);font-size:11px;font-weight:700;cursor:pointer}
+.seller-local-draft-actions button:last-child{color:#a33d32}
+.seller-local-draft-actions button:focus-visible{outline:2px solid var(--orange,#f36b35);outline-offset:2px}
+@media(max-width:620px){.seller-local-draft-actions{width:100%;justify-content:flex-end}.seller-local-drafts article{flex-wrap:wrap}}
