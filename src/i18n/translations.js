@@ -646,3 +646,25 @@ Object.assign(translations, {
  "Your sample request is awaiting seller review.":["Votre demande fictive attend l’examen du vendeur.","طلبك التجريبي بانتظار مراجعة البائع."],
  "Review any customer request here; no buyer is contacted and no refund is processed.":["Consultez ici les demandes clients ; aucun acheteur n’est contacté et aucun remboursement n’est effectué.","راجع طلبات العملاء هنا؛ لن يتم التواصل مع أي مشترٍ ولن تتم معالجة أي استرداد."]
 });
+
+Object.assign(translations, {
+ "Confirm demo order":["Confirmer la commande démo","تأكيد الطلب التجريبي"],
+ "Local sample only":["Exemple local uniquement","نموذج محلي فقط"],
+ "DEMO ORDER CONFIRMATION":["CONFIRMATION DE COMMANDE DÉMO","تأكيد الطلب التجريبي"],
+ "Ready to create your sample order?":["Prêt à créer votre commande exemple ?","هل أنت مستعد لإنشاء طلبك التجريبي؟"],
+ "Confirming creates a fictional order record in this browser, clears this demo basket and makes the order visible in Buyer Tracking and the relevant seller workspace. No seller is contacted and no payment or delivery is arranged.":["La confirmation crée une commande fictive dans ce navigateur, vide ce panier de démonstration et rend la commande visible dans le suivi acheteur et l’espace vendeur concerné. Aucun vendeur n’est contacté et aucun paiement ni livraison n’est organisé.","يؤدي التأكيد إلى إنشاء سجل طلب افتراضي في هذا المتصفح وإفراغ السلة التجريبية وإظهار الطلب في تتبع المشتري ومساحة عمل البائع المعني. لن يتم التواصل مع البائع أو ترتيب الدفع أو التوصيل."],
+ "Before confirming":["Avant de confirmer","قبل التأكيد"],
+ "Product totals only — delivery fees are not included":["Total des produits uniquement — livraison non comprise","إجمالي المنتجات فقط — رسوم التوصيل غير مشمولة"],
+ "Stock and availability have not been verified":["Le stock et la disponibilité n’ont pas été vérifiés","لم يتم التحقق من المخزون والتوفر"],
+ "Payment is not collected":["Aucun paiement n’est collecté","لم يتم تحصيل أي دفعة"],
+ "Each seller receives a separate sample order":["Chaque vendeur reçoit une commande exemple distincte","يحصل كل بائع على طلب تجريبي منفصل"],
+ "Create demo order":["Créer une commande démo","إنشاء طلب تجريبي"],
+ "SAMPLE ORDER CREATED":["COMMANDE EXEMPLE CRÉÉE","تم إنشاء طلب تجريبي"],
+ "Your demo order is ready to follow.":["Votre commande démo peut maintenant être suivie.","طلبك التجريبي جاهز للمتابعة."],
+ "seller-specific sample order has":["commande exemple propre au vendeur a été créée","تم إنشاء طلب تجريبي خاص بالبائع"],
+ "seller-specific sample orders have":["commandes exemples propres aux vendeurs ont été créées","تم إنشاء طلبات تجريبية خاصة بالبائعين"],
+ "Your sample order reference":["Référence de votre commande exemple","مرجع طلبك التجريبي"],
+ "This is not a real purchase. No payment was taken, inventory reserved, seller notified or parcel booked.":["Il ne s’agit pas d’un achat réel. Aucun paiement n’a été effectué, aucun stock réservé, aucun vendeur averti ni colis réservé.","هذا ليس شراءً حقيقياً. لم يتم تحصيل أي مبلغ أو حجز مخزون أو إخطار البائع أو حجز طرد."],
+ "Track demo order →":["Suivre la commande démo →","تتبع الطلب التجريبي ←"],
+ "Track demo orders →":["Suivre les commandes démo →","تتبع الطلبات التجريبية ←"]
+});
