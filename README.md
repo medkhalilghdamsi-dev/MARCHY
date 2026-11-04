@@ -17,7 +17,8 @@ npm run dev
 - Sorting by best match, price, name, newest and illustrative price difference
 - Product detail pages with image zoom, seller information and related listings
 - Product comparison for up to three listings
-- Client-side cart and quantity controls
+- Client-side cart grouped by seller with per-seller subtotals and quantity controls
+- Multi-step checkout preview with contact validation, seller-by-seller order review and explicit non-submission confirmation
 - Wishlist and recently viewed products
 - Browser-persisted cart, wishlist, language, comparison and recently viewed state
 - Seller directory, storefront previews and seller workspace demonstration
