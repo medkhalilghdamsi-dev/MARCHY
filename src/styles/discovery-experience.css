@@ -1,0 +1,121 @@
+/* MARCHY discovery and search — clear filters, confident browsing, calm merchandising */
+.marchy-listing-page{padding-bottom:64px}
+.marchy-listing-page .breadcrumbs{margin-bottom:24px;color:#849087}
+.marchy-listing-page .breadcrumbs a:hover{color:#174b38}
+.marchy-listing-head{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,390px);align-items:end;gap:28px;margin:0 0 22px;padding:28px 30px;border:1px solid #e4e9e1;border-radius:16px;background:linear-gradient(115deg,#f4f6f0 0%,#fbfaf6 100%)}
+.marchy-listing-head .eyebrow{color:#668070;font-size:9px;letter-spacing:1.2px;font-weight:800}
+.marchy-listing-head h1{max-width:680px;margin:8px 0 8px;color:#173f32;font-size:clamp(30px,3.8vw,44px);line-height:1.06;letter-spacing:-.045em}
+.marchy-listing-head>div>p{color:#78857c;font-size:11px;line-height:1.6}
+.marchy-listing-search{width:100%;height:50px;border:1px solid #dce5dc;border-radius:10px;background:#fff;box-shadow:0 7px 20px rgba(23,63,50,.045)}
+.marchy-listing-search:focus-within{border-color:#729887;box-shadow:0 0 0 3px rgba(23,100,72,.09)}
+.marchy-listing-search input{min-height:46px;padding-inline:15px;color:#20382c;font-size:12px}
+.marchy-listing-search input::placeholder{color:#929d95}
+.marchy-listing-search>span{color:#547665;font-size:21px}
+.marchy-mobile-filter-toggle{margin:0 0 13px}
+.marchy-mobile-filter-toggle .outline-btn{border-color:#d5e1d7;background:#f5f8f4;color:#214b37}
+.marchy-mobile-filter-toggle>span{color:#6f7e73;font-size:10px}
+.marchy-active-filter-chips{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 17px}
+.marchy-active-filter-chips>button{display:inline-flex;align-items:center;gap:7px;min-height:29px;padding:0 10px;border:1px solid #dbe6dc;border-radius:30px;background:#f4f8f3;color:#315c43;font-size:9px;font-weight:650}
+.marchy-active-filter-chips>button span{font-size:14px;color:#a45e41}
+.marchy-active-filter-chips>.clear-filter-chips{border-color:transparent;background:transparent;color:#a45e41}
+.marchy-category-context-strip{margin:0 0 17px;border-color:#e0e8df;background:#f8faf6}
+.marchy-category-context-strip .category-context-icon{background:#eaf1e9;color:#315c43}
+.marchy-category-context-strip>a{color:#315c43}
+.marchy-listing-layout{grid-template-columns:242px minmax(0,1fr);gap:22px;align-items:start}
+.marchy-listing-filters{position:sticky;top:18px;max-height:calc(100vh - 36px);overflow:auto;padding:18px;border:1px solid #e2e9e2;border-radius:13px;background:#fff;box-shadow:0 7px 24px rgba(23,63,50,.045);scrollbar-width:thin}
+.marchy-listing-filters h3{display:flex;align-items:center;justify-content:space-between;margin:0 0 16px;padding-bottom:13px;border-bottom:1px solid #edf1ed;color:#1e4432;font-size:13px}
+.marchy-listing-filters h3 button{color:#a65d3e;font-size:9px;font-weight:700}
+.marchy-listing-filters .filter-group{gap:9px;padding:0 0 16px;margin:0 0 15px;border-bottom:1px solid #edf1ed}
+.marchy-listing-filters .filter-group>b,.marchy-listing-filters .filter-budget-presets>b{color:#294c39;font-size:10px;font-weight:800}
+.marchy-listing-filters .filter-group label{min-height:28px;color:#68786d;font-size:10px}
+.marchy-listing-filters .filter-group label input[type=radio]{accent-color:#174b38}
+.marchy-listing-filters .filter-group label small{color:#9aa59d}
+.marchy-listing-filters .filter-group select,.marchy-listing-filters .price-inputs input{min-height:36px;border:1px solid #e0e7e0;border-radius:7px;background:#fbfcfa;color:#425b4b;font-size:10px}
+.marchy-listing-filters .price-inputs{gap:8px}
+.marchy-listing-filters input[type=range]{accent-color:#245b40}
+.marchy-listing-filters .price-range-labels{color:#929e94;font-size:8px}
+.marchy-listing-filters .filter-budget-presets{display:grid;gap:10px}
+.marchy-listing-filters .filter-budget-presets>div{display:flex;gap:6px;flex-wrap:wrap}
+.marchy-listing-filters .filter-budget-presets button{padding:7px 9px;border:1px solid #e1e9e1;border-radius:6px;background:#f8faf7;color:#627267;font-size:8px}
+.marchy-listing-filters .filter-budget-presets button.is-active{border-color:#a9c1ae;background:#edf4ed;color:#214d36}
+.marchy-listing-filters .filter-apply{width:100%;min-height:39px;margin-top:16px;border-radius:8px;background:#174b38;color:#fff;font-size:10px;font-weight:750}
+.marchy-listing-filters .filter-apply:hover{background:#103b2c}
+.marchy-listing-results{min-width:0}
+.marchy-results-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 15px;padding:11px 13px;border:1px solid #e3e9e2;border-radius:10px;background:#fff}
+.marchy-results-toolbar>span{color:#77847a;font-size:9px}
+.marchy-results-toolbar>span b{color:#294c39}
+.marchy-results-toolbar-actions{gap:12px}
+.marchy-results-toolbar .listing-view-toggle{padding:3px;border:1px solid #e5ebe4;border-radius:7px;background:#f8faf7}
+.marchy-results-toolbar .listing-view-toggle button{min-height:29px;padding:0 9px;border-radius:5px;color:#758278;font-size:9px}
+.marchy-results-toolbar .listing-view-toggle button.is-active{background:#e9f1e9;color:#214b37;box-shadow:none}
+.marchy-results-toolbar label{display:flex;align-items:center;gap:7px;color:#77847a;font-size:9px}
+.marchy-results-toolbar select{min-height:35px;border:1px solid #e0e7e0;border-radius:7px;background:#fff;color:#334e3d;padding:0 9px;font-size:9px}
+.marchy-listing-results .product-grid{gap:14px}
+.marchy-listing-results .product-card{overflow:hidden;border:1px solid #e4eae3;border-radius:12px;background:#fff;box-shadow:0 3px 13px rgba(23,63,50,.04);transition:transform .18s,border-color .18s,box-shadow .18s}
+.marchy-listing-results .product-card:hover{transform:translateY(-2px);border-color:#c4d6c7;box-shadow:0 13px 28px rgba(23,63,50,.1)}
+.marchy-listing-results .product-photo{background:#f6f7f3}
+.marchy-listing-results .product-info{padding:13px}
+.marchy-listing-results .product-category{color:#8b978d;font-size:8px;font-weight:800;letter-spacing:.7px}
+.marchy-listing-results .product-name{color:#233d30;font-size:12px;font-weight:700;line-height:1.4}
+.marchy-listing-results .seller-link{color:#819087;font-size:9px}
+.marchy-listing-results .price-row strong{color:#173f32;font-size:16px}
+.marchy-listing-results .add-btn{min-height:38px;border:1px solid #174b38;border-radius:7px;background:#174b38;color:#fff;font-size:9px;font-weight:750}
+.marchy-listing-results .add-btn:hover{background:#103b2c}
+.marchy-listing-results .wish-btn{border:1px solid #e5ebe4;background:#fff;color:#4d6a58}
+.marchy-listing-results .pagination{gap:9px;margin-top:25px}
+.marchy-listing-results .pagination button{min-height:37px;padding-inline:15px;border-color:#dfe8df;border-radius:7px;color:#315b43}
+.marchy-listing-results .pagination button:not(:disabled):hover{border-color:#a9c2ad;background:#f3f7f2}
+.marchy-listing-results .pagination span{color:#758278;font-size:9px}
+.marchy-listing-results .compare-tray{margin:0 0 16px;border-color:#e3e9e0;border-radius:12px;background:#f7f9f5;box-shadow:none}
+.marchy-listing-results .compare-tray-heading b{color:#244936}
+.marchy-listing-results .compare-tray-heading span{color:#7c897f}
+.marchy-listing-results .compare-show{border-radius:7px;background:#174b38}
+.marchy-listing-results .compare-selected-item{border-color:#e2e9e1}
+.marchy-listing-results .compare-table th{color:#294c39}
+.marchy-listing-results .marketplace-no-results{padding:44px 20px;border:1px dashed #d5e1d6;border-radius:14px;background:#fafbf8}
+.marchy-listing-results .marketplace-no-results>span{color:#547665}
+.marchy-listing-results .marketplace-no-results h3{color:#1e4432}
+.marchy-listing-results .empty-search-suggestions a{border-color:#e1e9e1;color:#365b43}
+.marchy-listing-page a:focus-visible,.marchy-listing-page button:focus-visible,.marchy-listing-page input:focus-visible,.marchy-listing-page select:focus-visible{outline:3px solid #df9a78;outline-offset:2px}
+.is-rtl .marchy-listing-head{direction:rtl}
+.is-rtl .marchy-listing-search>span{right:auto;left:15px}
+.is-rtl .marchy-listing-filters h3,.is-rtl .marchy-results-toolbar{direction:rtl}
+.is-rtl .marchy-listing-results .product-info{text-align:right}
+@media(max-width:980px){
+ .marchy-listing-layout{grid-template-columns:210px minmax(0,1fr);gap:14px}
+ .marchy-listing-results .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .marchy-listing-head{grid-template-columns:1fr minmax(240px,330px);gap:17px;padding:23px}
+}
+@media(max-width:760px){
+ .marchy-listing-page .breadcrumbs{margin-bottom:15px}
+ .marchy-listing-head{grid-template-columns:1fr;gap:14px;margin-bottom:13px;padding:20px 17px;border-radius:12px}
+ .marchy-listing-head h1{font-size:30px}
+ .marchy-listing-search{max-width:none}
+ .marchy-listing-layout{grid-template-columns:1fr;gap:12px}
+ .marchy-listing-filters{display:none;position:static;top:auto;max-height:none;overflow:visible;padding:15px}
+ .marchy-listing-filters.filters-open{display:block}
+ .marchy-results-toolbar{align-items:flex-start;flex-direction:column;gap:9px;padding:10px}
+ .marchy-results-toolbar-actions{width:100%;justify-content:space-between;gap:7px}
+ .marchy-results-toolbar label{margin-left:auto}
+ .marchy-results-toolbar select{max-width:150px}
+ .marchy-listing-results .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .marchy-listing-results .product-info{padding:9px}
+ .marchy-listing-results .product-name{font-size:10px;min-height:32px}
+ .marchy-listing-results .price-row strong{font-size:14px}
+ .marchy-listing-results .add-btn{min-height:35px;font-size:8px}
+ .marchy-listing-results .product-list-view .product-card{grid-template-columns:104px minmax(0,1fr);min-height:140px}
+ .marchy-listing-results .product-list-view .product-photo{min-height:140px}
+ .marchy-listing-results .product-list-view .product-info{padding:9px}
+ .marchy-listing-results .product-list-view .product-name{font-size:11px}
+ .marchy-listing-results .compare-tray{padding:12px}
+}
+@media(max-width:380px){
+ .marchy-listing-head{padding:17px 13px}
+ .marchy-listing-head h1{font-size:27px}
+ .marchy-listing-results .product-grid{gap:7px}
+ .marchy-listing-results .product-info{padding:8px}
+ .marchy-listing-results .add-btn{padding-inline:7px}
+}
+@media(prefers-reduced-motion:reduce){
+ .marchy-listing-results .product-card{transition:none}
+}
