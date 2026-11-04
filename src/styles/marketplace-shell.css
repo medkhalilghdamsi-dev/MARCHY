@@ -91,3 +91,14 @@
 .marchy-header .marchy-header-action small{color:#52675a}
 .marchy-header .header-join-link{color:#174b38!important}
 .marchy-header .header-join-link:hover{color:#103b2c!important}
+
+
+/* Mobile navigation exposes high-frequency destinations hidden from the desktop bar. */
+.marchy-nav-inner>.mobile-nav-link{display:none}
+@media(max-width:760px){
+ .marchy-nav{max-height:calc(100vh - 96px);overflow-y:auto;overscroll-behavior:contain}
+ .marchy-nav-inner>.mobile-nav-link{display:flex}
+ .marchy-nav-inner>a{min-height:48px;padding-inline:12px;font-size:13px}
+ .marchy-nav-inner>a:focus-visible{outline:3px solid #df9a78;outline-offset:-3px;border-radius:5px}
+ .marchy-nav-inner>.nav-deal{margin-top:5px;border:0;border-radius:8px;background:#f5f8f4;padding-inline:12px}
+}
