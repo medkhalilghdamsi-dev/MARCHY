@@ -633,3 +633,13 @@ html[dir="rtl"] .seller-preview-body{text-align:right}
  .compare-next-step span,.compare-next-step a{grid-column:1;grid-row:auto}
  .compare-full-table th,.compare-full-table td{padding:12px}
 }
+
+
+/* Keep the buyer's decision panel available while reviewing long product details */
+@media(min-width:901px){
+  .product-detail-layout{align-items:start}
+  .product-buy-panel{position:sticky;top:104px;align-self:start;max-height:calc(100vh - 124px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+}
+@media(max-width:900px){
+  .product-buy-panel{position:relative;top:auto;max-height:none;overflow:visible}
+}
