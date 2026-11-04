@@ -868,15 +868,15 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
     window.addEventListener('keydown',handleKeys)
     return ()=>{window.removeEventListener('keydown',handleKeys);document.body.style.overflow=previousOverflow;trigger?.focus?.()}
   },[imageZoomOpen])
-  if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
-  const seller = sellerForProduct(product)
-  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
-  const saved = wishlist.includes(product.id)
   useEffect(() => {
     if (!product) return
     const previous = readJson('marchy-recently-viewed', [])
     writeJson('marchy-recently-viewed', [product.id, ...previous.filter(item => item !== product.id)].slice(0, 8))
   }, [product?.id])
+  if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
+  const seller = sellerForProduct(product)
+  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
+  const saved = wishlist.includes(product.id)
   const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
   const handleAdd = () => { addToCart(product, qty); setAdded(true) }
   return translateTree(<main id="main-content" className="shell page product-page">
