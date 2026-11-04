@@ -48,7 +48,7 @@ function ComparePage({ addToCart, language }) {
           <div className="compare-page-product-copy"><span>{product.category}</span><Link to={`/product/${product.id}`}><b>{product.name}</b></Link><strong>{money(product.price)}</strong><small><Link to={`/seller/${sellerForProduct(product).slug}`}>{sellerForProduct(product).name}</Link> · {sellerForProduct(product).city}</small></div>
           <div className="compare-page-product-actions"><button type="button" className="primary-btn" onClick={() => { addToCart(product, 1); setFeedback(product.name + ' added to your demo cart') }}>Add to cart</button><button type="button" className="compare-page-remove" onClick={() => remove(product.id)} aria-label={`Remove ${product.name} from comparison`}>Remove</button></div>
         </article>)}
-        {selected.length < 3 && <Link to="/search" className="compare-page-add-card"><span>＋</span><b>Add another product</b><small>{3 - selected.length} comparison slot{selected.length === 2 ? '' : 's'} remaining</small></Link>}
+        {selected.length < 3 && <Link to="/search" className="compare-page-add-card"><span>＋</span><b>Add another product</b><small>{3 - selected.length} comparison spaces available</small></Link>}
       </section>
       <section className="compare-page-table-section">
         <div className="compare-page-table-heading"><div><span className="eyebrow">SIDE-BY-SIDE REVIEW</span><h2>Listing details</h2></div><span>Scroll horizontally to view every product</span></div>
