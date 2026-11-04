@@ -542,3 +542,20 @@ test('sign-up password visibility and mismatch feedback are accessible', async (
   await expect(confirm).toHaveAttribute('aria-invalid', 'true')
   await expect(page.getByRole('alert')).toContainText('Your passwords do not match.')
 })
+
+test('MARCHY 2.0 shared design layer is active across desktop and mobile seller flows', async ({ page }) => {
+  await page.goto('/search')
+  const brand = await page.locator('html').evaluate(element => getComputedStyle(element).getPropertyValue('--marchy-brand').trim())
+  expect(brand).toBe('#174b38')
+  const productCardRadius = await page.locator('.product-card').first().evaluate(element => getComputedStyle(element).borderRadius)
+  expect(parseFloat(productCardRadius)).toBeGreaterThan(0)
+
+  await page.setViewportSize({ width: 360, height: 800 })
+  await page.goto('/seller-dashboard')
+  await page.getByRole('button', { name: 'Products' }).click()
+  await page.getByRole('button', { name: /Create draft/ }).click()
+  const productName = page.getByLabel('Product name')
+  await expect(productName).toBeVisible()
+  const mobileFontSize = await productName.evaluate(element => getComputedStyle(element).fontSize)
+  expect(mobileFontSize).toBe('16px')
+})
