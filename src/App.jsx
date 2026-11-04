@@ -685,6 +685,7 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
   const populatedCategories=categories.slice(1).filter(name=>products.some(p=>p.category===name))
   const popular=populatedCategories.map((name,i)=>({name,count:products.filter(p=>p.category===name).length,icon:['⌘','◉','✳','⌂','✿','↗','◇','▤','▣','✦','♧','♢','⌁'][i%13],tone:['cat-blue','cat-sand','cat-pink','cat-lilac','cat-green','cat-yellow'][i%6]}))
   const deals=products.filter(p=>p.oldPrice).slice(0,4)
+  const recentlyViewed=readJson('marchy-recently-viewed', []).map(id=>products.find(product=>product.id===id)).filter(Boolean).slice(0,4)
   return translateTree(<main id="main-content" className="shell page home-page">
     <section className="market-hero">
       <div className="market-hero-copy">
@@ -707,6 +708,7 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
       <div className="home-category-tabs" role="group" aria-label="Filter featured products">{['All','Electronics','Home','Fashion','Beauty','Sports'].map(name=><button key={name} type="button" className={active===name?'active':''} aria-pressed={active===name} onClick={()=>setActive(name)}>{name}</button>)}</div>
       <div className="product-grid">{shown.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div>
     </section>
+    {recentlyViewed.length>0&&<section className="section home-recently-viewed"><div className="section-heading"><div><span className="eyebrow">PICK UP WHERE YOU LEFT OFF</span><h2>Recently viewed</h2><p className="muted">Your latest product discoveries on this device.</p></div></div><div className="product-grid">{recentlyViewed.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
     <section className="section home-deals-section"><div className="section-heading"><div><span className="eyebrow">PRICE COMPARISON</span><h2>Listings with sample discounts</h2><p className="muted">Previous prices are illustrative and must be confirmed with the seller.</p></div><Link to="/search?deal=true" className="text-link">See all deals →</Link></div><div className="product-grid">{deals.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>
     <section className="home-seller-banner"><div><span className="eyebrow">DISCOVER THE PEOPLE BEHIND THE PRODUCTS</span><h2>Find a storefront.<br/><em>Explore what they offer.</em></h2><p>Explore illustrative shop profiles and the products listed in each storefront.</p><Link to="/sellers" className="light-btn">Explore seller directory →</Link></div><div className="seller-banner-stats"><b>{sellers.length}</b><span>sample storefronts</span><b>{populatedCategories.length}</b><span>categories with listings</span></div></section>
     <section className="home-seller-cta"><div><span className="eyebrow">FOR TUNISIAN BUSINESSES</span><h2>Want to sell on MARCHY?</h2><p>Explore the seller information page and follow the product as onboarding tools take shape.</p></div><Link to="/sell" className="outline-btn">Learn about selling →</Link></section>
@@ -733,7 +735,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const [city, setCity] = useState('All')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
-  const [compareIds, setCompareIds] = useState([])
+  const [compareIds, setCompareIds] = useState(() => readJson('marchy-compare', []))
   const [compareOpen, setCompareOpen] = useState(false)
   const pageSize = 12
   const cities = ['All', ...new Set(products.map(p => sellerForProduct(p).city))].sort((a,b) => a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b))
@@ -786,6 +788,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     setParams(next, { replace: true })
   }
   const toggleCompare = id => setCompareIds(current => current.includes(id) ? current.filter(item => item !== id) : current.length < 3 ? [...current, id] : current)
+  useEffect(() => writeJson('marchy-compare', compareIds), [compareIds])
   const comparedProducts = compareIds.map(id => products.find(product => product.id === id)).filter(Boolean)
   const removeCategoryFilter = () => {
     if (routeCategory) navigate('/search')
@@ -869,6 +872,11 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const seller = sellerForProduct(product)
   const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
   const saved = wishlist.includes(product.id)
+  useEffect(() => {
+    if (!product) return
+    const previous = readJson('marchy-recently-viewed', [])
+    writeJson('marchy-recently-viewed', [product.id, ...previous.filter(item => item !== product.id)].slice(0, 8))
+  }, [product?.id])
   const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
   const handleAdd = () => { addToCart(product, qty); setAdded(true) }
   return translateTree(<main id="main-content" className="shell page product-page">
