@@ -1611,3 +1611,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .not-found-actions .primary-btn,.not-found-actions .outline-btn{min-height:42px;font-size:10px}
 .not-found-actions .text-link{font-size:10px;font-weight:750}
 @media(max-width:480px){.not-found-page{min-height:500px}.not-found-visual{gap:10px}.not-found-visual>b{width:76px;height:76px;border-radius:19px;font-size:16px}.not-found-actions{flex-direction:column;width:100%}.not-found-actions>*{width:100%}}
+
+
+/* Final global consistency and accessibility tokens */
+:root{--ink:#17212b;--forest:#17212b;--muted:#687482;--line:#e5e9ed;--orange:#f36b35;--orange-dark:#c9471d;--green:#26865d;--page:#f5f7f9;--surface:#fff;--surface-soft:#f8fafb;--radius-sm:8px;--radius-md:12px;--radius-lg:18px;--shadow-card:0 5px 22px rgba(23,33,43,.055);--shadow-raised:0 16px 38px rgba(23,33,43,.11);--content-width:1320px}
+::selection{background:rgba(243,107,53,.2);color:var(--ink)}
+:focus-visible{outline:3px solid rgba(243,107,53,.52);outline-offset:3px}
+.app-root{display:flex;flex-direction:column;min-height:100vh}
+.footer{margin-top:auto}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
