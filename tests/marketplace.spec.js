@@ -61,7 +61,7 @@ test('Arabic RTL layout remains within the viewport on key marketplace routes', 
     await page.setViewportSize({ width, height: 844 })
     for (const route of ['/search', '/product/1', '/seller/atlas-tech-tunis', '/account', '/seller-dashboard']) {
       await page.goto(route)
-      await page.locator('select[aria-label="Language"]').selectOption('ar')
+      await page.locator('.language-picker select').selectOption('ar')
       await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
       const dimensions = await page.evaluate(() => ({
         viewport: document.documentElement.clientWidth,
@@ -100,7 +100,7 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await page.goto('/product/1')
   await page.getByRole('button', { name: 'Save for later' }).click()
   await page.goto('/wishlist')
-  await expect(page.getByText('Wireless noise-cancelling headphones')).toBeVisible()
+  await expect(page.locator('.home-recently-viewed')).toContainText('Wireless noise-cancelling headphones')
 })
 
 test('product comparisons persist when navigating away and returning', async ({ page }) => {
@@ -130,7 +130,7 @@ test('homepage hero search submits queries and popular shortcuts navigate to sea
   await page.goto('/')
   const heroSearch = page.getByRole('search').getByRole('searchbox', { name: 'Search products and categories' })
   await heroSearch.fill('headphones')
-  await page.getByRole('search').getByRole('button', { name: /Search/ }).click()
+  await page.locator('.hero-search-form').getByRole('button', { name: /Search/ }).click()
   await expect(page).toHaveURL(/\/search\?q=headphones/)
   await expect(page.locator('.listing-results')).toContainText('headphones')
   await page.goto('/')
