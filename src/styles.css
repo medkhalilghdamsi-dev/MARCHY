@@ -1056,3 +1056,36 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
  .results-toolbar select{min-height:34px}
  .listing-results .empty-state{padding:50px 18px}
 }
+
+
+/* Product comparison — explicit, data-limited and responsive */
+.compare-product-button{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;min-height:29px;margin-top:9px;padding:6px 9px;border:1px solid #e5e9ed;border-radius:6px;background:#fff;color:#66727e;font-size:9px;font-weight:750;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.compare-product-button:hover,.compare-product-button.is-selected{border-color:#e8b49e;background:#fff6f1;color:#b94a25}
+.compare-tray{margin:0 0 18px;padding:16px;border:1px solid #e3e8ec;border-radius:12px;background:#fff;box-shadow:var(--shadow-card)}
+.compare-tray-heading{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.compare-tray-heading>div:first-child{display:flex;flex-direction:column;gap:4px}
+.compare-tray-heading b{font-size:12px;color:var(--ink)}
+.compare-tray-heading span,.compare-hint{font-size:9px;color:var(--muted)}
+.compare-tray-heading>div:last-child{display:flex;align-items:center;gap:8px}
+.compare-clear,.compare-show{min-height:34px;padding:7px 11px;border:1px solid var(--line);border-radius:6px;background:#fff;color:#56616d;font-size:9px;font-weight:750;cursor:pointer}
+.compare-show{border-color:var(--orange-dark);background:var(--orange-dark);color:#fff}
+.compare-show:disabled{border-color:#e5e9ed;background:#f0f2f4;color:#9aa3ac;cursor:not-allowed}
+.compare-hint{margin:10px 0 0}
+.compare-table-wrap{margin-top:15px;overflow-x:auto}
+.compare-table{width:100%;min-width:560px;border-collapse:collapse;text-align:left}
+.compare-table th,.compare-table td{padding:11px 12px;border-top:1px solid #edf0f2;vertical-align:top;font-size:10px;line-height:1.5}
+.compare-table thead th{background:#f8fafb;color:#34404b;font-weight:750}
+.compare-table thead th:first-child,.compare-table tbody th{width:145px;color:#687482;font-weight:750}
+.compare-table thead th>a{display:block;color:#17212b}
+.compare-table thead th>button{margin-top:7px;padding:3px 7px;border:1px solid #e8ecef;border-radius:5px;background:#fff;color:#8a949e;font-size:12px;cursor:pointer}
+.compare-table td{color:#4e5b67}
+.compare-disclaimer{margin:12px 0 0;color:#89939c;font-size:9px;line-height:1.6}
+.is-rtl .compare-tray,.is-rtl .compare-table{text-align:right}
+.is-rtl .compare-tray-heading{direction:rtl}
+@media(max-width:640px){
+ .compare-tray{padding:12px;margin-bottom:13px}
+ .compare-tray-heading{align-items:flex-start;flex-direction:column}
+ .compare-tray-heading>div:last-child{width:100%;justify-content:flex-end}
+ .compare-product-button{min-height:31px;font-size:8px}
+ .compare-table th,.compare-table td{padding:9px;font-size:9px}
+}
