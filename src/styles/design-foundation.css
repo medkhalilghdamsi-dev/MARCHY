@@ -211,3 +211,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 }
 
 
+
+
+/* Accessible orange actions retain the brand while meeting AA contrast */
+.hero-search-form button{background:#b94a25;color:#fff}
+.hero-search-form button:hover{background:#96391b}
