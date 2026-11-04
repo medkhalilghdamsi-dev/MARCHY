@@ -1708,3 +1708,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .breadcrumbs a{color:#176b4b;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 .filters h3>button{color:#b94a25}
 .filters label small,.price-range-labels span,.results-toolbar>span{color:#5f6b76}
+
+/* Product-detail reading contrast refinements */
+.breadcrumbs [aria-current="page"],
+.product-image-caption span,
+.sample-status,
+.product-price-caption,
+.product-listing-status small,
+.product-seller-copy small,
+.product-seller-copy>span,
+.product-delivery-card p,
+.product-demo-disclaimer,
+.product-information-card p,
+.product-information-card dt{color:#5f6b76}
+.product-price-block del{color:#626b73}
