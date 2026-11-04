@@ -411,7 +411,8 @@ function ProductCard({ product, addToCart, wished, toggleWish, language }) {
 function Home({ addToCart, wishlist, toggleWish, language }) {
   const [active,setActive]=useState('All')
   const shown=(active==='All'?products:products.filter(p=>p.category===active)).slice(0,8)
-  const popular=categories.slice(1).map((name,i)=>({name,count:products.filter(p=>p.category===name).length,icon:['⌘','◉','✳','⌂','✿','↗','◇','▤','▣','✦','♧','♢','⌁'][i%13],tone:['cat-blue','cat-sand','cat-pink','cat-lilac','cat-green','cat-yellow'][i%6]}))
+  const populatedCategories=categories.slice(1).filter(name=>products.some(p=>p.category===name))
+  const popular=populatedCategories.map((name,i)=>({name,count:products.filter(p=>p.category===name).length,icon:['⌘','◉','✳','⌂','✿','↗','◇','▤','▣','✦','♧','♢','⌁'][i%13],tone:['cat-blue','cat-sand','cat-pink','cat-lilac','cat-green','cat-yellow'][i%6]}))
   const deals=products.filter(p=>p.oldPrice).slice(0,4)
   return translateTree(<main className="shell page home-page">
     <section className="market-hero">
@@ -425,6 +426,7 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
       <div className="market-hero-art"><img src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1200&q=90" alt="Everyday products arranged for discovery" loading="eager"/><div className="hero-floating-card"><span className="hero-floating-icon">✦</span><div><b>Discover something useful</b><small>Explore the MARCHY sample catalogue</small></div></div><div className="hero-art-caption">LOCAL DISCOVERY <b>·</b> MADE SIMPLE</div></div>
     </section>
     <section className="market-benefits"><div><span>01</span><b>Browse with ease</b><small>Explore products across everyday categories</small></div><div><span>02</span><b>Find local storefronts</b><small>See sample seller profiles and locations</small></div><div><span>03</span><b>Compare in dinars</b><small>All catalogue prices shown in TND</small></div></section>
+    <section className="home-quick-discovery" aria-label="Quick category discovery"><div><span className="eyebrow">QUICK DISCOVERY</span><b>What are you shopping for?</b></div><div className="home-quick-links">{populatedCategories.slice(0,7).map(name=><Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`}>{name}<span>↗</span></Link>)}<Link className="quick-all-link" to="/categories">All departments <span>→</span></Link></div></section>
     <section className="section home-category-section">
       <div className="section-heading"><div><span className="eyebrow">START WITH WHAT YOU NEED</span><h2>Explore all categories</h2><p className="muted">A quick route to the things you shop for most.</p></div><Link to="/categories" className="text-link">All categories →</Link></div>
       <div className="home-category-grid">{popular.map(item=><Link key={item.name} to={`/category/${encodeURIComponent(item.name.toLowerCase())}`} className={`home-category-card ${item.tone}`}><span className="home-category-icon">{item.icon}</span><b>{item.name}</b><small>{item.count} sample {item.count===1?'listing':'listings'} <span>→</span></small></Link>)}</div>
