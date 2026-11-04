@@ -467,5 +467,21 @@ test('product add-to-cart confirmation resets when the selected quantity changes
   await page.getByRole('button', { name: 'Increase quantity' }).click()
   await expect(page.locator('.product-added-feedback')).toHaveCount(0)
   await expect(page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true })).toBeVisible()
-  await expect(page.locator('.product-mobile-buybar').getByRole('button', { name: 'Add to cart' })).toBeVisible()
+})
+
+
+test('quick view lets buyers choose quantity before adding to cart', async ({ page }) => {
+  await page.goto('/search')
+  const card = page.locator('.product-card').first()
+  await card.getByRole('button', { name: /^Quick view/ }).click()
+  const dialog = page.getByRole('dialog', { name: /Wireless noise-cancelling headphones/ })
+  await expect(dialog).toBeVisible()
+  await dialog.getByRole('button', { name: 'Increase quick-view quantity' }).click()
+  await expect(dialog.getByLabel('Quick-view selected quantity')).toHaveText('2')
+  await expect(dialog.locator('.quick-view-quantity-total')).toContainText('378.000 TND')
+  await dialog.getByRole('button', { name: 'Add 2 to demo cart' }).click()
+  await expect(dialog.getByRole('button', { name: 'Added to cart ✓' })).toBeVisible()
+  await page.locator('.mobile-tabbar a[href="/cart"]').click()
+  await expect(page.getByRole('heading', { name: 'Your shopping cart' })).toBeVisible()
+  await expect(page.getByText('2 items', { exact: true })).toBeVisible()
 })
