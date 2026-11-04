@@ -852,3 +852,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .results-toolbar-actions label small{
   color:#4d5964!important;
 }
+
+/* Product-page WCAG AA: keep secondary information legible without losing hierarchy */
+.product-image-discount{background:#b94a25!important;color:#fff!important}
+.product-category-pill{color:#a3421e!important}
+.product-price-block>del,
+.product-price-caption,
+.product-listing-status>div>small,
+.product-quantity-summary>span,
+.product-seller-copy>small,
+.product-seller-copy>span,
+.product-delivery-card>div>p,
+.product-demo-disclaimer,
+.product-buyer-highlights>div>span,
+.product-attribute-list dt{
+  color:#4d5964!important;
+}
