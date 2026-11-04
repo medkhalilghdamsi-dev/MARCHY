@@ -63,7 +63,7 @@ test('mobile navigation opens and closes after route selection', async ({ page }
   await openMenu.click()
   const navigation = page.getByRole('navigation', { name: 'Primary navigation' })
   await expect(navigation).toBeVisible()
-  await page.locator('a[href="/categories"]').click()
+  await navigation.locator('a[href="/categories"]').click()
   await expect(page).toHaveURL(/\/categories$/)
   await expect(page.getByRole('button', { name: 'Open navigation menu' })).toBeVisible()
 })
