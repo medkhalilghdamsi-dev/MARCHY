@@ -1596,3 +1596,18 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .is-rtl .category-directory-tools label>span{left:auto;right:10px}
 .is-rtl .category-directory-tools input{padding-left:10px;padding-right:34px}
 @media(max-width:480px){.category-directory-tools{align-items:stretch;flex-direction:column}.category-directory-tools label{max-width:none}.category-directory-tools>small{align-self:flex-end}}
+
+
+/* Branded 404 recovery page */
+.not-found-page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:590px;padding-top:40px;padding-bottom:60px;text-align:center}
+.not-found-visual{display:flex;align-items:center;justify-content:center;gap:17px;margin-bottom:25px;color:#dfe4e7}
+.not-found-visual>span{font-size:clamp(90px,16vw,160px);font-weight:900;line-height:.8;letter-spacing:-.1em}
+.not-found-visual>b{display:grid;place-items:center;width:100px;height:100px;border-radius:25px;background:var(--ink);color:#fff;font-size:20px;letter-spacing:-.06em;box-shadow:0 18px 42px rgba(23,33,43,.15)}
+.not-found-visual>b span{color:var(--orange)}
+.not-found-page>.eyebrow{color:var(--orange-dark)}
+.not-found-page h1{margin:4px 0 10px;color:var(--ink);font-size:clamp(30px,4vw,42px);letter-spacing:-.05em}
+.not-found-page>p{max-width:450px;color:#78838d;font-size:12px;line-height:1.8}
+.not-found-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:17px}
+.not-found-actions .primary-btn,.not-found-actions .outline-btn{min-height:42px;font-size:10px}
+.not-found-actions .text-link{font-size:10px;font-weight:750}
+@media(max-width:480px){.not-found-page{min-height:500px}.not-found-visual{gap:10px}.not-found-visual>b{width:76px;height:76px;border-radius:19px;font-size:16px}.not-found-actions{flex-direction:column;width:100%}.not-found-actions>*{width:100%}}
