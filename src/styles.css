@@ -1661,3 +1661,5 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
  .searchbar input{font-size:11px}
  .searchbar button{padding:0 11px}
 }
+
+.product-purchase-controls>.product-quantity-label{display:block;margin-bottom:8px;color:#53606d;font-size:10px;font-weight:750}
