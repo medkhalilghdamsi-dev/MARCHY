@@ -115,7 +115,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     if (term.trim()) {
       const score = product => {
         const query = normalizeSearchText(term)
-        const tokens = query.split(/\\s+/).filter(Boolean)
+        const tokens = query.split(/\s+/).filter(Boolean)
         const seller = sellerForProduct(product)
         const fields = [
           { value: normalizeSearchText(product.name), weight: 12 },
@@ -129,7 +129,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
         for (const token of tokens) {
           let best = 0
           for (const field of fields) {
-            const words = field.value.split(/\\s+/)
+            const words = field.value.split(/\s+/)
             if (field.value === token) best = Math.max(best, field.weight * 3)
             else if (words.some(word => word === token)) best = Math.max(best, field.weight * 2)
             else if (words.some(word => word.startsWith(token))) best = Math.max(best, field.weight * 1.5)
