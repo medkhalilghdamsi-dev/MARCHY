@@ -596,3 +596,38 @@ Object.assign(translations, {
 
 
 export { translations }
+
+
+Object.assign(translations, {
+ "Orders & fulfilment":["Commandes et exécution","الطلبات والتنفيذ"],
+ "Orders":["Commandes","الطلبات"],
+ "ORDER OPERATIONS":["GESTION DES COMMANDES","إدارة الطلبات"],
+ "Keep every hand-off clear.":["Suivez chaque étape en toute clarté.","تابع كل مرحلة بوضوح."],
+ "Review sample orders, prepare parcels and move each demo order through its fulfilment stages.":["Consultez les commandes exemples, préparez les colis et faites avancer chaque commande dans ses étapes.","راجع الطلبات النموذجية وجهّز الطرود وانقل كل طلب عبر مراحل التنفيذ."],
+ "ILLUSTRATIVE DATA":["DONNÉES ILLUSTRATIVES","بيانات توضيحية"],
+ "ORDERS SHOWN":["COMMANDES AFFICHÉES","الطلبات المعروضة"],
+ "NEEDS ACTION":["À TRAITER","تحتاج إلى إجراء"],
+ "IN TRANSIT":["EN TRANSIT","قيد التوصيل"],
+ "Manage order →":["Gérer la commande →","إدارة الطلب ←"],
+ "Close details":["Fermer les détails","إغلاق التفاصيل"],
+ "Delivery details":["Détails de livraison","تفاصيل التوصيل"],
+ "Update fulfilment status":["Mettre à jour le statut","تحديث حالة التنفيذ"],
+ "New order":["Nouvelle commande","طلب جديد"],
+ "Confirmed":["Confirmée","مؤكد"],
+ "Preparing":["En préparation","قيد التجهيز"],
+ "Ready for dispatch":["Prête à expédier","جاهز للإرسال"],
+ "Shipped":["Expédiée","تم الشحن"],
+ "Delivered":["Livrée","تم التوصيل"],
+ "Cancelled":["Annulée","ملغاة"],
+ "Return requested":["Retour demandé","تم طلب الإرجاع"],
+ "Returned":["Retournée","تم الإرجاع"],
+ "Refund marked as issued":["Remboursement indiqué comme émis","تم تسجيل إصدار الاسترداد"],
+ "Follow the journey.":["Suivez votre commande.","تابع رحلتك."],
+ "See how order updates could appear from confirmation through delivery.":["Découvrez comment les mises à jour d’une commande peuvent apparaître, de la confirmation à la livraison.","اكتشف كيف تظهر تحديثات الطلب من التأكيد حتى التوصيل."],
+ "DEMO ORDERS ONLY":["COMMANDES DE DÉMONSTRATION","طلبات تجريبية فقط"],
+ "Order tracking":["Suivi de commande","تتبع الطلب"],
+ "Refresh demo statuses":["Actualiser les statuts de démonstration","تحديث الحالات التجريبية"],
+ "View demo order tracking →":["Voir le suivi de démonstration →","عرض تتبع الطلب التجريبي ←"],
+ "Preview order tracking":["Aperçu du suivi des commandes","معاينة تتبع الطلبات"],
+ "Explore fictional sample orders and see how seller status updates appear to a buyer.":["Consultez des commandes fictives et voyez comment les mises à jour du vendeur apparaissent à l’acheteur.","استعرض طلبات افتراضية وشاهد كيف تظهر تحديثات البائع للمشتري."]
+});
