@@ -1,1 +1,10 @@
-@import './styles/marketplace.css';
+@import './styles/base.css';
+@import './styles/discovery.css';
+@import './styles/shopping.css';
+@import './styles/design-foundation.css';
+@import './styles/seller-experience.css';
+@import './styles/seller-workspace.css';
+@import './styles/quality-refinements.css';
+@import './styles/multi-seller-basket.css';
+@import './styles/checkout.css';
+@import './styles/result-controls.css';
