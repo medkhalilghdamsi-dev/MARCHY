@@ -305,6 +305,30 @@ const translations = {
   ,"Up to":["Jusqu’à","حتى"]
   ,"Sort products":["Trier les produits","ترتيب المنتجات"]
 
+  ,"Your MARCHY basket":["Votre panier MARCHY","سلة مشترياتك في مارشي"]
+  ,"Items in your cart":["Articles dans votre panier","المنتجات في سلتك"]
+  ,"product":["produit","منتج"]
+  ,"products":["produits","منتجات"]
+  ,"sellers":["vendeurs","بائعين"]
+  ,"each":["l’unité","للوحدة"]
+  ,"Remove item":["Supprimer l’article","إزالة المنتج"]
+  ,"Quantity":["Quantité","الكمية"]
+  ,"Need something else?":["Besoin d’autre chose ?","هل تبحث عن شيء آخر؟"]
+  ,"Explore all categories":["Explorer toutes les catégories","استكشف جميع الفئات"]
+  ,"Your order":["Votre commande","طلبك"]
+  ,"Products subtotal":["Sous-total des produits","المجموع الفرعي للمنتجات"]
+  ,"To be confirmed":["À confirmer","يجب التأكيد"]
+  ,"Discounts":["Réductions","الخصومات"]
+  ,"Estimated product total":["Total estimé des produits","إجمالي المنتجات التقديري"]
+  ,"Delivery charges, availability and final prices are not yet connected to live seller systems. They are not included in this estimate.":["Les frais de livraison, la disponibilité et les prix finaux ne sont pas encore reliés aux systèmes des vendeurs. Ils ne sont pas inclus dans cette estimation.","لم يتم ربط رسوم التوصيل والتوفر والأسعار النهائية بأنظمة البائعين بعد. وهي غير مشمولة في هذا التقدير."]
+  ,"Review checkout":["Vérifier la commande","مراجعة إتمام الطلب"]
+  ,"Checkout preview":["Aperçu de commande","معاينة إتمام الطلب"]
+  ,"In a live marketplace, the next step would confirm each seller's stock, delivery and final payable amount.":["Sur une marketplace active, l’étape suivante confirmerait le stock, la livraison et le montant final auprès de chaque vendeur.","في السوق الفعلي، ستؤكد الخطوة التالية المخزون والتوصيل والمبلغ النهائي مع كل بائع."]
+  ,"A fresh start":["Un nouveau départ","بداية جديدة"]
+  ,"Your cart is empty":["Votre panier est vide","سلتك فارغة"]
+  ,"Explore products":["Explorer les produits","استكشف المنتجات"]
+  ,"Browse categories":["Parcourir les catégories","تصفح الفئات"]
+
 
 };
 function translateText(value, lang) {
@@ -552,12 +576,53 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
 }
 
 function CartPage({ cart, updateQty, removeItem, language }) {
-  const [checkoutInfo,setCheckoutInfo]=useState(false)
-  const total=cart.reduce((s,x)=>s+x.price*x.qty,0)
-  const count=cart.reduce((s,x)=>s+x.qty,0)
-  return translateTree(<main className="shell page cart-page"><div className="breadcrumbs"><Link to="/">Home</Link> / Your cart</div><div className="section-heading"><div><span className="eyebrow">READY WHEN YOU ARE</span><h1>Your shopping cart</h1><p className="muted">{count} items in your basket</p></div><Link to="/search" className="text-link">Continue shopping →</Link></div>{cart.length?<div className="cart-layout"><div className="cart-items">{cart.map(item=><div className="cart-item" key={item.id}><Link to={`/product/${item.id}`} className="cart-item-photo"><img src={item.image} alt={item.name} loading="lazy"/></Link><div className="cart-item-info"><Link to={`/product/${item.id}`}>{item.name}</Link><small>{sellerForProduct(item).name} · {sellerForProduct(item).city}</small><b>{money(item.price)}</b><button className="remove-link" onClick={()=>removeItem(item.id)}>Remove</button></div><div className="quantity"><button aria-label={`Decrease ${item.name} quantity`} disabled={item.qty<=1} onClick={()=>updateQty(item.id,item.qty-1)}>−</button><b>{item.qty}</b><button aria-label={`Increase ${item.name} quantity`} disabled={item.qty>=99} onClick={()=>updateQty(item.id,Math.min(99,item.qty+1))}>＋</button></div><strong className="cart-line-total">{money(item.price*item.qty)}</strong></div>)}</div><aside className="summary-card"><h3>Order summary</h3><div><span>Items ({count})</span><b>{money(total)}</b></div><div><span>Delivery</span><b>Confirmed by seller</b></div><div className="summary-total"><span>Estimated total</span><strong>{money(total)}</strong></div><button className="primary-btn full-btn" onClick={()=>setCheckoutInfo(v=>!v)} aria-expanded={checkoutInfo}>Review checkout →</button>{checkoutInfo&&<div className="checkout-demo" role="status"><b>Checkout preview only</b><p>This prototype does not submit orders or collect personal or payment details. Seller availability, delivery and final totals must be confirmed directly.</p><button className="outline-btn" onClick={()=>setCheckoutInfo(false)}>Close preview</button></div>}<small className="muted">No payment is taken and no order is placed.</small></aside></div>:<div className="empty-state"><span>🛒</span><h2>Your cart is taking a break.</h2><p>Find something useful and add it here.</p><Link to="/search" className="primary-btn">Start shopping →</Link></div>}</main>,language)
+  const [checkoutInfo, setCheckoutInfo] = useState(false)
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+  const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
+  const sellerCount = new Set(cart.map(item => sellerForProduct(item).slug)).size
+  return translateTree(<main className="shell page cart-page">
+    <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><span aria-current="page">Your cart</span></div>
+    <div className="cart-page-heading">
+      <div><span className="eyebrow">YOUR MARCHY BASKET</span><h1>Your shopping cart</h1><p>{itemCount} items · {cart.length} products · {sellerCount} sellers</p></div>
+      <Link to="/search" className="cart-continue-link">← Continue shopping</Link>
+    </div>
+    {cart.length ? <div className="cart-layout">
+      <section className="cart-items-panel" aria-label="Cart items">
+        <div className="cart-panel-heading"><b>Items in your cart</b><span>{cart.length} product{cart.length === 1 ? '' : 's'}</span></div>
+        {cart.map(item => {
+          const seller = sellerForProduct(item)
+          return <article className="cart-item" key={item.id}>
+            <Link to={`/product/${item.id}`} className="cart-item-photo"><img src={item.image} alt={item.name} loading="lazy"/></Link>
+            <div className="cart-item-info">
+              <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
+              <small>{seller.name} · {seller.city}, Tunisia</small>
+              <b className="cart-item-unit-price">{money(item.price)} <span>each</span></b>
+              <button type="button" className="remove-link" onClick={() => removeItem(item.id)}>Remove item</button>
+            </div>
+            <div className="cart-item-quantity"><span>Quantity</span><div className="quantity">
+              <button type="button" aria-label={`Decrease ${item.name} quantity`} disabled={item.qty <= 1} onClick={() => updateQty(item.id, item.qty - 1)}>−</button>
+              <output aria-live="polite">{item.qty}</output>
+              <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= 99} onClick={() => updateQty(item.id, Math.min(99, item.qty + 1))}>＋</button>
+            </div></div>
+            <strong className="cart-line-total">{money(item.price * item.qty)}</strong>
+          </article>
+        })}
+        <div className="cart-panel-footer"><span>Need something else?</span><Link to="/categories">Explore all categories →</Link></div>
+      </section>
+      <aside className="summary-card cart-summary">
+        <div className="cart-summary-title"><div><span className="eyebrow">YOUR ORDER</span><h2>Order summary</h2></div><span className="cart-summary-count">{itemCount} items</span></div>
+        <div className="cart-summary-row"><span>Products subtotal</span><b>{money(subtotal)}</b></div>
+        <div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div>
+        <div className="cart-summary-row"><span>Discounts</span><b>—</b></div>
+        <div className="summary-total"><span>Estimated product total</span><strong>{money(subtotal)}</strong></div>
+        <p className="cart-summary-note">Delivery charges, availability and final prices are not yet connected to live seller systems. They are not included in this estimate.</p>
+        <button type="button" className="primary-btn full-btn cart-checkout-button" onClick={() => setCheckoutInfo(v => !v)} aria-expanded={checkoutInfo}>Review checkout <span>→</span></button>
+        {checkoutInfo && <div className="checkout-demo" role="status"><b>Checkout preview</b><p>This is a frontend demonstration. No order is submitted and no personal or payment information is collected. In a live marketplace, the next step would confirm each seller's stock, delivery and final payable amount.</p><button type="button" className="outline-btn" onClick={() => setCheckoutInfo(false)}>Close preview</button></div>}
+        <div className="cart-trust-note"><span>ⓘ</span><p>You're reviewing a sample basket. No payment is taken and no order is placed.</p></div>
+      </aside>
+    </div> : <div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">A FRESH START</span><h2>Your cart is empty</h2><p>Explore the marketplace and add products you'd like to come back to.</p><div><Link to="/search" className="primary-btn">Explore products →</Link><Link to="/categories" className="cart-empty-secondary">Browse categories</Link></div></div>}
+  </main>, language)
 }
-
 
 function WishlistPage({ products: allProducts, wishlist, toggleWish, addToCart, language }) {
   const saved = allProducts.filter(product => wishlist.includes(product.id))
