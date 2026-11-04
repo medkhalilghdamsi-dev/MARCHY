@@ -522,3 +522,23 @@ test('Escape from header search suggestions restores focus to the search field',
   await expect(search).toHaveAttribute('aria-expanded', 'false')
   await expect(search).toBeFocused()
 })
+
+
+test('sign-up password visibility and mismatch feedback are accessible', async ({ page }) => {
+  await page.goto('/signup')
+  const password = page.getByLabel('Password')
+  const confirm = page.getByLabel('Confirm password')
+  const toggle = page.getByRole('button', { name: 'Show password' })
+  await expect(password).toHaveAttribute('type', 'password')
+  await toggle.click()
+  await expect(password).toHaveAttribute('type', 'text')
+  await expect(page.getByRole('button', { name: 'Hide password' })).toHaveAttribute('aria-pressed', 'true')
+  await password.fill('marchy-pass-123')
+  await confirm.fill('different-pass-123')
+  await page.getByRole('textbox', { name: 'Email address' }).fill('buyer@example.com')
+  await page.getByLabel('Full name').fill('Test Buyer')
+  await page.getByLabel(/I agree to the/).check()
+  await page.getByRole('button', { name: /Create account/ }).click()
+  await expect(confirm).toHaveAttribute('aria-invalid', 'true')
+  await expect(page.getByRole('alert')).toContainText('Your passwords do not match.')
+})
