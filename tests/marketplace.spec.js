@@ -202,6 +202,15 @@ test('product detail can add a listing to the cross-page comparison tray', async
   await expect(page.locator('.compare-tray')).toContainText('Wireless noise-cancelling headphones')
 })
 
+test('product detail buyer checklist adapts to listing category', async ({ page }) => {
+  await page.goto('/product/1')
+  await expect(page.locator('.product-order-checklist')).toContainText('Exact model, technical specifications and compatibility')
+  await expect(page.locator('.product-order-checklist')).toContainText('Warranty coverage and proof of purchase')
+  await page.goto('/product/3')
+  await expect(page.locator('.product-order-checklist')).toContainText('Size measurements, fit and available variants')
+  await expect(page.locator('.product-order-checklist')).toContainText('Material composition and care instructions')
+})
+
 test('product comparison button reflects the current product after related-item navigation', async ({ page }) => {
   await page.goto('/product/1')
   await page.getByRole('button', { name: '＋ Compare' }).click()
