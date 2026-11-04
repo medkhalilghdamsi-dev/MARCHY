@@ -1448,3 +1448,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .is-rtl .marketplace-guide-layout,.is-rtl .guide-bottom-cta{direction:rtl}
 @media(max-width:760px){.marketplace-guide-layout{grid-template-columns:1fr;gap:17px}.guide-note-panel{order:-1}.guide-bottom-cta{align-items:flex-start;flex-direction:column}}
 @media(max-width:480px){.marketplace-guide-hero{padding:26px 0}.marketplace-guide-hero h1{font-size:36px}.guide-note-panel{padding:17px}.guide-bottom-cta{padding:17px}.guide-bottom-cta>div:last-child{width:100%}.guide-bottom-cta>div:last-child>*{flex:1}}
+
+
+.is-rtl .quick-view-dialog{direction:rtl;text-align:right}
+.is-rtl .quick-view-close{right:auto;left:13px}
+.is-rtl .quick-view-content{align-items:flex-start;text-align:right}
+.is-rtl .quick-view-actions{direction:rtl}
+.is-rtl .quick-view-seller{width:100%}
+@media(max-width:640px){.is-rtl .quick-view-backdrop{direction:rtl}}
