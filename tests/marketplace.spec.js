@@ -377,3 +377,16 @@ test('mobile product page keeps the purchase action reachable in the sticky buy 
   await expect(buyBar.getByRole('button', { name: 'Added ✓' })).toBeVisible()
   await expect(page.locator('.mobile-tabbar a[href="/cart"]')).toContainText('1')
 })
+
+
+test('seller storefront filters restore from a shareable URL and clear together', async ({ page }) => {
+  await page.goto('/seller/atlas-tech-tunis?q=keyboard&category=Electronics&sort=low')
+  await expect(page.getByRole('textbox', { name: 'Search this storefront' })).toHaveValue('keyboard')
+  await expect(page.getByRole('button', { name: 'Electronics', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByRole('combobox', { name: 'Sort storefront products' })).toHaveValue('low')
+  await expect(page.locator('.product-grid')).toContainText('Compact mechanical keyboard')
+  await page.getByRole('button', { name: 'Clear all' }).click()
+  await expect(page).toHaveURL(/\/seller\/atlas-tech-tunis$/)
+  await expect(page.getByRole('textbox', { name: 'Search this storefront' })).toHaveValue('')
+  await expect(page.getByRole('combobox', { name: 'Sort storefront products' })).toHaveValue('featured')
+})
