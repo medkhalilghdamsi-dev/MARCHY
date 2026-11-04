@@ -1,4 +1,4 @@
-import { cloneElement, Children, isValidElement, useEffect, useMemo, useState } from 'react'
+import { cloneElement, Children, isValidElement, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { categories, products } from './data/products'
 
@@ -562,14 +562,41 @@ function translateTree(node, lang) {
 function Header({ cartCount, query, setQuery, language, setLanguage }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const headerRef = useRef(null)
   const navigate = useNavigate()
+  const location = useLocation()
+  useEffect(() => {
+    setMenuOpen(false)
+    setSearchOpen(false)
+  }, [location.pathname, location.search])
+  useEffect(() => {
+    if (!menuOpen && !searchOpen) return
+    const handlePointerDown = event => {
+      if (!headerRef.current?.contains(event.target)) {
+        setMenuOpen(false)
+        setSearchOpen(false)
+      }
+    }
+    const handleKeyDown = event => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        setSearchOpen(false)
+      }
+    }
+    document.addEventListener('pointerdown', handlePointerDown)
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [menuOpen, searchOpen])
   const searchTerm=query.trim()
   const searchMatches=useMemo(()=>searchTerm?products.filter(p=>searchTextMatches([p.name,p.category,p.seller,sellerForProduct(p).name,sellerForProduct(p).city].join(' '),searchTerm)).slice(0,4):[],[searchTerm])
   const categoryMatches=useMemo(()=>searchTerm?categories.filter(c=>c!=='All'&&searchTextMatches(c,searchTerm)).slice(0,3):[],[searchTerm])
   function submit(e) { e.preventDefault(); setSearchOpen(false); navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search') }
   return translateTree(<>
     <div className="topline"><div className="shell topline-inner"><span>MARCHY preview · sample catalogue and illustrative prices</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span></div></div></div>
-    <header className="header"><div className="shell header-main">
+    <header ref={headerRef} className="header"><div className="shell header-main">
       <button type="button" className="mobile-menu icon-btn" onClick={() => setMenuOpen(v => !v)} aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? "×" : "☰"}</button>
       <Link to="/" className="logo">MARCHY<span>.</span></Link>
       <form className="searchbar" onSubmit={submit} role="search"><span className="search-symbol">⌕</span><input value={query} onFocus={()=>setSearchOpen(true)} onKeyDown={e=>{if(e.key==='Escape')setSearchOpen(false)}} onChange={e => {setQuery(e.target.value);setSearchOpen(true)}} placeholder="Search products, brands and local finds…" aria-label="Search products" aria-expanded={searchOpen} aria-controls="global-search-suggestions" /><button type="submit">Search</button>
@@ -799,9 +826,19 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
     const trigger=document.activeElement
     const previousOverflow=document.body.style.overflow
     document.body.style.overflow='hidden'
-    const close=e=>{if(e.key==='Escape')setImageZoomOpen(false)}
-    window.addEventListener('keydown',close)
-    return ()=>{window.removeEventListener('keydown',close);document.body.style.overflow=previousOverflow;trigger?.focus?.()}
+    const dialog=document.querySelector('.product-image-lightbox-dialog')
+    const focusable=dialog?Array.from(dialog.querySelectorAll('button:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])')):[]
+    focusable[0]?.focus()
+    const handleKeys=e=>{
+      if(e.key==='Escape'){setImageZoomOpen(false);return}
+      if(e.key==='Tab'&&focusable.length){
+        const first=focusable[0],last=focusable[focusable.length-1]
+        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+      }
+    }
+    window.addEventListener('keydown',handleKeys)
+    return ()=>{window.removeEventListener('keydown',handleKeys);document.body.style.overflow=previousOverflow;trigger?.focus?.()}
   },[imageZoomOpen])
   if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
   const seller = sellerForProduct(product)
