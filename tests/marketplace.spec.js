@@ -371,6 +371,7 @@ test('mobile product page keeps the purchase action reachable in the sticky buy 
   await page.goto('/product/1')
   const buyBar = page.locator('.product-mobile-buybar')
   await expect(buyBar).toBeVisible()
+  await expect(page.getByText('Delivery details to confirm')).toBeVisible()
   await expect(buyBar.getByText('189.000 TND')).toBeVisible()
   await buyBar.getByRole('button', { name: 'Add to cart' }).click()
   await expect(buyBar.getByRole('button', { name: 'Added ✓' })).toBeVisible()
