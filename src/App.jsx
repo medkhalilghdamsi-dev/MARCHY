@@ -425,33 +425,33 @@ function ProductCard({ product, addToCart, wished, toggleWish, language, compare
   return translateTree(<>
     <article className="product-card">
       <div className="product-photo">
-        <Link to={\`/product/\${product.id}\`} aria-label={\`View \${product.name}\`}><img src={product.image} alt={product.name} loading="lazy" /></Link>
+        <Link to={`/product/${product.id}`} aria-label={`View ${product.name}`}><img src={product.image} alt={product.name} loading="lazy" /></Link>
         <span className="product-tag">SAMPLE</span>
         {discount>0&&<span className="discount-tag">-{discount}%</span>}
-        <button type="button" className={\`wish-btn \${wished?'wished':''}\`} onClick={()=>toggleWish(product.id)} aria-label={wished?'Remove from wishlist':'Add to wishlist'} aria-pressed={wished}>{wished?'♥':'♡'}</button>
-        <button type="button" className="product-quick-view" onClick={()=>setQuickViewOpen(true)} aria-label={\`Quick view \${product.name}\`}>Quick view <span>↗</span></button>
+        <button type="button" className={`wish-btn ${wished?'wished':''}`} onClick={()=>toggleWish(product.id)} aria-label={wished?'Remove from wishlist':'Add to wishlist'} aria-pressed={wished}>{wished?'♥':'♡'}</button>
+        <button type="button" className="product-quick-view" onClick={()=>setQuickViewOpen(true)} aria-label={`Quick view ${product.name}`}>Quick view <span>↗</span></button>
       </div>
       <div className="product-info">
         <div className="product-category">{product.category}</div>
-        <Link to={\`/product/\${product.id}\`} className="product-name">{product.name}</Link>
-        <Link to={\`/seller/\${seller.slug}\`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
+        <Link to={`/product/${product.id}`} className="product-name">{product.name}</Link>
+        <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
         <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice&&<del>{money(product.oldPrice)}</del>}</div>
-        {toggleCompare && <button type="button" className={\`compare-product-button \${compareIds.includes(product.id) ? 'is-selected' : ''}\`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)} disabled={compareIds.length >= 3 && !compareIds.includes(product.id)}>{compareIds.includes(product.id) ? '✓ Added to compare' : compareIds.length >= 3 ? 'Compare limit reached' : '＋ Compare'}</button>}
-        <button type="button" className={\`add-btn \${added?'added':''}\`} onClick={quickAdd} aria-live="polite">{added?'Added to cart ✓':'Add to cart'} <span>{added?'✓':'＋'}</span></button>
+        {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)} disabled={compareIds.length >= 3 && !compareIds.includes(product.id)}>{compareIds.includes(product.id) ? '✓ Added to compare' : compareIds.length >= 3 ? 'Compare limit reached' : '＋ Compare'}</button>}
+        <button type="button" className={`add-btn ${added?'added':''}`} onClick={quickAdd} aria-live="polite">{added?'Added to cart ✓':'Add to cart'} <span>{added?'✓':'＋'}</span></button>
       </div>
     </article>
     {quickViewOpen&&<div className="quick-view-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setQuickViewOpen(false)}}>
-      <section className="quick-view-dialog" role="dialog" aria-modal="true" aria-labelledby={\`quick-view-title-\${product.id}\`}>
+      <section className="quick-view-dialog" role="dialog" aria-modal="true" aria-labelledby={`quick-view-title-${product.id}`}>
         <button type="button" className="quick-view-close" onClick={()=>setQuickViewOpen(false)} aria-label="Close quick view">×</button>
         <div className="quick-view-image"><img src={product.image} alt={product.name}/></div>
         <div className="quick-view-content">
           <span className="eyebrow">QUICK PRODUCT VIEW · SAMPLE LISTING</span>
           <span className="product-category">{product.category}</span>
-          <h2 id={\`quick-view-title-\${product.id}\`}>{product.name}</h2>
+          <h2 id={`quick-view-title-${product.id}`}>{product.name}</h2>
           <div className="quick-view-price">{money(product.price)}</div>
           <p>{product.description||'Product specifications and included items should be confirmed directly with the seller.'}</p>
           <div className="quick-view-seller">Sold by <b>{seller.name}</b> · {seller.city}</div>
-          <div className="quick-view-actions"><button type="button" className="primary-btn" onClick={quickAdd}>{added?'Added to cart ✓':'Add to demo cart'}</button><Link to={\`/product/\${product.id}\`} className="outline-btn" onClick={()=>setQuickViewOpen(false)}>View full details →</Link></div>
+          <div className="quick-view-actions"><button type="button" className="primary-btn" onClick={quickAdd}>{added?'Added to cart ✓':'Add to demo cart'}</button><Link to={`/product/${product.id}`} className="outline-btn" onClick={()=>setQuickViewOpen(false)}>View full details →</Link></div>
           <small>Illustrative catalogue information. Availability and final terms are not verified.</small>
         </div>
       </section>
