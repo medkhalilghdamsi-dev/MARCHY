@@ -80,7 +80,13 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const catalogueMaxPrice = Math.max(100, Math.ceil(Math.max(...products.map(p => p.price)) / 50) * 50)
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(budgetParam > 0 ? Math.min(catalogueMaxPrice, budgetParam) : catalogueMaxPrice)
-  useEffect(() => { if (budgetParam > 0) setMaxPrice(Math.min(catalogueMaxPrice, budgetParam)) }, [budgetParam, catalogueMaxPrice])
+  const lastBudgetParam = useRef(budgetParam)
+  useEffect(() => {
+    if (budgetParam !== lastBudgetParam.current) {
+      setMaxPrice(budgetParam > 0 ? Math.min(catalogueMaxPrice, budgetParam) : catalogueMaxPrice)
+      lastBudgetParam.current = budgetParam
+    }
+  }, [budgetParam, catalogueMaxPrice])
   const [city, setCity] = useState('All')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
