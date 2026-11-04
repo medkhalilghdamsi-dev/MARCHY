@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, frontend/buyer-route-metadata]
 
 permissions:
   contents: read
