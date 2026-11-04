@@ -627,3 +627,112 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .store-search-sort{grid-template-columns:minmax(0,1fr)}
  .store-view-toggle{justify-self:start}
 }
+
+
+/* Search and discovery: premium result controls and helpful zero-result recovery */
+.listing-head{
+ display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
+ margin-bottom:23px;padding-bottom:20px;border-bottom:1px solid #e9edef;
+}
+.listing-head h1{max-width:650px;margin:7px 0 8px;font-size:clamp(30px,3.7vw,44px);line-height:1.08;letter-spacing:-1.7px}
+.listing-head>div>p{margin:0;color:#77838d;font-size:11px}
+.listing-search{width:min(360px,38%);height:46px;border:1px solid #e2e7e9;border-radius:8px;background:#fff;box-shadow:0 4px 15px #17212b05}
+.listing-search:focus-within{border-color:#e4a184;box-shadow:0 0 0 3px #f36b3514}
+.listing-search input{font-size:10px}
+.listing-search>span{color:#8a949d}
+.active-filter-chips{
+ display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:-7px 0 17px;
+}
+.active-filter-chips button{
+ display:inline-flex;align-items:center;gap:7px;min-height:29px;padding:0 10px;
+ border:1px solid #eaded8;border-radius:20px;background:#fff8f4;
+ color:#925037;font-size:9px;font-weight:700;
+}
+.active-filter-chips button span{font-size:14px;line-height:1;color:#b15b39}
+.active-filter-chips .clear-filter-chips{border-color:transparent;background:transparent;color:#9d4929;font-weight:850}
+.category-context-strip{
+ display:flex;align-items:center;gap:12px;margin:0 0 18px;padding:13px 15px;
+ border:1px solid #f0e3dc;border-radius:8px;background:linear-gradient(100deg,#fff8f4,#fff);
+}
+.category-context-icon{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:8px;background:#f8e8df;color:#a34b2b}
+.category-context-strip>div{display:flex;flex:1;flex-direction:column;gap:3px}
+.category-context-strip b{font-size:11px;color:#34414b}
+.category-context-strip small{font-size:9px;color:#77828b}
+.category-context-strip>a{color:#a34b2b;font-size:9px;font-weight:850;white-space:nowrap}
+.listing-layout{grid-template-columns:226px minmax(0,1fr);gap:20px;align-items:start}
+.listing-layout .filters{
+ position:sticky;top:18px;padding:18px;border:1px solid #e6eaec;
+ border-radius:10px;box-shadow:0 7px 22px #17212b05;
+}
+.listing-layout .filters h3{font-size:13px}
+.filter-group{gap:11px}
+.filter-group>b{color:#35424d;font-size:10px}
+.filter-group label{min-height:24px;color:#5f6b75}
+.filter-group label small{margin-left:auto;color:#98a1a9;font-size:9px}
+.filter-group select,.price-inputs input{
+ min-height:36px;border:1px solid #e1e6e8;border-radius:6px;background:#fff;
+ color:#47535e;font-size:10px;
+}
+.price-inputs{gap:7px}
+.price-inputs label{display:flex;flex-direction:column;gap:5px;color:#7d8790;font-size:9px}
+.price-inputs input{width:100%;padding:0 8px}
+.price-range-labels{color:#8a949d;font-size:8px}
+.filter-apply{border-radius:7px;background:#17212b;color:#fff;font-size:10px;font-weight:800}
+.listing-results{min-width:0}
+.results-toolbar{
+ height:auto;min-height:45px;align-items:center;gap:14px;margin-bottom:14px;
+ padding:9px 12px;border:1px solid #e7eaec;border-radius:8px;background:#fff;
+}
+.results-toolbar>span{font-size:9px}
+.results-toolbar-actions{gap:13px}
+.results-toolbar label{font-size:9px;color:#78838c}
+.results-toolbar select{min-height:34px;border-radius:6px;font-size:9px}
+.listing-view-toggle{display:flex;gap:4px}
+.listing-view-toggle button{min-height:32px;border:1px solid #e6e9eb;border-radius:6px;background:#fff;color:#6e7982;font-size:9px}
+.listing-view-toggle button.is-active{border-color:#efc2ad;background:#fff7f2;color:#9f4b2c}
+.listing-results .product-grid{gap:14px}
+.pagination{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:28px}
+.pagination button{min-height:37px;padding:0 13px;border:1px solid #e4e8ea;border-radius:7px;background:#fff;color:#4e5a64;font-size:9px;font-weight:800}
+.pagination button:disabled{opacity:.4;cursor:not-allowed}
+.pagination span{color:#77838d;font-size:9px}
+.marketplace-no-results{padding:48px 20px}
+.empty-search-suggestions{max-width:620px;margin:27px auto 0;padding-top:20px;border-top:1px solid #edf0f1;text-align:left}
+.empty-search-suggestions>b{display:block;margin-bottom:12px;color:#46525c;font-size:10px}
+.empty-search-suggestions>div{display:flex;flex-wrap:wrap;gap:8px}
+.empty-search-suggestions a{display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border:1px solid #e8ecee;border-radius:6px;background:#fff;color:#58646e;font-size:9px;font-weight:750}
+.empty-search-suggestions a span{color:#a34b2b}
+.mobile-filter-toggle{display:none}
+@media(max-width:900px){
+ .listing-layout{grid-template-columns:205px minmax(0,1fr);gap:14px}
+ .listing-results .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .listing-head{align-items:flex-start}
+ .listing-search{width:42%}
+}
+@media(max-width:760px){
+ .listing-head{display:grid;gap:14px;margin-bottom:15px;padding-bottom:16px}
+ .listing-head h1{font-size:30px}
+ .listing-search{width:100%;max-width:none}
+ .mobile-filter-toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:0 0 12px;color:#7a858e;font-size:9px;
+ }
+ .mobile-filter-toggle .outline-btn{min-height:37px;border-radius:7px;font-size:10px}
+ .listing-layout{grid-template-columns:1fr;gap:13px}
+ .listing-layout .filters{display:none;position:static;top:auto}
+ .listing-layout .filters.filters-open{display:block}
+ .results-toolbar{align-items:flex-start;flex-direction:column;padding:10px}
+ .results-toolbar-actions{width:100%;justify-content:space-between;gap:8px}
+ .results-toolbar label{margin-left:auto}
+ .results-toolbar select{max-width:150px}
+ .category-context-strip{align-items:flex-start}
+ .category-context-strip>a{font-size:8px}
+ .active-filter-chips{margin:0 0 13px}
+}
+@media(max-width:390px){
+ .listing-head h1{font-size:27px}
+ .results-toolbar-actions{flex-wrap:wrap}
+ .results-toolbar label{margin-left:0}
+ .category-context-strip{gap:8px;padding:10px}
+ .category-context-strip-icon{width:29px;height:29px;flex-basis:29px}
+ .empty-search-suggestions>div{gap:6px}
+}
