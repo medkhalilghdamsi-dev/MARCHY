@@ -33,3 +33,33 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 @media(max-width:640px){.shell{width:calc(100% - 28px)}.topline-inner{height:31px}.header-main{gap:10px}.logo{font-size:25px}.searchbar{border-radius:999px}.searchbar button{border-radius:0 999px 999px 0}.nav-inner{font-size:11px}.hero{border-radius:15px}.hero-copy{padding:38px 24px 10px}.hero h1{font-size:46px;letter-spacing:-2.7px}.hero-visual{min-height:260px}.hero-image{width:64%;height:220px}.trust-strip{margin:13px 0 48px;padding:13px 7px}.trust-strip>div{padding:0 6px}.section-heading h2{font-size:24px}.category-tile{border-radius:10px}.product-photo{height:155px}.product-card{border-radius:10px}.product-info{padding:11px}.promo-banner{border-radius:13px}.promo-banner h2{font-size:29px}.seller-cta{padding:22px}.footer-main{padding-top:38px}.detail-layout{padding:13px}}
 
 .seller-name{font-size:9px;color:#7b887f;margin:2px 0 7px;}
+
+/* MARCHY final marketplace identity */
+:root{--ink:#17212b;--muted:#687482;--line:#e5e9ed;--orange:#f36b35;--orange-dark:#dc5725;--soft:#fff;--green:#26865d;--page:#f5f7f9;color:var(--ink);background:var(--page)}
+body{background:var(--page);color:var(--ink)}
+.topline,.footer{background:#17212b}
+.hero{background:#f5f7f9}
+.hero h1 em{color:var(--orange)}
+.hero-copy>p{color:#687482}
+.eyebrow{color:var(--orange)}
+.trust-strip,.product-card,.filters,.detail-layout,.cart-items,.summary-card,.seller-cta{background:#fff}
+.promo-banner{background:#17212b}
+.promo-banner .eyebrow{color:#ff9a76}
+.filter-pills button.active{background:#17212b;border-color:#17212b}
+.language-picker{display:flex;align-items:center}
+.language-picker select{height:34px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font-size:11px;font-weight:700;padding:0 8px;cursor:pointer}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.is-rtl{direction:rtl;text-align:right;font-family:Tahoma,Arial,sans-serif}
+.is-rtl .header-main,.is-rtl .nav-inner,.is-rtl .section-heading,.is-rtl .listing-head,.is-rtl .seller-cta,.is-rtl .footer-bottom{direction:rtl}
+.is-rtl .searchbar button{border-radius:0}
+.is-rtl .header-actions{margin-left:0;margin-right:auto}
+.is-rtl .nav-deal{margin-left:0;margin-right:auto}
+.is-rtl .floating-note{left:auto;right:5%}
+.is-rtl .product-tag{left:auto;right:12px}
+.is-rtl .wish-btn{right:auto;left:11px}
+.is-rtl .remove-link{text-align:right}
+.is-rtl .footer-main{text-align:right}
+.is-rtl .hero-copy{padding-left:0;padding-right:62px}
+.is-rtl .hero-points{direction:rtl}
+.is-rtl .promo-mark{margin-right:0;margin-left:60px}
+@media(max-width:640px){.header-actions{gap:9px}.language-picker select{height:31px;padding:0 5px}.is-rtl .hero-copy{padding:36px 26px 10px}.is-rtl .promo-mark{margin-left:0}}
