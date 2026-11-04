@@ -548,6 +548,7 @@ Object.assign(translations, {
  "Continue to checkout":["Continuer vers le paiement","المتابعة إلى إتمام الشراء"],
  "Grid view":["Vue en grille","عرض شبكي"],
  "Share":["Partager","مشاركة"],
+ "↗ Share":["↗ Partager","↗ مشاركة"],
  "Listing link copied":["Lien de l’annonce copié","تم نسخ رابط المنتج"],
  "Share options opened":["Options de partage ouvertes","تم فتح خيارات المشاركة"],
  "Could not share this listing":["Impossible de partager cette annonce","تعذرت مشاركة هذا المنتج"],
