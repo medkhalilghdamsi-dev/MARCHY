@@ -550,3 +550,86 @@ html[dir="rtl"] .seller-preview-body{text-align:right}
 :root[data-theme="dark"] .quick-view-quantity-row{border-color:#35424d;color:#c0ccd4}
 :root[data-theme="dark"] .quick-view-quantity-total{color:#b8ddc9}
 @media(max-width:380px){.quick-view-quantity-row{gap:7px;font-size:11px}.quick-view-quantity-row .product-quantity button{min-width:34px}}
+
+
+/* Dedicated buyer comparison page */
+.compare-page{max-width:1240px}
+.compare-page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:10px 0 28px}
+.compare-page-heading h1{margin:8px 0;font-size:clamp(30px,4vw,46px);letter-spacing:-.045em;line-height:1.05}
+.compare-page-heading p{max-width:620px;margin:0;color:var(--muted,#68727d);font-size:14px;line-height:1.65}
+.compare-page-count{display:flex;flex-direction:column;align-items:flex-end;gap:2px;white-space:nowrap}
+.compare-page-count strong{font-size:32px;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.compare-page-count strong small{font-size:15px;color:var(--muted,#68727d)}
+.compare-page-count>span{font-size:11px;color:var(--muted,#68727d)}
+.compare-empty-state{display:flex;min-height:330px;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:38px 22px;border:1px dashed var(--marchy-line,#dfe5e9);border-radius:18px;background:var(--surface-soft,#f8f9fa)}
+.compare-empty-icon{display:grid;place-items:center;width:58px;height:58px;margin-bottom:18px;border-radius:18px;background:#e7f0eb;color:#276747;font-size:28px}
+.compare-empty-state h2{margin:8px 0;font-size:25px;letter-spacing:-.6px}
+.compare-empty-state p{max-width:440px;margin:0 0 20px;color:var(--muted,#68727d);font-size:13px;line-height:1.65}
+.compare-page-toolbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:24px 0 14px;padding-bottom:13px;border-bottom:1px solid var(--marchy-line,#e5e9ed)}
+.compare-page-toolbar>div:first-child{display:flex;flex-direction:column;gap:4px}
+.compare-page-toolbar>div:first-child b{font-size:14px}
+.compare-page-toolbar>div:first-child span{font-size:11px;color:var(--muted,#68727d)}
+.compare-page-toolbar>div:last-child{display:flex;align-items:center;gap:12px}
+.compare-add-more{font-size:12px;font-weight:800;color:var(--marchy-orange,#b94a25);text-decoration:none}
+.compare-clear{border:0;background:transparent;color:var(--muted,#68727d);font-size:11px;font-weight:750;cursor:pointer}
+.compare-next-step{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 18px;align-items:center;margin:0 0 16px;padding:14px 16px;border:1px solid #dce9e1;border-radius:12px;background:#f4f8f5}
+.compare-next-step b{font-size:12px;color:#234b35}
+.compare-next-step span{grid-column:1;color:#536b5c;font-size:11px;line-height:1.5}
+.compare-next-step a{grid-column:2;grid-row:1/3;color:#276747;font-size:11px;font-weight:850;text-decoration:none;white-space:nowrap}
+.compare-product-columns{display:grid;grid-template-columns:repeat(var(--compare-count,2),minmax(0,1fr));gap:14px;align-items:stretch}
+.compare-product-card{display:grid;grid-template-columns:116px minmax(0,1fr);min-width:0;overflow:hidden;border:1px solid var(--marchy-line,#e5e9ed);border-radius:14px;background:var(--surface,#fff)}
+.compare-product-image{display:block;min-height:150px;background:var(--surface-soft,#f4f5f6)}
+.compare-product-image img{display:block;width:100%;height:100%;min-height:150px;object-fit:cover}
+.compare-product-card-body{display:flex;min-width:0;flex-direction:column;align-items:flex-start;padding:14px}
+.compare-product-category{color:var(--muted,#68727d);font-size:9px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+.compare-product-card h2{margin:6px 0 10px;font-size:13px;line-height:1.4}
+.compare-product-card h2 a{color:var(--ink,#202b34);text-decoration:none}
+.compare-product-price{font-size:19px;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.compare-product-seller{margin-top:5px;color:var(--muted,#68727d);font-size:10px}
+.compare-product-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;margin-top:auto;padding-top:14px}
+.compare-product-actions a{color:var(--marchy-orange,#b94a25);font-size:10px;font-weight:850;text-decoration:none}
+.compare-product-actions button{border:0;background:transparent;color:var(--muted,#68727d);font-size:10px;cursor:pointer}
+.compare-details-section{margin-top:34px}
+.compare-details-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}
+.compare-details-heading h2{margin:5px 0 0;font-size:23px;letter-spacing:-.7px}
+.compare-details-heading>span{color:var(--muted,#68727d);font-size:10px}
+.compare-full-table{min-width:620px;width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--marchy-line,#e5e9ed);border-radius:13px;overflow:hidden;background:var(--surface,#fff)}
+.compare-full-table th,.compare-full-table td{padding:15px 16px;border-bottom:1px solid var(--marchy-line,#e5e9ed);text-align:left;vertical-align:top;font-size:12px;line-height:1.6}
+.compare-full-table thead th{background:var(--surface-soft,#f7f8f9);font-size:11px}
+.compare-full-table thead th:first-child{width:175px}
+.compare-full-table tbody th{width:175px;color:var(--muted,#68727d);font-size:10px}
+.compare-full-table tbody tr:last-child th,.compare-full-table tbody tr:last-child td{border-bottom:0}
+.compare-full-table tbody tr:nth-child(even){background:var(--surface-soft,#fafbfc)}
+.compare-full-table a{color:var(--ink,#202b34);font-weight:800;text-decoration:none}
+.compare-full-table .compare-value-emphasis{font-size:15px;font-weight:900;font-variant-numeric:tabular-nums}
+.compare-disclaimer{margin:12px 0 0;padding:12px 14px;border-radius:9px;background:var(--surface-soft,#f7f8f9);color:var(--muted,#68727d);font-size:10px;line-height:1.6}
+.compare-help-strip{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:32px;padding:18px 20px;border:1px solid var(--marchy-line,#e5e9ed);border-radius:13px;background:var(--surface,#fff)}
+.compare-help-strip>div{display:flex;flex-direction:column;gap:4px}
+.compare-help-strip b{font-size:12px}
+.compare-help-strip span{color:var(--muted,#68727d);font-size:10px}
+.compare-help-strip>a{color:var(--marchy-orange,#b94a25);font-size:11px;font-weight:850;text-decoration:none;white-space:nowrap}
+:root[data-theme="dark"] .compare-empty-state,:root[data-theme="dark"] .compare-product-card,:root[data-theme="dark"] .compare-full-table,:root[data-theme="dark"] .compare-help-strip{background:#17232d;border-color:#35434f;color:#e7edf1}
+:root[data-theme="dark"] .compare-empty-state h2,:root[data-theme="dark"] .compare-product-card h2 a,:root[data-theme="dark"] .compare-full-table a{color:#edf2f5}
+:root[data-theme="dark"] .compare-next-step{background:#1b3026;border-color:#355342}
+:root[data-theme="dark"] .compare-next-step b,:root[data-theme="dark"] .compare-next-step a{color:#b8ddc9}
+:root[data-theme="dark"] .compare-next-step span{color:#c0d1c7}
+:root[data-theme="dark"] .compare-full-table thead th,:root[data-theme="dark"] .compare-full-table tbody tr:nth-child(even),:root[data-theme="dark"] .compare-disclaimer{background:#202e39}
+:root[data-theme="dark"] .compare-full-table th,:root[data-theme="dark"] .compare-full-table td{border-color:#35434f}
+@media(max-width:760px){
+ .compare-page-heading{align-items:flex-start}
+ .compare-product-columns{grid-template-columns:1fr}
+ .compare-product-card{grid-template-columns:112px minmax(0,1fr)}
+ .compare-details-heading{align-items:flex-start;flex-direction:column}
+ .compare-help-strip{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:480px){
+ .compare-page-heading h1{font-size:31px}
+ .compare-page-count strong{font-size:26px}
+ .compare-page-toolbar{align-items:flex-start}
+ .compare-page-toolbar>div:last-child{gap:8px}
+ .compare-product-card{grid-template-columns:96px minmax(0,1fr)}
+ .compare-product-card-body{padding:11px}
+ .compare-next-step{grid-template-columns:1fr}
+ .compare-next-step span,.compare-next-step a{grid-column:1;grid-row:auto}
+ .compare-full-table th,.compare-full-table td{padding:12px}
+}
