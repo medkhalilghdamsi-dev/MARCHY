@@ -119,3 +119,13 @@
 @media(prefers-reduced-motion:reduce){
  .marchy-listing-results .product-card{transition:none}
 }
+
+
+/* Search-page WCAG AA contrast: metadata, filter hints and pagination. */
+.marchy-listing-page .breadcrumbs{color:#52675a}
+.marchy-listing-page .breadcrumbs a{color:#52675a}
+.marchy-listing-page .marchy-listing-filters .filter-group label small{color:#52675a}
+.marchy-listing-page .marchy-results-toolbar>span{color:#52675a}
+.marchy-listing-page .marchy-results-toolbar .listing-view-toggle button{color:#52675a}
+.marchy-listing-page .marchy-results-toolbar label{color:#52675a}
+.marchy-listing-page .marchy-listing-results .pagination span{color:#52675a}
