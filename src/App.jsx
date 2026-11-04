@@ -740,7 +740,24 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     const seller = sellerForProduct(p)
     const haystack = [p.name, p.category, p.seller, seller.name, seller.city, p.description || ''].join(' ')
     return (category === 'All' || p.category === category) && p.price >= minPrice && p.price <= maxPrice && (city === 'All' || seller.city === city) && (!dealsOnly || Boolean(p.oldPrice)) && searchTextMatches(haystack, term)
-  }).sort((a, b) => sort === 'price-low' ? a.price - b.price : sort === 'price-high' ? b.price - a.price : sort === 'name' ? a.name.localeCompare(b.name) : sort === 'newest' ? b.id - a.id : 0), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
+  }).sort((a, b) => {
+    if (sort === 'price-low') return a.price - b.price
+    if (sort === 'price-high') return b.price - a.price
+    if (sort === 'name') return a.name.localeCompare(b.name)
+    if (sort === 'newest') return b.id - a.id
+    if (sort === 'savings') return ((b.oldPrice || b.price) - b.price) - ((a.oldPrice || a.price) - a.price)
+    if (term.trim()) {
+      const score = product => {
+        const q = normalizeSearchText(term)
+        const name = normalizeSearchText(product.name)
+        const categoryName = normalizeSearchText(product.category)
+        const sellerName = normalizeSearchText(sellerForProduct(product).name)
+        return (name === q ? 100 : name.startsWith(q) ? 60 : name.includes(q) ? 40 : 0) + (categoryName.includes(q) ? 18 : 0) + (sellerName.includes(q) ? 8 : 0)
+      }
+      return score(b) - score(a)
+    }
+    return b.id - a.id
+  }), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
   const pageCount = Math.max(1, Math.ceil(results.length / pageSize))
   const visibleResults = results.slice((page - 1) * pageSize, page * pageSize)
   const activeFilterCount = Number(Boolean(term)) + Number(category !== 'All' && !routeCategory) + Number(city !== 'All') + Number(minPrice > 0) + Number(maxPrice < catalogueMaxPrice) + Number(dealsOnly)
@@ -800,12 +817,15 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
         <button className="filter-apply" type="button" onClick={() => setFiltersOpen(false)}>Show {results.length} products</button>
       </aside>
       <section className="listing-results" aria-live="polite">
-        <div className="results-toolbar"><span>Showing <b>{results.length ? ((page - 1) * pageSize) + 1 : 0}–{Math.min(page * pageSize, results.length)}</b> of <b>{results.length}</b></span><label>Sort by <select aria-label="Sort products" value={sort} onChange={e => setSort(e.target.value)}><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A to Z</option><option value="newest">Recently added</option></select></label></div>
+        <div className="results-toolbar"><span aria-live="polite">Showing <b>{results.length ? ((page - 1) * pageSize) + 1 : 0}–{Math.min(page * pageSize, results.length)}</b> of <b>{results.length}</b></span><label>Sort by <select aria-label="Sort products" value={sort} onChange={e => setSort(e.target.value)}><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A to Z</option><option value="newest">Recently added</option><option value="savings">Biggest displayed difference</option></select></label></div>
         {compareIds.length > 0 && <section className="compare-tray" aria-label="Product comparison">
           <div className="compare-tray-heading"><div><b>Compare sample listings</b><span>{compareIds.length} of 3 selected · prices and seller details are illustrative</span></div><div><button type="button" className="compare-clear" onClick={() => {setCompareIds([]);setCompareOpen(false)}}>Clear</button><button type="button" className="compare-show" disabled={compareIds.length < 2} onClick={() => setCompareOpen(v => !v)}>{compareOpen ? 'Hide comparison' : 'Compare now'}</button></div></div>
           {compareIds.length < 2 && <p className="compare-hint">Select at least one more product to compare.</p>}
           {compareOpen && <div className="compare-table-wrap"><table className="compare-table"><thead><tr><th scope="col">Listing</th>{comparedProducts.map(product => <th scope="col" key={product.id}><Link to={'/product/' + product.id}>{product.name}</Link><button type="button" onClick={() => toggleCompare(product.id)} aria-label={'Remove ' + product.name + ' from comparison'}>×</button></th>)}</tr></thead><tbody>
             <tr><th scope="row">Displayed price</th>{comparedProducts.map(product => <td key={product.id}>{money(product.price)}</td>)}</tr>
+            <tr><th scope="row">Illustrative reference price</th>{comparedProducts.map(product => <td key={product.id}>{product.oldPrice ? money(product.oldPrice) : 'Not supplied'}</td>)}</tr>
+            <tr><th scope="row">Displayed price difference</th>{comparedProducts.map(product => <td key={product.id}>{product.oldPrice ? money(product.oldPrice - product.price) : 'Not supplied'}</td>)}</tr>
+            <tr><th scope="row">Description</th>{comparedProducts.map(product => <td key={product.id}>{product.description || 'No description supplied'}</td>)}</tr>
             <tr><th scope="row">Category</th>{comparedProducts.map(product => <td key={product.id}>{product.category}</td>)}</tr>
             <tr><th scope="row">Seller</th>{comparedProducts.map(product => <td key={product.id}>{sellerForProduct(product).name}</td>)}</tr>
             <tr><th scope="row">Seller location</th>{comparedProducts.map(product => <td key={product.id}>{sellerForProduct(product).city}</td>)}</tr>
