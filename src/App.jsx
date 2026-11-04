@@ -548,6 +548,12 @@ Object.assign(translations, {
  "Continue to checkout":["Continuer vers le paiement","المتابعة إلى إتمام الشراء"],
  "Grid view":["Vue en grille","عرض شبكي"],
  "Share":["Partager","مشاركة"],
+ "＋ Compare":["＋ Comparer","＋ مقارنة"],
+ "✓ Compared":["✓ Comparé","✓ تمت المقارنة"],
+ "Added to comparison":["Ajouté à la comparaison","تمت الإضافة للمقارنة"],
+ "Removed from comparison":["Retiré de la comparaison","تمت الإزالة من المقارنة"],
+ "You can compare up to 3 listings":["Vous pouvez comparer jusqu’à 3 annonces","يمكنك مقارنة 3 منتجات كحد أقصى"],
+ "Open comparison":["Voir la comparaison","عرض المقارنة"],
  "↗ Share":["↗ Partager","↗ مشاركة"],
  "Listing link copied":["Lien de l’annonce copié","تم نسخ رابط المنتج"],
  "Share options opened":["Options de partage ouvertes","تم فتح خيارات المشاركة"],
@@ -903,6 +909,14 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const [added, setAdded] = useState(false)
   const [imageZoomOpen,setImageZoomOpen]=useState(false)
   const [shareFeedback,setShareFeedback]=useState('')
+  const [isCompared,setIsCompared]=useState(()=>readJson('marchy-compare',[]).includes(Number(id)))
+  const [compareFeedback,setCompareFeedback]=useState('')
+  const toggleProductCompare=()=>{
+    const selected=readJson('marchy-compare',[]).filter(item=>products.some(entry=>entry.id===item))
+    if(selected.includes(Number(id))){writeJson('marchy-compare',selected.filter(item=>item!==Number(id)));setIsCompared(false);setCompareFeedback('Removed from comparison')}
+    else if(selected.length>=3){setCompareFeedback('You can compare up to 3 listings')}
+    else{writeJson('marchy-compare',[...selected,Number(id)]);setIsCompared(true);setCompareFeedback('Added to comparison')}
+  }
   const handleShare=async()=>{
     const shareData={title:product?.name||'MARCHY listing',text:'View this sample listing on MARCHY',url:window.location.href}
     try{
@@ -957,7 +971,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <div className="product-visual-note"><span>ⓘ</span><p>Images and listing information are provided as demonstration content. Confirm the exact item with the seller before ordering.</p></div>
       </section>
       <section className="product-buy-panel">
-        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}
+        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare}>{isCompared?'✓ Compared':'＋ Compare'}</button><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/search">Open comparison</Link></p>}
         <h1>{product.name}</h1>
         <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
         <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
