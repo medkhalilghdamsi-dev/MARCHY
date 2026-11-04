@@ -329,6 +329,17 @@ const translations = {
   ,"Explore products":["Explorer les produits","استكشف المنتجات"]
   ,"Browse categories":["Parcourir les catégories","تصفح الفئات"]
 
+  ,"Your personal collection":["Votre collection personnelle","مجموعتك الشخصية"]
+  ,"Keep the products you're considering in one place.":["Gardez les produits que vous envisagez au même endroit.","احتفظ بالمنتجات التي تفكر فيها في مكان واحد."]
+  ,"saved products":["produits enregistrés","منتجات محفوظة"]
+  ,"Your shortlist":["Votre sélection","قائمتك المختصرة"]
+  ,"categories":["catégories","فئات"]
+  ,"Discover more products":["Découvrir plus de produits","اكتشف المزيد من المنتجات"]
+  ,"Your saved list stays on this device in this demo. It is not synced between devices or accounts.":["Dans cette démonstration, votre liste reste sur cet appareil. Elle n’est pas synchronisée entre appareils ou comptes.","في هذا العرض، تبقى قائمتك محفوظة على هذا الجهاز فقط، ولا تتم مزامنتها بين الأجهزة أو الحسابات."]
+  ,"Your next find is out there":["Votre prochaine trouvaille vous attend","اكتشافك القادم بانتظارك"]
+  ,"No saved products yet":["Aucun produit enregistré pour le moment","لا توجد منتجات محفوظة بعد"]
+  ,"Tap the heart on any product to save it here while you compare your options.":["Appuyez sur le cœur d’un produit pour l’enregistrer ici et comparer vos options.","اضغط على رمز القلب في أي منتج لحفظه هنا ومقارنة الخيارات."]
+
 
 };
 function translateText(value, lang) {
@@ -626,13 +637,22 @@ function CartPage({ cart, updateQty, removeItem, language }) {
 
 function WishlistPage({ products: allProducts, wishlist, toggleWish, addToCart, language }) {
   const saved = allProducts.filter(product => wishlist.includes(product.id))
-  return translateTree(<main className="shell page">
-    <div className="breadcrumbs"><Link to="/">Home</Link> / Wishlist</div>
-    <div className="section-heading"><div><span className="eyebrow">YOUR COLLECTION</span><h1>Saved items</h1><p className="muted">{saved.length} products saved</p></div><Link to="/search" className="text-link">Continue exploring →</Link></div>
-    {saved.length ? <div className="product-grid">{saved.map(product => <ProductCard key={product.id} product={product} addToCart={addToCart} wished={true} toggleWish={toggleWish} language={language}/>)}</div> : <div className="empty-state"><span>♡</span><h2>Nothing saved yet</h2><p>Save products you like and they’ll be waiting here.</p><Link to="/search" className="primary-btn">Explore products →</Link></div>}
+  const savedCategories = [...new Set(saved.map(product => product.category))]
+  return translateTree(<main className="shell page wishlist-page">
+    <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><span aria-current="page">Saved items</span></div>
+    <div className="wishlist-heading">
+      <div><span className="eyebrow">YOUR PERSONAL COLLECTION</span><h1>Saved items</h1><p>Keep the products you're considering in one place.</p></div>
+      <div className="wishlist-count"><strong>{saved.length}</strong><span>saved products</span></div>
+    </div>
+    {saved.length ? <>
+      <div className="wishlist-toolbar"><div><b>Your shortlist</b><span>{savedCategories.length} categories</span></div><Link to="/search">Discover more products →</Link></div>
+      <div className="product-grid wishlist-product-grid">{saved.map(product => <ProductCard key={product.id} product={product} addToCart={addToCart} wished={true} toggleWish={toggleWish} language={language}/>)}</div>
+      <div className="wishlist-footnote"><span>♡</span><p>Your saved list stays on this device in this demo. It is not synced between devices or accounts.</p></div>
+    </> : <div className="wishlist-empty">
+      <div className="wishlist-empty-icon">♡</div><span className="eyebrow">YOUR NEXT FIND IS OUT THERE</span><h2>No saved products yet</h2><p>Tap the heart on any product to save it here while you compare your options.</p><Link to="/search" className="primary-btn">Explore the marketplace →</Link>
+    </div>}
   </main>,language)
 }
-
 
 function SellersPage({language}) {
  return translateTree(<main className="shell page"><div className="breadcrumbs"><Link to="/">Home</Link> / Sellers</div><section className="seller-directory-hero"><span className="eyebrow">DISCOVER LOCAL BUSINESSES</span><h1>Meet the sellers behind the finds.</h1><p>Explore sample storefronts from across Tunisia. Profiles and listings are demonstration content, not verified businesses.</p><div className="seller-directory-stats"><span><b>{sellers.length}</b><small>Sample storefronts</small></span><span><b>{new Set(sellers.map(s=>s.city)).size}</b><small>Locations represented</small></span><span><b>{products.length}</b><small>Sample listings</small></span></div></section><div className="seller-directory-grid">{sellers.map(s=><article className="seller-directory-card" key={s.slug}><div className="seller-card-top"><span className="seller-avatar large">{s.name.slice(0,1)}</span><span className="demo-label">DEMO STOREFRONT</span></div><h2>{s.name}</h2><p className="seller-location">⌖ {s.city}, Tunisia</p><p>{s.tagline}</p><div className="seller-category-tags">{s.categories.map(c=><span key={c}>{c}</span>)}</div><Link to={`/seller/${s.slug}`} className="seller-visit-link">View storefront <span>→</span></Link></article>)}</div></main>,language)
