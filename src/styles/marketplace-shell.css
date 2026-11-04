@@ -102,3 +102,19 @@
  .marchy-nav-inner>a:focus-visible{outline:3px solid #df9a78;outline-offset:-3px;border-radius:5px}
  .marchy-nav-inner>.nav-deal{margin-top:5px;border:0;border-radius:8px;background:#f5f8f4;padding-inline:12px}
 }
+
+
+/* Global keyboard access: visible skip target and predictable focus styling. */
+.skip-to-content{
+ position:fixed;z-index:1000;top:10px;left:10px;transform:translateY(-160%);
+ padding:12px 16px;border:2px solid #174b38;border-radius:8px;
+ background:#fff;color:#173f30;font-size:14px;font-weight:750;
+ box-shadow:0 8px 24px rgba(23,63,48,.18)
+}
+.skip-to-content:focus{transform:translateY(0);outline:3px solid #df9a78;outline-offset:3px}
+#main-content:focus{outline:none}
+#main-content:focus-visible{outline:3px solid #df9a78;outline-offset:3px}
+.marchy-searchbar input:focus-visible{outline:2px solid #174b38;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){
+ .marchy-header *,.marchy-nav *{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
