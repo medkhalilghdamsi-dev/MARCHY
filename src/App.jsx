@@ -71,7 +71,7 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
       <form className="searchbar" onSubmit={submit}><span className="search-symbol">⌕</span><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search products, brands and local finds…" aria-label="Search products" /><button type="submit">Search</button></form>
       <div className="header-actions"><label className="language-picker"><span className="sr-only">Language</span><select aria-label="Language" value={language} onChange={e=>setLanguage(e.target.value)}><option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option></select></label><Link to="/wishlist" className="action-link wishlist-link"><span className="action-icon">♡</span><span><small>Saved</small><b>Wishlist</b></span></Link><Link to="/account" className="action-link"><span className="action-icon">♙</span><span><small>Hello, welcome</small><b>Account</b></span></Link><Link to="/cart" className="action-link cart-link"><span className="cart-icon">🛒<i>{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link></div>
     </div>
-    <nav id="primary-navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}><div className="shell nav-inner" onClick={()=>setMenuOpen(false)}><Link to="/categories">☷ <b>Shop by category</b></Link>{categories.slice(1,6).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`}>{c}</Link>)}<Link className="nav-deal" to="/search?deal=true">Deals of the day <span>→</span></Link></div></nav>
+    <nav id="primary-navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}><div className="shell nav-inner" onClick={()=>setMenuOpen(false)}><Link to="/categories">☷ <b>Shop by category</b></Link>{categories.slice(1,5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`}>{c}</Link>)}<Link to="/sellers">Sellers</Link><Link className="nav-deal" to="/search?deal=true">Deals of the day <span>→</span></Link></div></nav>
     </header>
   </>,language)
 }
@@ -106,7 +106,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const [sort, setSort] = useState('featured')
   const [maxPrice, setMaxPrice] = useState(500)
   const [city,setCity] = useState('All')
-  const cities = ['All',...new Set(products.map(p => p.seller.split('·').pop().trim()))]
+  const cities = ['All',...new Set(products.map(p => sellerForProduct(p).city))]
   const results = useMemo(() => products.filter(p => {
     const seller = sellerForProduct(p)
     const haystack = (p.name+' '+p.category+' '+p.seller+' '+seller.name+' '+seller.city+' '+(p.description||'')).toLowerCase()
