@@ -1168,6 +1168,30 @@ function App(){
   const location=useLocation()
   const [language,setLanguage]=useState(()=>{const saved=readText('marchy-language','en');return ['en','fr','ar'].includes(saved)?saved:'en'}); const [query,setQuery]=useState(''); const [cart,setCart]=useState(()=>readJson('marchy-cart',[])); const [wishlist,setWishlist]=useState(()=>readJson('marchy-wishlist',[]))
   useEffect(()=>{const params=new URLSearchParams(location.search);setQuery(params.get('q')||'')},[location.pathname,location.search])
+  useEffect(()=>{
+    const path=location.pathname
+    const params=new URLSearchParams(location.search)
+    const queryTerm=params.get('q')
+    let title='Discover local products and stores'
+    if(path==='/') title='Discover more, closer to home'
+    else if(path==='/search') title=queryTerm?'Search results for '+queryTerm:'Shop the marketplace'
+    else if(path.startsWith('/category/')){
+      const slug=decodeURIComponent(path.split('/').pop()||'')
+      const category=categories.find(item=>item.toLowerCase()===slug.toLowerCase())
+      title=category?category+' products':'Category not found'
+    }else if(path.startsWith('/product/')){
+      const product=products.find(item=>item.id===Number(path.split('/').pop()))
+      title=product?product.name:'Product not found'
+    }else if(path.startsWith('/seller/')){
+      const slug=path.split('/').pop()
+      const seller=sellers.find(item=>item.slug===slug)
+      title=seller?seller.name:'Seller storefront'
+    }else{
+      const titles={'/cart':'Shopping cart','/wishlist':'Saved products','/categories':'Browse categories','/sellers':'Discover sellers','/account':'Your account','/help':'Help centre','/delivery':'Delivery guide','/returns':'Returns guide','/seller-help':'Seller preparation guide','/sell':'Sell on MARCHY','/seller-dashboard':'Seller workspace'}
+      title=titles[path]||'Page not found'
+    }
+    document.title=title+' | MARCHY'
+  },[location.pathname,location.search])
   useEffect(()=>{try{localStorage.setItem('marchy-language',language)}catch{} document.documentElement.lang=language;document.documentElement.dir=language==='ar'?'rtl':'ltr'},[language])
   useEffect(()=>{writeJson('marchy-cart',cart)},[cart])
   useEffect(()=>{writeJson('marchy-wishlist',wishlist)},[wishlist])
