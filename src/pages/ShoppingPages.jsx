@@ -19,8 +19,8 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
   return translateTree(<main id="main-content" className="shell page home-page">
     <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
       <div className="market-hero-copy">
-        <span className="eyebrow">MADE FOR TUNISIA · READY TO EXPLORE</span>
-        <h1 id="market-hero-title">Good finds.<br/><em>Right around here.</em></h1>
+        <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · READY TO EXPLORE</span>
+        <h1 id="market-hero-title">Good finds.<br/><em>Closer than ever.</em></h1>
         <p>Explore a growing world of everyday finds, discover local storefronts and compare catalogue prices in Tunisian dinars.</p>
         <form className="hero-search-form" role="search" onSubmit={submitHeroSearch}>
           <label className="sr-only" htmlFor="home-market-search">Search products and categories</label>
@@ -32,6 +32,8 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
         <div className="market-hero-proof"><span>✓ Prices shown in TND</span><span>✓ Explore local storefronts</span><span>✓ One place to discover</span></div>
       </div>
       <div className="market-hero-art">
+        <div className="hero-brand-stamp" aria-hidden="true"><span>M</span><small>MADE FOR<br/>EVERYDAY</small></div>
+        <div className="hero-art-orbit" aria-hidden="true"></div>
         <img src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1400&q=90" alt="A curated still life of everyday objects and home accessories" loading="eager"/>
         <div className="hero-image-shade" aria-hidden="true"></div>
         <div className="hero-floating-card"><span className="hero-floating-icon">✦</span><div><b>A little more to discover</b><small>Explore the MARCHY sample catalogue</small></div></div>
