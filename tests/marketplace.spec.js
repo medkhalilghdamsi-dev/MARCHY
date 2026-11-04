@@ -384,6 +384,7 @@ test('seller storefront filters restore from a shareable URL and clear together'
   await expect(page.getByRole('textbox', { name: 'Search this storefront' })).toHaveValue('keyboard')
   await expect(page.getByRole('button', { name: 'Electronics', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.getByRole('combobox', { name: 'Sort storefront products' })).toHaveValue('low')
+  await expect(page.getByRole('button', { name: /Sort: Price low to high/ })).toBeVisible()
   await expect(page.locator('.product-grid')).toContainText('Compact mechanical keyboard')
   await page.getByRole('button', { name: 'Clear all' }).click()
   await expect(page).toHaveURL(/\/seller\/atlas-tech-tunis$/)
