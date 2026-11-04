@@ -143,7 +143,7 @@ test('checkout preview validates contact details and reviews each seller without
   await page.getByRole('link', { name: /Continue to checkout/ }).click()
   await expect(page).toHaveURL(/\/checkout$/)
   await page.getByRole('button', { name: 'Review order' }).click()
-  await expect(page.getByRole('textbox', { name: 'Full name' })).toHaveJSProperty('validity.valid', false)
+  expect(await page.locator('.checkout-form').evaluate(form => form.checkValidity())).toBe(false)
   await page.getByRole('textbox', { name: 'Full name' }).fill('Demo Customer')
   await page.getByRole('textbox', { name: 'Phone number' }).fill('+216 20 000 000')
   await page.getByRole('textbox', { name: 'City' }).fill('Tunis')
