@@ -402,8 +402,7 @@ function ProductCard({ product, addToCart, wished, toggleWish, language }) {
       <Link to={`/product/${product.id}`} className="product-name">{product.name}</Link>
       <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
       <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice&&<del>{money(product.oldPrice)}</del>}</div>
-      <div className="delivery">{product.delivery}</div>
-      <button type="button" className={`add-btn ${added?'added':''}`} onClick={quickAdd} aria-live="polite">{added?'Added to cart ✓':'Add to cart'} <span>{added?'✓':'＋'}</span></button>
+            <button type="button" className={`add-btn ${added?'added':''}`} onClick={quickAdd} aria-live="polite">{added?'Added to cart ✓':'Add to cart'} <span>{added?'✓':'＋'}</span></button>
     </div>
   </article>,language)
 }
@@ -419,7 +418,7 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
       <div className="market-hero-copy">
         <span className="eyebrow">THE TUNISIAN MARKETPLACE</span>
         <h1>Everything worth finding.<br/><em>Closer to home.</em></h1>
-        <p>Explore everyday essentials, useful finds and independent storefronts from across Tunisia — all in one place.</p>
+        <p>Search products, compare sample listings and discover independent storefronts from across Tunisia — all in one place.</p>
         <div className="market-hero-actions"><Link to="/search" className="primary-btn">Explore the marketplace <span>→</span></Link><Link to="/categories" className="hero-secondary">Browse categories</Link></div>
         <div className="market-hero-proof"><span>✓ Prices displayed in TND</span><span>✓ Browse by category</span><span>✓ Discover local storefronts</span></div>
       </div>
@@ -437,7 +436,7 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
       <div className="product-grid">{shown.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div>
     </section>
     <section className="section home-deals-section"><div className="section-heading"><div><span className="eyebrow">PRICE COMPARISON</span><h2>Listings with sample discounts</h2><p className="muted">Previous prices are illustrative and must be confirmed with the seller.</p></div><Link to="/search?deal=true" className="text-link">See all deals →</Link></div><div className="product-grid">{deals.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>
-    <section className="home-seller-banner"><div><span className="eyebrow">DISCOVER THE PEOPLE BEHIND THE PRODUCTS</span><h2>Find a storefront.<br/><em>Explore what they offer.</em></h2><p>Browse sample shop profiles from Tunis, Sousse, Sfax and other locations.</p><Link to="/sellers" className="light-btn">Explore seller directory →</Link></div><div className="seller-banner-stats"><b>10</b><span>sample storefronts</span><b>13</b><span>everyday categories</span></div></section>
+    <section className="home-seller-banner"><div><span className="eyebrow">DISCOVER THE PEOPLE BEHIND THE PRODUCTS</span><h2>Find a storefront.<br/><em>Explore what they offer.</em></h2><p>Explore illustrative shop profiles and the products listed in each storefront.</p><Link to="/sellers" className="light-btn">Explore seller directory →</Link></div><div className="seller-banner-stats"><b>{sellers.length}</b><span>sample storefronts</span><b>{populatedCategories.length}</b><span>categories with listings</span></div></section>
     <section className="home-seller-cta"><div><span className="eyebrow">FOR TUNISIAN BUSINESSES</span><h2>Want to sell on MARCHY?</h2><p>Explore the seller information page and follow the product as onboarding tools take shape.</p></div><Link to="/sell" className="outline-btn">Learn about selling →</Link></section>
     <p className="catalogue-note">MARCHY is a frontend prototype. Product listings, storefronts, prices, discounts and availability shown here are illustrative — not verified live offers.</p>
   </main>,language)
