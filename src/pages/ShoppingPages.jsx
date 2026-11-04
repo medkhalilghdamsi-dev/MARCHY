@@ -336,7 +336,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
           <div className="product-seller-copy"><small>Seller storefront</small><b>{seller.name}</b><span>{seller.city}, Tunisia · Demo profile</span></div>
           <Link to={`/seller/${seller.slug}`}>View seller <span>→</span></Link>
         </div>
-        <div className="product-delivery-card"><span className="delivery-symbol">⌖</span><div><b>Delivery details confirmed by seller</b><p>Ask the seller about delivery coverage, cost and estimated timing before placing an order.</p></div></div>
+        <div className="product-delivery-card"><span className="delivery-symbol">⌖</span><div><b>Delivery details to confirm</b><p>Ask the seller about delivery coverage, cost and estimated timing before placing an order.</p></div></div>
         <p className="product-demo-disclaimer">Frontend demonstration only. No order, payment or delivery booking is submitted.</p>
       </section>
     </div>
