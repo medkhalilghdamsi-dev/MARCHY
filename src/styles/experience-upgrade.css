@@ -774,7 +774,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .mobile-filter-toggle{position:sticky;top:8px;z-index:12;backdrop-filter:blur(12px)}
 .filters{scroll-margin-top:100px}
 .product-mobile-buybar{padding-bottom:calc(12px + env(safe-area-inset-bottom))}
-.mobile-tab-bar{padding-bottom:env(safe-area-inset-bottom)}
+.mobile-tabbar{padding-bottom:env(safe-area-inset-bottom)}
 @media(max-width:900px){
  .home-budget-discovery{grid-template-columns:1fr;gap:16px}
  .product-buyer-highlights{gap:9px}
@@ -798,4 +798,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:380px){
  .home-budget-links a{font-size:9px;padding:9px 7px}
  .product-buyer-highlights>div{grid-template-columns:25px 1fr}
+}
+
+/* Correct mobile dock safe-area selector and strengthen thumb-friendly navigation */
+@media(max-width:640px){
+ .mobile-tabbar{min-height:62px;padding:7px 5px calc(7px + env(safe-area-inset-bottom));}
+ .mobile-tabbar a{min-width:0;min-height:46px;gap:3px}
+ .mobile-tabbar a>span{font-size:20px;line-height:1.1}
+ .mobile-tabbar a>small{font-size:9px;line-height:1.2}
+ .mobile-menu{width:42px;height:42px;flex:0 0 42px}
+ .nav.nav-open{max-height:calc(100dvh - 110px);overflow-y:auto;overscroll-behavior:contain}
+ .nav.nav-open .nav-inner a{min-height:44px}
 }
