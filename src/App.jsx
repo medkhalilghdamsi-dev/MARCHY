@@ -410,7 +410,7 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
   </>,language)
 }
 
-function ProductCard({ product, addToCart, wished, toggleWish, language }) {
+function ProductCard({ product, addToCart, wished, toggleWish, language, compareIds = [], toggleCompare }) {
   const [added,setAdded]=useState(false)
   const seller=sellerForProduct(product)
   const discount=product.oldPrice?Math.round((1-product.price/product.oldPrice)*100):0
@@ -427,6 +427,7 @@ function ProductCard({ product, addToCart, wished, toggleWish, language }) {
       <Link to={`/product/${product.id}`} className="product-name">{product.name}</Link>
       <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
       <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice&&<del>{money(product.oldPrice)}</del>}</div>
+      {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)}>{compareIds.includes(product.id) ? '✓ Added to compare' : '＋ Compare'}</button>}
             <button type="button" className={`add-btn ${added?'added':''}`} onClick={quickAdd} aria-live="polite">{added?'Added to cart ✓':'Add to cart'} <span>{added?'✓':'＋'}</span></button>
     </div>
   </article>,language)
@@ -486,6 +487,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const [city, setCity] = useState('All')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
+  const [compareIds, setCompareIds] = useState([])
+  const [compareOpen, setCompareOpen] = useState(false)
   const pageSize = 12
   const cities = ['All', ...new Set(products.map(p => sellerForProduct(p).city))].sort((a,b) => a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b))
   const categoryCounts = useMemo(() => products.reduce((counts, p) => ({...counts, [p.category]: (counts[p.category] || 0) + 1}), {}), [])
@@ -519,6 +522,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     next.delete('deal')
     setParams(next, { replace: true })
   }
+  const toggleCompare = id => setCompareIds(current => current.includes(id) ? current.filter(item => item !== id) : current.length < 3 ? [...current, id] : current)
+  const comparedProducts = compareIds.map(id => products.find(product => product.id === id)).filter(Boolean)
   const removeCategoryFilter = () => {
     if (routeCategory) navigate('/search')
     else setCategory('All')
@@ -552,7 +557,18 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
       </aside>
       <section className="listing-results" aria-live="polite">
         <div className="results-toolbar"><span>Showing <b>{results.length ? ((page - 1) * pageSize) + 1 : 0}–{Math.min(page * pageSize, results.length)}</b> of <b>{results.length}</b></span><label>Sort by <select aria-label="Sort products" value={sort} onChange={e => setSort(e.target.value)}><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A to Z</option><option value="newest">Recently added</option></select></label></div>
-        {results.length ? <><div className="product-grid">{visibleResults.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div>{pageCount > 1 && <nav className="pagination" aria-label="Product pages"><button disabled={page === 1} onClick={() => setPage(v => Math.max(1, v - 1))}>← Previous</button><span>Page {page} of {pageCount}</span><button disabled={page === pageCount} onClick={() => setPage(v => Math.min(pageCount, v + 1))}>Next →</button></nav>}</> : <div className="empty-state"><span>⌕</span><h3>No products found</h3><p>Try a broader search, choose another category or reset your price and location filters.</p><button className="outline-btn" onClick={clearFilters}>Reset all filters</button></div>}
+        {compareIds.length > 0 && <section className="compare-tray" aria-label="Product comparison">
+          <div className="compare-tray-heading"><div><b>Compare sample listings</b><span>{compareIds.length} of 3 selected · prices and seller details are illustrative</span></div><div><button type="button" className="compare-clear" onClick={() => {setCompareIds([]);setCompareOpen(false)}}>Clear</button><button type="button" className="compare-show" disabled={compareIds.length < 2} onClick={() => setCompareOpen(v => !v)}>{compareOpen ? 'Hide comparison' : 'Compare now'}</button></div></div>
+          {compareIds.length < 2 && <p className="compare-hint">Select at least one more product to compare.</p>}
+          {compareOpen && <div className="compare-table-wrap"><table className="compare-table"><thead><tr><th scope="col">Listing</th>{comparedProducts.map(product => <th scope="col" key={product.id}><Link to={'/product/' + product.id}>{product.name}</Link><button type="button" onClick={() => toggleCompare(product.id)} aria-label={'Remove ' + product.name + ' from comparison'}>×</button></th>)}</tr></thead><tbody>
+            <tr><th scope="row">Displayed price</th>{comparedProducts.map(product => <td key={product.id}>{money(product.price)}</td>)}</tr>
+            <tr><th scope="row">Category</th>{comparedProducts.map(product => <td key={product.id}>{product.category}</td>)}</tr>
+            <tr><th scope="row">Seller</th>{comparedProducts.map(product => <td key={product.id}>{sellerForProduct(product).name}</td>)}</tr>
+            <tr><th scope="row">Seller location</th>{comparedProducts.map(product => <td key={product.id}>{sellerForProduct(product).city}</td>)}</tr>
+            <tr><th scope="row">Listing status</th>{comparedProducts.map(product => <td key={product.id}>Sample listing · availability unconfirmed</td>)}</tr>
+          </tbody></table><p className="compare-disclaimer">This comparison uses only information in MARCHY’s illustrative catalogue. It does not compare technical specifications, product condition, verified stock or delivery terms.</p></div>}
+        </section>}
+        {results.length ? <><div className="product-grid">{visibleResults.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language} compareIds={compareIds} toggleCompare={toggleCompare}/>)}</div>{pageCount > 1 && <nav className="pagination" aria-label="Product pages"><button disabled={page === 1} onClick={() => setPage(v => Math.max(1, v - 1))}>← Previous</button><span>Page {page} of {pageCount}</span><button disabled={page === pageCount} onClick={() => setPage(v => Math.min(pageCount, v + 1))}>Next →</button></nav>}</> : <div className="empty-state"><span>⌕</span><h3>No products found</h3><p>Try a broader search, choose another category or reset your price and location filters.</p><button className="outline-btn" onClick={clearFilters}>Reset all filters</button></div>}
       </section>
     </div>
   </main>, language)
