@@ -439,6 +439,51 @@ Object.assign(translations, {
  "No matching storefronts":["Aucune boutique correspondante","لا توجد متاجر مطابقة"],
  "Clear seller filters":["Effacer les filtres vendeurs","مسح فلاتر البائعين"]
 });
+
+Object.assign(translations, {
+ "Your seller workspace.":["Votre espace vendeur.","مساحة البائع الخاصة بك."],
+ "MARCHY SELLER CENTRE":["CENTRE VENDEUR MARCHY","مركز البائعين في مارشي"],
+ "DEMO WORKSPACE · SAMPLE DATA":["ESPACE DÉMO · DONNÉES EXEMPLES","مساحة تجريبية · بيانات نموذجية"],
+ "Preview storefront":["Aperçu de la boutique","معاينة المتجر"],
+ "Seller workspace":["Espace vendeur","مساحة البائع"],
+ "Overview":["Vue d’ensemble","نظرة عامة"],
+ "Products":["Produits","المنتجات"],
+ "Storefront":["Boutique","المتجر"],
+ "Insights":["Statistiques","الإحصاءات"],
+ "Settings":["Paramètres","الإعدادات"],
+ "Store overview":["Vue de la boutique","نظرة عامة على المتجر"],
+ "Product listings":["Annonces produits","قوائم المنتجات"],
+ "Storefront profile":["Profil de la boutique","ملف المتجر"],
+ "Store insights":["Statistiques de la boutique","إحصاءات المتجر"],
+ "Workspace settings":["Paramètres de l’espace","إعدادات المساحة"],
+ "＋ Prepare a listing":["＋ Préparer une annonce","＋ جهّز قائمة منتج"],
+ "CATALOGUE LISTINGS":["ANNONCES DU CATALOGUE","قوائم الكتالوج"],
+ "Sample products mapped to this shop":["Produits exemples associés à cette boutique","منتجات نموذجية مرتبطة بهذا المتجر"],
+ "CATEGORIES":["CATÉGORIES","الفئات"],
+ "Categories represented in demo data":["Catégories présentes dans les données de démonstration","الفئات الموجودة في البيانات التجريبية"],
+ "STOREFRONT LOCATION":["EMPLACEMENT DE LA BOUTIQUE","موقع المتجر"],
+ "Illustrative seller profile":["Profil vendeur illustratif","ملف بائع توضيحي"],
+ "PRODUCT CATALOGUE":["CATALOGUE PRODUITS","كتالوج المنتجات"],
+ "Recently listed sample products":["Produits exemples récents","أحدث المنتجات النموذجية"],
+ "View all →":["Tout afficher →","عرض الكل ←"],
+ "STORE READINESS":["PRÉPARATION DE LA BOUTIQUE","جاهزية المتجر"],
+ "Prepare your storefront":["Préparez votre boutique","جهّز متجرك"],
+ "Business information":["Informations sur l’entreprise","معلومات النشاط التجاري"],
+ "Accurate product details":["Détails exacts des produits","تفاصيل دقيقة للمنتجات"],
+ "Delivery and return terms":["Conditions de livraison et de retour","شروط التوصيل والإرجاع"],
+ "Customer contact process":["Processus de contact client","طريقة التواصل مع العملاء"],
+ "Search listings":["Rechercher des annonces","ابحث في القوائم"],
+ "Name: A to Z":["Nom : A à Z","الاسم: أ إلى ي"],
+ "Sample listing":["Annonce exemple","قائمة نموذجية"],
+ "No matching sample listings":["Aucune annonce exemple correspondante","لا توجد قوائم نموذجية مطابقة"],
+ "Try another search or category.":["Essayez une autre recherche ou catégorie.","جرّب بحثاً أو فئة أخرى."],
+ "Clear filters":["Effacer les filtres","مسح عوامل التصفية"],
+ "Insights will appear here.":["Les statistiques apparaîtront ici.","ستظهر الإحصاءات هنا."],
+ "Workspace settings are not connected.":["Les paramètres de l’espace ne sont pas connectés.","إعدادات مساحة العمل غير متصلة."],
+ "View public storefront →":["Voir la boutique publique →","عرض المتجر العام ←"],
+ "Seller dashboard preview ↗":["Aperçu du tableau de bord vendeur ↗","معاينة لوحة تحكم البائع ↗"]
+});
+
 function translateText(value, lang) {
   const trimmed = value.trim();
   const entry = translations[trimmed];
