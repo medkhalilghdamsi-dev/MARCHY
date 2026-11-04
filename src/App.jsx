@@ -597,7 +597,7 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
   return translateTree(<>
     <div className="topline"><div className="shell topline-inner"><span>MARCHY preview · sample catalogue and illustrative prices</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span></div></div></div>
     <header ref={headerRef} className="header"><div className="shell header-main">
-      <button type="button" className="mobile-menu icon-btn" onClick={() => setMenuOpen(v => !v)} aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? "×" : "☰"}</button>
+      <button type="button" className="mobile-menu icon-btn" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? "×" : "☰"}</button>
       <Link to="/" className="logo">MARCHY<span>.</span></Link>
       <form className="searchbar" onSubmit={submit} role="search"><span className="search-symbol">⌕</span><input value={query} onFocus={()=>setSearchOpen(true)} onKeyDown={e=>{if(e.key==='Escape')setSearchOpen(false)}} onChange={e => {setQuery(e.target.value);setSearchOpen(true)}} placeholder="Search products, brands and local finds…" aria-label="Search products" aria-expanded={searchOpen} aria-controls="global-search-suggestions" /><button type="submit">Search</button>
         {searchOpen&&<div className="global-search-suggestions" id="global-search-suggestions">
@@ -605,9 +605,9 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
           <button type="button" className="search-suggestion-close" onClick={()=>setSearchOpen(false)}>Close suggestions</button>
         </div>}
       </form>
-      <div className="header-actions"><label className="language-picker"><span className="sr-only">Language</span><select aria-label="Language" value={language} onChange={e=>setLanguage(e.target.value)}><option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option></select></label><Link to="/wishlist" className="action-link wishlist-link"><span className="action-icon">♡</span><span><small>Saved</small><b>Wishlist</b></span></Link><Link to="/account" className="action-link"><span className="action-icon">♙</span><span><small>Hello, welcome</small><b>Account</b></span></Link><Link to="/cart" className="action-link cart-link"><span className="cart-icon">🛒<i>{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link></div>
+      <div className="header-actions"><label className="language-picker"><span className="sr-only">Language</span><select aria-label="Language" value={language} onChange={e=>setLanguage(e.target.value)}><option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option></select></label><Link to="/wishlist" className="action-link wishlist-link"><span className="action-icon">♡</span><span><small>Saved</small><b>Wishlist</b></span></Link><Link to="/account" className="action-link"><span className="action-icon">♙</span><span><small>Hello, welcome</small><b>Account</b></span></Link><Link to="/cart" className="action-link cart-link" aria-label={`Shopping cart, ${cartCount} items`}><span className="cart-icon">🛒<i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link></div>
     </div>
-    <nav id="primary-navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}><div className="shell nav-inner" onClick={()=>setMenuOpen(false)}><Link to="/categories">☷ <b>Shop by category</b></Link>{categories.slice(1,5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`}>{c}</Link>)}<Link to="/sellers">Sellers</Link><Link className="nav-deal" to="/search?deal=true">Deals of the day <span>→</span></Link></div></nav>
+    <nav id="primary-navigation" aria-label="Primary navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}><div className="shell nav-inner" onClick={()=>setMenuOpen(false)}><Link to="/categories">☷ <b>Shop by category</b></Link>{categories.slice(1,5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`}>{c}</Link>)}<Link to="/sellers">Sellers</Link><Link className="nav-deal" to="/search?deal=true">Deals of the day <span>→</span></Link></div></nav>
     </header>
   </>,language)
 }
@@ -866,11 +866,11 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
         <div className="product-listing-status"><span className="status-dot"></span><div><b>Availability to be confirmed</b><small>This is not live stock information.</small></div></div>
         <div className="product-purchase-controls">
-          <label htmlFor="product-quantity">Quantity</label>
+          <span className="product-quantity-label">Quantity</span>
           <div className="product-purchase-row">
-            <div className="quantity product-quantity">
+            <div className="quantity product-quantity" role="group" aria-label="Quantity">
               <button type="button" aria-label="Decrease quantity" disabled={qty <= 1} onClick={() => setQty(v => Math.max(1, v - 1))}>−</button>
-              <output id="product-quantity" aria-live="polite">{qty}</output>
+              <output id="product-quantity" aria-label="Selected quantity" aria-live="polite">{qty}</output>
               <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => setQty(v => Math.min(99, v + 1))}>＋</button>
             </div>
             <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
