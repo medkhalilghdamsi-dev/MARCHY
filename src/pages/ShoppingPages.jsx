@@ -392,10 +392,10 @@ function CartPage({ cart, updateQty, removeItem, language }) {
 }
 
 
-function CheckoutPage({cart,language}) {
+function CheckoutPage({cart,language,onPlaceDemoOrder}) {
   const [step,setStep]=useState(1)
   const [details,setDetails]=useState({name:'',phone:'',city:'',address:'',notes:''})
-  const [reviewed,setReviewed]=useState(false)
+  const [orderIds,setOrderIds]=useState([])
   const navigate=useNavigate()
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0)
   const itemCount=cart.reduce((sum,item)=>sum+item.qty,0)
@@ -412,7 +412,7 @@ function CheckoutPage({cart,language}) {
     <ol className="checkout-steps" aria-label="Checkout progress">
       <li className={step>1?'is-complete':step===1?'is-current':''} aria-current={step===1?'step':undefined}><span>{step>1?'✓':'1'}</span><div><b>Delivery details</b><small>Your contact and address</small></div></li>
       <li className={step>2?'is-complete':step===2?'is-current':''} aria-current={step===2?'step':undefined}><span>{step>2?'✓':'2'}</span><div><b>Order review</b><small>Products and sellers</small></div></li>
-      <li className={step===3?'is-current':''} aria-current={step===3?'step':undefined}><span>3</span><div><b>Preview complete</b><small>No order submitted</small></div></li>
+      <li className={step>=3?'is-current':''} aria-current={step===3?'step':undefined}><span>3</span><div><b>Confirm demo order</b><small>Local sample only</small></div></li>
     </ol>
     <div className="checkout-layout">
       <section className="checkout-main-panel" aria-live="polite">
@@ -434,9 +434,15 @@ function CheckoutPage({cart,language}) {
           <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" onClick={()=>setStep(3)}>Continue to final preview <span>→</span></button></div>
         </section>}
         {step===3&&<section className="checkout-complete-preview">
-          <div className="checkout-preview-icon">✓</div><span className="eyebrow">FRONTEND PREVIEW COMPLETE</span><h2>Your checkout flow is ready for a live integration</h2><p>Your details and basket have been reviewed on this device. No order has been created, no seller has been contacted, and no payment has been taken.</p>
-          <div className="checkout-next-list"><b>What a live marketplace would do next</b><ul><li>Verify each seller's stock and final price</li><li>Confirm delivery coverage, fees and timing per seller</li><li>Present a final payable total before payment</li><li>Create an order only after explicit confirmation</li></ul></div>
-          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(2)}>← Back to review</button><button type="button" className="primary-btn" onClick={()=>navigate('/search')}>Continue shopping</button></div>
+          <div className="checkout-preview-icon">✓</div><span className="eyebrow">DEMO ORDER CONFIRMATION</span><h2>Ready to create your sample order?</h2><p>Confirming creates a fictional order record in this browser, clears this demo basket and makes the order visible in Buyer Tracking and the relevant seller workspace. No seller is contacted and no payment or delivery is arranged.</p>
+          <div className="checkout-next-list"><b>Before confirming</b><ul><li>Product totals only — delivery fees are not included</li><li>Stock and availability have not been verified</li><li>Payment is not collected</li><li>Each seller receives a separate sample order</li></ul></div>
+          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(2)}>← Back to review</button><button type="button" className="primary-btn" onClick={()=>{setOrderIds(onPlaceDemoOrder(details,cart));setStep(4)}}>Create demo order <span>→</span></button></div>
+        </section>}
+        {step===4&&<section className="checkout-complete-preview marchy-order-created">
+          <div className="checkout-preview-icon">✓</div><span className="eyebrow">SAMPLE ORDER CREATED</span><h2>Your demo order is ready to follow.</h2><p>{orderIds.length} seller-specific sample {orderIds.length===1?'order has':'orders have'} been saved on this device. You can view the new order records in your tracking page.</p>
+          <div className="checkout-next-list"><b>Your sample order reference{orderIds.length===1?'':'s'}</b><ul>{orderIds.map(id=><li key={id}>{id}</li>)}</ul></div>
+          <p className="catalogue-note">This is not a real purchase. No payment was taken, inventory reserved, seller notified or parcel booked.</p>
+          <div className="checkout-review-actions"><Link to="/orders" className="primary-btn">Track demo order{orderIds.length===1?'':'s'} →</Link><button type="button" className="outline-btn" onClick={()=>navigate('/search')}>Continue shopping</button></div>
         </section>}
       </section>
       <aside className="summary-card checkout-summary"><span className="eyebrow">YOUR BASKET</span><h2>Order summary</h2><div className="cart-summary-row"><span>{itemCount} items · {cart.length} products</span><b>{money(subtotal)}</b></div>
