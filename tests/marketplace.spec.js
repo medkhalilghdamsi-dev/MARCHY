@@ -519,3 +519,11 @@ test('comparison page has a useful empty state when no products are selected', a
   await expect(page.getByRole('heading', { name: 'No products selected' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Explore products →' })).toHaveAttribute('href', '/search')
 })
+
+test('desktop product page keeps its purchase panel available while scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await page.goto('/product/1')
+  await expect(page.locator('.product-buy-panel')).toHaveCSS('position', 'sticky')
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expect(page.locator('.product-buy-panel')).toHaveCSS('position', 'relative')
+})
