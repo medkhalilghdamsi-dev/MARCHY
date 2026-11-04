@@ -35,6 +35,9 @@
 .product-page .product-quantity{height:44px;border:1px solid #dfe7df;border-radius:8px;background:#fff}
 .product-page .product-quantity button{width:35px;color:#315b43}
 .product-page .product-quantity output{min-width:25px;color:#263f31;font-size:11px}
+.product-page .product-quantity-input{width:42px;min-width:0;height:38px;padding:0 3px;border:0;border-radius:5px;background:transparent;color:#263f31;font-size:12px;font-weight:800;text-align:center;appearance:textfield;-moz-appearance:textfield}
+.product-page .product-quantity-input::-webkit-inner-spin-button,.product-page .product-quantity-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.product-page .product-quantity-input:focus-visible{outline:2px solid #df7548;outline-offset:-2px}
 .product-page .product-add-button{min-height:44px;flex:1;border-radius:8px;background:#174b38;font-size:10px;font-weight:800}
 .product-page .product-add-button:hover{background:#103b2c}
 .product-page .product-save-button{width:44px;height:44px;border:1px solid #dfe7df;border-radius:8px;background:#fff;color:#496b56}
