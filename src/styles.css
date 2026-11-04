@@ -8,11 +8,11 @@
   font-weight:400;
   --ink:#17212b;
   --forest:#17212b;
-  --muted:#687482;
+  --muted:#5f6b76;
   --line:#e5e9ed;
   --orange:#f36b35;
-  --orange-dark:#c9471d;
-  --green:#26865d;
+  --orange-dark:#b94a25;
+  --green:#176b4b;
   --page:#f5f7f9;
   --surface:#fff;
   --surface-soft:#f8fafb;
@@ -1692,3 +1692,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 }
 .trust-strip>div>b{color:var(--orange-dark)}
 .outline-btn:hover{border-color:var(--orange-dark);color:var(--orange-dark)}
+
+/* WCAG AA contrast corrections surfaced by automated axe scans */
+.market-benefits>div>span{color:#9a4b24}
+.eyebrow{color:#b94a25}
+.muted{color:#5f6b76}
+.text-link{color:#176b4b}
+.product-category{color:#56645b}
+.seller-name,.seller-name.seller-link{color:#56645b}
+.price-row del,.detail-price del{color:#626b73}
+.catalogue-note{color:#5f6b76}
