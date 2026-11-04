@@ -92,7 +92,7 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await expect(page.getByLabel('Selected quantity')).toHaveText('2')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
   await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
-  await page.locator('.header-actions a[href="/cart"]').click()
+  await page.locator('.mobile-tabbar a[href="/cart"]').click()
   await expect(page.getByRole('heading', { name: 'Your shopping cart' })).toBeVisible()
   await expect(page.getByText('2 items', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Increase Wireless noise-cancelling headphones quantity' }).click()
@@ -134,7 +134,7 @@ test('homepage hero search submits queries and popular shortcuts navigate to sea
   await expect(page).toHaveURL(/\/search\?q=headphones/)
   await expect(page.locator('.listing-results')).toContainText('headphones')
   await page.goto('/')
-  await page.getByRole('button', { name: 'Fashion' }).click()
+  await page.locator('.hero-trending').getByRole('button', { name: 'Fashion' }).click()
   await expect(page).toHaveURL(/\/search\?q=Fashion/)
 })
 
@@ -142,7 +142,7 @@ test('recently viewed products appear on the homepage', async ({ page }) => {
   await page.goto('/product/1')
   await page.goto('/')
   await expect(page.getByRole('heading', { name: 'Recently viewed' })).toBeVisible()
-  await expect(page.getByText('Wireless noise-cancelling headphones')).toBeVisible()
+  await expect(page.locator('.home-recently-viewed')).toContainText('Wireless noise-cancelling headphones')
 })
 
 
