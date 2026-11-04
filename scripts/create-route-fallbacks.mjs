@@ -11,6 +11,7 @@ const routes = [
   ...['atlas-tech-tunis', 'maison-sousse', 'urban-steps-sfax', 'nour-beauty-tunis', 'daily-essentials-monastir', 'active-life-bizerte', 'souks-frais-tunis', 'autocare-sfax', 'paper-trail-tunis', 'playbox-sousse'].map(slug => `seller/${slug}`),
 ]
 const indexFile = resolve('dist/index.html')
+await cp(indexFile, resolve('dist/404.html'))
 for (const route of routes) {
   const destination = resolve('dist', route, 'index.html')
   await mkdir(resolve(destination, '..'), { recursive: true })
