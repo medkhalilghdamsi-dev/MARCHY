@@ -187,3 +187,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .cart-page-heading>div>p,.cart-empty-state>p{color:#53606d}
 .cart-continue-link{color:#a33b1b}
 .cart-continue-link:hover{color:#76280f}
+
+/* Checkout summary labels, helper copy and pending status meet AA contrast */
+.checkout-summary .cart-summary-row>span,
+.checkout-summary .cart-summary-note,
+.checkout-summary .cart-trust-note>p{color:#53606d}
+.checkout-summary .summary-pending{color:#8d4c22}
