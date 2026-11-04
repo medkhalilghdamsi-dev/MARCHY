@@ -293,7 +293,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 /* Mobile-first persistent marketplace navigation */
 .mobile-tabbar{display:none}
 @media(max-width:640px){
- .mobile-tabbar{position:fixed;z-index:40;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:8px 7px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e5e9ed;box-shadow:0 -6px 22px #17212b0c}
+ .mobile-tabbar{position:fixed;z-index:40;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e5e9ed;box-shadow:0 -6px 22px #17212b0c}
  .mobile-tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:44px;color:#687482;text-decoration:none}
  .mobile-tabbar a>span{position:relative;font-size:21px;line-height:1.1;color:#17212b}
  .mobile-tabbar a small{font-size:9px;font-weight:700}
