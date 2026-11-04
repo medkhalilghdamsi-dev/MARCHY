@@ -457,3 +457,15 @@ test('sample catalogue avoids implying popularity or verified listing recency', 
   await expect(page.getByRole('combobox', { name: 'Sort products' })).toContainText('Catalogue order')
   await expect(page.getByText('Quick budget filters')).toHaveCount(1)
 })
+
+
+test('product add-to-cart confirmation resets when the selected quantity changes', async ({ page }) => {
+  await page.goto('/product/1')
+  const addButton = page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true })
+  await addButton.click()
+  await expect(page.locator('.product-added-feedback')).toBeVisible()
+  await page.getByRole('button', { name: 'Increase quantity' }).click()
+  await expect(page.locator('.product-added-feedback')).toHaveCount(0)
+  await expect(page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true })).toBeVisible()
+  await expect(page.locator('.product-mobile-buybar').getByRole('button', { name: 'Add to cart' })).toBeVisible()
+})
