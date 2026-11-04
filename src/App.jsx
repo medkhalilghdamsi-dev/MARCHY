@@ -345,7 +345,6 @@ const translations = {
   ,"Remove item":["Supprimer l’article","إزالة المنتج"]
   ,"Quantity":["Quantité","الكمية"]
   ,"Need something else?":["Besoin d’autre chose ?","هل تبحث عن شيء آخر؟"]
-  ,"Explore all categories":["Explorer toutes les catégories","استكشف جميع الفئات"]
   ,"Your order":["Votre commande","طلبك"]
   ,"Products subtotal":["Sous-total des produits","المجموع الفرعي للمنتجات"]
   ,"To be confirmed":["À confirmer","يجب التأكيد"]
@@ -358,7 +357,6 @@ const translations = {
   ,"A fresh start":["Un nouveau départ","بداية جديدة"]
   ,"Your cart is empty":["Votre panier est vide","سلتك فارغة"]
   ,"Explore products":["Explorer les produits","استكشف المنتجات"]
-  ,"Browse categories":["Parcourir les catégories","تصفح الفئات"]
 
   ,"Your personal collection":["Votre collection personnelle","مجموعتك الشخصية"]
   ,"Keep the products you're considering in one place.":["Gardez les produits que vous envisagez au même endroit.","احتفظ بالمنتجات التي تفكر فيها في مكان واحد."]
