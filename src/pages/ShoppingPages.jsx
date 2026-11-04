@@ -350,6 +350,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const saved = wishlist.includes(product.id)
   const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
   const handleAdd = () => { addToCart(product, qty); setAdded(true) }
+  const changeQuantity = delta => { setQty(value => Math.max(1, Math.min(99, value + delta))); setAdded(false) }
   return translateTree(<main id="main-content" className="shell page product-page">
     <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to="/search">Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
     <div className="product-detail-layout">
@@ -373,9 +374,9 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
           <span className="product-quantity-label">Quantity</span>
           <div className="product-purchase-row">
             <div className="quantity product-quantity" role="group" aria-label="Quantity">
-              <button type="button" aria-label="Decrease quantity" disabled={qty <= 1} onClick={() => setQty(v => Math.max(1, v - 1))}>−</button>
+              <button type="button" aria-label="Decrease quantity" disabled={qty <= 1} onClick={() => changeQuantity(-1)}>−</button>
               <output id="product-quantity" aria-label="Selected quantity" aria-live="polite">{qty}</output>
-              <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => setQty(v => Math.min(99, v + 1))}>＋</button>
+              <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => changeQuantity(1)}>＋</button>
             </div>
             <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
             <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={() => toggleWish(product.id)}>{saved ? '♥' : '♡'}</button>
