@@ -182,3 +182,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* Keep the primary search action readable against the brand orange */
 .hero-search-form button{background:#b94a25;color:#fff}
 .hero-search-form button:hover{background:#96391b}
+
+/* WCAG AA contrast for cart page supporting text and secondary action */
+.cart-page-heading>div>p,.cart-empty-state>p{color:#53606d}
+.cart-continue-link{color:#a33b1b}
+.cart-continue-link:hover{color:#76280f}
