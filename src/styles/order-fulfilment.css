@@ -46,3 +46,9 @@
 /* Keep small supporting copy readable at WCAG AA contrast levels. */
 .catalogue-note{color:#4f5e55!important}
 .seller-name{color:#4f5e55!important}
+
+.marchy-case-summary{display:grid;gap:5px;margin-top:13px;padding:12px 14px;border:1px solid #e8d9bd;background:#fcf7ed;border-radius:10px;color:#72552b;font-size:12px}
+.marchy-case-summary b{font-size:12px}
+.marchy-case-summary small{font-size:11px;color:#806b4d}
+.marchy-buyer-case-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0}
+.marchy-case-pending{font-size:12px;color:#72552b}
