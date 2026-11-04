@@ -706,3 +706,20 @@ Object.assign(translations, {
 Object.assign(translations, {
  "Delivery fees are illustrative estimates, not confirmed seller quotes":["Les frais de livraison sont des estimations indicatives, pas des devis confirmés par les vendeurs.","رسوم التوصيل تقديرات توضيحية وليست عروض أسعار مؤكدة من البائعين."]
 });
+
+
+Object.assign(translations, {
+ "FULFILMENT PREFERENCES":["PRÉFÉRENCES D’EXPÉDITION","تفضيلات تنفيذ الطلب"],
+ "Choose how customers can receive orders.":["Choisissez comment les clients peuvent recevoir leurs commandes.","اختر كيفية استلام العملاء لطلباتهم."],
+ "Enable the methods this sample storefront wants to offer and set an illustrative fee in TND. Checkout will reflect these choices.":["Activez les modes proposés par cette boutique de démonstration et définissez des frais indicatifs en TND. Le paiement en tiendra compte.","فعّل طرق الاستلام التي يقدمها هذا المتجر التجريبي وحدد رسوماً توضيحية بالدينار. ستظهر هذه الاختيارات في إتمام الشراء."],
+ "Illustrative fee (TND)":["Frais indicatifs (TND)","رسوم توضيحية (د.ت)"],
+ "Regular local delivery":["Livraison locale standard","توصيل محلي عادي"],
+ "Priority delivery":["Livraison prioritaire","توصيل ذو أولوية"],
+ "Customer collects from your shop":["Le client récupère sa commande en boutique","يستلم العميل الطلب من متجرك"],
+ "Rates and availability are examples only. No courier, pickup schedule or service area is connected.":["Les tarifs et disponibilités sont uniquement indicatifs. Aucun transporteur, horaire de retrait ou zone de service n’est connecté.","الأسعار والتوفر أمثلة فقط. لا توجد شركة توصيل أو مواعيد استلام أو مناطق خدمة مرتبطة."],
+ "Save delivery preferences":["Enregistrer les préférences de livraison","حفظ تفضيلات التوصيل"],
+ "Delivery preferences saved on this device":["Préférences de livraison enregistrées sur cet appareil","تم حفظ تفضيلات التوصيل على هذا الجهاز"],
+ "Other workspace settings":["Autres paramètres de l’espace vendeur","إعدادات مساحة العمل الأخرى"],
+ "This seller has not enabled a delivery method in the demo workspace.":["Ce vendeur n’a activé aucun mode de livraison dans l’espace de démonstration.","لم يفعّل هذا البائع أي طريقة توصيل في مساحة العمل التجريبية."],
+ "Delivery method to be confirmed by seller":["Mode de livraison à confirmer par le vendeur","طريقة التوصيل يحددها البائع"]
+});
