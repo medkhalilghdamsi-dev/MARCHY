@@ -349,3 +349,23 @@ test('mobile discovery filters open as a usable panel without horizontal overflo
   }))
   expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport + 1)
 })
+
+
+test('mobile navigation exposes account, wishlist, selling and help destinations', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  const menuButton = page.getByRole('button', { name: 'Open navigation menu' })
+  const navigation = page.getByRole('navigation', { name: 'Primary navigation' })
+  await expect(menuButton).toBeVisible()
+  await expect(navigation).toBeHidden()
+  await menuButton.click()
+  await expect(page.getByRole('button', { name: 'Close navigation menu' })).toHaveAttribute('aria-expanded', 'true')
+  await expect(navigation).toBeVisible()
+  await expect(navigation.getByRole('link', { name: 'Wishlist' })).toBeVisible()
+  await expect(navigation.getByRole('link', { name: 'My account' })).toBeVisible()
+  await expect(navigation.getByRole('link', { name: 'Sell on MARCHY' })).toBeVisible()
+  await expect(navigation.getByRole('link', { name: 'Help centre' })).toBeVisible()
+  await navigation.getByRole('link', { name: 'Wishlist' }).click()
+  await expect(page).toHaveURL(/\/wishlist$/)
+  await expect(navigation).toBeHidden()
+})
