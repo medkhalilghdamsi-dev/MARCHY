@@ -449,12 +449,17 @@ test('mobile Seller Centre keeps workspace navigation, drafts and fulfilment act
 
   await sectionNav.getByRole('button', { name: 'Products' }).click()
   await page.getByRole('button', { name: '＋ Create draft' }).click()
-  await page.getByLabel('Product name').fill('Mobile seller draft')
+  const draftNameField = page.getByLabel('Product name')
+  await expect(draftNameField).toBeFocused()
+  await expect(draftNameField).toHaveAttribute('required', '')
+  await expect(page.getByLabel('Indicative price (DT)')).toHaveAttribute('min', '0.01')
+  await draftNameField.fill('Mobile seller draft')
   await page.getByLabel('Category').fill('Home & Living')
   await page.getByLabel('Indicative price (DT)').fill('45')
   await page.getByLabel('Description').fill('A sample product draft created on mobile.')
   await page.getByRole('button', { name: 'Save draft on this device' }).click()
   await expect(page.locator('.seller-local-drafts')).toContainText('Mobile seller draft')
+  await expect(page.getByRole('button', { name: '＋ Create draft' })).toBeFocused()
   overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
   expect(overflow).toBeLessThanOrEqual(1)
 
