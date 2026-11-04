@@ -196,3 +196,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Wishlist supporting copy remains readable in empty and populated states */
 .wishlist-heading>div>p,.wishlist-count>span,.wishlist-empty>p{color:#53606d}
+
+/* Category directory: maintain contrast on the warm intro panel */
+.categories-intro .eyebrow{color:#96391b}
+.categories-intro>p,.category-total>span,.category-directory-tools>small{color:#53606d}
