@@ -253,9 +253,9 @@ test('product detail can add a listing to the cross-page comparison tray', async
   await page.getByRole('button', { name: '＋ Compare' }).click()
   await expect(page.getByRole('status').filter({ hasText: 'Added to comparison' })).toBeVisible()
   await page.getByRole('link', { name: 'Open comparison' }).click()
-  await expect(page).toHaveURL(/\/search$/)
-  await expect(page.locator('.compare-tray')).toContainText('1 of 3 selected')
-  await expect(page.locator('.compare-tray')).toContainText('Wireless noise-cancelling headphones')
+  await expect(page).toHaveURL(/\/compare$/)
+  await expect(page.locator('.compare-page-count')).toContainText('1/3')
+  await expect(page.locator('.compare-product-card')).toContainText('Wireless noise-cancelling headphones')
 })
 
 test('product detail buyer checklist adapts to listing category', async ({ page }) => {
