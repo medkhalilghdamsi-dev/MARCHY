@@ -943,6 +943,11 @@ function CartPage({ cart, updateQty, removeItem, language }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const sellerCount = new Set(cart.map(item => sellerForProduct(item).slug)).size
+  const sellerGroups = [...new Set(cart.map(item => sellerForProduct(item).slug))].map(slug => {
+    const seller = sellers.find(entry => entry.slug === slug)
+    const items = cart.filter(item => sellerForProduct(item).slug === slug)
+    return { seller, items, subtotal: items.reduce((sum, item) => sum + item.price * item.qty, 0) }
+  })
   return translateTree(<main id="main-content" className="shell page cart-page">
     <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><span aria-current="page">Your cart</span></div>
     <div className="cart-page-heading">
@@ -952,13 +957,13 @@ function CartPage({ cart, updateQty, removeItem, language }) {
     {cart.length ? <div className="cart-layout">
       <section className="cart-items-panel" aria-label="Cart items">
         <div className="cart-panel-heading"><b>Items in your cart</b><span>{cart.length} product{cart.length === 1 ? '' : 's'}</span></div>
-        {cart.map(item => {
-          const seller = sellerForProduct(item)
-          return <article className="cart-item" key={item.id}>
+        {sellerGroups.map(group => <section className="cart-seller-group" key={group.seller.slug} aria-label={`Items from ${group.seller.name}`}>
+          <div className="cart-seller-group-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city}, Tunisia · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>
+          {group.items.map(item => <article className="cart-item" key={item.id}>
             <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
             <div className="cart-item-info">
               <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
-              <small>{seller.name} · {seller.city}, Tunisia</small>
+              <small>{group.seller.name} · {group.seller.city}, Tunisia</small>
               <b className="cart-item-unit-price">{money(item.price)} <span>each</span></b>
               <button type="button" className="remove-link" onClick={() => removeItem(item.id)}>Remove item</button>
             </div>
@@ -968,8 +973,9 @@ function CartPage({ cart, updateQty, removeItem, language }) {
               <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= 99} onClick={() => updateQty(item.id, Math.min(99, item.qty + 1))}>＋</button>
             </div></div>
             <strong className="cart-line-total">{money(item.price * item.qty)}</strong>
-          </article>
-        })}
+          </article>)}
+          <div className="cart-seller-group-footer"><span>Seller subtotal</span><b>{money(group.subtotal)}</b></div>
+        </section>)}
         <div className="cart-panel-footer"><span>Need something else?</span><Link to="/categories">Explore all categories →</Link></div>
       </section>
       <aside className="summary-card cart-summary">
