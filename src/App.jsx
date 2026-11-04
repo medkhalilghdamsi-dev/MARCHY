@@ -18,6 +18,31 @@ const sellerByCategory = {'Electronics':'atlas-tech-tunis','Home':'maison-sousse
 const sellerForProduct = product => sellers.find(s => s.slug === sellerByCategory[product.category]) || sellers[0]
 
 const money = value => `${Number(value).toFixed(3)} TND`
+const searchSynonyms = {
+  headphones: ['headphone','earphones','earbuds','headset','casque','ecouteurs','سماعات'],
+  lamp: ['light','lighting','lampe','مصباح'],
+  sneakers: ['shoes','trainers','chaussures','حذاء','أحذية'],
+  skincare: ['skin care','beauty','soin','عناية بالبشرة'],
+  bottle: ['flask','gourde','bouteille','قارورة'],
+  keyboard: ['clavier','لوحة مفاتيح'],
+  blanket: ['throw','cover','couverture','بطانية'],
+  sports: ['fitness','training','sport','رياضة'],
+  electronics: ['tech','technology','électronique','electronique','إلكترونيات'],
+  fashion: ['clothing','apparel','mode','ملابس'],
+  home: ['household','maison','منزل']
+}
+const normalizeSearchText = value => String(value || '').toLocaleLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/[^\\p{L}\\p{N}]+/gu, ' ').trim()
+const searchTextMatches = (text, query) => {
+  const normalized = normalizeSearchText(text)
+  const cleanedQuery = normalizeSearchText(query)
+  if (!cleanedQuery) return true
+  if (normalized.includes(cleanedQuery)) return true
+  const words = cleanedQuery.split(/\\s+/).filter(Boolean)
+  return words.every(word => {
+    const variants = [word, ...Object.entries(searchSynonyms).filter(([key, values]) => key === word || values.some(value => normalizeSearchText(value) === word)).flatMap(([key, values]) => [key, ...values].map(normalizeSearchText))]
+    return variants.some(variant => normalized.split(' ').some(token => token === variant || token.startsWith(variant) || variant.startsWith(token)))
+  })
+}
 const readText = (key, fallback) => { try { const value = localStorage.getItem(key); return value || fallback } catch { return fallback } }
 const readJson = (key, fallback) => { try { const value = JSON.parse(localStorage.getItem(key) || 'null'); return value ?? fallback } catch { return fallback } }
 const writeJson = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)) } catch {} }
@@ -363,9 +388,9 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const navigate = useNavigate()
-  const searchTerm=query.trim().toLowerCase()
-  const searchMatches=useMemo(()=>searchTerm?products.filter(p=>p.name.toLowerCase().includes(searchTerm)||p.category.toLowerCase().includes(searchTerm)).slice(0,4):[],[searchTerm])
-  const categoryMatches=useMemo(()=>searchTerm?categories.filter(c=>c!=='All'&&c.toLowerCase().includes(searchTerm)).slice(0,3):[],[searchTerm])
+  const searchTerm=query.trim()
+  const searchMatches=useMemo(()=>searchTerm?products.filter(p=>searchTextMatches([p.name,p.category,p.seller,sellerForProduct(p).name,sellerForProduct(p).city].join(' '),searchTerm)).slice(0,4):[],[searchTerm])
+  const categoryMatches=useMemo(()=>searchTerm?categories.filter(c=>c!=='All'&&searchTextMatches(c,searchTerm)).slice(0,3):[],[searchTerm])
   function submit(e) { e.preventDefault(); setSearchOpen(false); navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search') }
   return translateTree(<>
     <div className="topline"><div className="shell topline-inner"><span>MARCHY preview · sample catalogue and illustrative prices</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span></div></div></div>
@@ -466,8 +491,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const categoryCounts = useMemo(() => products.reduce((counts, p) => ({...counts, [p.category]: (counts[p.category] || 0) + 1}), {}), [])
   const results = useMemo(() => products.filter(p => {
     const seller = sellerForProduct(p)
-    const haystack = (p.name + ' ' + p.category + ' ' + p.seller + ' ' + seller.name + ' ' + seller.city + ' ' + (p.description || '')).toLowerCase()
-    return (category === 'All' || p.category === category) && p.price >= minPrice && p.price <= maxPrice && (city === 'All' || seller.city === city) && (!dealsOnly || Boolean(p.oldPrice)) && (!term || haystack.includes(term.toLowerCase()))
+    const haystack = [p.name, p.category, p.seller, seller.name, seller.city, p.description || ''].join(' ')
+    return (category === 'All' || p.category === category) && p.price >= minPrice && p.price <= maxPrice && (city === 'All' || seller.city === city) && (!dealsOnly || Boolean(p.oldPrice)) && searchTextMatches(haystack, term)
   }).sort((a, b) => sort === 'price-low' ? a.price - b.price : sort === 'price-high' ? b.price - a.price : sort === 'name' ? a.name.localeCompare(b.name) : sort === 'newest' ? b.id - a.id : 0), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
   const pageCount = Math.max(1, Math.ceil(results.length / pageSize))
   const visibleResults = results.slice((page - 1) * pageSize, page * pageSize)
