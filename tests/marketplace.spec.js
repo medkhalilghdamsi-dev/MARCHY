@@ -86,6 +86,24 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await expect(page.getByText('Wireless noise-cancelling headphones')).toBeVisible()
 })
 
+test('product comparisons persist when navigating away and returning', async ({ page }) => {
+  await page.goto('/search')
+  const cards = page.locator('.product-card')
+  await cards.nth(0).getByRole('button', { name: /Compare/ }).click()
+  await cards.nth(1).getByRole('button', { name: /Compare/ }).click()
+  await expect(page.getByRole('region', { name: 'Product comparison' })).toBeVisible()
+  await page.goto('/product/1')
+  await page.goto('/search')
+  await expect(page.getByRole('region', { name: 'Product comparison' })).toContainText('2 of 3 selected')
+})
+
+test('recently viewed products appear on the homepage', async ({ page }) => {
+  await page.goto('/product/1')
+  await page.goto('/')
+  await expect(page.getByRole('heading', { name: 'Recently viewed' })).toBeVisible()
+  await expect(page.getByText('Wireless noise-cancelling headphones')).toBeVisible()
+})
+
 test('core shopping pages have no serious or critical accessibility violations', async ({ page }) => {
   const { default: AxeBuilder } = await import('@axe-core/playwright')
   const routesToAudit = ['/', '/search', '/product/1', '/cart', '/wishlist', '/categories', '/seller/atlas-tech-tunis', '/sell']
