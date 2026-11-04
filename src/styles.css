@@ -117,3 +117,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
  .is-rtl .header-actions{margin-right:auto;margin-left:0}
  .is-rtl .searchbar button{border-radius:0}
 }
+
+.wishlist-link .action-icon{font-size:25px;color:#c9471d}
+@media(max-width:640px){.wishlist-link>span:last-child{display:none}.header-actions{gap:9px}}
