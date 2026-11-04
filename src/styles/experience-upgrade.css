@@ -837,3 +837,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .is-rtl .nav-inner{gap:12px;font-size:10px}
   .is-rtl .nav-inner>a{white-space:nowrap}
 }
+
+/* WCAG AA: readable secondary text on the buyer search experience */
+.muted,
+.filter-group label small,
+.price-inputs label,
+.price-range-labels,
+.results-toolbar label,
+.listing-view-toggle button,
+.pagination span{
+  color:#4d5964!important;
+}
+.results-toolbar label small,
+.results-toolbar-actions label small{
+  color:#4d5964!important;
+}
