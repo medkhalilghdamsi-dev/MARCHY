@@ -495,7 +495,7 @@ test('dedicated comparison page presents selected products side by side and supp
   await page.addInitScript(() => localStorage.setItem('marchy-compare', JSON.stringify([1, 2, 6])))
   await page.goto('/compare')
   await expect(page.getByRole('heading', { name: 'Compare products' })).toBeVisible()
-  await expect(page.getByText('3', { exact: true }).first()).toBeVisible()
+  await expect(page.locator('.compare-page-count')).toContainText('3/3')
   await expect(page.locator('.compare-product-card')).toHaveCount(3)
   await expect(page.locator('.compare-full-table')).toBeVisible()
   await expect(page.locator('.compare-full-table')).toContainText('Displayed price')
