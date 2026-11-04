@@ -527,3 +527,22 @@ test('desktop product page keeps its purchase panel available while scrolling', 
   await page.setViewportSize({ width: 390, height: 844 })
   await expect(page.locator('.product-buy-panel')).toHaveCSS('position', 'relative')
 })
+
+test('mobile comparison remains contained and supports Arabic RTL direction', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.addInitScript(() => {
+    localStorage.setItem('marchy-language', 'ar')
+    localStorage.setItem('marchy-compare', JSON.stringify([1, 2, 6]))
+  })
+  await page.goto('/compare')
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+  await expect(page.locator('.compare-product-card')).toHaveCount(3)
+  const dimensions = await page.evaluate(() => ({
+    viewport: window.innerWidth,
+    document: document.documentElement.scrollWidth,
+    table: document.querySelector('.compare-full-table').scrollWidth,
+    tableViewport: document.querySelector('.compare-table-wrap').clientWidth,
+  }))
+  expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport)
+  expect(dimensions.table).toBeGreaterThan(dimensions.tableViewport)
+})
