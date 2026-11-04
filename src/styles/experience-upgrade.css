@@ -736,3 +736,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .category-context-strip-icon{width:29px;height:29px;flex-basis:29px}
  .empty-search-suggestions>div{gap:6px}
 }
+
+
+/* Buyer search memory — compact, keyboard-friendly recent query shortcuts */
+.recent-searches{width:100%;margin:0 0 12px;padding:0 0 10px;border-bottom:1px solid var(--line,#e7e9ec)}
+.recent-searches .search-suggestion-heading{display:flex;align-items:center;justify-content:space-between}
+.recent-searches .search-suggestion-heading button{border:0;background:transparent;color:var(--muted,#68727d);font:inherit;font-size:10px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.global-search-suggestions .recent-searches>a{display:flex;align-items:center;gap:10px;min-height:36px;padding:7px 9px;border-radius:7px;color:var(--ink,#17212b);font-size:12px;text-decoration:none}
+.global-search-suggestions .recent-searches>a:hover,.global-search-suggestions .recent-searches>a:focus-visible{background:#fff4ee;outline:none}
+.global-search-suggestions .recent-searches>a>span:first-child{color:var(--muted,#68727d);font-size:15px}
+.global-search-suggestions .recent-searches .suggestion-arrow{margin-left:auto;color:var(--orange,#f36b35)}
