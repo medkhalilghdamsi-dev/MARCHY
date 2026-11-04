@@ -3,9 +3,9 @@
 .marchy-listing-page .breadcrumbs{margin-bottom:24px;color:#849087}
 .marchy-listing-page .breadcrumbs a:hover{color:#174b38}
 .marchy-listing-head{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,390px);align-items:end;gap:28px;margin:0 0 22px;padding:28px 30px;border:1px solid #e4e9e1;border-radius:16px;background:linear-gradient(115deg,#f4f6f0 0%,#fbfaf6 100%)}
-.marchy-listing-head .eyebrow{color:#668070;font-size:9px;letter-spacing:1.2px;font-weight:800}
+.marchy-listing-head .eyebrow{color:#506b59;font-size:9px;letter-spacing:1.2px;font-weight:800}
 .marchy-listing-head h1{max-width:680px;margin:8px 0 8px;color:#173f32;font-size:clamp(30px,3.8vw,44px);line-height:1.06;letter-spacing:-.045em}
-.marchy-listing-head>div>p{color:#78857c;font-size:11px;line-height:1.6}
+.marchy-listing-head>div>p{color:#596b60;font-size:11px;line-height:1.6}
 .marchy-listing-search{width:100%;height:50px;border:1px solid #dce5dc;border-radius:10px;background:#fff;box-shadow:0 7px 20px rgba(23,63,50,.045)}
 .marchy-listing-search:focus-within{border-color:#729887;box-shadow:0 0 0 3px rgba(23,100,72,.09)}
 .marchy-listing-search input{min-height:46px;padding-inline:15px;color:#20382c;font-size:12px}
@@ -55,9 +55,9 @@
 .marchy-listing-results .product-card:hover{transform:translateY(-2px);border-color:#c4d6c7;box-shadow:0 13px 28px rgba(23,63,50,.1)}
 .marchy-listing-results .product-photo{background:#f6f7f3}
 .marchy-listing-results .product-info{padding:13px}
-.marchy-listing-results .product-category{color:#8b978d;font-size:8px;font-weight:800;letter-spacing:.7px}
+.marchy-listing-results .product-category{color:#596b5e;font-size:8px;font-weight:800;letter-spacing:.7px}
 .marchy-listing-results .product-name{color:#233d30;font-size:12px;font-weight:700;line-height:1.4}
-.marchy-listing-results .seller-link{color:#819087;font-size:9px}
+.marchy-listing-results .seller-link{color:#596b60;font-size:9px}
 .marchy-listing-results .price-row strong{color:#173f32;font-size:16px}
 .marchy-listing-results .add-btn{min-height:38px;border:1px solid #174b38;border-radius:7px;background:#174b38;color:#fff;font-size:9px;font-weight:750}
 .marchy-listing-results .add-btn:hover{background:#103b2c}
