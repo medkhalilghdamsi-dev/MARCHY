@@ -189,6 +189,8 @@ const translations = {
   "All locations":["Toutes les villes","كل المواقع"],
   "Name: A to Z":["Nom : A à Z","الاسم: أ إلى ي"],
   "Recently added":["Ajoutés récemment","أضيفت حديثاً"],
+  "Best match":["Meilleure correspondance","أفضل تطابق"],
+  "Biggest displayed difference":["Plus grand écart affiché","أكبر فرق سعري معروض"],
   "DISCOVER LOCAL BUSINESSES":["DÉCOUVREZ LES COMMERCES LOCAUX","اكتشف المتاجر المحلية"],
   "Meet the sellers behind the finds.":["Rencontrez les vendeurs derrière vos découvertes.","تعرّف على البائعين وراء اكتشافاتك."],
   "Explore sample storefronts from across Tunisia. Profiles and listings are demonstration content, not verified businesses.":["Explorez des boutiques de démonstration de toute la Tunisie. Les profils et annonces sont fictifs et non vérifiés.","استكشف متاجر تجريبية من مختلف أنحاء تونس. الملفات والإعلانات توضيحية وليست لشركات تم التحقق منها."],
@@ -817,7 +819,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
         <button className="filter-apply" type="button" onClick={() => setFiltersOpen(false)}>Show {results.length} products</button>
       </aside>
       <section className="listing-results" aria-live="polite">
-        <div className="results-toolbar"><span aria-live="polite">Showing <b>{results.length ? ((page - 1) * pageSize) + 1 : 0}–{Math.min(page * pageSize, results.length)}</b> of <b>{results.length}</b></span><label>Sort by <select aria-label="Sort products" value={sort} onChange={e => setSort(e.target.value)}><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A to Z</option><option value="newest">Recently added</option><option value="savings">Biggest displayed difference</option></select></label></div>
+        <div className="results-toolbar"><span aria-live="polite">Showing <b>{results.length ? ((page - 1) * pageSize) + 1 : 0}–{Math.min(page * pageSize, results.length)}</b> of <b>{results.length}</b></span><label>Sort by <select aria-label="Sort products" value={sort} onChange={e => setSort(e.target.value)}><option value="featured">Best match</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A to Z</option><option value="newest">Recently added</option><option value="savings">Biggest displayed difference</option></select></label></div>
         {compareIds.length > 0 && <section className="compare-tray" aria-label="Product comparison">
           <div className="compare-tray-heading"><div><b>Compare sample listings</b><span>{compareIds.length} of 3 selected · prices and seller details are illustrative</span></div><div><button type="button" className="compare-clear" onClick={() => {setCompareIds([]);setCompareOpen(false)}}>Clear</button><button type="button" className="compare-show" disabled={compareIds.length < 2} onClick={() => setCompareOpen(v => !v)}>{compareOpen ? 'Hide comparison' : 'Compare now'}</button></div></div>
           {compareIds.length < 2 && <p className="compare-hint">Select at least one more product to compare.</p>}
