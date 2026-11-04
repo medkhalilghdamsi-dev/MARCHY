@@ -9,21 +9,31 @@ MARCHY/
 ├── public/                     # Static assets
 ├── src/
 │   ├── app/
-│   │   └── MarketplaceApp.jsx  # Route composition and application-level state
+│   │   └── MarketplaceApp.jsx  # Route composition and app shell
+│   ├── components/
+│   │   └── MarketplaceChrome.jsx # Header, product card, footer, mobile tabs
 │   ├── data/
 │   │   ├── products.js         # Illustrative product catalogue and categories
-│   │   └── sellers.js          # Illustrative seller profiles and category mapping
+│   │   └── sellers.js          # Illustrative seller profiles and mappings
+│   ├── hooks/
+│   │   └── useMarketplaceState.js # Persistent language, cart and wishlist state
 │   ├── i18n/
-│   │   └── translations.js     # English source copy + French/Arabic translations
+│   │   ├── translations.js     # English/French/Arabic interface copy
+│   │   └── translate.js        # Shared translated React-tree helper
+│   ├── pages/
+│   │   ├── ShoppingPages.jsx   # Home, search, product, cart, checkout, wishlist
+│   │   ├── DiscoveryPages.jsx  # Categories and seller discovery/storefront
+│   │   ├── SellerPages.jsx     # Seller onboarding, workspace and preparation
+│   │   └── SupportPages.jsx    # Account, help, delivery, returns and not-found
 │   ├── styles/
-│   │   └── marketplace.css    # Marketplace design system and responsive styles
+│   │   └── marketplace.css    # Design system and responsive styles
 │   ├── utils/
-│   │   └── marketplace.js     # Search, text normalisation and browser storage helpers
+│   │   └── marketplace.js     # Search, text normalisation and storage helpers
 │   ├── App.jsx                 # Stable application entry/re-export
 │   ├── main.jsx                # React + router bootstrap
 │   └── styles.css              # Stable stylesheet entry/import
 ├── tests/
-│   └── marketplace.spec.js     # Playwright frontend and accessibility coverage
+│   └── marketplace.spec.js     # Playwright route, responsive and interaction tests
 ├── index.html
 ├── package.json
 ├── playwright.config.js
