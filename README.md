@@ -15,6 +15,7 @@ npm run dev
 - Global search suggestions with multilingual synonyms and relevance-aware results
 - Category, seller-location and price filters
 - Sorting by best match, price, name, newest and illustrative price difference
+- Switchable, persistent grid and list result layouts
 - Product detail pages with image zoom, seller information and related listings
 - Product comparison for up to three listings
 - Client-side cart grouped by seller with per-seller subtotals and quantity controls
