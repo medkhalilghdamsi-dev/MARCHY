@@ -2006,3 +2006,16 @@ input,select,textarea{accent-color:var(--orange)}
 .account-recent-card strong{font-size:11px;color:var(--ink)}
 @media(max-width:900px){.account-recent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.account-recently-viewed{padding:14px}.account-recent-grid{grid-template-columns:1fr}.account-recent-card img{width:54px;height:54px;flex-basis:54px}}
+
+
+/* Seller storefront actions and filter state */
+.seller-store-hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0 6px}
+.seller-store-hero-actions .outline-btn{display:inline-flex;align-items:center;justify-content:center}
+.seller-share-feedback{font-size:11px;color:#176b4b;margin:5px 0 10px}
+.store-active-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:11px 0 14px}
+.store-active-filters>span{font-size:10px;color:var(--muted);font-weight:700}
+.store-active-filters button{display:inline-flex;align-items:center;gap:7px;border:1px solid #f1c2ae;background:#fff7f2;color:#8d3d20;border-radius:999px;padding:6px 10px;font-size:10px;font-weight:700}
+.store-active-filters button b{font-size:13px;line-height:1}
+.store-active-filters button.store-clear-all{border-color:transparent;background:transparent;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.store-active-filters button:focus-visible,.seller-store-hero-actions button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+@media(max-width:560px){.seller-store-hero-actions{align-items:stretch}.seller-store-hero-actions>*{flex:1}.store-active-filters{align-items:flex-start}.store-active-filters>span{flex-basis:100%}}
