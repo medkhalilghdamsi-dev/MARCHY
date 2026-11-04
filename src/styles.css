@@ -1417,3 +1417,34 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .is-rtl .help-topic-panel>a>i{margin-left:0;margin-right:auto}
 @media(max-width:760px){.help-center-layout{grid-template-columns:1fr;gap:20px}.help-topic-panel{order:-1}.help-topic-panel>h2{font-size:20px}}
 @media(max-width:480px){.help-center-hero{padding:25px 0 29px}.help-center-hero h1{font-size:36px}.help-topic-panel{padding:16px}.help-faq-item summary{font-size:11px}}
+
+
+/* Dedicated delivery and returns information pages */
+.marketplace-guide-page{padding-bottom:58px}
+.marketplace-guide-hero{padding:36px 0 30px;border-bottom:1px solid var(--line)}
+.marketplace-guide-hero>.eyebrow{color:var(--orange-dark)}
+.marketplace-guide-hero h1{max-width:740px;margin:11px 0;color:var(--ink);font-size:clamp(34px,5vw,53px);line-height:1.05;letter-spacing:-.05em}
+.marketplace-guide-hero>p{max-width:640px;color:var(--muted);font-size:13px;line-height:1.8}
+.guide-status-pill{display:inline-flex;margin-top:8px;padding:7px 10px;border:1px solid #e7ebee;border-radius:5px;background:#f8fafb;color:#7b8791;font-size:8px;font-weight:800;letter-spacing:.08em}
+.marketplace-guide-layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:38px;padding-top:30px}
+.guide-section-heading h2,.guide-note-panel h2,.guide-bottom-cta h2{margin:7px 0;color:var(--ink);font-size:22px;letter-spacing:-.035em}
+.guide-section-heading p{color:var(--muted);font-size:11px;line-height:1.7}
+.guide-checklist-item{display:grid;grid-template-columns:42px 1fr;gap:15px;padding:19px 0;border-bottom:1px solid var(--line)}
+.guide-checklist-item>span{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#fff0e8;color:var(--orange-dark);font-size:10px;font-weight:850}
+.guide-checklist-item h3{margin:2px 0 6px;color:var(--ink);font-size:13px}
+.guide-checklist-item p{max-width:620px;margin:0;color:#687482;font-size:10px;line-height:1.8}
+.guide-note-panel{align-self:start;padding:22px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow-card)}
+.guide-note-panel h2{font-size:20px}
+.guide-note-panel>p{color:#687482;font-size:10px;line-height:1.8}
+.guide-note-panel>div{display:flex;flex-direction:column;gap:6px;margin:17px 0;padding:13px;border-radius:8px;background:#f8fafb}
+.guide-note-panel>div b{color:var(--ink);font-size:9px}
+.guide-note-panel>div span{color:#7d8892;font-size:9px;line-height:1.7}
+.guide-bottom-cta{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-top:28px;padding:23px;border:1px solid var(--line);border-radius:12px;background:#f9fafb}
+.guide-bottom-cta>div:first-child{max-width:540px}
+.guide-bottom-cta h2{font-size:19px}
+.guide-bottom-cta p{margin:0;color:#78838d;font-size:10px;line-height:1.7}
+.guide-bottom-cta>div:last-child{display:flex;gap:9px;flex-wrap:wrap}
+.guide-bottom-cta .primary-btn,.guide-bottom-cta .outline-btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 13px;font-size:9px}
+.is-rtl .marketplace-guide-layout,.is-rtl .guide-bottom-cta{direction:rtl}
+@media(max-width:760px){.marketplace-guide-layout{grid-template-columns:1fr;gap:17px}.guide-note-panel{order:-1}.guide-bottom-cta{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.marketplace-guide-hero{padding:26px 0}.marketplace-guide-hero h1{font-size:36px}.guide-note-panel{padding:17px}.guide-bottom-cta{padding:17px}.guide-bottom-cta>div:last-child{width:100%}.guide-bottom-cta>div:last-child>*{flex:1}}
