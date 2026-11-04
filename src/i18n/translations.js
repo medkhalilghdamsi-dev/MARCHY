@@ -595,4 +595,44 @@ Object.assign(translations, {
 });
 
 
+Object.assign(translations, {
+ "MAKE A MORE INFORMED CHOICE":["FAITES UN CHOIX PLUS ÉCLAIRÉ","اتخذ قراراً أكثر وعياً"],
+ "Compare products":["Comparer les produits","مقارنة المنتجات"],
+ "Review the information available side by side before choosing what to explore next.":["Comparez les informations disponibles avant de poursuivre votre choix.","راجع المعلومات جنباً إلى جنب قبل متابعة الاختيار."],
+ "＋ Add products":["＋ Ajouter des produits","＋ أضف منتجات"],
+ "YOUR SHORTLIST STARTS HERE":["VOTRE SÉLECTION COMMENCE ICI","تبدأ قائمتك المختصرة من هنا"],
+ "No products selected":["Aucun produit sélectionné","لم يتم اختيار منتجات"],
+ "Add up to three sample listings from the marketplace to compare their displayed prices, descriptions and seller details.":["Ajoutez jusqu’à trois annonces de démonstration pour comparer leurs prix, descriptions et vendeurs.","أضف حتى ثلاثة منتجات تجريبية لمقارنة الأسعار والأوصاف والبائعين."],
+ "Explore products →":["Découvrir les produits →","استكشف المنتجات →"],
+ "listings selected":["annonces sélectionnées","منتجات محددة"],
+ "These listings are from different categories. Compare the information available, not like-for-like specifications.":["Ces annonces appartiennent à des catégories différentes. Comparez les informations disponibles, pas des caractéristiques équivalentes.","هذه المنتجات من فئات مختلفة. قارن المعلومات المتاحة وليس المواصفات المتطابقة."],
+ "These listings share a category. Check product details with each seller before deciding.":["Ces annonces appartiennent à la même catégorie. Vérifiez les détails auprès de chaque vendeur avant de décider.","هذه المنتجات من الفئة نفسها. تحقق من التفاصيل مع كل بائع قبل اتخاذ القرار."],
+ "Clear comparison":["Effacer la comparaison","مسح المقارنة"],
+ "Add another product":["Ajouter un autre produit","أضف منتجاً آخر"],
+ "comparison slot":["place de comparaison","مكان للمقارنة"],
+ "remaining":["restante","متبقية"],
+ "SIDE-BY-SIDE REVIEW":["COMPARAISON CÔTE À CÔTE","مراجعة جنباً إلى جنب"],
+ "Listing details":["Détails de l’annonce","تفاصيل المنتج"],
+ "Scroll horizontally to view every product":["Faites défiler horizontalement pour voir chaque produit","مرر أفقياً لعرض كل المنتجات"],
+ "What to compare":["Éléments à comparer","ما الذي يجب مقارنته"],
+ "Displayed price":["Prix affiché","السعر المعروض"],
+ "Illustrative reference price":["Prix de référence indicatif","السعر المرجعي التوضيحي"],
+ "Difference from reference":["Écart par rapport au prix de référence","الفرق عن السعر المرجعي"],
+ "Category":["Catégorie","الفئة"],
+ "Seller":["Vendeur","البائع"],
+ "Seller location":["Emplacement du vendeur","موقع البائع"],
+ "Description":["Description","الوصف"],
+ "Availability":["Disponibilité","التوفر"],
+ "Delivery":["Livraison","التوصيل"],
+ "To be confirmed with seller":["À confirmer auprès du vendeur","يجب التأكيد مع البائع"],
+ "Coverage, cost and timing to be confirmed":["Couverture, coût et délai à confirmer","يجب تأكيد نطاق التوصيل والتكلفة والمدة"],
+ "MARCHY is a frontend prototype. Prices, reference prices, descriptions and storefront information are illustrative. This comparison cannot verify product quality, technical specifications, stock, seller reliability, delivery terms or final prices.":["MARCHY est un prototype frontend. Les prix, descriptions et informations des boutiques sont indicatifs. Cette comparaison ne vérifie ni la qualité, ni le stock, ni la fiabilité du vendeur, ni les conditions de livraison ou le prix final.","مارشي نموذج أولي للواجهة. الأسعار والأوصاف ومعلومات المتاجر توضيحية. لا يمكن لهذه المقارنة التحقق من الجودة أو المواصفات أو المخزون أو موثوقية البائع أو شروط التوصيل أو السعر النهائي."],
+ "View cart →":["Voir le panier →","عرض السلة →"],
+ "Continue exploring →":["Continuer à explorer →","واصل الاستكشاف →"],
+ "removed from your cart.":["retiré de votre panier.","تمت إزالته من سلتك."],
+ "Undo":["Annuler","تراجع"],
+ "Dismiss removal message":["Fermer le message de suppression","إغلاق رسالة الإزالة"],
+ "Open full comparison →":["Ouvrir la comparaison complète →","افتح المقارنة الكاملة →"]
+});
+
 export { translations }
