@@ -6,6 +6,7 @@ const routes = [
   '/category/electronics',
   '/product/1',
   '/cart',
+  '/checkout',
   '/wishlist',
   '/categories',
   '/sellers',
@@ -28,7 +29,7 @@ test('all public frontend routes render a page and a page-specific title', async
   }
 })
 
-const responsiveRoutes = ['/', '/search', '/product/1', '/cart', '/wishlist', '/sell']
+const responsiveRoutes = ['/', '/search', '/product/1', '/cart', '/checkout', '/wishlist', '/sell']
 const viewports = [
   { width: 360, height: 800 },
   { width: 390, height: 844 },
@@ -120,6 +121,29 @@ test('cart groups products by seller and keeps each seller subtotal visible', as
   await expect(page.locator('.cart-summary')).toContainText('268.000 TND')
 })
 
+
+test('checkout preview validates contact details and reviews each seller without submitting an order', async ({ page }) => {
+  await page.goto('/product/1')
+  await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
+  await page.goto('/product/2')
+  await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
+  await page.goto('/cart')
+  await page.getByRole('link', { name: /Continue to checkout/ }).click()
+  await expect(page).toHaveURL(/\/checkout$/)
+  await page.getByRole('button', { name: 'Review order' }).click()
+  await expect(page.getByRole('textbox', { name: 'Full name' })).toHaveJSProperty('validity.valid', false)
+  await page.getByRole('textbox', { name: 'Full name' }).fill('Demo Customer')
+  await page.getByRole('textbox', { name: 'Phone number' }).fill('+216 20 000 000')
+  await page.getByRole('textbox', { name: 'City' }).fill('Tunis')
+  await page.getByRole('textbox', { name: 'Delivery address' }).fill('10 Demo Street')
+  await page.getByRole('button', { name: 'Review order' }).click()
+  await expect(page.getByRole('heading', { name: 'Review before proceeding' })).toBeVisible()
+  await expect(page.locator('.checkout-seller-review')).toHaveCount(2)
+  await expect(page.locator('.checkout-summary')).toContainText('268.000 TND')
+  await page.getByRole('button', { name: 'Continue to final preview' }).click()
+  await expect(page.getByRole('heading', { name: 'Your checkout flow is ready for a live integration' })).toBeVisible()
+  await expect(page.getByText('No order has been created', { exact: false })).toBeVisible()
+})
 
 test('seller directory search matches accented French category terms', async ({ page }) => {
   await page.goto('/sellers')
