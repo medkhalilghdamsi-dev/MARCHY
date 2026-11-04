@@ -383,7 +383,7 @@ test('seller storefront empty state clears search, category and sort together', 
   await page.goto('/seller/atlas-tech-tunis?q=does-not-exist&category=Electronics&sort=high')
   await expect(page.getByRole('heading', { name: 'No matching products' })).toBeVisible()
   await page.getByRole('button', { name: 'Clear storefront filters' }).click()
-  await expect(page).toHaveURL(/\\/seller\\/atlas-tech-tunis$/)
+  await expect(page).toHaveURL(/\/seller\/atlas-tech-tunis$/)
   await expect(page.getByRole('textbox', { name: 'Search this storefront' })).toHaveValue('')
   await expect(page.getByRole('combobox', { name: 'Sort storefront products' })).toHaveValue('featured')
   await expect(page.getByRole('button', { name: 'All', exact: true })).toHaveAttribute('aria-pressed', 'true')
