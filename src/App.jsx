@@ -979,6 +979,21 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
   const seller = sellerForProduct(product)
   const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
+  const sellerQuestions = ({
+    Electronics:['Exact model, technical specifications and compatibility','Condition, included accessories and original packaging','Warranty coverage and proof of purchase','Current availability and final price'],
+    Fashion:['Size measurements, fit and available variants','Material composition and care instructions','Condition and any visible defects','Exchange and return conditions'],
+    Beauty:['Full ingredient list and product size','Expiry date, batch details and sealed condition','Usage instructions and suitability information','Return conditions for opened or unopened items'],
+    Groceries:['Exact contents, quantity and product origin','Freshness, packaging and storage conditions','Substitution policy if an item is unavailable','Delivery handling and timing'],
+    Home:['Exact dimensions, materials and colour','Assembly requirements and included components','Care instructions and packaging','Delivery handling for fragile or bulky items'],
+    Sports:['Dimensions, materials and intended use','Available sizes or variants','Included accessories and care instructions','Warranty or return conditions'],
+    Accessories:['Exact dimensions, material and capacity','Available colours or variants','Included components and care instructions','Return conditions'],
+    Automotive:['Exact compatibility and supported models','Full kit contents and usage instructions','Product condition and packaging','Return conditions if compatibility is incorrect'],
+    Books:['Edition, language and publication details','Format, dimensions and page count','New or used condition','Exact set quantity and included items'],
+    'Toys & Games':['Recommended age range and safety information','Exact piece count and included components','Materials and packaging condition','Warranty or return conditions'],
+    'Baby & Kids':['Age suitability and product safety information','Dimensions and compatibility details','Materials, cleaning and care instructions','Return conditions and included components'],
+    Pets:['Intended animal type, size and dimensions','Materials and cleaning instructions','Included accessories and usage guidance','Return conditions'],
+    'Garden & DIY':['Exact kit contents, dimensions and materials','Compatibility with the intended project','Care, storage or installation requirements','Delivery handling and return conditions']
+  })[product.category] || ['Exact product specifications and included items','Product condition and any limitations','Current availability and final price','Delivery, returns and warranty conditions']
   const saved = wishlist.includes(product.id)
   const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
   const handleAdd = () => { addToCart(product, qty); setAdded(true) }
@@ -1031,7 +1046,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
       </article>
       <article className="product-information-card product-order-checklist">
         <span className="eyebrow">BEFORE YOU ORDER</span><h2>Confirm these details with the seller</h2>
-        <ul><li>Product condition and included items</li><li>Current availability and final price</li><li>Delivery cost, coverage and timing</li><li>Returns, exchanges and warranty terms</li></ul>
+        <ul>{sellerQuestions.map(question=><li key={question}>{question}</li>)}</ul>
         <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront →</Link>
       </article>
     </section>
