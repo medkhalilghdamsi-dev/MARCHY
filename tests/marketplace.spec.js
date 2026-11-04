@@ -532,3 +532,16 @@ test('comparison remains usable on narrow mobile screens', async ({ page }) => {
     expect(pageWidth).toBeLessThanOrEqual(viewportWidth + 1)
   }
 })
+
+
+test('comparison page clear action and language switching work', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-compare', JSON.stringify([1, 2])))
+  await page.goto('/compare')
+  await page.getByRole('button', { name: 'Clear comparison' }).click()
+  await expect(page.locator('.compare-page-products')).toHaveCount(0)
+  await page.locator('.language-picker select').selectOption('fr')
+  await expect(page.getByRole('heading', { name: 'Comparer les produits' })).toBeVisible()
+  await page.locator('.language-picker select').selectOption('ar')
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+  await expect(page.getByRole('heading', { name: 'مقارنة المنتجات' })).toBeVisible()
+})
