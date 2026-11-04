@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { categories, products } from '../data/products'
 import { sellers, sellerByCategory, sellerForProduct } from '../data/sellers'
-import { money, searchSynonyms, normalizeSearchText, searchTextMatches, searchSynonyms, readText, readJson, writeJson } from '../utils/marketplace'
+import { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText, readJson, writeJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
 import { ProductCard } from '../components/MarketplaceChrome'
 
@@ -15,6 +15,7 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
   const populatedCategories=categories.slice(1).filter(name=>products.some(p=>p.category===name))
   const popular=populatedCategories.map((name,i)=>({name,count:products.filter(p=>p.category===name).length,icon:['⌘','◉','✳','⌂','✿','↗','◇','▤','▣','✦','♧','♢','⌁'][i%13],tone:['cat-blue','cat-sand','cat-pink','cat-lilac','cat-green','cat-yellow'][i%6]}))
   const deals=products.filter(p=>p.oldPrice).slice(0,4)
+  const featuredSellers=sellers.slice(0,3).map(seller=>({...seller,listingCount:products.filter(product=>sellerForProduct(product).slug===seller.slug).length}))
   const recentlyViewed=readJson('marchy-recently-viewed', []).map(id=>products.find(product=>product.id===id)).filter(Boolean).slice(0,4)
   return translateTree(<main id="main-content" className="shell page home-page">
     <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
@@ -52,6 +53,10 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
       <div className="section-heading"><div><span className="eyebrow">PICK YOUR NEXT DISCOVERY</span><h2>Popular in the catalogue</h2><p className="muted">A curated look at the current sample listings.</p></div><Link to="/search" className="text-link">Browse all products →</Link></div>
       <div className="home-category-tabs" role="group" aria-label="Filter featured products">{['All','Electronics','Home','Fashion','Beauty','Sports'].map(name=><button key={name} type="button" className={active===name?'active':''} aria-pressed={active===name} onClick={()=>setActive(name)}>{name}</button>)}</div>
       <div className="product-grid">{shown.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div>
+    </section>
+    <section className="section home-storefront-discovery" aria-labelledby="home-storefront-title">
+      <div className="section-heading"><div><span className="eyebrow">MEET THE STOREFRONTS</span><h2 id="home-storefront-title">Explore local shops</h2><p className="muted">Browse a few illustrative storefronts from the MARCHY sample catalogue.</p></div><Link to="/sellers" className="text-link">View all sellers →</Link></div>
+      <div className="home-storefront-grid">{featuredSellers.map(seller=><Link className="home-storefront-card" to={`/seller/${seller.slug}`} key={seller.slug}><span className="seller-avatar large" aria-hidden="true">{seller.name.slice(0,1)}</span><span className="home-storefront-copy"><b>{seller.name}</b><small>{seller.city}, Tunisia</small><span>{seller.categories.slice(0,2).join(' · ')}</span></span><span className="home-storefront-meta"><b>{seller.listingCount}</b><small>sample listings</small></span><span className="home-storefront-arrow" aria-hidden="true">→</span></Link>)}</div>
     </section>
     {recentlyViewed.length>0&&<section className="section home-recently-viewed"><div className="section-heading"><div><span className="eyebrow">PICK UP WHERE YOU LEFT OFF</span><h2>Recently viewed</h2><p className="muted">Your latest product discoveries on this device.</p></div></div><div className="product-grid">{recentlyViewed.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
     <section className="section home-deals-section"><div className="section-heading"><div><span className="eyebrow">PRICE COMPARISON</span><h2>Listings with sample discounts</h2><p className="muted">Previous prices are illustrative and must be confirmed with the seller.</p></div><Link to="/search?deal=true" className="text-link">See all deals →</Link></div><div className="product-grid">{deals.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>
