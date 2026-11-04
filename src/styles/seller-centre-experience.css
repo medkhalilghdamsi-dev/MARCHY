@@ -1,0 +1,154 @@
+/* MARCHY Seller Centre — merchant-first workspace, local-demo-safe */
+.marchy-seller-center{padding-bottom:65px}
+.marchy-seller-center .breadcrumbs{margin-bottom:10px;color:#718278}
+.marchy-seller-center .breadcrumbs a{color:#315f46}
+.marchy-seller-heading{align-items:center;padding:25px 0 23px}
+.marchy-seller-heading .eyebrow{color:#668271;letter-spacing:1.2px}
+.marchy-seller-heading h1{margin:7px 0 8px;color:#173f30;font-size:clamp(30px,3.5vw,42px);letter-spacing:-.05em}
+.marchy-seller-heading p{max-width:620px;color:#77867b;font-size:11px;line-height:1.7}
+.marchy-seller-heading .seller-dashboard-demo{border-color:#dce8dc;border-radius:30px;background:#f1f6ef;color:#55745e}
+.marchy-seller-shell{grid-template-columns:244px minmax(0,1fr);gap:18px}
+.marchy-seller-sidebar{top:14px;padding:17px;border-color:#e0e9e0;border-radius:13px;box-shadow:0 7px 24px rgba(23,63,48,.045)}
+.marchy-seller-sidebar .seller-dashboard-shop{padding:3px 1px 16px;border-color:#e8eee7}
+.marchy-seller-sidebar .seller-avatar{width:39px;height:39px;border-radius:10px;background:#eaf2e9;color:#28543b}
+.marchy-seller-sidebar .seller-dashboard-shop b{color:#244a35;font-size:10px}
+.marchy-seller-sidebar .seller-dashboard-shop small{color:#7f8e82}
+.marchy-seller-sidebar .seller-dashboard-select{margin:15px 0;color:#718278}
+.marchy-seller-sidebar .seller-dashboard-select select{height:39px;border-color:#dfe8df;border-radius:7px;color:#31513d;font-size:9px}
+.marchy-seller-sidebar nav{gap:5px}
+.marchy-seller-sidebar nav button{min-height:42px;border-radius:7px;color:#617268;font-size:10px}
+.marchy-seller-sidebar nav button>span{color:#748b7a}
+.marchy-seller-sidebar nav button.active{background:#edf4ec;color:#24543a}
+.marchy-seller-sidebar nav button.active>span,.marchy-seller-sidebar nav button.active>i{color:#24543a}
+.marchy-seller-sidebar nav button>i{color:#b97551}
+.marchy-seller-sidebar-note{border:1px solid #e4ece2;background:#f7faf5}
+.marchy-seller-sidebar-note b{color:#365640}
+.marchy-seller-sidebar-note span{color:#7d8b80}
+.marchy-seller-main{padding:23px;border-color:#e0e9e0;border-radius:13px;box-shadow:0 7px 24px rgba(23,63,48,.035)}
+.marchy-seller-main-heading{margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #edf1eb}
+.marchy-seller-main-heading .eyebrow{color:#718979;letter-spacing:1px}
+.marchy-seller-main-heading h2{margin:6px 0 0;color:#1b4431;font-size:22px;letter-spacing:-.04em}
+.marchy-seller-main-heading .primary-btn{min-height:38px;border-radius:7px;background:#174b38;font-size:9px}
+.marchy-seller-stats{gap:11px}
+.marchy-seller-stats article{gap:8px;padding:16px;border-color:#e2eae1;border-radius:9px;background:linear-gradient(145deg,#fff,#fafcf9)}
+.marchy-seller-stats article>span{color:#788a7d;font-size:7px;letter-spacing:.1em}
+.marchy-seller-stats article>b{color:#1b4933;font-size:24px;letter-spacing:-.04em}
+.marchy-seller-stats article>small{color:#819087;font-size:8px}
+.marchy-seller-panels{gap:13px;margin-top:14px}
+.marchy-seller-panels .seller-dashboard-panel{padding:17px;border-color:#e4ebe3;border-radius:9px}
+.marchy-seller-panels .seller-dashboard-panel h3{color:#294d37;font-size:12px}
+.marchy-seller-panels .seller-dashboard-panel .eyebrow{color:#748a79}
+.marchy-seller-panels .seller-dashboard-text-button{color:#315f46}
+.marchy-seller-panels .seller-dashboard-mini-row{gap:10px;padding:10px 0;border-color:#edf1eb}
+.marchy-seller-panels .seller-dashboard-mini-row img{width:42px;height:42px;flex-basis:42px;border:1px solid #edf1eb;background:#f7f8f4}
+.marchy-seller-panels .seller-dashboard-mini-row b{color:#34513e;font-size:8px}
+.marchy-seller-panels .seller-dashboard-mini-row small{color:#859188}
+.marchy-seller-panels .seller-dashboard-mini-row strong{color:#244b36}
+.marchy-seller-panels .seller-dashboard-status{background:#f1f5ef;color:#6b806e}
+.marchy-seller-panels .seller-dashboard-checklist{background:#fafcf9}
+.marchy-seller-panels .seller-dashboard-checklist>p{color:#7b897f}
+.marchy-seller-panels .seller-dashboard-checklist li{color:#53695a}
+.marchy-seller-panels .seller-dashboard-checklist li span{color:#b87551}
+.marchy-seller-main .seller-dashboard-products-heading{align-items:center;gap:12px}
+.marchy-seller-main .seller-dashboard-products-heading>div{display:flex;flex-direction:column;gap:5px}
+.marchy-seller-main .seller-dashboard-products-heading b{color:#294d37;font-size:11px}
+.marchy-seller-main .seller-dashboard-products-heading small{color:#7c8b80;font-size:9px}
+.marchy-seller-main .seller-dashboard-products-heading .primary-btn{min-height:37px;border-radius:7px;background:#174b38;font-size:9px}
+.marchy-seller-main .seller-dashboard-filters{padding:13px;border-color:#e3ebe2;border-radius:9px;background:#f8faf7}
+.marchy-seller-main .seller-dashboard-filters label{color:#65796a}
+.marchy-seller-main .seller-dashboard-filters input,.marchy-seller-main .seller-dashboard-filters select{height:38px;border-color:#dfe8df;border-radius:7px;color:#34513e}
+.marchy-seller-main .seller-dashboard-filters>button{height:38px;border-color:#dfe8df;border-radius:7px;color:#42634b}
+.marchy-seller-main .seller-dashboard-listings{border-color:#e3ebe2;border-radius:9px}
+.marchy-seller-main .seller-dashboard-listing-head{background:#f3f7f1;color:#748779}
+.marchy-seller-main .seller-dashboard-listing-row{border-color:#edf1eb}
+.marchy-seller-main .seller-dashboard-product-cell b,.marchy-seller-main .seller-dashboard-listing-row>strong{color:#31513d}
+.marchy-seller-main .seller-dashboard-product-cell small{color:#7e8d82}
+.marchy-seller-main .seller-dashboard-row-link{color:#315f46}
+.marchy-seller-main .seller-dashboard-note{color:#7f8d82}
+.marchy-seller-main .seller-draft-form{margin:13px 0;border-color:#dfe9de;border-radius:10px;background:#f8faf7}
+.marchy-seller-main .seller-draft-form-heading h3{color:#234b35}
+.marchy-seller-main .seller-draft-form-heading p{color:#78877d}
+.marchy-seller-main .seller-draft-fields label{color:#617669}
+.marchy-seller-main .seller-draft-fields input,.marchy-seller-main .seller-draft-fields textarea{border-color:#dfe8df;border-radius:7px;background:#fff;color:#294b37}
+.marchy-seller-main .seller-draft-form-actions .primary-btn{border-radius:7px;background:#174b38}
+.marchy-seller-main .seller-local-drafts{border-color:#e1e9df;border-radius:9px}
+.marchy-seller-main .seller-local-drafts>div>b,.marchy-seller-main .seller-local-drafts article b{color:#31513d}
+.marchy-seller-main .seller-local-drafts article{border-color:#edf1eb}
+.marchy-seller-main .seller-local-drafts article em{background:#f1f5ef;color:#647d68}
+.marchy-seller-main .seller-local-draft-actions button{color:#315f46}
+.marchy-seller-main .seller-dashboard-profile{border-color:#e1e9df;border-radius:10px}
+.marchy-seller-main .seller-dashboard-cover{background:linear-gradient(120deg,#eaf1e8,#f5f4eb)}
+.marchy-seller-main .seller-dashboard-cover>span{border-radius:13px;background:#174b38}
+.marchy-seller-main .seller-dashboard-profile-body h3{color:#204832}
+.marchy-seller-main .seller-dashboard-profile-body p{color:#738278}
+.marchy-seller-main .seller-dashboard-empty.large{border-color:#dce7dc;background:#fafcf9}
+.marchy-seller-main .seller-dashboard-empty>span{background:#edf4eb;color:#315f46}
+.marchy-seller-main .seller-dashboard-empty h3{color:#244b36}
+.marchy-seller-main .seller-dashboard-empty p{color:#74847a}
+.marchy-seller-center .catalogue-note{margin-top:16px;color:#78877d}
+.marchy-seller-center a:focus-visible,.marchy-seller-center button:focus-visible,.marchy-seller-center input:focus-visible,.marchy-seller-center select:focus-visible,.marchy-seller-center textarea:focus-visible{outline:3px solid #d99a78;outline-offset:2px}
+
+/* Seller launch and storefront planning */
+.marchy-seller-launch{padding-bottom:65px}
+.marchy-seller-launch .seller-launch-hero{border-color:#e1e9df;border-radius:16px;background:linear-gradient(115deg,#f0f5ed,#fbfaf5)}
+.marchy-seller-launch .seller-launch-copy .eyebrow,.marchy-seller-launch .seller-section-heading .eyebrow,.marchy-seller-launch .seller-workspace-heading .eyebrow{color:#64806c}
+.marchy-seller-launch .seller-launch-copy h1{color:#173f30;letter-spacing:-.05em}
+.marchy-seller-launch .seller-launch-copy>p,.marchy-seller-launch .seller-section-heading>p{color:#74847a}
+.marchy-seller-launch .seller-launch-actions .primary-btn{border-radius:8px;background:#174b38}
+.marchy-seller-launch .seller-launch-trust span{color:#5e7865}
+.marchy-seller-launch .seller-art-window{border-color:#dbe6d9;box-shadow:0 22px 50px rgba(23,63,48,.1)}
+.marchy-seller-launch .seller-art-top{background:#edf3eb}
+.marchy-seller-launch .seller-art-brand{color:#214a35}
+.marchy-seller-launch .seller-launch-steps{padding-top:38px}
+.marchy-seller-launch .seller-section-heading h2,.marchy-seller-launch .seller-workspace-heading h2,.marchy-seller-launch .seller-launch-bottom h2{color:#1d4431;letter-spacing:-.04em}
+.marchy-seller-launch .seller-step-grid{gap:12px}
+.marchy-seller-launch .seller-step-card{border-color:#e1e9df;border-radius:11px;background:#fff}
+.marchy-seller-launch .seller-step-card>span{color:#bd7954}
+.marchy-seller-launch .seller-step-card h3{color:#31513d}
+.marchy-seller-launch .seller-step-card p{color:#77867c}
+.marchy-seller-launch .seller-workspace{border-color:#e0e9df;border-radius:14px;background:#fff}
+.marchy-seller-launch .seller-workspace-heading{border-color:#edf1eb}
+.marchy-seller-launch .seller-draft-label{border-color:#dce8dc;border-radius:30px;background:#f1f6ef;color:#56755e}
+.marchy-seller-launch .seller-planner-grid{gap:18px}
+.marchy-seller-launch .seller-planner-form{padding:19px;border:1px solid #e4ebe2;border-radius:10px;background:#fafcf9}
+.marchy-seller-launch .seller-planner-form h3{color:#284d37}
+.marchy-seller-launch .seller-planner-form label{color:#64786a}
+.marchy-seller-launch .seller-planner-form input,.marchy-seller-launch .seller-planner-form select,.marchy-seller-launch .seller-planner-form textarea{border-color:#dfe8df;border-radius:7px;background:#fff;color:#294b37}
+.marchy-seller-launch .seller-planner-form input:focus,.marchy-seller-launch .seller-planner-form select:focus,.marchy-seller-launch .seller-planner-form textarea:focus{border-color:#789b80;box-shadow:0 0 0 3px rgba(49,95,70,.1)}
+.marchy-seller-launch .seller-preview-button{border-radius:8px;background:#174b38}
+.marchy-seller-launch .seller-live-preview{border-color:#e1e9df;border-radius:11px;box-shadow:0 7px 24px rgba(23,63,48,.05)}
+.marchy-seller-launch .seller-preview-top{background:#f3f7f1;color:#55705d}
+.marchy-seller-launch .seller-preview-cover{background:linear-gradient(120deg,#e9f0e6,#f8f5eb)}
+.marchy-seller-launch .seller-preview-body h3{color:#244b36}
+.marchy-seller-launch .seller-preview-body>p{color:#74847a}
+.marchy-seller-launch .seller-preview-product{border-color:#e4ebe2;background:#fafcf9}
+.marchy-seller-launch .seller-preview-product strong{color:#214b35}
+.marchy-seller-launch .seller-preview-confirmation{border-color:#cbdcca;border-radius:8px;background:#f1f7ef;color:#315b3e}
+.marchy-seller-launch .seller-launch-bottom{border-color:#e1e9df;border-radius:12px;background:#f7faf5}
+.marchy-seller-launch .seller-launch-bottom p{color:#738279}
+.marchy-seller-launch .seller-launch-bottom .outline-btn{border-color:#cbdccb;color:#315f46}
+.is-rtl .marchy-seller-center .seller-dashboard-sidebar nav button{text-align:right}
+.is-rtl .marchy-seller-center .seller-dashboard-mini-row strong{margin-right:auto;margin-left:0}
+.is-rtl .marchy-seller-launch .seller-planner-form,.is-rtl .marchy-seller-launch .seller-live-preview{text-align:right}
+@media(max-width:900px){
+ .marchy-seller-shell{grid-template-columns:205px minmax(0,1fr);gap:12px}
+ .marchy-seller-main{padding:16px}
+}
+@media(max-width:680px){
+ .marchy-seller-heading{align-items:flex-start}
+ .marchy-seller-shell{grid-template-columns:1fr}
+ .marchy-seller-sidebar{position:static}
+ .marchy-seller-main{padding:14px}
+ .marchy-seller-main-heading{align-items:flex-start;flex-direction:column}
+ .marchy-seller-main-heading .primary-btn{width:100%;justify-content:center}
+ .marchy-seller-main .seller-dashboard-products-heading{align-items:flex-start;flex-direction:column}
+ .marchy-seller-main .seller-dashboard-products-heading .primary-btn{width:100%}
+ .marchy-seller-launch .seller-planner-grid{grid-template-columns:1fr}
+ .marchy-seller-launch .seller-planner-form{padding:14px}
+ .marchy-seller-launch .seller-live-preview{position:static}
+}
+@media(max-width:420px){
+ .marchy-seller-main{padding:10px}
+ .marchy-seller-stats article{padding:11px}
+ .marchy-seller-stats article>b{font-size:20px}
+}
