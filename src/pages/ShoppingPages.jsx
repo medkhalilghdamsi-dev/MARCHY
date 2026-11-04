@@ -41,6 +41,7 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
         <div className="hero-art-index"><span>01</span><i></i><span>DISCOVER</span></div>
       </div>
     </section>
+    <section className="home-budget-discovery" aria-label="Shop by budget"><div><span className="eyebrow">A GOOD PLACE TO START</span><h2>Shop by budget</h2><p>Explore sample listings within a comfortable price range.</p></div><div className="home-budget-links">{[{label:"Under 50 TND",max:50},{label:"Under 100 TND",max:100},{label:"Under 200 TND",max:200},{label:"Explore everything",max:0}].map(item=><Link key={item.label} to={item.max?'/search?max='+item.max:'/search'}>{item.label}<span>→</span></Link>)}</div></section>
     <section className="market-benefits"><div><span>01</span><b>Browse with ease</b><small>Explore products across everyday categories</small></div><div><span>02</span><b>Find local storefronts</b><small>See sample seller profiles and locations</small></div><div><span>03</span><b>Compare in dinars</b><small>All catalogue prices shown in TND</small></div></section>
     <section className="home-quick-discovery" aria-label="Quick category discovery"><div><span className="eyebrow">QUICK DISCOVERY</span><b>What are you shopping for?</b></div><div className="home-quick-links">{populatedCategories.slice(0,7).map(name=><Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`}>{name}<span>↗</span></Link>)}<Link className="quick-all-link" to="/categories">All departments <span>→</span></Link></div></section>
     <section className="section home-category-section">
@@ -70,6 +71,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const [term, setTerm] = useState(initial)
   const [category, setCategory] = useState(initialCategory)
   const dealsOnly = params.get('deal') === 'true'
+  const budgetParam = Number(params.get('max') || 0)
   useEffect(() => setTerm(initial), [initial])
   useEffect(() => setCategory(initialCategory), [initialCategory])
   const [sort, setSort] = useState('featured')
@@ -77,7 +79,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   useEffect(()=>{try{localStorage.setItem('marchy-product-view',view)}catch{}},[view])
   const catalogueMaxPrice = Math.max(100, Math.ceil(Math.max(...products.map(p => p.price)) / 50) * 50)
   const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(catalogueMaxPrice)
+  const [maxPrice, setMaxPrice] = useState(budgetParam > 0 ? Math.min(catalogueMaxPrice, budgetParam) : catalogueMaxPrice)
+  useEffect(() => { if (budgetParam > 0) setMaxPrice(Math.min(catalogueMaxPrice, budgetParam)) }, [budgetParam, catalogueMaxPrice])
   const [city, setCity] = useState('All')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
@@ -164,6 +167,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
         <div className="filter-group"><b>Category</b>{categories.map(c => <label key={c}><input type="radio" name="marketplace-category" checked={category === c} onChange={() => routeCategory ? navigate(c === "All" ? "/search" : "/category/" + encodeURIComponent(c.toLowerCase())) : setCategory(c)}/><span>{c === 'All' ? 'All categories' : c}</span><small>{c === 'All' ? products.length : (categoryCounts[c] || 0)}</small></label>)}</div>
         <div className="filter-group"><b>Seller location</b><select aria-label="Seller location" value={city} onChange={e => setCity(e.target.value)}>{cities.map(c => <option key={c} value={c}>{c === 'All' ? 'All locations' : c}</option>)}</select></div>
         <div className="filter-group price-filter-group"><b>Price range</b><div className="price-inputs"><label>Min <input aria-label="Minimum price in TND" type="number" min="0" max={maxPrice} value={minPrice} onChange={e => setMinPrice(Math.min(maxPrice, Math.max(0, Number(e.target.value) || 0)))}/></label><label>Max <input aria-label="Maximum price in TND" type="number" min="0" max={catalogueMaxPrice} value={maxPrice} onChange={e => setMaxPrice(Math.max(minPrice, Math.min(catalogueMaxPrice, Number(e.target.value) || 0)))}/></label></div><input aria-label="Maximum price" type="range" min="0" max={catalogueMaxPrice} step="5" value={maxPrice} onChange={e => setMaxPrice(Math.max(minPrice, Number(e.target.value)))}/><div className="price-range-labels"><span>0 TND</span><span>{catalogueMaxPrice} TND</span></div></div>
+        <div className="filter-budget-presets"><b>Popular budgets</b><div>{[50,100,200,500].map(value=><button type="button" key={value} className={maxPrice===Math.min(value,catalogueMaxPrice)?'is-active':''} onClick={()=>setMaxPrice(Math.min(value,catalogueMaxPrice))}>Under {value} TND</button>)}</div></div>
         {dealsOnly && <div className="filter-note">Showing sample listings with illustrative previous prices. Discount claims are not verified offers.</div>}
         <button className="filter-apply" type="button" onClick={() => setFiltersOpen(false)}>Show {results.length} products</button>
       </aside>
@@ -307,6 +311,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <p className="product-demo-disclaimer">Frontend demonstration only. No order, payment or delivery booking is submitted.</p>
       </section>
     </div>
+    <section className="product-buyer-highlights" aria-label="Important product information"><div><span>01</span><b>Know what you're buying</b><small>Review the description and confirm exact specifications.</small></div><div><span>02</span><b>Check with the shop</b><small>Ask about variants, condition and current availability.</small></div><div><span>03</span><b>Confirm delivery first</b><small>Agree on coverage, cost and timing before ordering.</small></div></section>
     <section className="product-information-grid">
       <article className="product-information-card">
         <span className="eyebrow">PRODUCT DETAILS</span><h2>About this listing</h2>
