@@ -23,11 +23,27 @@ function SellersPage({language}) {
 
 function SellerPage({language,addToCart,wishlist,toggleWish}) {
  const {slug}=useParams(); const seller=sellers.find(s=>s.slug===slug)
- const [search,setSearch]=useState(''); const [category,setCategory]=useState('All'); const [sort,setSort]=useState('featured')
+ const [searchParams,setSearchParams]=useSearchParams()
+ const urlSearch=searchParams.get('q')||''
+ const urlCategory=searchParams.get('category')||'All'
+ const sortParam=['featured','low','high','name'].includes(searchParams.get('sort'))?searchParams.get('sort'):'featured'
+ const [search,setSearch]=useState(urlSearch)
+ const [category,setCategory]=useState(urlCategory)
+ const [sort,setSort]=useState(sortParam)
  const [view,setView]=useState(()=>readText('marchy-store-view','grid')==='list'?'list':'grid')
  const [shareFeedback,setShareFeedback]=useState('')
- const filtersActive=Boolean(search.trim())||category!=='All'
- const clearStoreFilters=()=>{setSearch('');setCategory('All')}
+ const filtersActive=Boolean(search.trim())||category!=='All'||sort!=='featured'
+ const clearStoreFilters=()=>{setSearch('');setCategory('All');setSort('featured');setSearchParams({}, {replace:true})}
+ useEffect(()=>setSearch(urlSearch),[urlSearch])
+ useEffect(()=>setCategory(urlCategory),[urlCategory])
+ useEffect(()=>setSort(sortParam),[sortParam])
+ useEffect(()=>{
+  const next=new URLSearchParams()
+  if(search.trim())next.set('q',search.trim())
+  if(category!=='All')next.set('category',category)
+  if(sort!=='featured')next.set('sort',sort)
+  if(next.toString()!==searchParams.toString())setSearchParams(next,{replace:true})
+ },[search,category,sort,setSearchParams])
  const shareStorefront=async()=>{
   const shareData={title:`${seller?.name||'MARCHY'} storefront`,text:'Explore this sample storefront on MARCHY',url:window.location.href}
   try{
