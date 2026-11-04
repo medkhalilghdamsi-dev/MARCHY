@@ -98,8 +98,7 @@ const translations = {
   "Checkout preview only":["Aperçu du paiement uniquement","معاينة فقط لإتمام الطلب"],
   "This prototype does not submit orders or collect personal or payment details. Seller availability, delivery and final totals must be confirmed directly.":["Ce prototype ne passe aucune commande et ne collecte aucune donnée personnelle ou bancaire. La disponibilité, la livraison et le total doivent être confirmés directement.","هذا النموذج لا يرسل الطلبات ولا يجمع بيانات شخصية أو مالية. يجب تأكيد التوفر والتوصيل والمجموع النهائي مباشرة."],
   "Close preview":["Fermer l’aperçu","إغلاق المعاينة"],
-  "No payment is taken and no order is placed.":["Aucun paiement n’est prélevé et aucune commande n’est passée.","لا يتم تحصيل أي مبلغ ولا تقديم أي طلب."]
-
+  "No payment is taken and no order is placed.":["Aucun paiement n’est prélevé et aucune commande n’est passée.","لا يتم تحصيل أي مبلغ ولا تقديم أي طلب."],
 
   "Everything worth finding.":["Tout ce qui vaut la peine d’être trouvé.","كل ما يستحق الاكتشاف."],
   "Closer to home.":["Plus près de chez vous.","أقرب إليك."],
