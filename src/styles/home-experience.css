@@ -2,7 +2,7 @@
 .marchy-home{--home-green:#173f32;--home-green-deep:#103327;--home-cream:#f5f3ec;--home-orange:#df7548}
 .marchy-home .market-hero-premium{position:relative;isolation:isolate;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);min-height:490px;border:1px solid #e5e7dc;border-radius:22px;background:var(--home-cream);box-shadow:0 18px 48px rgba(23,63,50,.075)}
 .marchy-home .market-hero-copy{position:relative;z-index:2;padding:clamp(38px,5vw,68px);justify-content:center}
-.marchy-home .hero-kicker{display:inline-flex;align-items:center;gap:9px;margin-bottom:22px;color:#527061;font-size:9px;font-weight:800;letter-spacing:1.35px}
+.marchy-home .hero-kicker{display:inline-flex;align-items:center;gap:9px;margin-bottom:22px;color:#3f5e4d;font-size:9px;font-weight:800;letter-spacing:1.35px}
 .marchy-home .hero-kicker i{width:7px;height:7px;border-radius:50%;background:var(--home-orange);box-shadow:0 0 0 4px rgba(223,117,72,.13)}
 .marchy-home .market-hero-copy h1{max-width:590px;margin:0 0 18px;color:var(--home-green-deep);font-size:clamp(42px,5.2vw,68px);line-height:.99;letter-spacing:-.055em}
 .marchy-home .market-hero-copy h1 em{color:#c56b45;font-style:normal}
@@ -13,10 +13,10 @@
 .marchy-home .hero-search-form input::placeholder{color:#929d95}
 .marchy-home .hero-search-form button{display:inline-flex;align-items:center;justify-content:center;gap:12px;flex:0 0 auto;min-height:44px;padding:0 19px;border-radius:8px;background:var(--home-green);color:#fff;font-size:11px;font-weight:750;transition:background .18s,transform .18s}
 .marchy-home .hero-search-form button:hover{background:var(--home-green-deep);transform:translateY(-1px)}
-.marchy-home .hero-trending{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:15px;color:#78857d;font-size:10px}
+.marchy-home .hero-trending{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:15px;color:#596b60;font-size:10px}
 .marchy-home .hero-trending button{padding:6px 10px;border:1px solid #e0e5dc;border-radius:30px;background:rgba(255,255,255,.55);color:#52675b;font-size:9px;font-weight:650}
 .marchy-home .hero-trending button:hover{border-color:#a9bcae;background:#fff;color:var(--home-green)}
-.marchy-home .market-hero-proof{gap:14px;margin-top:24px;color:#60756a;font-size:9px}
+.marchy-home .market-hero-proof{gap:14px;margin-top:24px;color:#50675a;font-size:9px}
 .marchy-home .market-hero-art{min-height:490px;background:#d9ded3}
 .marchy-home .market-hero-art>img{object-position:center;filter:saturate(.78)}
 .marchy-home .market-hero-art:after{background:linear-gradient(180deg,transparent 50%,rgba(12,39,28,.42))}
@@ -32,14 +32,14 @@
 .marchy-home .hero-art-index{position:absolute;z-index:2;right:24px;top:50%;display:flex;align-items:center;gap:9px;transform:translateY(-50%);color:#fff;font-size:8px;font-weight:800;letter-spacing:1.4px;writing-mode:vertical-rl}
 .marchy-home .hero-art-index i{height:48px;width:1px;background:rgba(255,255,255,.7)}
 .marchy-home .home-budget-discovery{margin:26px 0 20px;padding:23px 25px;border-color:#e3e8e1;border-radius:15px;background:linear-gradient(110deg,#fff 0%,#f6f8f3 100%)}
-.marchy-home .home-budget-discovery .eyebrow,.marchy-home .section-heading .eyebrow,.marchy-home .home-quick-discovery .eyebrow{color:#688071;letter-spacing:1.15px}
+.marchy-home .home-budget-discovery .eyebrow,.marchy-home .section-heading .eyebrow,.marchy-home .home-quick-discovery .eyebrow{color:#506b59;letter-spacing:1.15px}
 .marchy-home .home-budget-discovery h2,.marchy-home .section-heading h2{color:#1b3c2e}
 .marchy-home .home-budget-links a{border-color:#e1e8e0;border-radius:9px;color:#284b39}
 .marchy-home .home-budget-links a span{color:#c56b45}
 .marchy-home .market-benefits{margin:18px 0 48px;padding:17px 19px;border-color:#e3e8e1;border-radius:14px;box-shadow:0 7px 22px rgba(23,63,50,.035)}
 .marchy-home .market-benefits>div>span{color:#c77a55}
 .marchy-home .market-benefits b{color:#294637;font-size:11px}
-.marchy-home .market-benefits small{color:#78877e}
+.marchy-home .market-benefits small{color:#586c5f}
 .marchy-home .home-quick-discovery{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:0 0 45px;padding:20px 22px;border:1px solid #e3e8e1;border-radius:13px;background:#fff}
 .marchy-home .home-quick-discovery>div:first-child{display:flex;flex-direction:column;gap:6px;flex:0 0 auto}
 .marchy-home .home-quick-discovery>div:first-child>b{color:#1d3d2f;font-size:13px}
@@ -51,7 +51,7 @@
 .marchy-home .home-category-section,.marchy-home .home-featured-section,.marchy-home .home-recently-viewed,.marchy-home .home-deals-section{margin-top:48px}
 .marchy-home .section-heading{align-items:end;margin-bottom:19px}
 .marchy-home .section-heading h2{margin:5px 0 6px;font-size:clamp(22px,2.5vw,30px);letter-spacing:-.045em}
-.marchy-home .section-heading .muted{color:#7a877f;font-size:11px}
+.marchy-home .section-heading .muted{color:#586c5f;font-size:11px}
 .marchy-home .section-heading .text-link{color:#315e46;font-size:10px;font-weight:750}
 .marchy-home .home-category-grid{gap:12px}
 .marchy-home .home-category-card{position:relative;isolation:isolate;min-height:155px;grid-template-columns:1fr;grid-template-rows:1fr auto auto;align-items:end;gap:5px;overflow:hidden;padding:15px;border:1px solid #e5e9e2;border-radius:12px;background:#e9eee7;box-shadow:0 3px 12px rgba(23,63,50,.035)}
@@ -61,7 +61,7 @@
 .marchy-home .home-category-card:hover>img{transform:scale(1.06);opacity:.48}
 .marchy-home .home-category-icon{grid-row:auto;width:31px;height:31px;border-radius:8px;background:rgba(255,255,255,.82);color:#315b43;font-size:15px}
 .marchy-home .home-category-card>b{align-self:end;color:#193e2d;font-size:13px}
-.marchy-home .home-category-card>small{color:#687b6e;font-size:9px}
+.marchy-home .home-category-card>small{color:#52675a;font-size:9px}
 .marchy-home .home-category-card>small span{color:#bd6844}
 .marchy-home .home-category-tabs{gap:7px;margin:0 0 17px}
 .marchy-home .home-category-tabs button{border-color:#e1e8e1;background:#fff;color:#637268;font-size:10px}
@@ -73,9 +73,9 @@
 .marchy-home .product-tag{border:1px solid #e6eae3;border-radius:5px;background:rgba(255,255,255,.9);color:#758178;font-size:8px}
 .marchy-home .discount-tag{border-radius:5px;background:#c96d48}
 .marchy-home .wish-btn{border:1px solid #e8ece6;background:rgba(255,255,255,.94);color:#526a5b}
-.marchy-home .product-category{color:#8a958c;font-size:8px;font-weight:750;letter-spacing:.75px;text-transform:uppercase}
+.marchy-home .product-category{color:#596b5e;font-size:8px;font-weight:750;letter-spacing:.75px;text-transform:uppercase}
 .marchy-home .product-name{color:#233d30;font-size:12px;font-weight:700}
-.marchy-home .seller-link{color:#849087}
+.marchy-home .seller-link{color:#596b60}
 .marchy-home .price-row strong{color:#173f32}
 .marchy-home .add-btn{border:1px solid #173f32;border-radius:8px;background:#173f32;color:#fff;font-size:10px;font-weight:750}
 .marchy-home .add-btn:hover{background:#103327}
@@ -91,7 +91,7 @@
 .marchy-home .home-seller-banner .light-btn:hover{background:#f1f5ef}
 .marchy-home .seller-banner-stats{border-color:#ffffff35}
 .marchy-home .seller-banner-stats b{color:#f1a27e}
-.marchy-home .catalogue-note{color:#89968c}
+.marchy-home .catalogue-note{color:#596b60}
 .marchy-home .home-recently-viewed{padding-top:4px}
 .is-rtl .marchy-home .market-hero-copy{text-align:right}
 .is-rtl .marchy-home .hero-floating-card{left:auto;right:24px}
