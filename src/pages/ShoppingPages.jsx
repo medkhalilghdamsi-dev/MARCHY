@@ -365,7 +365,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <div className="product-visual-note"><span>ⓘ</span><p>Images and listing information are provided as demonstration content. Confirm the exact item with the seller before ordering.</p></div>
       </section>
       <section className="product-buy-panel">
-        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare}>{isCompared?'✓ Compared':'＋ Compare'}</button><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/search">Open comparison</Link></p>}
+        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare}>{isCompared?'✓ Compared':'＋ Compare'}</button><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/compare">Open comparison</Link></p>}
         <h1>{product.name}</h1>
         <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
         <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
@@ -416,7 +416,10 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
 }
 
 
-function CartPage({ cart, updateQty, removeItem, language }) {
+function CartPage({ cart, updateQty, removeItem, addToCart, language }) {
+  const [removedItem, setRemovedItem] = useState(null)
+  const handleRemove = item => { setRemovedItem(item); removeItem(item.id) }
+  const undoRemove = () => { if (removedItem) addToCart(removedItem, removedItem.qty); setRemovedItem(null) }
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const sellerCount = new Set(cart.map(item => sellerForProduct(item).slug)).size
@@ -431,6 +434,7 @@ function CartPage({ cart, updateQty, removeItem, language }) {
       <div><span className="eyebrow">YOUR MARCHY BASKET</span><h1>Your shopping cart</h1><p>{itemCount} items · {cart.length} products · {sellerCount} sellers</p></div>
       <Link to="/search" className="cart-continue-link">← Continue shopping</Link>
     </div>
+    {removedItem && <div className="cart-undo-notice" role="status"><span><b>{removedItem.name}</b> removed from your cart.</span><button type="button" onClick={undoRemove}>Undo</button><button type="button" className="cart-undo-dismiss" onClick={() => setRemovedItem(null)} aria-label="Dismiss removal message">×</button></div>}
     {cart.length ? <div className="cart-layout">
       <section className="cart-items-panel" aria-label="Cart items">
         <div className="cart-panel-heading"><b>Items in your cart</b><span>{cart.length} product{cart.length === 1 ? '' : 's'}</span></div>
@@ -442,7 +446,7 @@ function CartPage({ cart, updateQty, removeItem, language }) {
               <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
               <small>{group.seller.name} · {group.seller.city}, Tunisia</small>
               <b className="cart-item-unit-price">{money(item.price)} <span>each</span></b>
-              <button type="button" className="remove-link" onClick={() => removeItem(item.id)}>Remove item</button>
+              <button type="button" className="remove-link" onClick={() => handleRemove(item)}>Remove item</button>
             </div>
             <div className="cart-item-quantity"><span>Quantity</span><div className="quantity">
               <button type="button" aria-label={`Decrease ${item.name} quantity`} disabled={item.qty <= 1} onClick={() => updateQty(item.id, item.qty - 1)}>−</button>
