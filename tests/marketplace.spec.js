@@ -489,3 +489,33 @@ test('quick view lets buyers choose quantity before adding to cart', async ({ pa
   await expect(page.getByRole('heading', { name: 'Your shopping cart' })).toBeVisible()
   await expect(page.getByText('2 items', { exact: true })).toBeVisible()
 })
+
+
+test('dedicated comparison page presents selected products side by side and supports removal', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-compare', JSON.stringify([1, 2, 6])))
+  await page.goto('/compare')
+  await expect(page.getByRole('heading', { name: 'Compare products' })).toBeVisible()
+  await expect(page.getByText('3', { exact: true }).first()).toBeVisible()
+  await expect(page.locator('.compare-product-card')).toHaveCount(3)
+  await expect(page.locator('.compare-full-table')).toBeVisible()
+  await expect(page.locator('.compare-full-table')).toContainText('Displayed price')
+  await expect(page.locator('.compare-full-table')).toContainText('Seller location')
+  await page.getByRole('button', { name: 'Remove Minimal ceramic table lamp from comparison' }).click()
+  await expect(page.locator('.compare-product-card')).toHaveCount(2)
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('marchy-compare')))).toEqual([1, 6])
+})
+
+test('comparison page guides buyers when only one product is selected', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-compare', JSON.stringify([1])))
+  await page.goto('/compare')
+  await expect(page.locator('.compare-product-card')).toHaveCount(1)
+  await expect(page.getByText('One more product makes comparison possible.')).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Find another product →' })).toHaveAttribute('href', '/search')
+  await expect(page.locator('.compare-full-table')).toHaveCount(0)
+})
+
+test('comparison page has a useful empty state when no products are selected', async ({ page }) => {
+  await page.goto('/compare')
+  await expect(page.getByRole('heading', { name: 'No products selected' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Explore products →' })).toHaveAttribute('href', '/search')
+})
