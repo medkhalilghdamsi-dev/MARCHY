@@ -180,3 +180,97 @@
 .marchy-central-delivery-choice select{min-height:42px;padding:8px 11px;border:1px solid #d8e3d8;border-radius:8px;background:#fff;color:#294b37;font:inherit}
 .marchy-central-delivery-choice p{margin:0;color:#596b60;font-size:10px;line-height:1.6}
 @media(max-width:620px){.central-delivery-method{grid-template-columns:1fr;gap:10px;align-items:start}}
+
+
+/* Seller Centre mobile workspace: scrollable section rail and card-based operations. */
+@media(max-width:680px){
+ .marchy-seller-center{padding-bottom:34px}
+ .marchy-seller-heading{gap:10px;padding:16px 0 17px}
+ .marchy-seller-heading h1{font-size:clamp(29px,8vw,36px);line-height:1.08}
+ .marchy-seller-heading p{font-size:12px;line-height:1.55}
+ .marchy-seller-heading .seller-dashboard-demo{white-space:normal;line-height:1.3}
+ .marchy-seller-shell{gap:10px}
+ .marchy-seller-sidebar{padding:12px;border-radius:11px}
+ .marchy-seller-sidebar .seller-dashboard-shop{padding:0 0 11px}
+ .marchy-seller-sidebar .seller-dashboard-select{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:10px;margin:11px 0}
+ .marchy-seller-sidebar .seller-dashboard-select select{min-width:0;width:100%;min-height:42px;font-size:12px}
+ .marchy-seller-sidebar nav{display:flex;gap:7px;overflow-x:auto;overscroll-behavior-x:contain;padding:2px 1px 8px;scrollbar-width:thin}
+ .marchy-seller-sidebar nav button{flex:0 0 auto;min-width:94px;min-height:44px;justify-content:center;gap:7px;padding:8px 11px;border:1px solid #e2eae1;border-radius:9px;background:#fff;font-size:11px}
+ .marchy-seller-sidebar nav button.active{border-color:#cbdcca}
+ .marchy-seller-sidebar nav button>i{display:none}
+ .marchy-seller-sidebar-note{margin-top:8px;padding:10px}
+ .marchy-seller-main{padding:13px;border-radius:11px}
+ .marchy-seller-main-heading{gap:11px;margin-bottom:14px;padding-bottom:12px}
+ .marchy-seller-main-heading h2{font-size:20px;line-height:1.2}
+ .marchy-seller-main-heading .primary-btn{min-height:44px}
+ .marchy-seller-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .marchy-seller-stats article{min-width:0;padding:12px}
+ .marchy-seller-stats article:last-child{grid-column:1/-1}
+ .marchy-seller-stats article>b{overflow-wrap:anywhere}
+ .marchy-seller-panels{grid-template-columns:minmax(0,1fr);gap:10px}
+ .marchy-seller-panels .seller-dashboard-panel{min-width:0;padding:13px}
+ .marchy-seller-panels .seller-dashboard-mini-row{grid-template-columns:38px minmax(0,1fr) auto;gap:8px}
+ .marchy-seller-panels .seller-dashboard-mini-row img{width:38px;height:38px;flex-basis:38px}
+ .marchy-seller-panels .seller-dashboard-mini-row b{font-size:10px;line-height:1.35}
+ .marchy-seller-panels .seller-dashboard-mini-row strong{font-size:11px;white-space:nowrap}
+ .marchy-seller-panels .seller-dashboard-mini-row .seller-dashboard-status{display:none}
+ .marchy-seller-main .seller-dashboard-products-heading{gap:10px}
+ .marchy-seller-main .seller-dashboard-products-heading .primary-btn{min-height:44px;justify-content:center}
+ .marchy-seller-main .seller-dashboard-filters{grid-template-columns:minmax(0,1fr);gap:10px;padding:11px}
+ .marchy-seller-main .seller-dashboard-filters label{min-width:0}
+ .marchy-seller-main .seller-dashboard-filters input,.marchy-seller-main .seller-dashboard-filters select{width:100%;min-height:44px;height:44px;font-size:16px}
+ .marchy-seller-main .seller-dashboard-filters>button{min-height:42px;height:42px}
+ .marchy-seller-main .seller-dashboard-listing-head{display:none}
+ .marchy-seller-main .seller-dashboard-listings{display:grid;gap:0;overflow:hidden}
+ .marchy-seller-main .seller-dashboard-listing-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:9px 12px;padding:13px}
+ .marchy-seller-main .seller-dashboard-product-cell{grid-column:1/-1;min-width:0}
+ .marchy-seller-main .seller-dashboard-product-cell img{width:52px;height:52px;flex:0 0 52px}
+ .marchy-seller-main .seller-dashboard-product-cell>span{min-width:0}
+ .marchy-seller-main .seller-dashboard-product-cell b{font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+ .marchy-seller-main .seller-dashboard-listing-row>strong{font-size:12px}
+ .marchy-seller-main .seller-dashboard-status{justify-self:start;font-size:10px}
+ .marchy-seller-main .seller-dashboard-row-link{min-height:40px;display:inline-flex;align-items:center;justify-self:end}
+ .marchy-seller-main .seller-draft-form{padding:13px}
+ .marchy-seller-main .seller-draft-fields{grid-template-columns:minmax(0,1fr);gap:11px}
+ .marchy-seller-main .seller-draft-fields label{min-width:0}
+ .marchy-seller-main .seller-draft-fields input,.marchy-seller-main .seller-draft-fields textarea{width:100%;min-height:44px;font-size:16px}
+ .marchy-seller-main .seller-draft-form-actions{display:grid;grid-template-columns:1fr;gap:8px}
+ .marchy-seller-main .seller-draft-form-actions button{width:100%;min-height:44px;justify-content:center}
+ .marchy-seller-main .seller-local-drafts article{grid-template-columns:minmax(0,1fr);gap:9px;padding:12px}
+ .marchy-seller-main .seller-local-drafts article>span{min-width:0}
+ .marchy-seller-main .seller-local-drafts article small{overflow-wrap:anywhere;line-height:1.5}
+ .marchy-seller-main .seller-local-draft-actions{display:flex;gap:8px}
+ .marchy-seller-main .seller-local-draft-actions button{min-width:72px;min-height:40px}
+ .marchy-orders-workspace{gap:13px}
+ .marchy-orders-intro{flex-direction:column;gap:9px}
+ .marchy-orders-intro h3{font-size:19px}
+ .marchy-order-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .marchy-order-summary article{min-width:0;padding:12px}
+ .marchy-order-summary article:last-child{grid-column:1/-1}
+ .marchy-order-summary b{font-size:23px}
+ .marchy-order-card{padding:13px;border-radius:12px}
+ .marchy-order-card-top{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+ .marchy-order-card-top>div{min-width:0}
+ .marchy-order-card-top h4{font-size:15px}
+ .marchy-order-card-top small{display:block;line-height:1.45}
+ .marchy-order-card-top .marchy-order-status{justify-self:start;white-space:normal}
+ .marchy-order-item{padding:11px 0;font-size:12px;overflow-wrap:anywhere}
+ .marchy-order-card-bottom{align-items:flex-start;flex-direction:column;gap:9px;line-height:1.45}
+ .marchy-order-card-bottom .seller-dashboard-text-button{min-height:42px;display:inline-flex;align-items:center}
+ .marchy-order-detail{grid-template-columns:minmax(0,1fr);gap:13px;margin-top:12px;padding:12px}
+ .marchy-order-detail>div:first-child{overflow-wrap:anywhere;line-height:1.5}
+ .marchy-order-actions select{min-height:46px;font-size:16px}
+ .marchy-order-actions p{font-size:12px;line-height:1.55}
+ .marchy-seller-main .seller-dashboard-profile-body{padding:14px}
+ .marchy-seller-main .seller-dashboard-profile-body .primary-btn{width:100%;min-height:44px;justify-content:center}
+ .marchy-seller-main .seller-delivery-method{padding:13px}
+ .marchy-seller-main .central-delivery-managed-label{justify-self:start;white-space:normal}
+}
+@media(max-width:380px){
+ .marchy-seller-sidebar{padding:10px}
+ .marchy-seller-sidebar nav button{min-width:88px;padding-inline:9px}
+ .marchy-seller-main{padding:10px}
+ .marchy-seller-stats article{padding:10px}
+ .marchy-seller-main .seller-dashboard-listing-row{padding:11px}
+ .marchy-seller-main .seller-dashboard-product-cell img{width:46px;height:46px;flex-basis:46px}
+}
