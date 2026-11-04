@@ -193,3 +193,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .checkout-summary .cart-summary-note,
 .checkout-summary .cart-trust-note>p{color:#53606d}
 .checkout-summary .summary-pending{color:#8d4c22}
+
+/* Wishlist supporting copy remains readable in empty and populated states */
+.wishlist-heading>div>p,.wishlist-count>span,.wishlist-empty>p{color:#53606d}
