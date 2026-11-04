@@ -50,7 +50,7 @@ for (const viewport of viewports) {
         offenders: Array.from(document.querySelectorAll('body *')).map(el => {
           const rect = el.getBoundingClientRect()
           return { tag: el.tagName, className: typeof el.className === 'string' ? el.className : '', width: Math.round(rect.width), left: Math.round(rect.left), right: Math.round(rect.right), scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }
-        }).filter(item => item.right > window.innerWidth + 1 && item.width > 0).sort((a,b) => b.right-a.right).slice(0,12),
+        }).filter(item => (item.right > window.innerWidth + 1 || item.left < -1) && item.width > 0).sort((a,b) => Math.max(b.right-window.innerWidth,-b.left)-Math.max(a.right-window.innerWidth,-a.left)).slice(0,12),
       }))
       expect(
         dimensions.document,
@@ -73,7 +73,7 @@ test('Arabic RTL layout remains within the viewport on key marketplace routes', 
         offenders: Array.from(document.querySelectorAll('body *')).map(el => {
           const rect = el.getBoundingClientRect()
           return { tag: el.tagName, className: typeof el.className === 'string' ? el.className : '', width: Math.round(rect.width), left: Math.round(rect.left), right: Math.round(rect.right), scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }
-        }).filter(item => item.right > window.innerWidth + 1 && item.width > 0).sort((a,b) => b.right-a.right).slice(0,12),
+        }).filter(item => (item.right > window.innerWidth + 1 || item.left < -1) && item.width > 0).sort((a,b) => Math.max(b.right-window.innerWidth,-b.left)-Math.max(a.right-window.innerWidth,-a.left)).slice(0,12),
       }))
       expect(dimensions.document, `Unexpected Arabic RTL overflow on ${route} at ${width}px: ${JSON.stringify(dimensions)}`).toBeLessThanOrEqual(dimensions.viewport + 1)
     }
