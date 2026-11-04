@@ -14,7 +14,6 @@ function ComparePage({ addToCart, language }) {
   useEffect(() => { writeJson('marchy-compare', ids) }, [ids])
 
   const selected = useMemo(() => ids.map(id => products.find(product => product.id === id)).filter(Boolean), [ids])
-  const sellers = selected.map(sellerForProduct)
   const mixedCategories = new Set(selected.map(product => product.category)).size > 1
   const remove = id => {
     setIds(current => current.filter(item => item !== id))
@@ -25,7 +24,7 @@ function ComparePage({ addToCart, language }) {
     { label: 'Illustrative reference price', value: product => product.oldPrice ? money(product.oldPrice) : 'Not supplied' },
     { label: 'Difference from reference', value: product => product.oldPrice ? money(product.oldPrice - product.price) : 'Not supplied' },
     { label: 'Category', value: product => product.category },
-    { label: 'Seller', value: product => sellerForProduct(product).name },
+    { label: 'Seller', value: product => { const seller = sellerForProduct(product); return <Link to={`/seller/${seller.slug}`}>{seller.name}</Link> } },
     { label: 'Seller location', value: product => sellerForProduct(product).city + ', Tunisia' },
     { label: 'Description', value: product => product.description || 'No description supplied' },
     { label: 'Availability', value: () => 'To be confirmed with seller' },
@@ -46,7 +45,7 @@ function ComparePage({ addToCart, language }) {
       <section className="compare-page-products" aria-label="Selected products">
         {selected.map(product => <article className="compare-page-product" key={product.id}>
           <Link to={`/product/${product.id}`} className="compare-page-product-image"><img src={product.image} alt={product.name} onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = '/product-placeholder.svg' }}/></Link>
-          <div className="compare-page-product-copy"><span>{product.category}</span><Link to={`/product/${product.id}`}><b>{product.name}</b></Link><strong>{money(product.price)}</strong><small>{sellerForProduct(product).name} · {sellerForProduct(product).city}</small></div>
+          <div className="compare-page-product-copy"><span>{product.category}</span><Link to={`/product/${product.id}`}><b>{product.name}</b></Link><strong>{money(product.price)}</strong><small><Link to={`/seller/${sellerForProduct(product).slug}`}>{sellerForProduct(product).name}</Link> · {sellerForProduct(product).city}</small></div>
           <div className="compare-page-product-actions"><button type="button" className="primary-btn" onClick={() => { addToCart(product, 1); setFeedback(product.name + ' added to your demo cart') }}>Add to cart</button><button type="button" className="compare-page-remove" onClick={() => remove(product.id)} aria-label={`Remove ${product.name} from comparison`}>Remove</button></div>
         </article>)}
         {selected.length < 3 && <Link to="/search" className="compare-page-add-card"><span>＋</span><b>Add another product</b><small>{3 - selected.length} comparison slot{selected.length === 2 ? '' : 's'} remaining</small></Link>}
