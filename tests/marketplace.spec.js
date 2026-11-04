@@ -134,6 +134,16 @@ test('cart groups products by seller and keeps each seller subtotal visible', as
 })
 
 
+test('customer account shows and clears recently viewed products', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-recently-viewed', JSON.stringify([1, 2])))
+  await page.goto('/account')
+  await expect(page.locator('.account-recently-viewed')).toBeVisible()
+  await expect(page.locator('.account-recent-grid')).toContainText('Wireless noise-cancelling headphones')
+  await page.getByRole('button', { name: 'Clear history' }).click()
+  await expect(page.locator('.account-recently-viewed')).toHaveCount(0)
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('marchy-recently-viewed')))).toEqual([])
+})
+
 test('seller workspace can save and delete a local product draft without publishing it', async ({ page }) => {
   await page.goto('/seller-dashboard')
   await page.getByRole('button', { name: 'Products' }).click()
