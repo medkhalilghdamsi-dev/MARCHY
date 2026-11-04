@@ -30,7 +30,7 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
           <button type="submit">Search <span aria-hidden="true">→</span></button>
         </form>
         <div className="hero-trending"><span>Popular:</span>{['Headphones','Home','Fashion','Beauty'].map(term=><button type="button" key={term} onClick={()=>navigate('/search?q='+encodeURIComponent(term))}>{term}</button>)}</div>
-        <div className="market-hero-proof"><span>✓ Prices shown in TND</span><span>✓ Explore local storefronts</span><span>✓ One place to discover</span></div>
+        <div className="market-hero-proof"><span>✓ Prices shown in DT</span><span>✓ Explore local storefronts</span><span>✓ One place to discover</span></div>
       </div>
       <div className="market-hero-art">
         <div className="hero-brand-stamp" aria-hidden="true"><span>M</span><small>MADE FOR<br/>EVERYDAY</small></div>
@@ -42,8 +42,8 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
         <div className="hero-art-index"><span>01</span><i></i><span>DISCOVER</span></div>
       </div>
     </section>
-    <section className="home-budget-discovery" aria-label="Shop by budget"><div><span className="eyebrow">A GOOD PLACE TO START</span><h2>Shop by budget</h2><p>Explore sample listings within a comfortable price range.</p></div><div className="home-budget-links">{[{label:"Under 50 TND",max:50},{label:"Under 100 TND",max:100},{label:"Under 200 TND",max:200},{label:"Explore everything",max:0}].map(item=><Link key={item.label} to={item.max?'/search?max='+item.max:'/search'}>{item.label}<span>→</span></Link>)}</div></section>
-    <section className="market-benefits"><div><span>01</span><b>Find what you need</b><small>Explore products across everyday categories</small></div><div><span>02</span><b>Discover local sellers</b><small>Explore independent storefronts</small></div><div><span>03</span><b>Shop in Tunisian dinars</b><small>Prices displayed in TND</small></div></section>
+    <section className="home-budget-discovery" aria-label="Shop by budget"><div><span className="eyebrow">A GOOD PLACE TO START</span><h2>Shop by budget</h2><p>Explore sample listings within a comfortable price range.</p></div><div className="home-budget-links">{[{label:"Under 50 DT",max:50},{label:"Under 100 DT",max:100},{label:"Under 200 DT",max:200},{label:"Explore everything",max:0}].map(item=><Link key={item.label} to={item.max?'/search?max='+item.max:'/search'}>{item.label}<span>→</span></Link>)}</div></section>
+    <section className="market-benefits"><div><span>01</span><b>Find what you need</b><small>Explore products across everyday categories</small></div><div><span>02</span><b>Discover local sellers</b><small>Explore independent storefronts</small></div><div><span>03</span><b>Shop in Tunisian dinars</b><small>Prices displayed in DT</small></div></section>
     <section className="home-quick-discovery" aria-label="Quick category discovery"><div><span className="eyebrow">QUICK DISCOVERY</span><b>What are you shopping for?</b></div><div className="home-quick-links">{populatedCategories.slice(0,7).map(name=><Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`}>{name}<span>↗</span></Link>)}<Link className="quick-all-link" to="/categories">All departments <span>→</span></Link></div></section>
     <section className="section home-category-section">
       <div className="section-heading"><div><span className="eyebrow">START WITH WHAT YOU NEED</span><h2>Explore all categories</h2><p className="muted">A quick route to the things you shop for most.</p></div><Link to="/categories" className="text-link">All categories →</Link></div>
@@ -162,8 +162,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
       {term && <button type="button" onClick={() => updateTerm('')}>Search: {term} <span>×</span></button>}
       {category !== 'All' && !routeCategory && <button type="button" onClick={removeCategoryFilter}>{category} <span>×</span></button>}
       {city !== 'All' && <button type="button" onClick={() => setCity('All')}>{city} <span>×</span></button>}
-      {minPrice > 0 && <button type="button" onClick={() => setMinPrice(0)}>From {minPrice} TND <span>×</span></button>}
-      {maxPrice < catalogueMaxPrice && <button type="button" onClick={() => setMaxPrice(catalogueMaxPrice)}>Up to {maxPrice} TND <span>×</span></button>}
+      {minPrice > 0 && <button type="button" onClick={() => setMinPrice(0)}>From {minPrice} DT <span>×</span></button>}
+      {maxPrice < catalogueMaxPrice && <button type="button" onClick={() => setMaxPrice(catalogueMaxPrice)}>Up to {maxPrice} DT <span>×</span></button>}
       {dealsOnly && <button type="button" onClick={removeDealFilter}>Deals only <span>×</span></button>}
       <button type="button" className="clear-filter-chips" onClick={clearFilters}>Clear all</button>
     </div>}
@@ -173,8 +173,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
         <h3>Filters <button type="button" onClick={clearFilters}>Clear all</button></h3>
         <div className="filter-group"><b>Category</b>{categories.map(c => <label key={c}><input type="radio" name="marketplace-category" checked={category === c} onChange={() => routeCategory ? navigate(c === "All" ? "/search" : "/category/" + encodeURIComponent(c.toLowerCase())) : setCategory(c)}/><span>{c === 'All' ? 'All categories' : c}</span><small>{c === 'All' ? products.length : (categoryCounts[c] || 0)}</small></label>)}</div>
         <div className="filter-group"><b>Seller location</b><select aria-label="Seller location" value={city} onChange={e => setCity(e.target.value)}>{cities.map(c => <option key={c} value={c}>{c === 'All' ? 'All locations' : c}</option>)}</select></div>
-        <div className="filter-group price-filter-group"><b>Price range</b><div className="price-inputs"><label>Min <input aria-label="Minimum price in TND" type="number" min="0" max={maxPrice} value={minPrice} onChange={e => setMinPrice(Math.min(maxPrice, Math.max(0, Number(e.target.value) || 0)))}/></label><label>Max <input aria-label="Maximum price in TND" type="number" min="0" max={catalogueMaxPrice} value={maxPrice} onChange={e => setMaxPrice(Math.max(minPrice, Math.min(catalogueMaxPrice, Number(e.target.value) || 0)))}/></label></div><input aria-label="Maximum price" type="range" min="0" max={catalogueMaxPrice} step="5" value={maxPrice} onChange={e => setMaxPrice(Math.max(minPrice, Number(e.target.value)))}/><div className="price-range-labels"><span>0 TND</span><span>{catalogueMaxPrice} TND</span></div></div>
-        <div className="filter-budget-presets"><b>Popular budgets</b><div>{[50,100,200,500].map(value=><button type="button" key={value} className={maxPrice===Math.min(value,catalogueMaxPrice)?'is-active':''} onClick={()=>setMaxPrice(Math.min(value,catalogueMaxPrice))}>Under {value} TND</button>)}</div></div>
+        <div className="filter-group price-filter-group"><b>Price range</b><div className="price-inputs"><label>Min <input aria-label="Minimum price in DT" type="number" min="0" max={maxPrice} value={minPrice} onChange={e => setMinPrice(Math.min(maxPrice, Math.max(0, Number(e.target.value) || 0)))}/></label><label>Max <input aria-label="Maximum price in DT" type="number" min="0" max={catalogueMaxPrice} value={maxPrice} onChange={e => setMaxPrice(Math.max(minPrice, Math.min(catalogueMaxPrice, Number(e.target.value) || 0)))}/></label></div><input aria-label="Maximum price" type="range" min="0" max={catalogueMaxPrice} step="5" value={maxPrice} onChange={e => setMaxPrice(Math.max(minPrice, Number(e.target.value)))}/><div className="price-range-labels"><span>0 DT</span><span>{catalogueMaxPrice} DT</span></div></div>
+        <div className="filter-budget-presets"><b>Popular budgets</b><div>{[50,100,200,500].map(value=><button type="button" key={value} className={maxPrice===Math.min(value,catalogueMaxPrice)?'is-active':''} onClick={()=>setMaxPrice(Math.min(value,catalogueMaxPrice))}>Under {value} DT</button>)}</div></div>
         {dealsOnly && <div className="filter-note">Showing sample listings with illustrative previous prices. Discount claims are not verified offers.</div>}
         <button className="filter-apply" type="button" onClick={() => setFiltersOpen(false)}>Show {results.length} products</button>
       </aside>
@@ -290,7 +290,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare}>{isCompared?'✓ Compared':'＋ Compare'}</button><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/search">Open comparison</Link></p>}
         <h1>{product.name}</h1>
         <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
-        <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
+        <p className="product-price-caption">Displayed in Tunisian dinars (DT). Final price and availability must be confirmed with the seller.</p>
         <div className="product-listing-status"><span className="status-dot"></span><div><b>Availability to be confirmed</b><small>This is not live stock information.</small></div></div>
         <div className="product-purchase-controls">
           <span className="product-quantity-label">Quantity</span>
@@ -323,7 +323,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
       <article className="product-information-card">
         <span className="eyebrow">PRODUCT DETAILS</span><h2>About this listing</h2>
         <p>{product.description || 'No product information has been supplied for this sample listing. Contact the seller to confirm the exact product, condition, specifications and what is included.'}</p>
-        <dl className="product-attribute-list"><div><dt>Category</dt><dd>{product.category}</dd></div><div><dt>Seller location</dt><dd>{seller.city}, Tunisia</dd></div><div><dt>Price display</dt><dd>Tunisian dinar (TND)</dd></div><div><dt>Listing type</dt><dd>Sample catalogue</dd></div></dl>
+        <dl className="product-attribute-list"><div><dt>Category</dt><dd>{product.category}</dd></div><div><dt>Seller location</dt><dd>{seller.city}, Tunisia</dd></div><div><dt>Price display</dt><dd>Tunisian dinar (DT)</dd></div><div><dt>Listing type</dt><dd>Sample catalogue</dd></div></dl>
       </article>
       <article className="product-information-card product-order-checklist">
         <span className="eyebrow">BEFORE YOU ORDER</span><h2>Confirm these details with the seller</h2>
