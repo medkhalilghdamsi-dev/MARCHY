@@ -447,3 +447,13 @@ test('product quick view traps keyboard focus and closes with Escape', async ({ 
   await expect(dialog).toHaveCount(0)
   await expect(trigger).toBeFocused()
 })
+
+
+test('sample catalogue avoids implying popularity or verified listing recency', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('heading', { name: 'Featured sample listings' })).toBeVisible()
+  await expect(page.getByText('Explore:', { exact: true })).toBeVisible()
+  await page.goto('/search')
+  await expect(page.getByRole('combobox', { name: 'Sort products' })).toContainText('Catalogue order')
+  await expect(page.getByText('Quick budget filters')).toHaveCount(1)
+})
