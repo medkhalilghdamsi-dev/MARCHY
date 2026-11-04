@@ -1943,3 +1943,12 @@ input,select,textarea{accent-color:var(--orange)}
 .store-view-toggle{flex:0 0 auto}
 .store-product-tools{align-items:center}
 @media(max-width:760px){.store-search-sort{width:100%}.store-search-sort .store-search{flex:1;min-width:150px}.store-sort-label{flex:0 0 auto}.store-view-toggle{margin-inline-start:auto}}
+
+
+/* Product page share affordance */
+.product-topline-actions{display:flex;align-items:center;gap:9px}
+.product-share-button{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:6px;padding:7px 10px;font-size:10px;font-weight:700;white-space:nowrap}
+.product-share-button:hover{border-color:#f1b49b;background:#fff8f4}
+.product-share-button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.product-share-feedback{font-size:10px;color:#176b4b;margin:-5px 0 8px}
+@media(max-width:420px){.product-topline-actions{gap:5px}.product-share-button{padding:6px 8px;font-size:9px}}
