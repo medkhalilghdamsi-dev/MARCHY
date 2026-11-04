@@ -49,7 +49,7 @@ const writeJson = (key, value) => { try { localStorage.setItem(key, JSON.stringi
 
 function ScrollToTop() {
   const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }) }, [pathname])
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
   return null
 }
 
@@ -424,10 +424,21 @@ function ProductCard({ product, addToCart, wished, toggleWish, language, compare
   function quickAdd(){addToCart(product);setAdded(true)}
   useEffect(()=>{
     if(!quickViewOpen)return
-    const closeOnEscape=e=>{if(e.key==='Escape')setQuickViewOpen(false)}
-    window.addEventListener('keydown',closeOnEscape)
-    return ()=>window.removeEventListener('keydown',closeOnEscape)
-  },[quickViewOpen])
+    const trigger=document.activeElement
+    const dialog=document.querySelector(`[aria-labelledby="quick-view-title-${product.id}"]`)
+    const focusable=dialog?Array.from(dialog.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')):[]
+    focusable[0]?.focus()
+    const handleKeys=e=>{
+      if(e.key==='Escape'){setQuickViewOpen(false);return}
+      if(e.key==='Tab'&&focusable.length){
+        const first=focusable[0],last=focusable[focusable.length-1]
+        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+      }
+    }
+    window.addEventListener('keydown',handleKeys)
+    return ()=>{window.removeEventListener('keydown',handleKeys);trigger?.focus?.()}
+  },[quickViewOpen,product.id])
   return translateTree(<>
     <article className="product-card">
       <div className="product-photo">
