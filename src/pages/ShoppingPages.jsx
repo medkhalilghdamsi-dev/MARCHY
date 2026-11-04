@@ -238,7 +238,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
       <section className="listing-results" aria-live="polite">
         <div className="results-toolbar"><span aria-live="polite">Showing <b>{results.length ? ((page - 1) * pageSize) + 1 : 0}–{Math.min(page * pageSize, results.length)}</b> of <b>{results.length}</b></span><div className="results-toolbar-actions"><div className="listing-view-toggle" role="group" aria-label="Product layout"><button type="button" aria-label="Grid view" aria-pressed={view==='grid'} className={view==='grid'?'is-active':''} onClick={()=>setView('grid')}>▦ <span>Grid</span></button><button type="button" aria-label="List view" aria-pressed={view==='list'} className={view==='list'?'is-active':''} onClick={()=>setView('list')}>☷ <span>List</span></button></div><label>Sort by <select aria-label="Sort products" value={sort} onChange={e => setSort(e.target.value)}><option value="featured">Best match</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A to Z</option><option value="newest">Catalogue order</option><option value="savings">Biggest displayed difference</option></select></label></div></div>
         {compareIds.length > 0 && <section className="compare-tray" aria-label="Product comparison">
-          <div className="compare-tray-heading"><div><b>Compare sample listings</b><span>{compareIds.length} of 3 selected · prices and seller details are illustrative</span></div><div><button type="button" className="compare-clear" onClick={() => {setCompareIds([]);setCompareOpen(false)}}>Clear</button><button type="button" className="compare-show" disabled={compareIds.length < 2} onClick={() => setCompareOpen(v => !v)}>{compareOpen ? 'Hide comparison' : 'Compare now'}</button></div></div>
+          <div className="compare-tray-heading"><div><b>Compare sample listings</b><span>{compareIds.length} of 3 selected · prices and seller details are illustrative</span></div><div><button type="button" className="compare-clear" onClick={() => {setCompareIds([]);setCompareOpen(false)}}>Clear</button><button type="button" className="compare-show" disabled={compareIds.length < 2} onClick={() => navigate('/compare')}>Open full comparison</button></div></div>
           <div className="compare-selected-items">{comparedProducts.map(product => <div className="compare-selected-item" key={product.id}><Link to={'/product/' + product.id}>{product.name}</Link><span>{money(product.price)}</span><button type="button" aria-label={'Remove ' + product.name + ' from comparison'} onClick={() => toggleCompare(product.id)}>×</button></div>)}</div>
           {compareIds.length < 2 && <p className="compare-hint">Select at least one more product to compare.</p>}
           {compareOpen && <div className="compare-table-wrap"><table className="compare-table"><thead><tr><th scope="col">Listing</th>{comparedProducts.map(product => <th scope="col" key={product.id}><Link to={'/product/' + product.id}>{product.name}</Link><button type="button" onClick={() => toggleCompare(product.id)} aria-label={'Remove ' + product.name + ' from comparison'}>×</button></th>)}</tr></thead><tbody>
@@ -365,7 +365,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <div className="product-visual-note"><span>ⓘ</span><p>Images and listing information are provided as demonstration content. Confirm the exact item with the seller before ordering.</p></div>
       </section>
       <section className="product-buy-panel">
-        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare}>{isCompared?'✓ Compared':'＋ Compare'}</button><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/search">Open comparison</Link></p>}
+        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare}>{isCompared?'✓ Compared':'＋ Compare'}</button><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/compare">Open comparison</Link></p>}
         <h1>{product.name}</h1>
         <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
         <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
@@ -412,6 +412,64 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
     {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>{related.some(item => item.category !== product.category) ? "You may also like" : "More from " + product.category}</h2></div><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="text-link">Browse category →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
     {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={product.image} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
     <div className="product-mobile-buybar"><div><small>Subtotal · {qty} {qty === 1 ? 'item' : 'items'}</small><b>{money(product.price * qty)}</b></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? 'Added ✓' : 'Add to cart'}</button></div>
+  </main>, language)
+}
+
+
+
+function ComparePage({ language }) {
+  const [compareIds, setCompareIds] = useState(() => readJson('marchy-compare', []).filter(id => products.some(product => product.id === id)).slice(0, 3))
+  const selected = compareIds.map(id => products.find(product => product.id === id)).filter(Boolean)
+  const removeProduct = id => {
+    const next = compareIds.filter(item => item !== id)
+    setCompareIds(next)
+    writeJson('marchy-compare', next)
+  }
+  const clearComparison = () => {
+    setCompareIds([])
+    writeJson('marchy-compare', [])
+  }
+  const rows = [
+    { label: 'Displayed price', value: product => money(product.price), emphasis: true },
+    { label: 'Illustrative reference price', value: product => product.oldPrice ? money(product.oldPrice) : 'Not supplied' },
+    { label: 'Displayed price difference', value: product => product.oldPrice ? money(product.oldPrice - product.price) : 'Not supplied' },
+    { label: 'Category', value: product => product.category },
+    { label: 'Seller', value: product => sellerForProduct(product).name },
+    { label: 'Seller location', value: product => sellerForProduct(product).city + ', Tunisia' },
+    { label: 'Listing status', value: () => 'Sample listing · availability unconfirmed' },
+    { label: 'Description', value: product => product.description || 'No description supplied' },
+  ]
+  return translateTree(<main id="main-content" className="shell page compare-page">
+    <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to="/search">Marketplace</Link><span>/</span><span aria-current="page">Compare products</span></nav>
+    <header className="compare-page-heading">
+      <div><span className="eyebrow">MAKE A MORE INFORMED CHOICE</span><h1>Compare products</h1><p>Review the sample catalogue details side by side before deciding what to explore next.</p></div>
+      <div className="compare-page-count"><strong>{selected.length}<small>/3</small></strong><span>products selected</span></div>
+    </header>
+    {selected.length === 0 ? <section className="compare-empty-state">
+      <span className="compare-empty-icon" aria-hidden="true">⇄</span><span className="eyebrow">YOUR COMPARISON STARTS HERE</span><h2>No products selected</h2><p>Browse the marketplace and use the Compare control on products to build a shortlist of up to three items.</p><Link to="/search" className="primary-btn">Explore products →</Link>
+    </section> : <>
+      <div className="compare-page-toolbar"><div><b>Your shortlist</b><span>{selected.length === 1 ? 'Add one more product to compare side by side.' : 'Compare the details that are currently available.'}</span></div><div><Link to="/search" className="compare-add-more">＋ Add products</Link><button type="button" className="compare-clear" onClick={clearComparison}>Clear all</button></div></div>
+      {selected.length < 2 && <div className="compare-next-step" role="status"><b>One more product makes comparison possible.</b><span>Select another listing from the marketplace. You can compare up to three products at once.</span><Link to="/search">Find another product →</Link></div>}
+      <div className="compare-product-columns" style={{'--compare-count': selected.length}}>
+        {selected.map(product => {
+          const seller = sellerForProduct(product)
+          return <article className="compare-product-card" key={product.id}>
+            <Link to={'/product/' + product.id} className="compare-product-image"><img src={product.image} alt={product.name} loading="lazy"/></Link>
+            <div className="compare-product-card-body"><span className="compare-product-category">{product.category}</span><h2><Link to={'/product/' + product.id}>{product.name}</Link></h2><strong className="compare-product-price">{money(product.price)}</strong><span className="compare-product-seller">{seller.name} · {seller.city}</span><div className="compare-product-actions"><Link to={'/product/' + product.id}>View details →</Link><button type="button" onClick={() => removeProduct(product.id)} aria-label={'Remove ' + product.name + ' from comparison'}>Remove</button></div></div>
+          </article>
+        })}
+      </div>
+      {selected.length >= 2 && <section className="compare-details-section" aria-labelledby="compare-details-title">
+        <div className="compare-details-heading"><div><span className="eyebrow">SIDE-BY-SIDE DETAILS</span><h2 id="compare-details-title">What matters at a glance</h2></div><span>Swipe horizontally on smaller screens</span></div>
+        <div className="compare-table-wrap" role="region" aria-label="Product comparison details" tabIndex="0">
+          <table className="compare-table compare-full-table"><thead><tr><th scope="col">Details</th>{selected.map(product => <th scope="col" key={product.id}><Link to={'/product/' + product.id}>{product.name}</Link></th>)}</tr></thead>
+            <tbody>{rows.map(row => <tr key={row.label}><th scope="row">{row.label}</th>{selected.map(product => <td className={row.emphasis ? 'compare-value-emphasis' : ''} key={product.id}>{row.value(product)}</td>)}</tr>)}</tbody>
+          </table>
+        </div>
+        <p className="compare-disclaimer">This comparison uses only information in MARCHY’s illustrative catalogue. Product specifications, condition, stock, seller details, delivery and final prices have not been independently verified. Confirm them with each seller.</p>
+      </section>}
+    </>}
+    <section className="compare-help-strip"><div><b>Need more information before choosing?</b><span>Open each listing to review its description and category-specific questions to ask the seller.</span></div><Link to="/search">Continue browsing →</Link></section>
   </main>, language)
 }
 
@@ -545,4 +603,4 @@ function WishlistPage({ products: allProducts, wishlist, toggleWish, addToCart, 
 }
 
 
-export { Home, SearchPage, ProductPage, CartPage, CheckoutPage, WishlistPage }
+export { Home, SearchPage, ProductPage, ComparePage, CartPage, CheckoutPage, WishlistPage }
