@@ -894,3 +894,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .storefront-demo-note{
   color:#4d5964!important;
 }
+
+
+/* Seller preview helper copy: readable on white and cool-mist preview surfaces */
+.seller-live-preview,
+.seller-preview-contact,
+.seller-product-preview-details,
+.seller-product-preview-details>span{
+  color:#4d5964!important;
+}
