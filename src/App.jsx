@@ -472,7 +472,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     <div className="listing-layout">
       <aside id="marketplace-filters" className={'filters ' + (filtersOpen ? 'filters-open' : '')} aria-label="Marketplace filters">
         <h3>Filters <button type="button" onClick={clearFilters}>Clear all</button></h3>
-        <div className="filter-group"><b>Category</b>{categories.map(c => <label key={c}><input type="radio" name="marketplace-category" checked={category === c} onChange={() => setCategory(c)}/>{c}</label>)}</div>
+        <div className="filter-group"><b>Category</b>{categories.map(c => <label key={c}><input type="radio" name="marketplace-category" checked={category === c} onChange={() => routeCategory ? navigate(c === "All" ? "/search" : "/category/" + encodeURIComponent(c.toLowerCase())) : setCategory(c)}/>{c}</label>)}</div>
         <div className="filter-group"><b>Seller location</b><select aria-label="Seller location" value={city} onChange={e => setCity(e.target.value)}>{cities.map(c => <option key={c} value={c}>{c === 'All' ? 'All locations' : c}</option>)}</select></div>
         <div className="filter-group"><b>Maximum price</b><strong>{maxPrice} TND</strong><input aria-label="Maximum price" type="range" min="10" max="500" step="5" value={maxPrice} onChange={e => setMaxPrice(Number(e.target.value))}/><div className="price-range-labels"><span>10 TND</span><span>500 TND</span></div></div>
         {dealsOnly && <div className="filter-note">Showing listings with illustrative previous prices.</div>}
