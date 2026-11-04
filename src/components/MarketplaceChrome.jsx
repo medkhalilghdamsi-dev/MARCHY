@@ -8,6 +8,7 @@ import { translateTree } from '../i18n/translate'
 function Header({ cartCount, query, setQuery, language, setLanguage }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [recentSearches, setRecentSearches] = useState(() => { try { return JSON.parse(localStorage.getItem('marchy-recent-searches') || '[]').filter(value => typeof value === 'string').slice(0, 5) } catch { return [] } })
   const headerRef = useRef(null)
   const navigate = useNavigate()
   const location = useLocation()
@@ -39,7 +40,16 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
   const searchTerm=query.trim()
   const searchMatches=useMemo(()=>searchTerm?products.filter(p=>searchTextMatches([p.name,p.category,p.seller,sellerForProduct(p).name,sellerForProduct(p).city].join(' '),searchTerm)).slice(0,4):[],[searchTerm])
   const categoryMatches=useMemo(()=>searchTerm?categories.filter(c=>c!=='All'&&searchTextMatches(c,searchTerm)).slice(0,3):[],[searchTerm])
-  function submit(e) { e.preventDefault(); setSearchOpen(false); navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search') }
+  function rememberSearch(value) {
+    const clean = value.trim()
+    if (!clean) return
+    setRecentSearches(current => {
+      const updated = [clean, ...current.filter(item => item.toLowerCase() !== clean.toLowerCase())].slice(0, 5)
+      try { localStorage.setItem('marchy-recent-searches', JSON.stringify(updated)) } catch {}
+      return updated
+    })
+  }
+  function submit(e) { e.preventDefault(); rememberSearch(query); setSearchOpen(false); navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search') }
   return translateTree(<>
     <div className="topline"><div className="shell topline-inner"><span>MARCHY preview · sample catalogue and illustrative prices</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span></div></div></div>
     <header ref={headerRef} className="header"><div className="shell header-main">
@@ -47,7 +57,7 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
       <Link to="/" className="logo" aria-label="MARCHY home"><img className="logo-mark" src="/favicon.svg" alt="" width="34" height="34"/><span className="logo-word">MARCHY</span><span className="logo-period">.</span></Link>
       <form className="searchbar" onSubmit={submit} role="search"><span className="search-symbol">⌕</span><input value={query} onFocus={()=>setSearchOpen(true)} onKeyDown={e=>{if(e.key==='Escape')setSearchOpen(false)}} onChange={e => {setQuery(e.target.value);setSearchOpen(true)}} placeholder="Search products, brands and local finds…" aria-label="Search products" /><button type="submit">Search</button>
         {searchOpen&&<div className="global-search-suggestions" id="global-search-suggestions">
-          {searchTerm?<><div className="search-suggestion-heading">Matching products</div>{searchMatches.length?searchMatches.map(p=><Link key={p.id} to={`/product/${p.id}`} onMouseDown={()=>setSearchOpen(false)}><span className="suggestion-thumb"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={p.image} alt=""/></span><span className="suggestion-copy"><b>{p.name}</b><small>{p.category} · {money(p.price)}</small></span><span className="suggestion-arrow">↗</span></Link>):<p className="suggestion-empty">No matching sample products. Press Search to view results.</p>}{categoryMatches.length>0&&<><div className="search-suggestion-heading">Categories</div>{categoryMatches.map(name=><Link className="category-suggestion" key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`} onMouseDown={()=>setSearchOpen(false)}><span>▦</span>{name}<span className="suggestion-arrow">→</span></Link>)}</>}</>:<div className="search-suggestion-empty"><b>Start with a category</b><div>{categories.slice(1,5).map(name=><Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`} onMouseDown={()=>setSearchOpen(false)}>{name}</Link>)}</div></div>}
+          {searchTerm?<><div className="search-suggestion-heading">Matching products</div>{searchMatches.length?searchMatches.map(p=><Link key={p.id} to={`/product/${p.id}`} onMouseDown={()=>setSearchOpen(false)}><span className="suggestion-thumb"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={p.image} alt=""/></span><span className="suggestion-copy"><b>{p.name}</b><small>{p.category} · {money(p.price)}</small></span><span className="suggestion-arrow">↗</span></Link>):<p className="suggestion-empty">No matching sample products. Press Search to view results.</p>}{categoryMatches.length>0&&<><div className="search-suggestion-heading">Categories</div>{categoryMatches.map(name=><Link className="category-suggestion" key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`} onMouseDown={()=>setSearchOpen(false)}><span>▦</span>{name}<span className="suggestion-arrow">→</span></Link>)}</>}</>:<div className="search-suggestion-empty">{recentSearches.length>0&&<div className="recent-searches"><div className="search-suggestion-heading">Recent searches <button type="button" onClick={()=>{setRecentSearches([]);try{localStorage.removeItem('marchy-recent-searches')}catch{}}}>Clear</button></div>{recentSearches.map(item=><Link key={item} to={`/search?q=${encodeURIComponent(item)}`} onMouseDown={()=>setSearchOpen(false)}><span aria-hidden="true">↺</span>{item}<span className="suggestion-arrow">↗</span></Link>)}</div>}<b>Start with a category</b><div>{categories.slice(1,5).map(name=><Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`} onMouseDown={()=>setSearchOpen(false)}>{name}</Link>)}</div></div>}
           <button type="button" className="search-suggestion-close" onClick={()=>setSearchOpen(false)}>Close suggestions</button>
         </div>}
       </form>
