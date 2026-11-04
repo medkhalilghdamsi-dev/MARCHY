@@ -120,6 +120,14 @@ test('cart groups products by seller and keeps each seller subtotal visible', as
   await expect(page.locator('.cart-summary')).toContainText('268.000 TND')
 })
 
+
+test('seller directory search matches accented French category terms', async ({ page }) => {
+  await page.goto('/sellers')
+  await page.getByRole('textbox', { name: 'Search sellers' }).fill('électronique')
+  await expect(page.locator('.seller-directory-card')).toHaveCount(1)
+  await expect(page.locator('.seller-directory-card').first()).toContainText('Atlas Tech')
+})
+
 test('core shopping pages have no serious or critical accessibility violations', async ({ page }) => {
   const { default: AxeBuilder } = await import('@axe-core/playwright')
   const routesToAudit = ['/', '/search', '/product/1', '/cart', '/wishlist', '/categories', '/seller/atlas-tech-tunis', '/sell']
