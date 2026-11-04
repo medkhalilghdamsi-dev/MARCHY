@@ -120,6 +120,9 @@ test('product comparisons persist when navigating away and returning', async ({ 
   await page.goto('/product/1')
   await page.goto('/search')
   await expect(page.getByRole('region', { name: 'Product comparison' })).toContainText('2 of 3 selected')
+  await page.goto('/compare')
+  await expect(page.getByRole('heading', { name: 'Compare products' })).toBeVisible()
+  await expect(page.locator('.compare-page-products .compare-page-product')).toHaveCount(2)
 })
 
 test('product grid and list preferences persist across marketplace navigation', async ({ page }) => {
@@ -316,9 +319,10 @@ test('seller directory search matches accented French category terms', async ({ 
 
 test('core shopping pages have no serious or critical accessibility violations', async ({ page }) => {
   const { default: AxeBuilder } = await import('@axe-core/playwright')
-  const routesToAudit = ['/', '/search', '/product/1', '/cart', '/checkout', '/wishlist', '/categories', '/seller/atlas-tech-tunis', '/sell']
+  const routesToAudit = ['/', '/search', '/product/1', '/compare', '/cart', '/checkout', '/wishlist', '/categories', '/seller/atlas-tech-tunis', '/sell']
   for (const route of routesToAudit) {
     if (route === '/checkout') await page.addInitScript(() => localStorage.setItem('marchy-cart', JSON.stringify([{ id: 1, name: 'Wireless noise-cancelling headphones', category: 'Electronics', price: 189, qty: 1, image: '/product-placeholder.svg' }])))
+    if (route === '/compare') await page.addInitScript(() => localStorage.setItem('marchy-compare', JSON.stringify([1, 2])))
     await page.goto(route)
     await expect(page.locator('main').first()).toBeVisible()
     const results = await new AxeBuilder({ page })
@@ -488,4 +492,29 @@ test('quick view lets buyers choose quantity before adding to cart', async ({ pa
   await page.goto('/cart')
   await expect(page.getByRole('heading', { name: 'Your shopping cart' })).toBeVisible()
   await expect(page.getByText('2 items', { exact: true })).toBeVisible()
+})
+
+
+test('dedicated comparison page supports removal and adding a selected item to the demo cart', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-compare', JSON.stringify([1, 2])))
+  await page.goto('/compare')
+  await expect(page.locator('.compare-page-table tbody tr')).toHaveCount(9)
+  await expect(page.locator('.compare-page-products .compare-page-product')).toHaveCount(2)
+  await page.getByRole('button', { name: 'Add to cart' }).first().click()
+  await expect(page.getByRole('status')).toContainText('added to your demo cart')
+  await page.getByRole('button', { name: 'Remove Minimal ceramic table lamp from comparison' }).click()
+  await expect(page.locator('.compare-page-products .compare-page-product')).toHaveCount(1)
+  await expect(page.locator('.compare-page-table tbody tr')).toHaveCount(9)
+})
+
+test('cart removal can be undone without losing the selected quantity', async ({ page }) => {
+  await page.goto('/product/1')
+  await page.getByRole('button', { name: 'Increase quantity' }).click()
+  await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
+  await page.goto('/cart')
+  await page.getByRole('button', { name: 'Remove item' }).click()
+  await expect(page.getByRole('status')).toContainText('removed from your cart')
+  await page.getByRole('button', { name: 'Undo' }).click()
+  await expect(page.locator('.cart-item')).toHaveCount(1)
+  await expect(page.locator('.cart-item-quantity output')).toHaveText('2')
 })
