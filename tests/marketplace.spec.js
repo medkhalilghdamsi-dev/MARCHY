@@ -98,6 +98,18 @@ test('product comparisons persist when navigating away and returning', async ({ 
   await expect(page.getByRole('region', { name: 'Product comparison' })).toContainText('2 of 3 selected')
 })
 
+test('product grid and list preferences persist across marketplace navigation', async ({ page }) => {
+  await page.goto('/search')
+  await page.getByRole('button', { name: 'List view' }).click()
+  await expect(page.locator('.listing-results .product-grid')).toHaveClass(/product-list-view/)
+  await expect(page.getByRole('button', { name: 'List view' })).toHaveAttribute('aria-pressed', 'true')
+  await page.goto('/product/1')
+  await page.goto('/search')
+  await expect(page.locator('.listing-results .product-grid')).toHaveClass(/product-list-view/)
+  await page.getByRole('button', { name: 'Grid view' }).click()
+  await expect(page.locator('.listing-results .product-grid')).not.toHaveClass(/product-list-view/)
+})
+
 test('recently viewed products appear on the homepage', async ({ page }) => {
   await page.goto('/product/1')
   await page.goto('/')
