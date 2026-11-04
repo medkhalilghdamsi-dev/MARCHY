@@ -85,3 +85,20 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await page.goto('/wishlist')
   await expect(page.getByText('Wireless noise-cancelling headphones')).toBeVisible()
 })
+
+test('core shopping pages have no serious or critical accessibility violations', async ({ page }) => {
+  const { default: AxeBuilder } = await import('@axe-core/playwright')
+  const routesToAudit = ['/', '/search', '/product/1', '/cart', '/wishlist', '/categories', '/seller/atlas-tech-tunis', '/sell']
+  for (const route of routesToAudit) {
+    await page.goto(route)
+    await expect(page.locator('main').first()).toBeVisible()
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .analyze()
+    const highImpact = results.violations.filter(issue => ['serious', 'critical'].includes(issue.impact))
+    expect(
+      highImpact,
+      `Serious accessibility violations on ${route}: ${JSON.stringify(highImpact.map(issue => ({ id: issue.id, impact: issue.impact, help: issue.help, nodes: issue.nodes.map(node => node.target) }))) }`,
+    ).toEqual([])
+  }
+})
