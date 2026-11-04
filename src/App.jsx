@@ -627,6 +627,28 @@ Object.assign(translations, {
  "in this basket":["dans ce panier","في هذه السلة"],
  "Demo only. This checkout does not submit personal data or process payments.":["Démo uniquement. Ce parcours n’envoie aucune donnée personnelle et ne traite aucun paiement.","للعرض فقط. لا يرسل هذا المسار بيانات شخصية ولا يعالج المدفوعات."]
 });
+Object.assign(translations, {
+ "MADE FOR TUNISIA · READY TO EXPLORE":["PENSÉ POUR LA TUNISIE · À DÉCOUVRIR","مصمم لتونس · اكتشف الآن"],
+ "Good finds.":["De belles trouvailles.","اكتشافات مميزة."],
+ "Right around here.":["Juste à côté de chez vous.","بالقرب منك."],
+ "Explore a growing world of everyday finds, discover local storefronts and compare catalogue prices in Tunisian dinars.":["Explorez un univers de trouvailles du quotidien, découvrez des boutiques locales et comparez les prix indicatifs en dinars tunisiens.","اكتشف منتجات يومية ومتاجر محلية وقارن الأسعار بالدينار التونسي."],
+ "Search products and categories":["Rechercher des produits et catégories","ابحث عن المنتجات والفئات"],
+ "What are you looking for?":["Que recherchez-vous ?","عمّ تبحث؟"],
+ "Search":["Rechercher","بحث"],
+ "Popular:":["Populaire :","الأكثر بحثاً:"],
+ "Headphones":["Casques audio","سماعات"],
+ "Home":["Maison","المنزل"],
+ "Fashion":["Mode","الأزياء"],
+ "Beauty":["Beauté","الجمال"],
+ "Prices shown in TND":["Prix affichés en TND","الأسعار بالدينار"],
+ "Explore local storefronts":["Découvrez les boutiques locales","اكتشف المتاجر المحلية"],
+ "One place to discover":["Un seul endroit pour découvrir","مكان واحد للاكتشاف"],
+ "A little more to discover":["Encore plus à découvrir","المزيد لاكتشافه"],
+ "Explore the MARCHY sample catalogue":["Explorez le catalogue de démonstration MARCHY","استكشف كتالوج مارشي التجريبي"],
+ "LOCAL FINDS · EVERYDAY DISCOVERY":["TROUVAILLES LOCALES · DÉCOUVERTES DU QUOTIDIEN","اكتشافات محلية · اكتشاف يومي"],
+ "DISCOVER":["DÉCOUVRIR","اكتشف"]
+});
+
 
 function translateText(value, lang) {
   const trimmed = value.trim();
@@ -762,21 +784,36 @@ function ProductCard({ product, addToCart, wished, toggleWish, language, compare
 
 function Home({ addToCart, wishlist, toggleWish, language }) {
   const [active,setActive]=useState('All')
+  const [heroSearch,setHeroSearch]=useState('')
+  const navigate=useNavigate()
+  const submitHeroSearch=event=>{event.preventDefault();const query=heroSearch.trim();navigate(query?'/search?q='+encodeURIComponent(query):'/search')}
   const shown=(active==='All'?products:products.filter(p=>p.category===active)).slice(0,8)
   const populatedCategories=categories.slice(1).filter(name=>products.some(p=>p.category===name))
   const popular=populatedCategories.map((name,i)=>({name,count:products.filter(p=>p.category===name).length,icon:['⌘','◉','✳','⌂','✿','↗','◇','▤','▣','✦','♧','♢','⌁'][i%13],tone:['cat-blue','cat-sand','cat-pink','cat-lilac','cat-green','cat-yellow'][i%6]}))
   const deals=products.filter(p=>p.oldPrice).slice(0,4)
   const recentlyViewed=readJson('marchy-recently-viewed', []).map(id=>products.find(product=>product.id===id)).filter(Boolean).slice(0,4)
   return translateTree(<main id="main-content" className="shell page home-page">
-    <section className="market-hero">
+    <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
       <div className="market-hero-copy">
-        <span className="eyebrow">THE TUNISIAN MARKETPLACE</span>
-        <h1>Everything worth finding.<br/><em>Closer to home.</em></h1>
-        <p>Search products, compare sample listings and discover independent storefronts from across Tunisia — all in one place.</p>
-        <div className="market-hero-actions"><Link to="/search" className="primary-btn">Explore the marketplace <span>→</span></Link><Link to="/categories" className="hero-secondary">Browse categories</Link></div>
-        <div className="market-hero-proof"><span>✓ Prices displayed in TND</span><span>✓ Browse by category</span><span>✓ Discover local storefronts</span></div>
+        <span className="eyebrow">MADE FOR TUNISIA · READY TO EXPLORE</span>
+        <h1 id="market-hero-title">Good finds.<br/><em>Right around here.</em></h1>
+        <p>Explore a growing world of everyday finds, discover local storefronts and compare catalogue prices in Tunisian dinars.</p>
+        <form className="hero-search-form" role="search" onSubmit={submitHeroSearch}>
+          <label className="sr-only" htmlFor="home-market-search">Search products and categories</label>
+          <span aria-hidden="true">⌕</span>
+          <input id="home-market-search" type="search" value={heroSearch} onChange={event=>setHeroSearch(event.target.value)} placeholder="What are you looking for?" />
+          <button type="submit">Search <span aria-hidden="true">→</span></button>
+        </form>
+        <div className="hero-trending"><span>Popular:</span>{['Headphones','Home','Fashion','Beauty'].map(term=><button type="button" key={term} onClick={()=>navigate('/search?q='+encodeURIComponent(term))}>{term}</button>)}</div>
+        <div className="market-hero-proof"><span>✓ Prices shown in TND</span><span>✓ Explore local storefronts</span><span>✓ One place to discover</span></div>
       </div>
-      <div className="market-hero-art"><img src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1200&q=90" alt="Everyday products arranged for discovery" loading="eager"/><div className="hero-floating-card"><span className="hero-floating-icon">✦</span><div><b>Discover something useful</b><small>Explore the MARCHY sample catalogue</small></div></div><div className="hero-art-caption">LOCAL DISCOVERY <b>·</b> MADE SIMPLE</div></div>
+      <div className="market-hero-art">
+        <img src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1400&q=90" alt="A curated still life of everyday objects and home accessories" loading="eager"/>
+        <div className="hero-image-shade" aria-hidden="true"></div>
+        <div className="hero-floating-card"><span className="hero-floating-icon">✦</span><div><b>A little more to discover</b><small>Explore the MARCHY sample catalogue</small></div></div>
+        <div className="hero-art-caption">LOCAL FINDS <b>·</b> EVERYDAY DISCOVERY</div>
+        <div className="hero-art-index"><span>01</span><i></i><span>DISCOVER</span></div>
+      </div>
     </section>
     <section className="market-benefits"><div><span>01</span><b>Browse with ease</b><small>Explore products across everyday categories</small></div><div><span>02</span><b>Find local storefronts</b><small>See sample seller profiles and locations</small></div><div><span>03</span><b>Compare in dinars</b><small>All catalogue prices shown in TND</small></div></section>
     <section className="home-quick-discovery" aria-label="Quick category discovery"><div><span className="eyebrow">QUICK DISCOVERY</span><b>What are you shopping for?</b></div><div className="home-quick-links">{populatedCategories.slice(0,7).map(name=><Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`}>{name}<span>↗</span></Link>)}<Link className="quick-all-link" to="/categories">All departments <span>→</span></Link></div></section>
