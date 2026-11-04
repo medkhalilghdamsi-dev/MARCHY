@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { categories, products } from '../data/products'
 import { sellers } from '../data/sellers'
-import { readText, readJson, writeJson } from '../utils/marketplace'
-import { translateTree } from '../i18n/translate'
+import { useMarketplaceState } from '../hooks/useMarketplaceState'
 import { Header, Footer, MobileTabBar } from '../components/MarketplaceChrome'
 import { Home, SearchPage, ProductPage, CartPage, CheckoutPage, WishlistPage } from '../pages/ShoppingPages'
 import { SellersPage, SellerPage, CategoriesPage } from '../pages/DiscoveryPages'
@@ -18,7 +17,8 @@ function ScrollToTop() {
 
 function App(){
   const location=useLocation()
-  const [language,setLanguage]=useState(()=>{const saved=readText('marchy-language','en');return ['en','fr','ar'].includes(saved)?saved:'en'}); const [query,setQuery]=useState(''); const [cart,setCart]=useState(()=>readJson('marchy-cart',[])); const [wishlist,setWishlist]=useState(()=>readJson('marchy-wishlist',[]))
+  const [query,setQuery]=useState('')
+  const { language, setLanguage, cart, wishlist, addToCart, updateQty, removeItem, toggleWish } = useMarketplaceState()
   useEffect(()=>{const params=new URLSearchParams(location.search);setQuery(params.get('q')||'')},[location.pathname,location.search])
   useEffect(()=>{
     const path=location.pathname
@@ -44,13 +44,6 @@ function App(){
     }
     document.title=title+' | MARCHY'
   },[location.pathname,location.search])
-  useEffect(()=>{try{localStorage.setItem('marchy-language',language)}catch{} document.documentElement.lang=language;document.documentElement.dir=language==='ar'?'rtl':'ltr'},[language])
-  useEffect(()=>{writeJson('marchy-cart',cart)},[cart])
-  useEffect(()=>{writeJson('marchy-wishlist',wishlist)},[wishlist])
-  function addToCart(product,qty=1){setCart(prev=>{const found=prev.find(x=>x.id===product.id);return found?prev.map(x=>x.id===product.id?{...x,qty:x.qty+qty}:x):[...prev,{...product,qty}]})}
-  function updateQty(id,qty){if(qty<1)return;setCart(prev=>prev.map(x=>x.id===id?{...x,qty}:x))}
-  function removeItem(id){setCart(prev=>prev.filter(x=>x.id!==id))}
-  function toggleWish(id){setWishlist(prev=>prev.includes(id)?prev.filter(x=>x!==id):[...prev,id])}
   return <div className={language==='ar'?'app-root is-rtl':'app-root'} dir={language==='ar'?'rtl':'ltr'}><ScrollToTop/><a className="skip-to-content" href="#main-content">Skip to main content</a><Header cartCount={cart.reduce((s,x)=>s+x.qty,0)} query={query} setQuery={setQuery} language={language} setLanguage={setLanguage}/><Routes><Route path="/" element={<Home addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/search" element={<SearchPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/category/:category" element={<SearchPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/product/:id" element={<ProductPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/cart" element={<CartPage cart={cart} updateQty={updateQty} removeItem={removeItem} language={language}/>}/><Route path="/checkout" element={<CheckoutPage cart={cart} language={language}/>}/><Route path="/wishlist" element={<WishlistPage products={products} wishlist={wishlist} toggleWish={toggleWish} addToCart={addToCart} language={language}/>}/><Route path="/categories" element={<CategoriesPage language={language}/>}/><Route path="/sellers" element={<SellersPage language={language}/>}/><Route path="/seller/:slug" element={<SellerPage language={language} addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish}/>}/><Route path="/account" element={<AccountPage cart={cart} wishlist={wishlist} language={language}/>}/><Route path="/help" element={<HelpCenterPage language={language}/>}/><Route path="/delivery" element={<MarketplaceGuidePage type="delivery" language={language}/>}/><Route path="/returns" element={<MarketplaceGuidePage type="returns" language={language}/>}/><Route path="/seller-help" element={<SellerPreparationPage language={language}/>}/><Route path="/sell" element={<SellerLaunchPage language={language}/>}/><Route path="/seller-dashboard" element={<SellerDashboardPage language={language}/>}/><Route path="*" element={<NotFoundPage language={language}/>}/></Routes><Footer language={language}/><MobileTabBar cartCount={cart.reduce((s,x)=>s+x.qty,0)} wishlistCount={wishlist.length} language={language}/></div>
 }
 
