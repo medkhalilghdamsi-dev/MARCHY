@@ -1952,3 +1952,11 @@ input,select,textarea{accent-color:var(--orange)}
 .product-share-button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
 .product-share-feedback{font-size:10px;color:#176b4b;margin:-5px 0 8px}
 @media(max-width:420px){.product-topline-actions{gap:5px}.product-share-button{padding:6px 8px;font-size:9px}}
+
+
+.product-compare-button{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:6px;padding:7px 10px;font-size:10px;font-weight:700;white-space:nowrap}
+.product-compare-button:hover,.product-compare-button.is-compared{border-color:#f1b49b;background:#fff4ee;color:#a94421}
+.product-compare-button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.product-compare-feedback{font-size:10px;color:var(--muted);margin:-5px 0 8px}
+.product-compare-feedback a{color:#a94421;font-weight:750;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:420px){.product-compare-button{padding:6px 8px;font-size:9px}}
