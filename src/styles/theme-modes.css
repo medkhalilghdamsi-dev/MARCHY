@@ -106,3 +106,38 @@
 .theme-toggle:focus-visible{outline:3px solid #d85a2c;outline-offset:3px}
 @media(max-width:640px){.theme-toggle{width:34px;height:34px;flex-basis:34px;font-size:16px}.header-actions{gap:7px}}
 @media(prefers-reduced-motion:reduce){.theme-toggle{transition:none}}
+
+/* Product-detail dark mode coverage: keep every buyer information panel coherent */
+:root[data-theme="dark"] .product-visual-note,
+:root[data-theme="dark"] .product-seller-card,
+:root[data-theme="dark"] .product-delivery-card,
+:root[data-theme="dark"] .product-listing-status,
+:root[data-theme="dark"] .product-quantity,
+:root[data-theme="dark"] .product-category-pill,
+:root[data-theme="dark"] .sample-status{
+  background:#202c37!important;
+  border-color:#35424d!important;
+  color:#e5ebef!important;
+}
+:root[data-theme="dark"] .product-visual-note>span{background:#3a302b;color:#f0b08e}
+:root[data-theme="dark"] .product-visual-note p,
+:root[data-theme="dark"] .product-price-caption,
+:root[data-theme="dark"] .product-demo-disclaimer,
+:root[data-theme="dark"] .product-quantity-label,
+:root[data-theme="dark"] .product-image-caption,
+:root[data-theme="dark"] .product-image-caption span:first-child,
+:root[data-theme="dark"] .product-seller-copy small,
+:root[data-theme="dark"] .product-seller-copy span,
+:root[data-theme="dark"] .product-delivery-card p,
+:root[data-theme="dark"] .product-listing-status small,
+:root[data-theme="dark"] .product-attribute-list dt,
+:root[data-theme="dark"] .product-order-checklist li{color:#aab6c0!important}
+:root[data-theme="dark"] .product-seller-copy b,
+:root[data-theme="dark"] .product-listing-status b,
+:root[data-theme="dark"] .product-attribute-list dd{color:#e3e9ee!important}
+:root[data-theme="dark"] .product-attribute-list>div{border-color:#303b45!important}
+:root[data-theme="dark"] .product-compare-button,
+:root[data-theme="dark"] .product-share-button{background:#26333e;color:#e5ebef;border-color:#3b4853}
+:root[data-theme="dark"] .product-added-feedback{background:#1c382e;color:#a9dfc1}
+:root[data-theme="dark"] .product-share-feedback,
+:root[data-theme="dark"] .product-compare-feedback{color:#c6d1d9}
