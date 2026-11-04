@@ -868,3 +868,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .product-attribute-list dt{
   color:#4d5964!important;
 }
+
+/* Keep the mobile product purchase bar above the persistent navigation dock */
+@media(max-width:640px){
+  .product-mobile-buybar{
+    bottom:calc(70px + env(safe-area-inset-bottom));
+    z-index:60;
+    left:10px;
+    right:10px;
+    border-color:#dfe3e6;
+  }
+  .product-page{padding-bottom:170px}
+}
+
+/* Checkout seller subtotals must remain readable against the summary surface */
+.seller-summary-row>span{color:#4d5964!important}
