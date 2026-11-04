@@ -1669,3 +1669,12 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
  .product-mobile-buybar{bottom:calc(62px + env(safe-area-inset-bottom))}
  .product-page{padding-bottom:calc(164px + env(safe-area-inset-bottom))}
 }
+
+/* Improve marketplace card readability on narrow screens */
+@media(max-width:640px){
+ .product-name{font-size:12px;line-height:1.4;min-height:36px}
+ .seller-name{font-size:9.5px;line-height:1.5}
+ .price-row strong{font-size:15px}
+ .add-btn{min-height:40px;font-size:10px}
+ .product-quick-view{font-size:10px;min-height:34px}
+}
