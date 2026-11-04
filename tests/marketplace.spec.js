@@ -468,3 +468,33 @@ test('mobile Seller Centre keeps workspace navigation, drafts and fulfilment act
   overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
   expect(overflow).toBeLessThanOrEqual(1)
 })
+
+
+test('keyboard users can skip navigation and operate search suggestions and quick view', async ({ page }) => {
+  await page.goto('/')
+  await page.keyboard.press('Tab')
+  const skipLink = page.getByRole('link', { name: 'Skip to main content' })
+  await expect(skipLink).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('#main-content')).toBeFocused()
+
+  const search = page.getByRole('textbox', { name: 'Search products' })
+  await search.fill('headphones')
+  await expect(search).toHaveAttribute('aria-expanded', 'true')
+  await expect(page.getByRole('region', { name: 'Search suggestions' })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(search).toHaveAttribute('aria-expanded', 'false')
+
+  const quickViewTrigger = page.getByRole('button', { name: /Quick view/ }).first()
+  await quickViewTrigger.focus()
+  await page.keyboard.press('Enter')
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toBeVisible()
+  const closeButton = dialog.getByRole('button', { name: 'Close quick view' })
+  await expect(closeButton).toBeFocused()
+  await page.keyboard.press('Shift+Tab')
+  await expect(dialog.locator('a,button').last()).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+  await expect(quickViewTrigger).toBeFocused()
+})
