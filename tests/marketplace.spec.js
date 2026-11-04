@@ -347,3 +347,20 @@ test('buyer routes update browser titles and descriptions', async ({ page }) => 
   await expect(page).toHaveTitle('Checkout preview | MARCHY')
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /No order or payment is submitted/)
 })
+
+
+test('buyer search filters restore from a shareable URL', async ({ page }) => {
+  await page.goto('/search?q=headphones&category=Electronics&city=Tunis&min=100&max=200&sort=price-high')
+  await expect(page.getByRole('textbox', { name: 'Search marketplace' })).toHaveValue('headphones')
+  await expect(page.getByRole('radio', { name: /Electronics/ })).toBeChecked()
+  await expect(page.getByRole('combobox', { name: 'Seller location' })).toHaveValue('Tunis')
+  await expect(page.getByRole('spinbutton', { name: 'Minimum price in TND' })).toHaveValue('100')
+  await expect(page.getByRole('spinbutton', { name: 'Maximum price in TND' })).toHaveValue('200')
+  await expect(page.getByRole('combobox', { name: 'Sort products' })).toHaveValue('price-high')
+  await expect(page.locator('.product-card')).toHaveCount(1)
+
+  await page.getByRole('button', { name: 'Clear all' }).first().click()
+  await expect(page).toHaveURL('/search')
+  await expect(page.getByRole('textbox', { name: 'Search marketplace' })).toHaveValue('')
+  await expect(page.getByRole('combobox', { name: 'Seller location' })).toHaveValue('All')
+})
