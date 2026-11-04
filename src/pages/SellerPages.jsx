@@ -6,6 +6,7 @@ import { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText
 import { translateTree } from '../i18n/translate'
 import { ProductCard } from '../components/MarketplaceChrome'
 import { createDemoOrders, orderStatusLabels, orderStatusSteps } from '../data/demoOrders'
+import { deliveryMethodDefaults } from '../data/sellerDelivery'
 
 function SellerLaunchPage({language}) {
   const [storeName,setStoreName]=useState('')
@@ -63,6 +64,11 @@ function SellerDashboardPage({language}) {
  const [drafts,setDrafts]=useState(()=>readJson('marchy-seller-drafts',[]))
  const [orders,setOrders]=useState(()=>readJson('marchy-demo-orders',null)||createDemoOrders(sellers,products,sellerForProduct))
  const [selectedOrderId,setSelectedOrderId]=useState(null)
+ const [deliverySettings,setDeliverySettings]=useState(()=>readJson('marchy-seller-delivery-settings',{}))
+ const [deliveryFeedback,setDeliveryFeedback]=useState('')
+ const sellerDelivery=deliverySettings[sellerSlug]||deliveryMethodDefaults
+ const updateDeliverySetting=(method,field,value)=>setDeliverySettings(current=>({...current,[sellerSlug]:{...(current[sellerSlug]||deliveryMethodDefaults),[method]:{...((current[sellerSlug]||deliveryMethodDefaults)[method]||deliveryMethodDefaults[method]),[field]:value}}}))
+ const saveDeliverySettings=()=>{writeJson('marchy-seller-delivery-settings',deliverySettings);setDeliveryFeedback('Delivery preferences saved on this device')}
  const updateOrderStatus=(orderId,status)=>{const next=orders.map(order=>order.id===orderId?{...order,status,caseStatus:status==='cancelled'?'Cancellation confirmed in demo':status==='returned'?'Return marked received in demo':status==='refund_issued'?'Refund marked as issued in demo':order.caseStatus,updatedAt:new Date().toISOString()}:order);setOrders(next);writeJson('marchy-demo-orders',next)}
  const seller=sellers.find(s=>s.slug===sellerSlug)||sellers[0]
  const sellerDrafts=drafts.filter(d=>d.sellerSlug===sellerSlug)
@@ -102,7 +108,15 @@ function SellerDashboardPage({language}) {
     </section>}
     {tab==='storefront'&&<div className="seller-dashboard-profile"><div className="seller-dashboard-cover"><span>{seller.name.split(' ').map(x=>x[0]).join('')}</span><small>STOREFRONT COVER PREVIEW</small></div><div className="seller-dashboard-profile-body"><span className="demo-label">DEMO STOREFRONT · NOT VERIFIED</span><h3>{seller.name}</h3><p>⌖ {seller.city}, Tunisia</p><p>{seller.description}</p><div className="seller-category-tags">{seller.categories.map(c=><span key={c}>{c}</span>)}</div><Link to={`/seller/${seller.slug}`} className="primary-btn">View public storefront →</Link></div></div>}
     {tab==='insights'&&<div className="seller-dashboard-empty large"><span>↗</span><h3>Insights will appear here.</h3><p>Views, clicks, conversion and sales metrics require real marketplace traffic and connected seller data. This preview does not invent performance figures.</p></div>}
-    {tab==='settings'&&<div className="seller-dashboard-empty large"><span>⚙</span><h3>Workspace settings are not connected.</h3><p>Business verification, account security, notifications and payout settings would be managed here in a live seller portal.</p><Link to="/seller-help" className="text-link">Read seller preparation guide →</Link></div>}
+    {tab==='settings'&&<section className="seller-delivery-settings">
+      <div className="seller-delivery-settings-heading"><span className="eyebrow">FULFILMENT PREFERENCES</span><h3>Choose how customers can receive orders.</h3><p>Enable the methods this sample storefront wants to offer and set an illustrative fee in TND. Checkout will reflect these choices.</p></div>
+      <div className="seller-delivery-method-list">{Object.values(deliveryMethodDefaults).map(method=>{const setting=sellerDelivery[method.id]||method;return <article className="seller-delivery-method" key={method.id}>
+        <label className="seller-delivery-method-toggle"><input type="checkbox" checked={setting.enabled!==false} onChange={event=>{updateDeliverySetting(method.id,'enabled',event.target.checked);setDeliveryFeedback('')}}/><span><b>{method.label}</b><small>{method.id==='standard'?'Regular local delivery':method.id==='express'?'Priority delivery':'Customer collects from your shop'}</small></span></label>
+        <label className="seller-delivery-fee">Illustrative fee (TND)<input type="number" min="0" step="0.5" value={setting.fee??method.fee} disabled={setting.enabled===false} onChange={event=>{updateDeliverySetting(method.id,'fee',Math.max(0,Number(event.target.value)||0));setDeliveryFeedback('')}}/></label>
+      </article>})}</div>
+      <div className="seller-delivery-settings-actions"><p>Rates and availability are examples only. No courier, pickup schedule or service area is connected.</p><button type="button" className="primary-btn" onClick={saveDeliverySettings}>Save delivery preferences</button></div>{deliveryFeedback&&<p className="seller-draft-feedback" role="status">{deliveryFeedback}</p>}
+      <div className="seller-delivery-settings-secondary"><h4>Other workspace settings</h4><p>Business verification, account security, notifications and payouts require a connected seller account.</p><Link to="/seller-help" className="text-link">Read seller preparation guide →</Link></div>
+    </section>}
    </section>
   </div>
   <p className="catalogue-note">Frontend demonstration only. No seller login, private data, live inventory, analytics, product publishing or account settings are connected.</p>
