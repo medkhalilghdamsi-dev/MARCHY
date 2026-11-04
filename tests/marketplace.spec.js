@@ -369,3 +369,17 @@ test('mobile navigation exposes account, wishlist, selling and help destinations
   await expect(page).toHaveURL(/\/wishlist$/)
   await expect(navigation).toBeHidden()
 })
+
+
+test('mobile product page keeps purchase actions usable at narrow widths', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 })
+  await page.goto('/product/1')
+  await expect(page.locator('.product-image-stage')).toBeVisible()
+  await expect(page.locator('.product-add-button')).toBeVisible()
+  await expect(page.locator('.product-delivery-card')).toContainText('MARCHY-managed delivery')
+  const buybar = page.locator('.product-mobile-buybar')
+  await expect(buybar).toBeVisible()
+  await expect(buybar.getByRole('button', { name: /Add to cart/ })).toBeVisible()
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+  expect(overflow).toBeLessThanOrEqual(1)
+})
