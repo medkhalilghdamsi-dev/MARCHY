@@ -810,3 +810,16 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .nav.nav-open{max-height:calc(100dvh - 110px);overflow-y:auto;overscroll-behavior:contain}
  .nav.nav-open .nav-inner a{min-height:44px}
 }
+
+
+/* Buyer QA fixes: accessible CTA contrast and compact RTL tablet layout */
+.header-join-link{background:#b94a25!important;color:#fff!important}
+.header-join-link:hover{background:#96391b!important;color:#fff!important}
+@media(min-width:641px) and (max-width:980px){
+  .is-rtl .listing-layout{grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:14px}
+  .is-rtl .listing-results,.is-rtl .results-toolbar{min-width:0}
+  .is-rtl .results-toolbar{height:auto;flex-wrap:wrap;gap:10px}
+  .is-rtl .results-toolbar-actions{min-width:0;max-width:100%;flex-wrap:wrap;gap:8px}
+  .is-rtl .results-toolbar label{min-width:0;flex-wrap:wrap}
+  .is-rtl .results-toolbar select{max-width:100%}
+}
