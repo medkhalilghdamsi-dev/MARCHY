@@ -50,4 +50,4 @@
 .header-join-link:hover{background:#d95728;transform:translateY(-1px)}
 .header-signin .action-icon{color:#f36b35}
 @media(max-width:900px){.header-join-link{padding:0 10px;font-size:10px}.header-actions{gap:10px}}
-@media(max-width:640px){.header-join-link{min-height:32px;padding:0 9px;font-size:9px}.header-signin .action-icon{font-size:18px}.header-signin b{font-size:10px!important}}
+@media(max-width:640px){.header-actions .wishlist-link{display:none}.header-join-link{min-height:32px;padding:0 9px;font-size:9px}.header-signin{gap:0}.header-signin small,.header-signin b{display:none}.header-signin .action-icon{font-size:20px}.header-actions{gap:12px}}
