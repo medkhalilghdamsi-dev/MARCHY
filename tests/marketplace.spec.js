@@ -188,6 +188,14 @@ test('seller workspace can save and delete a local product draft without publish
   await expect(page.locator('.seller-local-drafts')).toHaveCount(0)
 })
 
+test('seller workspace explains MARCHY-managed delivery without seller rate controls', async ({ page }) => {
+  await page.goto('/seller-dashboard')
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await expect(page.getByRole('heading', { name: 'Delivery is managed centrally by MARCHY.' })).toBeVisible()
+  await expect(page.getByText('Not seller-configurable')).toBeVisible()
+  await expect(page.locator('.seller-delivery-settings input[type="number"]')).toHaveCount(0)
+})
+
 test('seller can edit a saved local product draft without changing other drafts', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('marchy-seller-drafts', JSON.stringify([
     {id:'draft-a',sellerSlug:'atlas-tech-tunis',title:'First local draft',category:'Electronics',price:25,description:'First description',status:'Draft',createdAt:'2026-01-01T00:00:00.000Z'},
@@ -293,6 +301,8 @@ test('checkout preview validates contact details and reviews each seller without
   await page.getByRole('button', { name: 'Review order' }).click()
   await expect(page.getByRole('heading', { name: 'Review before proceeding' })).toBeVisible()
   await expect(page.locator('.checkout-seller-review')).toHaveCount(2)
+  await expect(page.getByLabel('MARCHY delivery option')).toBeVisible()
+  await expect(page.getByText('Delivery method for Atlas Tech')).toHaveCount(0)
   await expect(page.locator('.checkout-summary')).toContainText('268 DT')
   await page.getByRole('button', { name: 'Continue to final preview' }).click()
   await expect(page.getByRole('heading', { name: 'Ready to create your sample order?' })).toBeVisible()
