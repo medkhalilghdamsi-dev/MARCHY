@@ -1290,7 +1290,7 @@ function SellerDashboardPage({language}) {
   e.preventDefault()
   const existing=drafts.find(d=>d.id===editingDraftId&&d.sellerSlug===sellerSlug)
   const draft={id:existing?.id||`draft-${Date.now()}`,sellerSlug,title:draftTitle.trim(),category:draftCategory.trim()||'General',price:Number(draftPrice),description:draftDescription.trim(),status:'Draft',createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()}
-  const next=existing?drafts.map(d=>d.id===existing.id?draft:draft):[draft,...drafts]
+  const next=existing?drafts.map(d=>d.id===existing.id?draft:d):[draft,...drafts]
   setDrafts(next);writeJson('marchy-seller-drafts',next)
   resetDraftForm();setDraftFeedback(existing?'Draft updated on this device':'Draft saved on this device')
  }
