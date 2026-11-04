@@ -539,7 +539,12 @@ Object.assign(translations, {
  "Back to home →":["Retour à l’accueil →","العودة إلى الرئيسية ←"],
  "Explore products":["Explorer les produits","استكشف المنتجات"],
  "Browse categories":["Parcourir les catégories","تصفح الفئات"],
- "Search shops, products or locations":["Rechercher des boutiques, produits ou lieux","ابحث عن المتاجر والمنتجات والمناطق"]
+ "Search shops, products or locations":["Rechercher des boutiques, produits ou lieux","ابحث عن المتاجر والمنتجات والمناطق"],
+ "Open navigation menu":["Ouvrir le menu de navigation","فتح قائمة التنقل"],
+ "Close navigation menu":["Fermer le menu de navigation","إغلاق قائمة التنقل"],
+ "Primary navigation":["Navigation principale","التنقل الرئيسي"],
+ "Shopping cart":["Panier","سلة التسوق"],
+ "Selected quantity":["Quantité sélectionnée","الكمية المحددة"]
 });
 
 function translateText(value, lang) {
@@ -605,7 +610,7 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
           <button type="button" className="search-suggestion-close" onClick={()=>setSearchOpen(false)}>Close suggestions</button>
         </div>}
       </form>
-      <div className="header-actions"><label className="language-picker"><span className="sr-only">Language</span><select aria-label="Language" value={language} onChange={e=>setLanguage(e.target.value)}><option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option></select></label><Link to="/wishlist" className="action-link wishlist-link"><span className="action-icon">♡</span><span><small>Saved</small><b>Wishlist</b></span></Link><Link to="/account" className="action-link"><span className="action-icon">♙</span><span><small>Hello, welcome</small><b>Account</b></span></Link><Link to="/cart" className="action-link cart-link" aria-label={`Shopping cart, ${cartCount} items`}><span className="cart-icon">🛒<i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link></div>
+      <div className="header-actions"><label className="language-picker"><span className="sr-only">Language</span><select aria-label="Language" value={language} onChange={e=>setLanguage(e.target.value)}><option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option></select></label><Link to="/wishlist" className="action-link wishlist-link"><span className="action-icon">♡</span><span><small>Saved</small><b>Wishlist</b></span></Link><Link to="/account" className="action-link"><span className="action-icon">♙</span><span><small>Hello, welcome</small><b>Account</b></span></Link><Link to="/cart" className="action-link cart-link" aria-label="Shopping cart"><span className="cart-icon">🛒<i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link></div>
     </div>
     <nav id="primary-navigation" aria-label="Primary navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}><div className="shell nav-inner" onClick={()=>setMenuOpen(false)}><Link to="/categories">☷ <b>Shop by category</b></Link>{categories.slice(1,5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`}>{c}</Link>)}<Link to="/sellers">Sellers</Link><Link className="nav-deal" to="/search?deal=true">Deals of the day <span>→</span></Link></div></nav>
     </header>
