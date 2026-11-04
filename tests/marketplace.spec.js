@@ -100,7 +100,7 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await page.goto('/product/1')
   await page.getByRole('button', { name: 'Save for later' }).click()
   await page.goto('/wishlist')
-  await expect(page.locator('.home-recently-viewed')).toContainText('Wireless noise-cancelling headphones')
+  await expect(page.locator('.wishlist-product-grid')).toContainText('Wireless noise-cancelling headphones')
 })
 
 test('product comparisons persist when navigating away and returning', async ({ page }) => {
