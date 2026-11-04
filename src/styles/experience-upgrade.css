@@ -178,3 +178,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  html{scroll-behavior:auto}
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Keep the primary search action readable against the brand orange */
+.hero-search-form button{background:#b94a25;color:#fff}
+.hero-search-form button:hover{background:#96391b}
