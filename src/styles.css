@@ -1299,3 +1299,27 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
  .mobile-tabbar a.is-active:before{content:"";position:absolute;top:0;width:25px;height:2px;border-radius:0 0 3px 3px;background:var(--orange)}
  .mobile-tabbar a{position:relative}
 }
+
+
+/* Seller directory discovery controls */
+.seller-directory-tools{display:grid;grid-template-columns:minmax(220px,1fr) minmax(130px,.28fr) minmax(150px,.32fr) auto;gap:10px;align-items:end;margin:25px 0 14px;padding:15px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.seller-directory-tools>label{display:flex;flex-direction:column;gap:6px;color:#687482;font-size:9px;font-weight:750}
+.seller-directory-tools input,.seller-directory-tools select{width:100%;min-width:0;height:41px;padding:0 11px;border:1px solid #e2e7eb;border-radius:7px;background:#fff;color:var(--ink);font:inherit;font-size:11px}
+.seller-directory-tools input:focus,.seller-directory-tools select:focus{outline:3px solid rgba(243,107,53,.13);border-color:var(--orange)}
+.seller-directory-search{position:relative}
+.seller-directory-search>span{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:18px;color:#89939c}
+.seller-directory-search input{padding-left:36px}
+.seller-directory-reset{height:41px;padding:0 15px;border:1px solid #e2e7eb;border-radius:7px;background:#fff;color:#66727e;font-size:10px;font-weight:750;cursor:pointer}
+.seller-directory-reset:hover{border-color:#e4b49f;color:var(--orange-dark)}
+.seller-directory-results{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px;color:#75818b;font-size:9px}
+.seller-directory-results b{color:var(--ink);font-size:11px}
+.seller-directory-empty{margin-top:20px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.is-rtl .seller-directory-tools{direction:rtl}
+.is-rtl .seller-directory-search>span{left:auto;right:11px}
+.is-rtl .seller-directory-search input{padding-left:11px;padding-right:36px}
+@media(max-width:700px){
+ .seller-directory-tools{grid-template-columns:1fr 1fr;gap:9px;padding:11px}
+ .seller-directory-search{grid-column:1/-1}
+ .seller-directory-reset{grid-column:1/-1}
+}
+@media(max-width:420px){.seller-directory-tools{grid-template-columns:1fr}.seller-directory-search,.seller-directory-reset{grid-column:auto}}
