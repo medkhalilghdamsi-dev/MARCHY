@@ -547,6 +547,11 @@ Object.assign(translations, {
  "Breadcrumb":["Fil d’Ariane","مسار التنقل"],
  "Continue to checkout":["Continuer vers le paiement","المتابعة إلى إتمام الشراء"],
  "Grid view":["Vue en grille","عرض شبكي"],
+ "Share":["Partager","مشاركة"],
+ "Listing link copied":["Lien de l’annonce copié","تم نسخ رابط المنتج"],
+ "Share options opened":["Options de partage ouvertes","تم فتح خيارات المشاركة"],
+ "Could not share this listing":["Impossible de partager cette annonce","تعذرت مشاركة هذا المنتج"],
+ "Copy is unavailable in this browser":["La copie n’est pas disponible dans ce navigateur","النسخ غير متاح في هذا المتصفح"],
  "List view":["Vue en liste","عرض قائمة"],
  "Product layout":["Disposition des produits","طريقة عرض المنتجات"],
  "Checkout preview":["Aperçu du paiement","معاينة إتمام الشراء"],
@@ -896,6 +901,17 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
   const [imageZoomOpen,setImageZoomOpen]=useState(false)
+  const [shareFeedback,setShareFeedback]=useState('')
+  const handleShare=async()=>{
+    const shareData={title:product?.name||'MARCHY listing',text:'View this sample listing on MARCHY',url:window.location.href}
+    try{
+      if(navigator.share){await navigator.share(shareData);setShareFeedback('Share options opened');return}
+      if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(shareData.url);setShareFeedback('Listing link copied')}
+      else{
+        const field=document.createElement('textarea');field.value=shareData.url;field.setAttribute('readonly','');field.style.position='absolute';field.style.left='-9999px';document.body.appendChild(field);field.select();const copied=document.execCommand('copy');field.remove();setShareFeedback(copied?'Listing link copied':'Copy is unavailable in this browser')
+      }
+    }catch(error){if(error?.name!=='AbortError')setShareFeedback('Could not share this listing')}
+  }
   useEffect(()=>{
     if(!imageZoomOpen)return
     const trigger=document.activeElement
@@ -940,7 +956,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <div className="product-visual-note"><span>ⓘ</span><p>Images and listing information are provided as demonstration content. Confirm the exact item with the seller before ordering.</p></div>
       </section>
       <section className="product-buy-panel">
-        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><span className="sample-status">Sample listing</span></div>
+        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}
         <h1>{product.name}</h1>
         <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
         <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
