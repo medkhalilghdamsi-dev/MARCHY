@@ -74,7 +74,7 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await page.getByRole('button', { name: 'Increase quantity' }).click()
   await expect(page.getByLabel('Selected quantity')).toHaveText('2')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
-  await expect(page.getByRole('status')).toContainText('Added to your demo cart')
+  await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
   await page.getByRole('link', { name: 'Shopping cart' }).click()
   await expect(page.getByRole('heading', { name: 'Your shopping cart' })).toBeVisible()
   await expect(page.getByText('2 items', { exact: true })).toBeVisible()
