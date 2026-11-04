@@ -63,7 +63,7 @@ for (const viewport of viewports) {
 test('Arabic RTL layout remains within the viewport on key marketplace routes', async ({ page }) => {
   for (const width of [360, 390, 768]) {
     await page.setViewportSize({ width, height: 844 })
-    for (const route of ['/search', '/product/1', '/seller/atlas-tech-tunis', '/account', '/seller-dashboard']) {
+    for (const route of ['/search', '/product/1', '/compare', '/cart', '/checkout', '/seller/atlas-tech-tunis', '/account', '/seller-dashboard']) {
       await page.goto(route)
       await page.locator('.language-picker select').selectOption('ar')
       await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
@@ -517,4 +517,18 @@ test('cart removal can be undone without losing the selected quantity', async ({
   await page.getByRole('button', { name: 'Undo' }).click()
   await expect(page.locator('.cart-item')).toHaveCount(1)
   await expect(page.locator('.cart-item-quantity output')).toHaveText('2')
+})
+
+
+test('comparison remains usable on narrow mobile screens', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-compare', JSON.stringify([1, 2, 3])))
+  for (const width of [360, 390, 430]) {
+    await page.setViewportSize({ width, height: 844 })
+    await page.goto('/compare')
+    await expect(page.locator('.compare-page-products .compare-page-product')).toHaveCount(3)
+    await expect(page.locator('.compare-page-table-scroll')).toBeVisible()
+    const pageWidth = await page.evaluate(() => document.documentElement.scrollWidth)
+    const viewportWidth = await page.evaluate(() => document.documentElement.clientWidth)
+    expect(pageWidth).toBeLessThanOrEqual(viewportWidth + 1)
+  }
 })
