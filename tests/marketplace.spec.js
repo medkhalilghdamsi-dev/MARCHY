@@ -134,6 +134,22 @@ test('cart groups products by seller and keeps each seller subtotal visible', as
 })
 
 
+test('seller workspace can save and delete a local product draft without publishing it', async ({ page }) => {
+  await page.goto('/seller-dashboard')
+  await page.getByRole('button', { name: 'Products' }).click()
+  await page.getByRole('button', { name: /Create draft/ }).click()
+  await page.getByLabel('Product name').fill('Handmade test vase')
+  await page.getByLabel('Category').last().fill('Home & Living')
+  await page.getByLabel('Indicative price (TND)').fill('45')
+  await page.getByLabel('Description').last().fill('A locally saved draft for testing')
+  await page.getByRole('button', { name: 'Save draft on this device' }).click()
+  await expect(page.getByRole('status')).toContainText('Draft saved on this device')
+  await expect(page.locator('.seller-local-drafts')).toContainText('Handmade test vase')
+  await expect(page.locator('.seller-local-drafts')).toContainText('LOCAL DRAFT')
+  await page.getByRole('button', { name: 'Delete draft Handmade test vase' }).click()
+  await expect(page.locator('.seller-local-drafts')).toHaveCount(0)
+})
+
 test('seller storefront supports persistent grid and list product layouts', async ({ page }) => {
   await page.goto('/seller/atlas-tech-tunis')
   await page.getByRole('button', { name: 'List view' }).click()
