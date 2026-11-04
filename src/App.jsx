@@ -569,6 +569,10 @@ Object.assign(translations, {
  "Delete":["Supprimer","حذف"],
  "Cancel":["Annuler","إلغاء"],
  "Save draft":["Enregistrer le brouillon","حفظ المسودة"],
+ "PICK UP WHERE YOU LEFT OFF":["REPRENEZ VOTRE NAVIGATION","تابع من حيث توقفت"],
+ "Recently viewed":["Récemment consultés","شوهدت مؤخراً"],
+ "Products you opened on this device.":["Produits consultés sur cet appareil.","المنتجات التي فتحتها على هذا الجهاز."],
+ "Clear history":["Effacer l’historique","مسح السجل"],
  "↗ Share":["↗ Partager","↗ مشاركة"],
  "Listing link copied":["Lien de l’annonce copié","تم نسخ رابط المنتج"],
  "Share options opened":["Options de partage ouvertes","تم فتح خيارات المشاركة"],
@@ -1285,6 +1289,9 @@ function SellerPreparationPage({language}) {
 function AccountPage({cart,wishlist,language}) {
  const cartItems=cart.reduce((sum,item)=>sum+item.qty,0)
  const savedProducts=products.filter(p=>wishlist.includes(p.id)).slice(0,3)
+ const [recentIds,setRecentIds]=useState(()=>readJson('marchy-recently-viewed',[]))
+ const recentProducts=recentIds.map(id=>products.find(p=>p.id===id)).filter(Boolean).slice(0,4)
+ const clearRecentlyViewed=()=>{writeJson('marchy-recently-viewed',[]);setRecentIds([])}
  return translateTree(<main id="main-content" className="shell page account-page">
   <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link> / <span>Account</span></div>
   <section className="account-welcome"><div><span className="eyebrow">YOUR MARCHY</span><h1>Your shopping space.</h1><p>Keep track of the products you're considering and pick up where you left off.</p></div><div className="account-guest-status"><span className="account-guest-avatar">G</span><div><b>Guest browsing</b><small>You're exploring without signing in</small><span className="demo-label">PREVIEW MODE</span></div></div></section>
@@ -1299,6 +1306,7 @@ function AccountPage({cart,wishlist,language}) {
    </section>
    <aside className="account-panel account-activity-panel"><span className="eyebrow">ACCOUNT ACTIVITY</span><h2>Orders & returns</h2><div className="account-activity-empty"><span>↗</span><b>No order history yet</b><p>Order tracking and returns aren't active in this frontend prototype. Your demo cart does not create an order.</p></div><Link to="/help" className="text-link">Visit help centre →</Link></aside>
   </div>
+  {recentProducts.length>0&&<section className="account-recently-viewed"><div className="account-panel-heading"><div><span className="eyebrow">PICK UP WHERE YOU LEFT OFF</span><h2>Recently viewed</h2><p>Products you opened on this device.</p></div><button type="button" className="account-clear-recent" onClick={clearRecentlyViewed}>Clear history</button></div><div className="account-recent-grid">{recentProducts.map(p=><Link to={`/product/${p.id}`} className="account-recent-card" key={p.id}><img src={p.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span><b>{p.name}</b><small>{p.category}</small><strong>{money(p.price)}</strong></span></Link>)}</div></section>}
   <section className="account-shortcuts"><div><span className="eyebrow">QUICK LINKS</span><h2>Explore MARCHY</h2></div><div><Link to="/categories">Browse categories <span>→</span></Link><Link to="/delivery">Delivery information <span>→</span></Link><Link to="/returns">Returns information <span>→</span></Link><Link to="/help">Help & support <span>→</span></Link></div></section>
   <p className="catalogue-note">This is a guest-mode frontend preview. No account, personal profile, order history or authentication is created or stored.</p>
  </main>,language)
