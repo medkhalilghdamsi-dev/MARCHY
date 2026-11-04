@@ -293,6 +293,10 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
             <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
             <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={() => toggleWish(product.id)}>{saved ? '♥' : '♡'}</button>
           </div>
+          <div className="product-quantity-summary" aria-live="polite">
+            <span>{qty} {qty === 1 ? 'item' : 'items'} selected</span>
+            <strong>{money(product.price * qty)}</strong>
+          </div>
           {added && <p className="product-added-feedback" role="status">Added to your demo cart. You can review it whenever you're ready.</p>}
         </div>
         <div className="product-seller-card">
