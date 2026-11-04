@@ -160,6 +160,26 @@ test('seller workspace can save and delete a local product draft without publish
   await expect(page.locator('.seller-local-drafts')).toHaveCount(0)
 })
 
+test('seller can edit a saved local product draft without changing other drafts', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-seller-drafts', JSON.stringify([
+    {id:'draft-a',sellerSlug:'atlas-tech-tunis',title:'First local draft',category:'Electronics',price:25,description:'First description',status:'Draft',createdAt:'2026-01-01T00:00:00.000Z'},
+    {id:'draft-b',sellerSlug:'atlas-tech-tunis',title:'Second local draft',category:'Accessories',price:35,description:'Second description',status:'Draft',createdAt:'2026-01-02T00:00:00.000Z'}
+  ])))
+  await page.goto('/seller-dashboard')
+  await page.getByRole('button', { name: 'Products' }).click()
+  await page.getByRole('button', { name: 'Edit draft First local draft' }).click()
+  await expect(page.getByRole('heading', { name: 'Update product information' })).toBeVisible()
+  await page.getByLabel('Product name').fill('Updated first draft')
+  await page.getByRole('button', { name: 'Update local draft' }).click()
+  await expect(page.getByRole('status')).toContainText('Draft updated on this device')
+  await expect(page.locator('.seller-local-drafts')).toContainText('Updated first draft')
+  await expect(page.locator('.seller-local-drafts')).toContainText('Second local draft')
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('marchy-seller-drafts')))
+  expect(saved).toHaveLength(2)
+  expect(saved.find(d => d.id === 'draft-a').title).toBe('Updated first draft')
+  expect(saved.find(d => d.id === 'draft-b').title).toBe('Second local draft')
+})
+
 test('seller storefront offers a share action without inventing seller contact details', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.addInitScript(() => Object.defineProperty(navigator, 'share', { configurable: true, value: undefined }))
