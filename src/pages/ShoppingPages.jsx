@@ -384,7 +384,7 @@ function CartPage({ cart, updateQty, removeItem, language }) {
         <div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div>
         <div className="cart-summary-row"><span>Discounts</span><b>—</b></div>
         <div className="summary-total"><span>Estimated product total</span><strong>{money(subtotal)}</strong></div>
-        <p className="cart-summary-note">Delivery charges, availability and final prices are not yet connected to live seller systems. They are not included in this estimate.</p>
+        <p className="cart-summary-note">Delivery is arranged through MARCHY's delivery partner and selected at checkout. This basket total covers products only; the delivery estimate appears during order review.</p>
         <Link to="/checkout" className="primary-btn full-btn cart-checkout-button">Continue to checkout <span>→</span></Link>
         <div className="cart-trust-note"><span>ⓘ</span><p>You're reviewing a sample basket. No payment is taken and no order is placed.</p></div>
       </aside>
