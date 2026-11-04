@@ -432,3 +432,22 @@
   .header-join-link{display:none!important}
   .header-signin{display:none!important}
 }
+
+/* Seller preview text contrast: preserve the soft surfaces while meeting WCAG AA */
+.seller-launch-page .seller-launch-trust span:not(:first-child),
+.seller-launch-page .seller-art-top>span,
+.seller-launch-page .seller-art-window>small,
+.seller-launch-page .seller-step-card>span,
+.seller-launch-page .seller-draft-label,
+.seller-launch-page .seller-planner-form label small,
+.seller-launch-page .seller-optional,
+.seller-launch-page .seller-image-upload>small,
+.seller-launch-page .seller-form-note,
+.seller-launch-page .seller-preview-top>span:first-child,
+.seller-launch-page .seller-preview-location,
+.seller-launch-page .seller-preview-meta>span,
+.seller-launch-page .seller-preview-product small,
+.seller-launch-page .seller-preview-contact,
+.seller-launch-page .seller-product-preview-details>span{
+  color:#4d5964!important;
+}
