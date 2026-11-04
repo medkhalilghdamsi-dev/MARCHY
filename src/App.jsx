@@ -455,21 +455,24 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   useEffect(() => setTerm(initial), [initial])
   useEffect(() => setCategory(initialCategory), [initialCategory])
   const [sort, setSort] = useState('featured')
-  const [maxPrice, setMaxPrice] = useState(500)
+  const catalogueMaxPrice = Math.max(100, Math.ceil(Math.max(...products.map(p => p.price)) / 50) * 50)
+  const [minPrice, setMinPrice] = useState(0)
+  const [maxPrice, setMaxPrice] = useState(catalogueMaxPrice)
   const [city, setCity] = useState('All')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const pageSize = 12
-  const cities = ['All', ...new Set(products.map(p => sellerForProduct(p).city))]
+  const cities = ['All', ...new Set(products.map(p => sellerForProduct(p).city))].sort((a,b) => a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b))
+  const categoryCounts = useMemo(() => products.reduce((counts, p) => ({...counts, [p.category]: (counts[p.category] || 0) + 1}), {}), [])
   const results = useMemo(() => products.filter(p => {
     const seller = sellerForProduct(p)
     const haystack = (p.name + ' ' + p.category + ' ' + p.seller + ' ' + seller.name + ' ' + seller.city + ' ' + (p.description || '')).toLowerCase()
-    return (category === 'All' || p.category === category) && p.price <= maxPrice && (city === 'All' || seller.city === city) && (!dealsOnly || Boolean(p.oldPrice)) && (!term || haystack.includes(term.toLowerCase()))
-  }).sort((a, b) => sort === 'price-low' ? a.price - b.price : sort === 'price-high' ? b.price - a.price : sort === 'name' ? a.name.localeCompare(b.name) : sort === 'newest' ? b.id - a.id : 0), [term, category, sort, maxPrice, dealsOnly, city])
+    return (category === 'All' || p.category === category) && p.price >= minPrice && p.price <= maxPrice && (city === 'All' || seller.city === city) && (!dealsOnly || Boolean(p.oldPrice)) && (!term || haystack.includes(term.toLowerCase()))
+  }).sort((a, b) => sort === 'price-low' ? a.price - b.price : sort === 'price-high' ? b.price - a.price : sort === 'name' ? a.name.localeCompare(b.name) : sort === 'newest' ? b.id - a.id : 0), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
   const pageCount = Math.max(1, Math.ceil(results.length / pageSize))
   const visibleResults = results.slice((page - 1) * pageSize, page * pageSize)
-  const activeFilterCount = Number(Boolean(term)) + Number(category !== 'All' && !routeCategory) + Number(city !== 'All') + Number(maxPrice < 500) + Number(dealsOnly)
-  useEffect(() => setPage(1), [term, category, sort, maxPrice, dealsOnly, city])
+  const activeFilterCount = Number(Boolean(term)) + Number(category !== 'All' && !routeCategory) + Number(city !== 'All') + Number(minPrice > 0) + Number(maxPrice < catalogueMaxPrice) + Number(dealsOnly)
+  useEffect(() => setPage(1), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
   const updateTerm = value => {
     setTerm(value)
     const next = new URLSearchParams(params)
@@ -479,7 +482,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   }
   const clearFilters = () => {
     setCategory(routeCategory ? initialCategory : 'All')
-    setMaxPrice(500)
+    setMinPrice(0)
+    setMaxPrice(catalogueMaxPrice)
     setTerm('')
     setCity('All')
     setPage(1)
@@ -506,7 +510,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
       {term && <button type="button" onClick={() => updateTerm('')}>Search: {term} <span>×</span></button>}
       {category !== 'All' && !routeCategory && <button type="button" onClick={removeCategoryFilter}>{category} <span>×</span></button>}
       {city !== 'All' && <button type="button" onClick={() => setCity('All')}>{city} <span>×</span></button>}
-      {maxPrice < 500 && <button type="button" onClick={() => setMaxPrice(500)}>Up to {maxPrice} TND <span>×</span></button>}
+      {minPrice > 0 && <button type="button" onClick={() => setMinPrice(0)}>From {minPrice} TND <span>×</span></button>}
+      {maxPrice < catalogueMaxPrice && <button type="button" onClick={() => setMaxPrice(catalogueMaxPrice)}>Up to {maxPrice} TND <span>×</span></button>}
       {dealsOnly && <button type="button" onClick={removeDealFilter}>Deals only <span>×</span></button>}
       <button type="button" className="clear-filter-chips" onClick={clearFilters}>Clear all</button>
     </div>}
@@ -514,15 +519,15 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     <div className="listing-layout">
       <aside id="marketplace-filters" className={'filters ' + (filtersOpen ? 'filters-open' : '')} aria-label="Marketplace filters">
         <h3>Filters <button type="button" onClick={clearFilters}>Clear all</button></h3>
-        <div className="filter-group"><b>Category</b>{categories.map(c => <label key={c}><input type="radio" name="marketplace-category" checked={category === c} onChange={() => routeCategory ? navigate(c === "All" ? "/search" : "/category/" + encodeURIComponent(c.toLowerCase())) : setCategory(c)}/>{c}</label>)}</div>
+        <div className="filter-group"><b>Category</b>{categories.map(c => <label key={c}><input type="radio" name="marketplace-category" checked={category === c} onChange={() => routeCategory ? navigate(c === "All" ? "/search" : "/category/" + encodeURIComponent(c.toLowerCase())) : setCategory(c)}/><span>{c === 'All' ? 'All categories' : c}</span><small>{c === 'All' ? products.length : (categoryCounts[c] || 0)}</small></label>)}</div>
         <div className="filter-group"><b>Seller location</b><select aria-label="Seller location" value={city} onChange={e => setCity(e.target.value)}>{cities.map(c => <option key={c} value={c}>{c === 'All' ? 'All locations' : c}</option>)}</select></div>
-        <div className="filter-group"><b>Maximum price</b><strong>{maxPrice} TND</strong><input aria-label="Maximum price" type="range" min="10" max="500" step="5" value={maxPrice} onChange={e => setMaxPrice(Number(e.target.value))}/><div className="price-range-labels"><span>10 TND</span><span>500 TND</span></div></div>
-        {dealsOnly && <div className="filter-note">Showing listings with illustrative previous prices.</div>}
+        <div className="filter-group price-filter-group"><b>Price range</b><div className="price-inputs"><label>Min <input aria-label="Minimum price in TND" type="number" min="0" max={catalogueMaxPrice} value={minPrice} onChange={e => setMinPrice(Math.min(catalogueMaxPrice, Math.max(0, Number(e.target.value) || 0)))}/></label><label>Max <input aria-label="Maximum price in TND" type="number" min="0" max={catalogueMaxPrice} value={maxPrice} onChange={e => setMaxPrice(Math.max(minPrice, Math.min(catalogueMaxPrice, Number(e.target.value) || 0)))}/></label></div><input aria-label="Maximum price" type="range" min="0" max={catalogueMaxPrice} step="5" value={maxPrice} onChange={e => setMaxPrice(Math.max(minPrice, Number(e.target.value)))}/><div className="price-range-labels"><span>0 TND</span><span>{catalogueMaxPrice} TND</span></div></div>
+        {dealsOnly && <div className="filter-note">Showing sample listings with illustrative previous prices. Discount claims are not verified offers.</div>}
         <button className="filter-apply" type="button" onClick={() => setFiltersOpen(false)}>Show {results.length} products</button>
       </aside>
       <section className="listing-results" aria-live="polite">
         <div className="results-toolbar"><span>Showing <b>{results.length ? ((page - 1) * pageSize) + 1 : 0}–{Math.min(page * pageSize, results.length)}</b> of <b>{results.length}</b></span><label>Sort by <select aria-label="Sort products" value={sort} onChange={e => setSort(e.target.value)}><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A to Z</option><option value="newest">Recently added</option></select></label></div>
-        {results.length ? <><div className="product-grid">{visibleResults.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div>{pageCount > 1 && <nav className="pagination" aria-label="Product pages"><button disabled={page === 1} onClick={() => setPage(v => Math.max(1, v - 1))}>← Previous</button><span>Page {page} of {pageCount}</span><button disabled={page === pageCount} onClick={() => setPage(v => Math.min(pageCount, v + 1))}>Next →</button></nav>}</> : <div className="empty-state"><span>⌕</span><h3>No products found</h3><p>Try another search or remove a filter.</p><button className="outline-btn" onClick={clearFilters}>Clear filters</button></div>}
+        {results.length ? <><div className="product-grid">{visibleResults.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div>{pageCount > 1 && <nav className="pagination" aria-label="Product pages"><button disabled={page === 1} onClick={() => setPage(v => Math.max(1, v - 1))}>← Previous</button><span>Page {page} of {pageCount}</span><button disabled={page === pageCount} onClick={() => setPage(v => Math.min(pageCount, v + 1))}>Next →</button></nav>}</> : <div className="empty-state"><span>⌕</span><h3>No products found</h3><p>Try a broader search, choose another category or reset your price and location filters.</p><button className="outline-btn" onClick={clearFilters}>Reset all filters</button></div>}
       </section>
     </div>
   </main>, language)
