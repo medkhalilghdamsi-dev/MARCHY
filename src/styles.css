@@ -1722,3 +1722,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .product-information-card p,
 .product-information-card dt{color:#5f6b76}
 .product-price-block del{color:#626b73}
+
+.breadcrumbs>[aria-current="page"]{color:#5f6b76!important}
