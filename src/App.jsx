@@ -361,14 +361,23 @@ function translateTree(node, lang) {
 
 function Header({ cartCount, query, setQuery, language, setLanguage }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const navigate = useNavigate()
-  function submit(e) { e.preventDefault(); navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search') }
+  const searchTerm=query.trim().toLowerCase()
+  const searchMatches=useMemo(()=>searchTerm?products.filter(p=>p.name.toLowerCase().includes(searchTerm)||p.category.toLowerCase().includes(searchTerm)).slice(0,4):[],[searchTerm])
+  const categoryMatches=useMemo(()=>searchTerm?categories.filter(c=>c!=='All'&&c.toLowerCase().includes(searchTerm)).slice(0,3):[],[searchTerm])
+  function submit(e) { e.preventDefault(); setSearchOpen(false); navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search') }
   return translateTree(<>
     <div className="topline"><div className="shell topline-inner"><span>MARCHY preview · sample catalogue and illustrative prices</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span></div></div></div>
     <header className="header"><div className="shell header-main">
       <button type="button" className="mobile-menu icon-btn" onClick={() => setMenuOpen(v => !v)} aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? "×" : "☰"}</button>
       <Link to="/" className="logo">MARCHY<span>.</span></Link>
-      <form className="searchbar" onSubmit={submit}><span className="search-symbol">⌕</span><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search products, brands and local finds…" aria-label="Search products" /><button type="submit">Search</button></form>
+      <form className="searchbar" onSubmit={submit} role="search"><span className="search-symbol">⌕</span><input value={query} onFocus={()=>setSearchOpen(true)} onChange={e => {setQuery(e.target.value);setSearchOpen(true)}} placeholder="Search products, brands and local finds…" aria-label="Search products" aria-expanded={searchOpen} aria-controls="global-search-suggestions" /><button type="submit">Search</button>
+        {searchOpen&&<div className="global-search-suggestions" id="global-search-suggestions">
+          {searchTerm?<><div className="search-suggestion-heading">Matching products</div>{searchMatches.length?searchMatches.map(p=><Link key={p.id} to={`/product/${p.id}`} onMouseDown={()=>setSearchOpen(false)}><span className="suggestion-thumb"><img src={p.image} alt=""/></span><span className="suggestion-copy"><b>{p.name}</b><small>{p.category} · {money(p.price)}</small></span><span className="suggestion-arrow">↗</span></Link>):<p className="suggestion-empty">No matching sample products. Press Search to view results.</p>}{categoryMatches.length>0&&<><div className="search-suggestion-heading">Categories</div>{categoryMatches.map(name=><Link className="category-suggestion" key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`} onMouseDown={()=>setSearchOpen(false)}><span>▦</span>{name}<span className="suggestion-arrow">→</span></Link>)}</>}</>:<div className="search-suggestion-empty"><b>Start with a category</b><div>{categories.slice(1,5).map(name=><Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`} onMouseDown={()=>setSearchOpen(false)}>{name}</Link>)}</div></div>}
+          <button type="button" className="search-suggestion-close" onClick={()=>setSearchOpen(false)}>Close suggestions</button>
+        </div>}
+      </form>
       <div className="header-actions"><label className="language-picker"><span className="sr-only">Language</span><select aria-label="Language" value={language} onChange={e=>setLanguage(e.target.value)}><option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option></select></label><Link to="/wishlist" className="action-link wishlist-link"><span className="action-icon">♡</span><span><small>Saved</small><b>Wishlist</b></span></Link><Link to="/account" className="action-link"><span className="action-icon">♙</span><span><small>Hello, welcome</small><b>Account</b></span></Link><Link to="/cart" className="action-link cart-link"><span className="cart-icon">🛒<i>{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link></div>
     </div>
     <nav id="primary-navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}><div className="shell nav-inner" onClick={()=>setMenuOpen(false)}><Link to="/categories">☷ <b>Shop by category</b></Link>{categories.slice(1,5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`}>{c}</Link>)}<Link to="/sellers">Sellers</Link><Link className="nav-deal" to="/search?deal=true">Deals of the day <span>→</span></Link></div></nav>
