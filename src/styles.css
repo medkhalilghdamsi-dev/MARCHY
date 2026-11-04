@@ -120,3 +120,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 
 .wishlist-link .action-icon{font-size:25px;color:#c9471d}
 @media(max-width:640px){.wishlist-link>span:last-child{display:none}.header-actions{gap:9px}}
+
+.category-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:900px){.category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){.category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
