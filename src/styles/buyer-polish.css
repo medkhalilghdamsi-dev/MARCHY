@@ -451,3 +451,20 @@
 .seller-launch-page .seller-product-preview-details>span{
   color:#4d5964!important;
 }
+
+
+/* Final narrow-screen containment: compact action labels and crop decorative artwork */
+@media(max-width:640px){
+  .header .header-main{display:grid!important;grid-template-columns:34px minmax(0,1fr) auto!important;gap:7px!important}
+  .header .header-actions{width:auto!important;max-width:100%;gap:4px!important}
+  .header .header-actions>.header-join-link,
+  .header .header-actions>.header-signin{display:none!important}
+  .header .header-actions>.wishlist-link,
+  .header .header-actions>.cart-link{width:30px!important;min-width:30px!important;flex:0 0 30px!important;padding:0!important}
+  .header .header-actions>.wishlist-link>span:not(.action-icon),
+  .header .header-actions>.cart-link>span:not(.cart-icon){display:none!important}
+  .header .header-actions>.theme-toggle{width:30px!important;min-width:30px!important;flex:0 0 30px!important}
+  .header .language-picker select{width:36px!important;min-width:36px!important}
+  .market-hero-premium,.market-hero-art{overflow:hidden}
+}
+html,body{max-width:100%;overflow-x:clip}
