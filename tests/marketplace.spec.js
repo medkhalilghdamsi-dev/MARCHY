@@ -104,6 +104,22 @@ test('recently viewed products appear on the homepage', async ({ page }) => {
   await expect(page.getByText('Wireless noise-cancelling headphones')).toBeVisible()
 })
 
+
+test('cart groups products by seller and keeps each seller subtotal visible', async ({ page }) => {
+  await page.goto('/product/1')
+  await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
+  await page.goto('/product/2')
+  await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
+  await page.goto('/cart')
+  const sellerGroups = page.locator('.cart-seller-group')
+  await expect(sellerGroups).toHaveCount(2)
+  await expect(sellerGroups.nth(0)).toContainText('Atlas Tech')
+  await expect(sellerGroups.nth(0)).toContainText('189.000 TND')
+  await expect(sellerGroups.nth(1)).toContainText('Maison & Co')
+  await expect(sellerGroups.nth(1)).toContainText('79.000 TND')
+  await expect(page.locator('.cart-summary')).toContainText('268.000 TND')
+})
+
 test('core shopping pages have no serious or critical accessibility violations', async ({ page }) => {
   const { default: AxeBuilder } = await import('@axe-core/playwright')
   const routesToAudit = ['/', '/search', '/product/1', '/cart', '/wishlist', '/categories', '/seller/atlas-tech-tunis', '/sell']
