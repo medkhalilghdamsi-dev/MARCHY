@@ -883,3 +883,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Checkout seller subtotals must remain readable against the summary surface */
 .seller-summary-row>span{color:#4d5964!important}
+
+/* WCAG AA: strengthen muted storefront metadata and navigation labels */
+.seller-store-page>.breadcrumbs,
+.seller-store-page>.breadcrumbs a,
+.seller-store-identity p,
+.seller-store-meta,
+.store-sort-label,
+.store-sort-label>span,
+.storefront-demo-note{
+  color:#4d5964!important;
+}
