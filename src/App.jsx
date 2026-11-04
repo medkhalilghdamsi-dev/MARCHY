@@ -527,6 +527,21 @@ Object.assign(translations, {
  "Sample profiles · not independently verified":["Profils exemples · non vérifiés indépendamment","ملفات نموذجية · غير موثقة بشكل مستقل"]
 });
 
+
+Object.assign(translations, {
+ "Search categories":["Rechercher des catégories","ابحث عن الفئات"],
+ "No categories found":["Aucune catégorie trouvée","لم يتم العثور على فئات"],
+ "Try a different category name.":["Essayez un autre nom de catégorie.","جرّب اسم فئة آخر."],
+ "Clear search":["Effacer la recherche","مسح البحث"],
+ "PAGE NOT FOUND":["PAGE INTROUVABLE","الصفحة غير موجودة"],
+ "This page isn't here.":["Cette page n’existe pas.","هذه الصفحة غير موجودة."],
+ "The link may be incorrect or the page may have moved. Let's get you back to something useful.":["Le lien est peut-être incorrect ou la page a été déplacée. Retrouvons une page utile.","قد يكون الرابط غير صحيح أو تم نقل الصفحة. لنعد إلى صفحة مفيدة."],
+ "Back to home →":["Retour à l’accueil →","العودة إلى الرئيسية ←"],
+ "Explore products":["Explorer les produits","استكشف المنتجات"],
+ "Browse categories":["Parcourir les catégories","تصفح الفئات"],
+ "Search shops, products or locations":["Rechercher des boutiques, produits ou lieux","ابحث عن المتاجر والمنتجات والمناطق"]
+});
+
 function translateText(value, lang) {
   const trimmed = value.trim();
   const entry = translations[trimmed];
