@@ -155,10 +155,10 @@ test('cart groups products by seller and keeps each seller subtotal visible', as
   const sellerGroups = page.locator('.cart-seller-group')
   await expect(sellerGroups).toHaveCount(2)
   await expect(sellerGroups.nth(0)).toContainText('Atlas Tech')
-  await expect(sellerGroups.nth(0)).toContainText('189.000 TND')
+  await expect(sellerGroups.nth(0)).toContainText('189 DT')
   await expect(sellerGroups.nth(1)).toContainText('Maison & Co')
-  await expect(sellerGroups.nth(1)).toContainText('79.000 TND')
-  await expect(page.locator('.cart-summary')).toContainText('268.000 TND')
+  await expect(sellerGroups.nth(1)).toContainText('79 DT')
+  await expect(page.locator('.cart-summary')).toContainText('268 DT')
 })
 
 
@@ -178,7 +178,7 @@ test('seller workspace can save and delete a local product draft without publish
   await page.getByRole('button', { name: /Create draft/ }).click()
   await page.getByLabel('Product name').fill('Handmade test vase')
   await page.getByLabel('Category').first().fill('Home & Living')
-  await page.getByLabel('Indicative price (TND)').fill('45')
+  await page.getByLabel('Indicative price (DT)').fill('45')
   await page.getByLabel('Description').last().fill('A locally saved draft for testing')
   await page.getByRole('button', { name: 'Save draft on this device' }).click()
   await expect(page.getByRole('status')).toContainText('Draft saved on this device')
@@ -293,10 +293,10 @@ test('checkout preview validates contact details and reviews each seller without
   await page.getByRole('button', { name: 'Review order' }).click()
   await expect(page.getByRole('heading', { name: 'Review before proceeding' })).toBeVisible()
   await expect(page.locator('.checkout-seller-review')).toHaveCount(2)
-  await expect(page.locator('.checkout-summary')).toContainText('268.000 TND')
+  await expect(page.locator('.checkout-summary')).toContainText('268 DT')
   await page.getByRole('button', { name: 'Continue to final preview' }).click()
-  await expect(page.getByRole('heading', { name: 'Your checkout flow is ready for a live integration' })).toBeVisible()
-  await expect(page.getByText('No order has been created', { exact: false })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Ready to create your sample order?' })).toBeVisible()
+  await expect(page.getByText('No seller is contacted', { exact: false })).toBeVisible()
 })
 
 test('seller directory search matches accented French category terms', async ({ page }) => {
