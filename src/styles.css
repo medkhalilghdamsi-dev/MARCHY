@@ -1015,3 +1015,44 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .is-rtl .wish-btn{right:auto;left:10px}
 @media(max-width:900px){.is-rtl .market-hero-copy{padding:42px 34px 34px 22px}}
 @media(max-width:640px){.is-rtl .market-hero-copy{padding:25px 20px 23px}.is-rtl .product-tag{right:7px}.is-rtl .wish-btn{left:7px}}
+
+
+/* Marketplace discovery controls — category counts and precise price range */
+.filters{border-radius:12px;padding:19px;box-shadow:0 5px 22px rgba(23,33,43,.045)}
+.filters>h3{font-size:14px;letter-spacing:-.2px}
+.filter-group{gap:11px}
+.filter-group>label{display:grid;grid-template-columns:15px minmax(0,1fr) auto;align-items:center;gap:8px;min-height:25px;color:#4f5c68;cursor:pointer}
+.filter-group>label input{margin:0;accent-color:var(--orange-dark)}
+.filter-group>label span{font-size:10px}
+.filter-group>label small{font-size:9px;color:#8c97a1;font-variant-numeric:tabular-nums}
+.filter-group>label:has(input:checked) span{color:var(--ink);font-weight:750}
+.price-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.price-inputs label{display:flex;flex-direction:column;gap:5px;font-size:9px;color:var(--muted)}
+.price-inputs input{width:100%;min-width:0;height:35px;border:1px solid var(--line);border-radius:6px;padding:0 9px;background:#fff;color:var(--ink);font-size:11px;font-weight:650;font-variant-numeric:tabular-nums}
+.price-inputs input:focus{border-color:var(--orange-dark);outline:2px solid #f5c3ad;outline-offset:1px}
+.price-filter-group>input[type=range]{margin:5px 0 0;accent-color:var(--orange-dark)}
+.active-filter-chips{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:-10px 0 18px}
+.active-filter-chips button{display:inline-flex;align-items:center;gap:8px;border:1px solid #e4e8ec;border-radius:999px;background:#fff;color:#46535f;padding:7px 10px;font-size:9px;font-weight:650}
+.active-filter-chips button span{font-size:13px;color:#87929c;line-height:1}
+.active-filter-chips button:hover{border-color:#e9a486;color:var(--orange-dark)}
+.active-filter-chips .clear-filter-chips{border-color:transparent;background:transparent;color:var(--orange-dark);text-decoration:underline;text-underline-offset:3px}
+.results-toolbar{align-items:center;margin-bottom:13px}
+.results-toolbar>span{font-size:10px}
+.results-toolbar label{gap:9px;color:#65717d}
+.results-toolbar select{min-height:36px;border-radius:7px;padding:0 10px;color:var(--ink);font-size:10px}
+.listing-results .product-grid{align-items:stretch}
+.listing-results .empty-state{padding:72px 24px;border-radius:12px}
+.listing-results .empty-state h3{font-size:21px}
+.listing-results .empty-state p{max-width:360px;margin:0 auto 20px;line-height:1.7}
+@media(max-width:900px){.listing-layout{grid-template-columns:200px minmax(0,1fr);gap:18px}.filters{padding:14px}.filter-group>label span{font-size:9px}}
+@media(max-width:640px){
+ .active-filter-chips{gap:6px;margin:0 0 13px}
+ .active-filter-chips button{padding:7px 9px;font-size:8px}
+ .listing-layout .filters.filters-open{display:block;border-radius:11px;box-shadow:var(--shadow-card)}
+ .listing-layout .filters .filter-group>label{min-height:30px}
+ .listing-layout .filters .filter-group>label span{font-size:10px}
+ .price-inputs input{height:38px}
+ .results-toolbar{align-items:center;margin:0 0 12px}
+ .results-toolbar select{min-height:34px}
+ .listing-results .empty-state{padding:50px 18px}
+}
