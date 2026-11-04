@@ -1383,3 +1383,37 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
  .account-saved-item strong{font-size:9px}
  .account-shortcuts>div:last-child{display:grid;grid-template-columns:1fr 1fr;width:100%}
 }
+
+
+/* Help centre and FAQ experience */
+.help-center-page{padding-bottom:58px}
+.help-center-hero{padding:35px 0 37px;border-bottom:1px solid var(--line)}
+.help-center-hero>.eyebrow{color:var(--orange-dark)}
+.help-center-hero h1{max-width:720px;margin:12px 0;color:var(--ink);font-size:clamp(34px,5vw,54px);letter-spacing:-.05em;line-height:1.05}
+.help-center-hero p{max-width:590px;margin:0 0 20px;color:var(--muted);font-size:13px;line-height:1.8}
+.help-center-hero .primary-btn{display:inline-flex;min-height:42px;align-items:center}
+.help-center-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:35px;padding-top:30px}
+.help-section-heading h2,.help-topic-panel h2{margin:7px 0;color:var(--ink);font-size:23px;letter-spacing:-.035em}
+.help-section-heading p{margin:0 0 18px;color:var(--muted);font-size:11px}
+.help-faq-list{border-top:1px solid var(--line)}
+.help-faq-item{border-bottom:1px solid var(--line)}
+.help-faq-item summary{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 2px;color:var(--ink);font-size:12px;font-weight:750;cursor:pointer;list-style:none}
+.help-faq-item summary::-webkit-details-marker{display:none}
+.help-faq-item summary i{display:grid;place-items:center;width:25px;height:25px;flex:0 0 25px;border-radius:50%;background:#f4f6f7;color:var(--orange-dark);font-size:15px;font-style:normal;transition:transform .15s}
+.help-faq-item[open] summary i{transform:rotate(45deg);background:#fff0e8}
+.help-faq-item>p{max-width:680px;margin:0;padding:0 34px 17px 2px;color:#687482;font-size:11px;line-height:1.8}
+.help-topic-panel{align-self:start;padding:21px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.help-topic-panel> a{display:flex;align-items:center;gap:11px;padding:14px 0;border-top:1px solid #edf0f2}
+.help-topic-panel>a>span{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:8px;background:#fff1e9;color:var(--orange-dark);font-size:16px}
+.help-topic-panel>a>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.help-topic-panel>a b{color:var(--ink);font-size:10px}
+.help-topic-panel>a small{color:#87929b;font-size:8px;line-height:1.5}
+.help-topic-panel>a>i{margin-left:auto;color:var(--orange-dark);font-size:14px;font-style:normal}
+.help-status-note{margin-top:13px;padding:13px;border-radius:8px;background:#f7f9fa}
+.help-status-note b{color:var(--ink);font-size:9px}
+.help-status-note p{margin:6px 0 0;color:#7c8791;font-size:9px;line-height:1.7}
+.is-rtl .help-center-layout{direction:rtl}
+.is-rtl .help-faq-item>p{padding-right:2px;padding-left:34px}
+.is-rtl .help-topic-panel>a>i{margin-left:0;margin-right:auto}
+@media(max-width:760px){.help-center-layout{grid-template-columns:1fr;gap:20px}.help-topic-panel{order:-1}.help-topic-panel>h2{font-size:20px}}
+@media(max-width:480px){.help-center-hero{padding:25px 0 29px}.help-center-hero h1{font-size:36px}.help-topic-panel{padding:16px}.help-faq-item summary{font-size:11px}}
