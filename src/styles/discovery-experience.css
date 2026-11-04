@@ -129,3 +129,27 @@
 .marchy-listing-page .marchy-results-toolbar .listing-view-toggle button{color:#52675a}
 .marchy-listing-page .marchy-results-toolbar label{color:#52675a}
 .marchy-listing-page .marchy-listing-results .pagination span{color:#52675a}
+
+
+/* Mobile discovery: larger touch targets and a clearer filter panel. */
+@media(max-width:760px){
+ .marchy-mobile-filter-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px}
+ .marchy-mobile-filter-toggle .outline-btn{min-height:42px;padding:0 14px;border-radius:9px;font-size:11px;font-weight:750}
+ .marchy-mobile-filter-toggle>span{font-size:11px;font-weight:650;color:#52675a}
+ .marchy-listing-filters.filters-open{padding:16px;border-color:#cbdccd;border-radius:12px;box-shadow:0 8px 24px rgba(23,63,50,.08)}
+ .marchy-listing-filters .filter-group label{min-height:38px;font-size:11px}
+ .marchy-listing-filters .filter-group select,.marchy-listing-filters .price-inputs input{min-height:42px;font-size:12px}
+ .marchy-listing-filters .filter-budget-presets button{min-height:36px;padding-inline:11px;font-size:10px}
+ .marchy-listing-filters .filter-apply{min-height:44px;font-size:11px}
+ .marchy-results-toolbar select{min-height:40px;font-size:11px}
+ .marchy-results-toolbar .listing-view-toggle button{min-height:36px;min-width:38px}
+ .marchy-listing-results .add-btn{min-height:40px;font-size:10px}
+}
+@media(max-width:380px){
+ .marchy-listing-results .product-name{font-size:11px;line-height:1.35}
+ .marchy-listing-results .price-row strong{font-size:15px}
+ .marchy-listing-results .product-grid{column-gap:8px;row-gap:10px}
+ .marchy-results-toolbar-actions{align-items:center}
+ .marchy-results-toolbar label{gap:5px;font-size:10px}
+ .marchy-results-toolbar select{max-width:138px;padding-inline:7px}
+}
