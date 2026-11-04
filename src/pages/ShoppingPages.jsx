@@ -16,12 +16,12 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
   const popular=populatedCategories.map((name,i)=>({name,count:products.filter(p=>p.category===name).length,icon:['⌘','◉','✳','⌂','✿','↗','◇','▤','▣','✦','♧','♢','⌁'][i%13],tone:['cat-blue','cat-sand','cat-pink','cat-lilac','cat-green','cat-yellow'][i%6]}))
   const deals=products.filter(p=>p.oldPrice).slice(0,4)
   const recentlyViewed=readJson('marchy-recently-viewed', []).map(id=>products.find(product=>product.id===id)).filter(Boolean).slice(0,4)
-  return translateTree(<main id="main-content" className="shell page home-page">
+  return translateTree(<main id="main-content" className="shell page home-page marchy-home">
     <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
       <div className="market-hero-copy">
-        <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · READY TO EXPLORE</span>
-        <h1 id="market-hero-title">Good finds.<br/><em>Closer than ever.</em></h1>
-        <p>Explore a growing world of everyday finds, discover local storefronts and compare catalogue prices in Tunisian dinars.</p>
+        <span className="hero-kicker"><i aria-hidden="true"></i> YOUR EVERYDAY MARKETPLACE · MADE FOR TUNISIA</span>
+        <h1 id="market-hero-title">More to discover.<br/><em>All in one place.</em></h1>
+        <p>Browse everyday categories, discover local storefronts and find your next favourite in Tunisian dinars.</p>
         <form className="hero-search-form" role="search" onSubmit={submitHeroSearch}>
           <label className="sr-only" htmlFor="home-market-search">Search products and categories</label>
           <span aria-hidden="true">⌕</span>
@@ -36,13 +36,13 @@ function Home({ addToCart, wishlist, toggleWish, language }) {
         <div className="hero-art-orbit" aria-hidden="true"></div>
         <img src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1400&q=90" alt="A curated still life of everyday objects and home accessories" loading="eager"/>
         <div className="hero-image-shade" aria-hidden="true"></div>
-        <div className="hero-floating-card"><span className="hero-floating-icon">✦</span><div><b>A little more to discover</b><small>Explore the MARCHY sample catalogue</small></div></div>
+        <div className="hero-floating-card"><span className="hero-floating-icon">✦</span><div><b>Discover something new</b><small>Browse products across Tunisia</small></div></div>
         <div className="hero-art-caption">LOCAL FINDS <b>·</b> EVERYDAY DISCOVERY</div>
         <div className="hero-art-index"><span>01</span><i></i><span>DISCOVER</span></div>
       </div>
     </section>
     <section className="home-budget-discovery" aria-label="Shop by budget"><div><span className="eyebrow">A GOOD PLACE TO START</span><h2>Shop by budget</h2><p>Explore sample listings within a comfortable price range.</p></div><div className="home-budget-links">{[{label:"Under 50 TND",max:50},{label:"Under 100 TND",max:100},{label:"Under 200 TND",max:200},{label:"Explore everything",max:0}].map(item=><Link key={item.label} to={item.max?'/search?max='+item.max:'/search'}>{item.label}<span>→</span></Link>)}</div></section>
-    <section className="market-benefits"><div><span>01</span><b>Browse with ease</b><small>Explore products across everyday categories</small></div><div><span>02</span><b>Find local storefronts</b><small>See sample seller profiles and locations</small></div><div><span>03</span><b>Compare in dinars</b><small>All catalogue prices shown in TND</small></div></section>
+    <section className="market-benefits"><div><span>01</span><b>Find what you need</b><small>Explore products across everyday categories</small></div><div><span>02</span><b>Discover local sellers</b><small>Explore independent storefronts</small></div><div><span>03</span><b>Shop in Tunisian dinars</b><small>Prices displayed in TND</small></div></section>
     <section className="home-quick-discovery" aria-label="Quick category discovery"><div><span className="eyebrow">QUICK DISCOVERY</span><b>What are you shopping for?</b></div><div className="home-quick-links">{populatedCategories.slice(0,7).map(name=><Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`}>{name}<span>↗</span></Link>)}<Link className="quick-all-link" to="/categories">All departments <span>→</span></Link></div></section>
     <section className="section home-category-section">
       <div className="section-heading"><div><span className="eyebrow">START WITH WHAT YOU NEED</span><h2>Explore all categories</h2><p className="muted">A quick route to the things you shop for most.</p></div><Link to="/categories" className="text-link">All categories →</Link></div>
