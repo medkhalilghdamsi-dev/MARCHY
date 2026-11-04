@@ -1684,3 +1684,11 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
  .add-btn{min-height:40px;font-size:10px}
  .product-quick-view{font-size:10px;min-height:34px}
 }
+
+/* Final brand-consistent focus and text contrast corrections */
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+ outline:3px solid rgba(243,107,53,.58);
+ outline-offset:3px;
+}
+.trust-strip>div>b{color:var(--orange-dark)}
+.outline-btn:hover{border-color:var(--orange-dark);color:var(--orange-dark)}
