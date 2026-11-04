@@ -67,18 +67,22 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const initial = params.get('q') || ''
   const { category: routeCategory } = useParams()
   const initialCategory = categories.find(c => c.toLowerCase() === (routeCategory || '').toLowerCase()) || 'All'
+  const queryCategory = categories.find(c => c.toLowerCase() === (params.get('category') || '').toLowerCase()) || 'All'
   const isInvalidCategory = Boolean(routeCategory) && initialCategory === 'All'
   const [term, setTerm] = useState(initial)
-  const [category, setCategory] = useState(initialCategory)
+  const [category, setCategory] = useState(routeCategory ? initialCategory : queryCategory)
   const dealsOnly = params.get('deal') === 'true'
   const budgetParam = Number(params.get('max') || 0)
+  const minParam = Math.max(0, Number(params.get('min') || 0))
+  const cityParam = params.get('city') || 'All'
+  const sortParam = ['featured','price-low','price-high','name','newest','savings'].includes(params.get('sort')) ? params.get('sort') : 'featured'
   useEffect(() => setTerm(initial), [initial])
-  useEffect(() => setCategory(initialCategory), [initialCategory])
-  const [sort, setSort] = useState('featured')
+  useEffect(() => setCategory(routeCategory ? initialCategory : queryCategory), [initialCategory, queryCategory, routeCategory])
+  const [sort, setSort] = useState(sortParam)
   const [view,setView] = useState(()=>readText('marchy-product-view','grid')==='list'?'list':'grid')
   useEffect(()=>{try{localStorage.setItem('marchy-product-view',view)}catch{}},[view])
   const catalogueMaxPrice = Math.max(100, Math.ceil(Math.max(...products.map(p => p.price)) / 50) * 50)
-  const [minPrice, setMinPrice] = useState(0)
+  const [minPrice, setMinPrice] = useState(minParam)
   const [maxPrice, setMaxPrice] = useState(budgetParam > 0 ? Math.min(catalogueMaxPrice, budgetParam) : catalogueMaxPrice)
   const lastBudgetParam = useRef(budgetParam)
   useEffect(() => {
@@ -87,7 +91,10 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
       lastBudgetParam.current = budgetParam
     }
   }, [budgetParam, catalogueMaxPrice])
-  const [city, setCity] = useState('All')
+  useEffect(() => setMinPrice(minParam), [minParam])
+  useEffect(() => setCity(cityParam), [cityParam])
+  useEffect(() => setSort(sortParam), [sortParam])
+  const [city, setCity] = useState(cityParam)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [compareIds, setCompareIds] = useState(() => readJson('marchy-compare', []))
@@ -121,6 +128,21 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const visibleResults = results.slice((page - 1) * pageSize, page * pageSize)
   const activeFilterCount = Number(Boolean(term)) + Number(category !== 'All' && !routeCategory) + Number(city !== 'All') + Number(minPrice > 0) + Number(maxPrice < catalogueMaxPrice) + Number(dealsOnly)
   useEffect(() => setPage(1), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
+  useEffect(() => {
+    const next = new URLSearchParams(params)
+    const setOrDelete = (key, value, defaultValue) => {
+      if (value !== defaultValue && value !== '' && value != null) next.set(key, String(value))
+      else next.delete(key)
+    }
+    setOrDelete('q', term.trim(), '')
+    setOrDelete('category', routeCategory ? '' : category, 'All')
+    setOrDelete('city', city, 'All')
+    setOrDelete('min', minPrice, 0)
+    setOrDelete('max', maxPrice, catalogueMaxPrice)
+    setOrDelete('deal', dealsOnly ? 'true' : '', '')
+    setOrDelete('sort', sort, 'featured')
+    if (next.toString() !== params.toString()) setParams(next, { replace: true })
+  }, [term, category, city, minPrice, maxPrice, dealsOnly, sort, catalogueMaxPrice, routeCategory, params, setParams])
   const updateTerm = value => {
     setTerm(value)
     const next = new URLSearchParams(params)
