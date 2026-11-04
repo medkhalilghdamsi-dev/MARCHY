@@ -42,3 +42,7 @@
 .marchy-order-notice{padding:12px;background:#fbefeb;border-radius:9px;color:#9a4937;font-size:13px}
 .marchy-orders-refresh{display:flex;align-items:center;gap:18px;margin-top:18px}
 @media(max-width:640px){.marchy-orders-intro,.marchy-orders-heading{flex-direction:column}.marchy-order-summary{grid-template-columns:1fr 1fr}.marchy-order-summary article:last-child{grid-column:1/-1}.marchy-order-card,.marchy-buyer-order-card{padding:14px}.marchy-order-detail{grid-template-columns:1fr}.marchy-order-timeline{gap:3px}.marchy-order-timeline li{font-size:9px}.marchy-buyer-order-top{flex-direction:column}.marchy-orders-refresh{align-items:flex-start;flex-direction:column}}
+
+/* Keep small supporting copy readable at WCAG AA contrast levels. */
+.catalogue-note{color:#4f5e55!important}
+.seller-name{color:#4f5e55!important}
