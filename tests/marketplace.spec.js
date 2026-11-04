@@ -29,7 +29,7 @@ test('all public frontend routes render a page and a page-specific title', async
   }
 })
 
-const responsiveRoutes = ['/', '/search', '/product/1', '/cart', '/checkout', '/wishlist', '/sell']
+const responsiveRoutes = ['/', '/search', '/category/electronics', '/product/1', '/cart', '/checkout', '/wishlist', '/categories', '/sellers', '/seller/atlas-tech-tunis', '/account', '/help', '/delivery', '/returns', '/seller-help', '/sell', '/seller-dashboard']
 const viewports = [
   { width: 360, height: 800 },
   { width: 390, height: 844 },
@@ -55,6 +55,22 @@ for (const viewport of viewports) {
     }
   })
 }
+
+test('Arabic RTL layout remains within the viewport on key marketplace routes', async ({ page }) => {
+  for (const width of [360, 390, 768]) {
+    await page.setViewportSize({ width, height: 844 })
+    for (const route of ['/search', '/product/1', '/seller/atlas-tech-tunis', '/account', '/seller-dashboard']) {
+      await page.goto(route)
+      await page.locator('select[aria-label="Language"]').selectOption('ar')
+      await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+      const dimensions = await page.evaluate(() => ({
+        viewport: document.documentElement.clientWidth,
+        document: document.documentElement.scrollWidth,
+      }))
+      expect(dimensions.document, `Unexpected Arabic RTL overflow on ${route} at ${width}px: ${JSON.stringify(dimensions)}`).toBeLessThanOrEqual(dimensions.viewport + 1)
+    }
+  }
+})
 
 test('mobile navigation opens and closes after route selection', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
