@@ -160,6 +160,16 @@ test('seller workspace can save and delete a local product draft without publish
   await expect(page.locator('.seller-local-drafts')).toHaveCount(0)
 })
 
+test('seller storefront offers a share action without inventing seller contact details', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+  await page.addInitScript(() => Object.defineProperty(navigator, 'share', { configurable: true, value: undefined }))
+  await page.goto('/seller/atlas-tech-tunis')
+  await page.getByRole('button', { name: /Share storefront/ }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'Storefront link copied' })).toBeVisible()
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('/seller/atlas-tech-tunis')
+  await expect(page.getByText(/Seller information requires confirmation/)).toBeVisible()
+})
+
 test('seller storefront exposes active filters and can clear them', async ({ page }) => {
   await page.goto('/seller/atlas-tech-tunis')
   await page.getByRole('button', { name: 'Electronics', exact: true }).click()
