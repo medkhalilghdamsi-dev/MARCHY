@@ -136,19 +136,58 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
 }
 
 function ProductCard({ product, addToCart, wished, toggleWish, language }) {
-  return translateTree(<article className="product-card"><div className="product-photo"><Link to={`/product/${product.id}`} aria-label={`View ${product.name}`}><img src={product.image} alt={product.name} loading="lazy" /></Link>{product.tag && <span className="product-tag">{product.tag}</span>}<button type="button" className={`wish-btn ${wished ? 'wished' : ''}`} onClick={() => toggleWish(product.id)} aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'} aria-pressed={wished}>{wished ? '♥' : '♡'}</button></div><div className="product-info"><div className="product-category">{product.category}</div><Link to={`/seller/${sellerForProduct(product).slug}`} className="seller-name seller-link">{sellerForProduct(product).name} · {sellerForProduct(product).city}</Link><Link to={`/product/${product.id}`} className="product-name">{product.name}</Link><div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}</div><div className="delivery">{product.delivery}</div><button type="button" className="add-btn" onClick={() => addToCart(product)}>Add to cart <span>＋</span></button></div></article>,language)
+  const [added,setAdded]=useState(false)
+  const seller=sellerForProduct(product)
+  const discount=product.oldPrice?Math.round((1-product.price/product.oldPrice)*100):0
+  function quickAdd(){addToCart(product);setAdded(true)}
+  return translateTree(<article className="product-card">
+    <div className="product-photo">
+      <Link to={`/product/${product.id}`} aria-label={`View ${product.name}`}><img src={product.image} alt={product.name} loading="lazy" /></Link>
+      <span className="product-tag">SAMPLE</span>
+      {discount>0&&<span className="discount-tag">-{discount}%</span>}
+      <button type="button" className={`wish-btn ${wished?'wished':''}`} onClick={()=>toggleWish(product.id)} aria-label={wished?'Remove from wishlist':'Add to wishlist'} aria-pressed={wished}>{wished?'♥':'♡'}</button>
+    </div>
+    <div className="product-info">
+      <div className="product-category">{product.category}</div>
+      <Link to={`/product/${product.id}`} className="product-name">{product.name}</Link>
+      <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
+      <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice&&<del>{money(product.oldPrice)}</del>}</div>
+      <div className="delivery">{product.delivery}</div>
+      <button type="button" className={`add-btn ${added?'added':''}`} onClick={quickAdd} aria-live="polite">{added?'Added to cart ✓':'Add to cart'} <span>{added?'✓':'＋'}</span></button>
+    </div>
+  </article>,language)
 }
 
 function Home({ addToCart, wishlist, toggleWish, language }) {
-  const [active, setActive] = useState('All')
-  const shown = active === 'All' ? products : products.filter(p => p.category === active)
-  return translateTree(<main className="shell page">
-    <section className="hero"><div className="hero-copy"><span className="eyebrow">THE TUNISIAN MARKETPLACE</span><h1>Find better.<br/><em>Shop local.</em></h1><p>Discover products from sellers across Tunisia. Explore thoughtful finds, compare prices in dinars and shop with confidence.</p><Link to="/search" className="primary-btn">Explore the marketplace <span>→</span></Link><div className="hero-points"><span>✓ Tunisian sellers</span><span>✓ Prices in TND</span><span>✓ Simple discovery</span></div></div><div className="hero-visual"><div className="hero-orbit orbit-one"></div><div className="hero-orbit orbit-two"></div><div className="hero-image"><img src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1100&q=90" alt="Curated everyday products" /></div><div className="floating-note"><span>✦</span><div><b>Worth a closer look</b><small>New finds added regularly</small></div></div></div></section>
-    <section className="trust-strip"><div><b>01</b><span>Explore categories<br/><small>One place to discover new finds</small></span></div><div><b>02</b><span>Find local sellers<br/><small>Browse sample seller profiles</small></span></div><div><b>03</b><span>Compare in dinars<br/><small>All sample prices shown in TND</small></span></div></section>
-    <section className="section"><div className="section-heading"><div><span className="eyebrow">FIND YOUR NEXT FAVOURITE</span><h2>Shop by category</h2></div><Link to="/categories" className="text-link">View all categories →</Link></div><div className="category-grid">{[{n:'Electronics',i:'⌘',c:'cat-blue'},{n:'Groceries',i:'◉',c:'cat-sand'},{n:'Fashion',i:'✳',c:'cat-pink'},{n:'Home',i:'⌂',c:'cat-lilac'},{n:'Beauty',i:'✿',c:'cat-green'},{n:'Automotive',i:'↗',c:'cat-yellow'}].map(x=><Link to={`/category/${x.n.toLowerCase()}`} className={`category-tile ${x.c}`} key={x.n}><span>{x.i}</span><b>{x.n}</b><small>Explore →</small></Link>)}</div></section>
-    <section className="section products-section"><div className="section-heading"><div><span className="eyebrow">THE MARCHY EDIT</span><h2>Discover the collection</h2><p className="muted">Explore our sample catalogue across everyday categories.</p></div><Link to="/search" className="text-link">See all products →</Link></div><div className="filter-pills">{categories.map(c=><button key={c} onClick={()=>setActive(c)} className={active===c?'active':''}>{c}</button>)}</div><div className="product-grid">{shown.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>
-    <section className="promo-banner"><div><span className="eyebrow">MADE FOR THE WAY WE SHOP</span><h2>Great finds.<br/>Closer to home.</h2><p>One place to discover products and independent sellers across Tunisia.</p><Link to="/search?deal=true" className="light-btn">Explore today's deals →</Link></div><div className="promo-mark">M<span>.</span></div></section>
-    <section className="section seller-cta"><div><span className="eyebrow">FOR TUNISIAN BUSINESSES</span><h2>Put your products in front of more people.</h2><p className="muted">MARCHY is building a simpler way for local sellers to reach online shoppers.</p></div><Link to="/sell" className="outline-btn">Explore selling on MARCHY →</Link></section>
+  const [active,setActive]=useState('All')
+  const shown=(active==='All'?products:products.filter(p=>p.category===active)).slice(0,8)
+  const popular=categories.slice(1).map((name,i)=>({name,count:products.filter(p=>p.category===name).length,icon:['⌘','◉','✳','⌂','✿','↗','◇','▤','▣','✦','♧','♢','⌁'][i%13],tone:['cat-blue','cat-sand','cat-pink','cat-lilac','cat-green','cat-yellow'][i%6]}))
+  const deals=products.filter(p=>p.oldPrice).slice(0,4)
+  return translateTree(<main className="shell page home-page">
+    <section className="market-hero">
+      <div className="market-hero-copy">
+        <span className="eyebrow">THE TUNISIAN MARKETPLACE</span>
+        <h1>Everything worth finding.<br/><em>Closer to home.</em></h1>
+        <p>Explore everyday essentials, useful finds and independent storefronts from across Tunisia — all in one place.</p>
+        <div className="market-hero-actions"><Link to="/search" className="primary-btn">Explore the marketplace <span>→</span></Link><Link to="/categories" className="hero-secondary">Browse categories</Link></div>
+        <div className="market-hero-proof"><span>✓ Prices displayed in TND</span><span>✓ Browse by category</span><span>✓ Discover local storefronts</span></div>
+      </div>
+      <div className="market-hero-art"><img src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1200&q=90" alt="Everyday products arranged for discovery" loading="eager"/><div className="hero-floating-card"><span className="hero-floating-icon">✦</span><div><b>Discover something useful</b><small>Explore the MARCHY sample catalogue</small></div></div><div className="hero-art-caption">LOCAL DISCOVERY <b>·</b> MADE SIMPLE</div></div>
+    </section>
+    <section className="market-benefits"><div><span>01</span><b>Browse with ease</b><small>Explore products across everyday categories</small></div><div><span>02</span><b>Find local storefronts</b><small>See sample seller profiles and locations</small></div><div><span>03</span><b>Compare in dinars</b><small>All catalogue prices shown in TND</small></div></section>
+    <section className="section home-category-section">
+      <div className="section-heading"><div><span className="eyebrow">START WITH WHAT YOU NEED</span><h2>Explore all categories</h2><p className="muted">A quick route to the things you shop for most.</p></div><Link to="/categories" className="text-link">All categories →</Link></div>
+      <div className="home-category-grid">{popular.map(item=><Link key={item.name} to={`/category/${encodeURIComponent(item.name.toLowerCase())}`} className={`home-category-card ${item.tone}`}><span className="home-category-icon">{item.icon}</span><b>{item.name}</b><small>{item.count} sample {item.count===1?'listing':'listings'} <span>→</span></small></Link>)}</div>
+    </section>
+    <section className="section home-featured-section">
+      <div className="section-heading"><div><span className="eyebrow">PICK YOUR NEXT DISCOVERY</span><h2>Popular in the catalogue</h2><p className="muted">A curated look at the current sample listings.</p></div><Link to="/search" className="text-link">Browse all products →</Link></div>
+      <div className="home-category-tabs" role="group" aria-label="Filter featured products">{['All','Electronics','Home','Fashion','Beauty','Sports'].map(name=><button key={name} type="button" className={active===name?'active':''} aria-pressed={active===name} onClick={()=>setActive(name)}>{name}</button>)}</div>
+      <div className="product-grid">{shown.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div>
+    </section>
+    <section className="section home-deals-section"><div className="section-heading"><div><span className="eyebrow">PRICE COMPARISON</span><h2>Listings with sample discounts</h2><p className="muted">Previous prices are illustrative and must be confirmed with the seller.</p></div><Link to="/search?deal=true" className="text-link">See all deals →</Link></div><div className="product-grid">{deals.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>
+    <section className="home-seller-banner"><div><span className="eyebrow">DISCOVER THE PEOPLE BEHIND THE PRODUCTS</span><h2>Find a storefront.<br/><em>Explore what they offer.</em></h2><p>Browse sample shop profiles from Tunis, Sousse, Sfax and other locations.</p><Link to="/sellers" className="light-btn">Explore seller directory →</Link></div><div className="seller-banner-stats"><b>10</b><span>sample storefronts</span><b>13</b><span>everyday categories</span></div></section>
+    <section className="home-seller-cta"><div><span className="eyebrow">FOR TUNISIAN BUSINESSES</span><h2>Want to sell on MARCHY?</h2><p>Explore the seller information page and follow the product as onboarding tools take shape.</p></div><Link to="/sell" className="outline-btn">Learn about selling →</Link></section>
+    <p className="catalogue-note">MARCHY is a frontend prototype. Product listings, storefronts, prices, discounts and availability shown here are illustrative — not verified live offers.</p>
   </main>,language)
 }
 
