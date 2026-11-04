@@ -278,7 +278,6 @@ const translations = {
   "Seller tools are coming later.":["Les outils vendeurs arriveront plus tard.","أدوات البائعين قادمة لاحقاً."],
   "Seller onboarding, listing management and support tools are not connected in this frontend prototype.":["L’inscription des vendeurs, la gestion des annonces et les outils d’assistance ne sont pas connectés dans ce prototype frontend.","لم يتم ربط تسجيل البائعين وإدارة الإعلانات وأدوات الدعم في هذا النموذج الأولي."]
   ,"Product details":["Détails du produit","تفاصيل المنتج"]
-  ,"About this listing":["À propos de cette annonce","حول هذا العرض"]
   ,"Before you order":["Avant de commander","قبل الطلب"]
   ,"Confirm these details with the seller":["Confirmez ces détails auprès du vendeur","تأكد من هذه التفاصيل مع البائع"]
   ,"Product condition and included items":["État du produit et éléments inclus","حالة المنتج والعناصر المرفقة"]
@@ -289,8 +288,6 @@ const translations = {
   ,"View seller":["Voir le vendeur","عرض البائع"]
   ,"Sample listing":["Annonce de démonstration","عرض تجريبي"]
   ,"Availability to be confirmed":["Disponibilité à confirmer","يجب تأكيد التوفر"]
-  ,"Quantity":["Quantité","الكمية"]
-  ,"Added to cart ✓":["Ajouté au panier ✓","أُضيف إلى السلة ✓"]
   ,"Save for later":["Enregistrer pour plus tard","احفظه لوقت لاحق"]
   ,"Remove from saved items":["Retirer des favoris","إزالة من المحفوظات"]
   ,"More from this category":["Plus dans cette catégorie","المزيد من هذه الفئة"]
