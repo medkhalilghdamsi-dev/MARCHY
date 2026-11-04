@@ -157,7 +157,7 @@ test('product detail can add a listing to the cross-page comparison tray', async
 test('product comparison button reflects the current product after related-item navigation', async ({ page }) => {
   await page.goto('/product/1')
   await page.getByRole('button', { name: '＋ Compare' }).click()
-  await page.locator('.related-products a').first().click()
+  await page.locator('.related-products .product-card a').first().click()
   await expect(page).toHaveURL(/\/product\//)
   await expect(page.getByRole('button', { name: '＋ Compare' })).toHaveAttribute('aria-pressed', 'false')
 })
