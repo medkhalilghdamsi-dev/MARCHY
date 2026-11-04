@@ -427,7 +427,7 @@ function ProductCard({ product, addToCart, wished, toggleWish, language, compare
       <Link to={`/product/${product.id}`} className="product-name">{product.name}</Link>
       <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
       <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice&&<del>{money(product.oldPrice)}</del>}</div>
-      {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)}>{compareIds.includes(product.id) ? '✓ Added to compare' : '＋ Compare'}</button>}
+      {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)} disabled={compareIds.length >= 3 && !compareIds.includes(product.id)}>{compareIds.includes(product.id) ? '✓ Added to compare' : compareIds.length >= 3 ? 'Compare limit reached' : '＋ Compare'}</button>}
             <button type="button" className={`add-btn ${added?'added':''}`} onClick={quickAdd} aria-live="polite">{added?'Added to cart ✓':'Add to cart'} <span>{added?'✓':'＋'}</span></button>
     </div>
   </article>,language)
