@@ -85,3 +85,9 @@
  .is-rtl .marchy-header-actions{margin-right:0;margin-left:0}
  .is-rtl .marchy-nav-inner .nav-deal{margin-right:0}
 }
+
+
+/* WCAG AA contrast corrections for shared header actions. */
+.marchy-header .marchy-header-action small{color:#52675a}
+.marchy-header .header-join-link{color:#174b38!important}
+.marchy-header .header-join-link:hover{color:#103b2c!important}
