@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { categories, products } from '../data/products'
 import { sellers, sellerByCategory, sellerForProduct } from '../data/sellers'
-import { getSellerDeliveryMethods } from '../data/sellerDelivery'
+import { getMarketplaceDeliveryMethods } from '../data/sellerDelivery'
 import { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText, readJson, writeJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
 import { ProductCard } from '../components/MarketplaceChrome'
@@ -397,7 +397,7 @@ function CheckoutPage({cart,language,onPlaceDemoOrder}) {
   const [step,setStep]=useState(1)
   const [details,setDetails]=useState({name:'',phone:'',city:'',address:'',notes:''})
   const [orderIds,setOrderIds]=useState([])
-  const [deliveryChoices,setDeliveryChoices]=useState({})
+  const [deliveryChoice,setDeliveryChoice]=useState('standard')
   const navigate=useNavigate()
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0)
   const itemCount=cart.reduce((sum,item)=>sum+item.qty,0)
@@ -406,14 +406,11 @@ function CheckoutPage({cart,language,onPlaceDemoOrder}) {
     const items=cart.filter(item=>sellerForProduct(item).slug===slug)
     return {seller,items,subtotal:items.reduce((sum,item)=>sum+item.price*item.qty,0)}
   })
-  const deliveryOptionsBySeller=Object.fromEntries(groups.map(group=>[group.seller.slug,getSellerDeliveryMethods(group.seller.slug)]))
-  const deliveryTotal=groups.reduce((sum,group)=>{
-    const options=deliveryOptionsBySeller[group.seller.slug]
-    const selected=options.find(option=>option.id===(deliveryChoices[group.seller.slug]||options[0]?.id))
-    return sum+(selected?.fee||0)
-  },0)
+  const deliveryOptions=getMarketplaceDeliveryMethods()
+  const selectedDelivery=deliveryOptions.find(option=>option.id===deliveryChoice)||deliveryOptions[0]
+  const deliveryTotal=(selectedDelivery?.fee||0)*groups.length
   const orderTotal=subtotal+deliveryTotal
-  const chooseDelivery=(slug,value)=>setDeliveryChoices(current=>({...current,[slug]:value}))
+  const chooseDelivery=value=>setDeliveryChoice(value)
   const update=(key,value)=>setDetails(current=>({...current,[key]:value}))
   if(!cart.length&&step!==4)return translateTree(<main id="main-content" className="shell page checkout-page"><div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span>Checkout</span></div><div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">NOTHING TO CHECK OUT</span><h1>Your cart is empty</h1><p>Add products before starting checkout.</p><Link to="/search" className="primary-btn">Explore products →</Link></div></main>,language)
   return translateTree(<main id="main-content" className="shell page checkout-page">
@@ -440,13 +437,14 @@ function CheckoutPage({cart,language,onPlaceDemoOrder}) {
         {step===2&&<section className="checkout-review">
           <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2>Review before proceeding</h2><p>Each seller handles their own availability and delivery confirmation.</p></div>
           <div className="checkout-contact-review"><div><b>Delivery contact</b><button type="button" className="text-link" onClick={()=>setStep(1)}>Edit details</button></div><p>{details.name} · {details.phone}</p><p>{details.address}, {details.city}</p>{details.notes&&<small>{details.notes}</small>}</div>
-          {groups.map(group=>{const options=deliveryOptionsBySeller[group.seller.slug];const selected=options.find(option=>option.id===(deliveryChoices[group.seller.slug]||options[0]?.id))||options[0];return <article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={item.id}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-choice"><label>Delivery method for {group.seller.name}<select value={selected?.id||''} disabled={!options.length} onChange={event=>chooseDelivery(group.seller.slug,event.target.value)}>{options.map(option=><option value={option.id} key={option.id}>{option.label} — {money(option.fee)}</option>)}</select></label><div><span>Illustrative delivery fee</span><b>{money(selected?.fee||0)}</b></div>{!options.length&&<p>This seller has not enabled a delivery method in the demo workspace.</p>}</div><div className="checkout-delivery-status"><span>Stock and final delivery details</span><b>Seller confirmation required</b></div></article>})}<p className="checkout-demo-rate-note">Demo estimates only. These rates, delivery windows and collection options are illustrative and are not seller quotes or service commitments.</p>
-          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" disabled={groups.some(group=>!deliveryOptionsBySeller[group.seller.slug].length)} onClick={()=>setStep(3)}>Continue to final preview <span>→</span></button></div>
+          <div className="checkout-delivery-choice marchy-central-delivery-choice"><label>MARCHY delivery option<select value={selectedDelivery?.id||''} disabled={!deliveryOptions.length} onChange={event=>chooseDelivery(event.target.value)}>{deliveryOptions.map(option=><option value={option.id} key={option.id}>{option.label} — {money(option.fee)} per seller parcel</option>)}</select></label><p>MARCHY controls the customer-facing delivery choices and coordinates fulfilment with its delivery partner. The displayed fee is an illustrative frontend estimate.</p></div>
+          {groups.map(group=><article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={item.id}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-status"><span>MARCHY delivery · {selectedDelivery?.label||'To be confirmed'}</span><b>{money(selectedDelivery?.fee||0)} parcel estimate</b></div></article>)}<p className="checkout-demo-rate-note">Illustrative frontend estimates only. Actual delivery coverage, service levels, fees and timing will be set by MARCHY with its delivery partner before launch.</p>
+          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" disabled={!deliveryOptions.length} onClick={()=>setStep(3)}>Continue to final preview <span>→</span></button></div>
         </section>}
         {step===3&&<section className="checkout-complete-preview">
           <div className="checkout-preview-icon">✓</div><span className="eyebrow">DEMO ORDER CONFIRMATION</span><h2>Ready to create your sample order?</h2><p>Confirming creates a fictional order record in this browser, clears this demo basket and makes the order visible in Buyer Tracking and the relevant seller workspace. No seller is contacted and no payment or delivery is arranged.</p>
           <div className="checkout-next-list"><b>Before confirming</b><ul><li>Delivery fees are illustrative estimates, not confirmed seller quotes</li><li>Stock and availability have not been verified</li><li>Payment is not collected</li><li>Each seller receives a separate sample order</li></ul></div>
-          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(2)}>← Back to review</button><button type="button" className="primary-btn" onClick={()=>{setOrderIds(onPlaceDemoOrder(details,cart,Object.fromEntries(groups.map(group=>{const options=deliveryOptionsBySeller[group.seller.slug];const option=options.find(entry=>entry.id===(deliveryChoices[group.seller.slug]||options[0]?.id))||options[0];return [group.seller.slug,{label:option?.label||'Delivery method to be confirmed by seller',fee:option?.fee??0}]}))));setStep(4)}}>Create demo order <span>→</span></button></div>
+          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(2)}>← Back to review</button><button type="button" className="primary-btn" onClick={()=>{setOrderIds(onPlaceDemoOrder(details,cart,Object.fromEntries(groups.map(group=>[group.seller.slug,{label:selectedDelivery?.label||'MARCHY delivery · to be confirmed',fee:selectedDelivery?.fee??0}]))));setStep(4)}}>Create demo order <span>→</span></button></div>
         </section>}
         {step===4&&<section className="checkout-complete-preview marchy-order-created">
           <div className="checkout-preview-icon">✓</div><span className="eyebrow">SAMPLE ORDER CREATED</span><h2>Your demo order is ready to follow.</h2><p>{orderIds.length} seller-specific sample {orderIds.length===1?'order has':'orders have'} been saved on this device. You can view the new order records in your tracking page.</p>
@@ -456,7 +454,7 @@ function CheckoutPage({cart,language,onPlaceDemoOrder}) {
         </section>}
       </section>
       {step!==4&&<aside className="summary-card checkout-summary"><span className="eyebrow">YOUR BASKET</span><h2>Order summary</h2><div className="cart-summary-row"><span>{itemCount} items · {cart.length} products</span><b>{money(subtotal)}</b></div>
-      {groups.map(group=><div className="cart-summary-row seller-summary-row" key={group.seller.slug}><span>{group.seller.name}</span><b>{money(group.subtotal)}</b></div>)}<div className="cart-summary-row"><span>Sample delivery fees</span><b>{step>=2?money(deliveryTotal):'Calculated at review'}</b></div><div className="summary-total"><span>Estimated demo total</span><strong>{money(step>=2?orderTotal:subtotal)}</strong></div><p className="cart-summary-note">Illustrative rates only. Actual delivery fees, coverage and timing require seller confirmation.</p><div className="checkout-seller-count"><b>{groups.length}</b><span>sample seller{groups.length===1?'':'s'} in this basket</span></div><div className="cart-trust-note"><span>ⓘ</span><p>Demo only. This checkout does not submit personal data or process payments.</p></div></aside>}
+      {groups.map(group=><div className="cart-summary-row seller-summary-row" key={group.seller.slug}><span>{group.seller.name}</span><b>{money(group.subtotal)}</b></div>)}<div className="cart-summary-row"><span>MARCHY delivery estimate</span><b>{step>=2?money(deliveryTotal):'Calculated at review'}</b></div><div className="summary-total"><span>Estimated demo total</span><strong>{money(step>=2?orderTotal:subtotal)}</strong></div><p className="cart-summary-note">Illustrative MARCHY delivery estimate per seller parcel; final partner pricing and coverage are to be confirmed.</p><div className="checkout-seller-count"><b>{groups.length}</b><span>sample seller{groups.length===1?'':'s'} in this basket</span></div><div className="cart-trust-note"><span>ⓘ</span><p>Demo only. This checkout does not submit personal data or process payments.</p></div></aside>}
     </div>
   </main>,language)
 }
