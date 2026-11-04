@@ -60,3 +60,31 @@
 @media(max-width:390px){.checkout-steps li{align-items:flex-start;flex-direction:column}.checkout-steps li div{gap:2px}.checkout-summary{padding:15px}}
 
 
+
+
+/* Checkout refinement: visible progress, calmer hierarchy and seller-level cost clarity */
+.checkout-steps{position:relative}
+.checkout-steps li{transition:border-color .18s,background .18s,box-shadow .18s}
+.checkout-steps li.is-complete{border-color:#cfe4d7;background:#f7fbf8}
+.checkout-steps li.is-complete>span{background:#e0f1e7;color:#216b48}
+.checkout-steps li.is-current{box-shadow:0 5px 18px #f36b3510}
+.checkout-main-panel{box-shadow:0 12px 34px #17212b06}
+.checkout-fields label{line-height:1.4}
+.checkout-fields input::placeholder,.checkout-fields textarea::placeholder{color:#a2aab1}
+.checkout-fields input:focus-visible,.checkout-fields textarea:focus-visible{outline:0}
+.checkout-form-actions .primary-btn,.checkout-review-actions .primary-btn{min-height:44px}
+.checkout-contact-review{background:linear-gradient(120deg,#fffaf7,#fff 72%)}
+.checkout-seller-review{overflow:hidden}
+.checkout-seller-heading{margin:-14px -14px 0;padding:13px 14px;background:#fafbfb}
+.checkout-delivery-status{margin-top:2px}
+.checkout-complete-preview{padding:5px 0}
+.checkout-summary{box-shadow:0 12px 34px #17212b08}
+.seller-summary-row{padding-block:7px!important;border-bottom:0!important}
+.seller-summary-row span{font-size:10px!important;color:#7c8790!important}
+.seller-summary-row b{font-size:10px!important;color:#56616b!important}
+@media(max-width:680px){
+ .checkout-steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .checkout-steps li{min-height:88px}
+ .checkout-main-panel{box-shadow:none}
+ .checkout-summary{box-shadow:0 8px 24px #17212b08}
+}
