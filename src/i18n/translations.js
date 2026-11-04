@@ -629,7 +629,10 @@ Object.assign(translations, {
  "Refresh demo statuses":["Actualiser les statuts de démonstration","تحديث الحالات التجريبية"],
  "View demo order tracking →":["Voir le suivi de démonstration →","عرض تتبع الطلب التجريبي ←"],
  "Preview order tracking":["Aperçu du suivi des commandes","معاينة تتبع الطلبات"],
- "Explore fictional sample orders and see how seller status updates appear to a buyer.":["Consultez des commandes fictives et voyez comment les mises à jour du vendeur apparaissent à l’acheteur.","استعرض طلبات افتراضية وشاهد كيف تظهر تحديثات البائع للمشتري."],
+ "Explore fictional sample orders and see how seller status updates appear to a buyer.":["Consultez des commandes fictives et voyez comment les mises à jour du vendeur apparaissent à l’acheteur.","استعرض طلبات افتراضية وشاهد كيف تظهر تحديثات البائع للمشتري."]
+});
+
+Object.assign(translations, {
  "Request cancellation":["Demander l’annulation","طلب الإلغاء"],
  "Request a return":["Demander un retour","طلب الإرجاع"],
  "Cancellation request":["Demande d’annulation","طلب إلغاء"],
