@@ -18,7 +18,7 @@ npm run dev
 - Switchable, persistent grid and list result layouts in search results and seller storefronts
 - Product-page native sharing with copy-link fallback
 - Product detail pages with image zoom, seller information and related listings
-- Product comparison for up to three listings
+- Product comparison for up to three listings, with add/remove actions from search cards and product detail pages
 - Client-side cart grouped by seller with per-seller subtotals and quantity controls
 - Multi-step checkout preview with contact validation, seller-by-seller order review and explicit non-submission confirmation
 - Wishlist and recently viewed products
