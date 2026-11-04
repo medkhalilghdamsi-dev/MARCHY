@@ -149,7 +149,7 @@ test('seller workspace can save and delete a local product draft without publish
   await page.getByRole('button', { name: 'Products' }).click()
   await page.getByRole('button', { name: /Create draft/ }).click()
   await page.getByLabel('Product name').fill('Handmade test vase')
-  await page.getByLabel('Category').last().fill('Home & Living')
+  await page.getByLabel('Category').first().fill('Home & Living')
   await page.getByLabel('Indicative price (TND)').fill('45')
   await page.getByLabel('Description').last().fill('A locally saved draft for testing')
   await page.getByRole('button', { name: 'Save draft on this device' }).click()
