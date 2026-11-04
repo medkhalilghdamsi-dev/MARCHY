@@ -126,6 +126,18 @@ test('product grid and list preferences persist across marketplace navigation', 
   await expect(page.locator('.listing-results .product-grid')).not.toHaveClass(/product-list-view/)
 })
 
+test('homepage hero search submits queries and popular shortcuts navigate to search', async ({ page }) => {
+  await page.goto('/')
+  const heroSearch = page.getByRole('search').getByRole('searchbox', { name: 'Search products and categories' })
+  await heroSearch.fill('headphones')
+  await page.getByRole('search').getByRole('button', { name: /Search/ }).click()
+  await expect(page).toHaveURL(/\/search\?q=headphones/)
+  await expect(page.locator('.listing-results')).toContainText('headphones')
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Fashion' }).click()
+  await expect(page).toHaveURL(/\/search\?q=Fashion/)
+})
+
 test('recently viewed products appear on the homepage', async ({ page }) => {
   await page.goto('/product/1')
   await page.goto('/')
