@@ -89,7 +89,7 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/product/1')
   await page.getByRole('button', { name: 'Increase quantity' }).click()
-  await expect(page.getByLabel('Selected quantity')).toHaveText('2')
+  await expect(page.getByRole('spinbutton', { name: 'Quantity' })).toHaveValue('2')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
   await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
   await page.locator('.mobile-tabbar a[href="/cart"]').click()
@@ -273,6 +273,18 @@ test('product comparison button reflects the current product after related-item 
   await page.locator('.related-products .product-card a').first().click()
   await expect(page).toHaveURL(/\/product\//)
   await expect(page.getByRole('button', { name: '＋ Compare' })).toHaveAttribute('aria-pressed', 'false')
+})
+
+test('product quantity can be entered directly and resets when opening another listing', async ({ page }) => {
+  await page.goto('/product/1')
+  const quantity = page.getByRole('spinbutton', { name: 'Quantity' })
+  await quantity.fill('4')
+  await expect(quantity).toHaveValue('4')
+  await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
+  await expect(page.locator('.product-added-feedback')).toBeVisible()
+  await page.locator('.related-products .product-card a').first().click()
+  await expect(page.getByRole('spinbutton', { name: 'Quantity' })).toHaveValue('1')
+  await expect(page.locator('.product-added-feedback')).toHaveCount(0)
 })
 
 test('product page can copy a shareable listing link', async ({ page, context }) => {
