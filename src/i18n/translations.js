@@ -1,7 +1,7 @@
 const translations = {
   "MARCHY preview · sample catalogue and illustrative prices":["Aperçu MARCHY · catalogue et prix indicatifs","معاينة مارشي · كتالوج وأسعار توضيحية"],
   "🇹🇳 Tunisia-first":["🇹🇳 Priorité à la Tunisie","🇹🇳 تونس أولاً"],
-  "Prices in TND":["Prix en TND","الأسعار بالدينار التونسي"],
+  "Prices in DT":["Prix en DT","الأسعار بالدينار التونسي"],
   "Toggle menu":["Ouvrir le menu","فتح القائمة"],
   "Search products, brands and local finds…":["Rechercher des produits, marques et bonnes trouvailles…","ابحث عن المنتجات والعلامات التجارية…"],
   "Search products":["Rechercher des produits","ابحث عن المنتجات"],
@@ -27,7 +27,7 @@ const translations = {
   "Discover products from sellers across Tunisia. Explore thoughtful finds, compare prices in dinars and shop with confidence.":["Découvrez les produits de vendeurs partout en Tunisie. Comparez les prix en dinars et achetez en toute confiance.","اكتشف منتجات البائعين من مختلف أنحاء تونس، وقارن الأسعار بالدينار وتسوق بثقة."],
   "Explore the marketplace":["Explorer la marketplace","اكتشف السوق"],
   "✓ Tunisian sellers":["✓ Vendeurs tunisiens","✓ بائعون تونسيون"],
-  "✓ Prices in TND":["✓ Prix en TND","✓ الأسعار بالدينار"],
+  "✓ Prices in DT":["✓ Prix en DT","✓ الأسعار بالدينار"],
   "✓ Simple discovery":["✓ Découverte facile","✓ اكتشاف سهل"],
   "Worth a closer look":["À découvrir de plus près","تستحق الاكتشاف"],
   "New finds added regularly":["De nouvelles trouvailles régulièrement","اكتشافات جديدة باستمرار"],
@@ -35,7 +35,7 @@ const translations = {
   "One place to discover new finds":["Un seul endroit pour découvrir","مكان واحد لاكتشاف الجديد"],
   "Find local sellers":["Trouver des vendeurs locaux","اعثر على بائعين محليين"],
   "Browse sample seller profiles":["Voir des profils vendeurs de démonstration","تصفح نماذج البائعين"],
-  "All sample prices shown in TND":["Tous les prix indicatifs en TND","جميع الأسعار التوضيحية بالدينار"],
+  "All sample prices shown in DT":["Tous les prix indicatifs en DT","جميع الأسعار التوضيحية بالدينار"],
   "FIND YOUR NEXT FAVOURITE":["TROUVEZ VOTRE PROCHAIN COUP DE CŒUR","اعثر على اكتشافك القادم"],
   "Shop by category":["Acheter par catégorie","تسوق حسب الفئة"],
   "View all categories →":["Voir toutes les catégories →","عرض جميع الفئات ←"],
@@ -93,7 +93,7 @@ const translations = {
   ". Illustrative product listing. Confirm availability, specifications and terms directly with the seller before purchasing.":[". Annonce illustrative. Confirmez la disponibilité, les caractéristiques et les conditions auprès du vendeur avant tout achat.",". إعلان توضيحي. تأكد من التوفر والمواصفات والشروط مباشرة مع البائع قبل الشراء."],
   "Confirm delivery cost and timing with the seller before ordering.":["Confirmez les frais et délais de livraison auprès du vendeur avant de commander.","تأكد من تكلفة وموعد التوصيل مع البائع قبل الطلب."],
   "Add to wishlist":["Ajouter aux favoris","أضف إلى المفضلة"],
-  "Prices shown in TND":["Prix affichés en TND","الأسعار بالدينار التونسي"],
+  "Prices shown in DT":["Prix affichés en DT","الأسعار بالدينار التونسي"],
   "Seller details visible":["Détails du vendeur visibles","بيانات البائع ظاهرة"],
   "Local marketplace":["Marketplace locale","سوق محلية"],
   "READY WHEN YOU ARE":["PRÊT QUAND VOUS L’ÊTES","جاهز متى أردت"],
@@ -178,7 +178,7 @@ const translations = {
   "This is a sample product listing, not confirmed live inventory. Confirm the product condition, specifications, availability and terms directly with the seller.":["Cette annonce est un exemple et ne représente pas un stock confirmé. Vérifiez l’état, les caractéristiques, la disponibilité et les conditions auprès du vendeur.","هذا إعلان تجريبي وليس مخزوناً مؤكداً. تحقق من حالة المنتج ومواصفاته وتوفره وشروطه مباشرة مع البائع."],
   "MARCHY is currently a frontend demonstration. No purchase, payment or delivery booking is made here.":["MARCHY est actuellement une démonstration frontend. Aucun achat, paiement ou réservation de livraison n’est effectué ici.","مارشي حالياً نموذج واجهة أمامية. لا يتم شراء أو دفع أو حجز توصيل هنا."],
   "This listing is part of the MARCHY sample catalogue. Product details, seller information, price and availability must be confirmed before any transaction.":["Cette annonce fait partie du catalogue de démonstration MARCHY. Les détails, le vendeur, le prix et la disponibilité doivent être confirmés avant toute transaction.","هذا الإعلان جزء من كتالوج مارشي التجريبي. يجب تأكيد التفاصيل ومعلومات البائع والسعر والتوفر قبل أي معاملة."],
-  "Tunisian dinar (TND)":["Dinar tunisien (TND)","الدينار التونسي (TND)"],
+  "Tunisian dinar (DT)":["Dinar tunisien (DT)","الدينار التونسي (DT)"],
   "Demonstration content":["Contenu de démonstration","محتوى تجريبي"],
   "Items (" :["Articles (","العناصر ("],
   "Review checkout →":["Aperçu du paiement →","معاينة إتمام الطلب ←"],
@@ -190,7 +190,7 @@ const translations = {
   "Closer to home.":["Plus près de chez vous.","أقرب إليك."],
   "Explore everyday essentials, useful finds and independent storefronts from across Tunisia — all in one place.":["Découvrez les essentiels du quotidien, des trouvailles utiles et des boutiques indépendantes de toute la Tunisie — au même endroit.","اكتشف أساسيات الحياة اليومية والمنتجات المفيدة والمتاجر المستقلة من مختلف أنحاء تونس — في مكان واحد."],
   "Browse categories":["Parcourir les catégories","تصفح الفئات"],
-  "Prices displayed in TND":["Prix affichés en TND","الأسعار بالدينار التونسي"],
+  "Prices displayed in DT":["Prix affichés en DT","الأسعار بالدينار التونسي"],
   "Browse by category":["Parcourir par catégorie","تصفح حسب الفئة"],
   "Discover local storefronts":["Découvrir les boutiques locales","اكتشف المتاجر المحلية"],
   "Browse with ease":["Parcourez facilement","تصفح بسهولة"],
@@ -198,7 +198,7 @@ const translations = {
   "Find local storefronts":["Trouver des boutiques locales","اعثر على المتاجر المحلية"],
   "See sample seller profiles and locations":["Voir des profils vendeurs et des emplacements de démonstration","شاهد نماذج ملفات البائعين ومواقعهم"],
   "Compare in dinars":["Comparer en dinars","قارن بالدينار"],
-  "All catalogue prices shown in TND":["Tous les prix du catalogue sont affichés en TND","جميع أسعار الكتالوج بالدينار التونسي"],
+  "All catalogue prices shown in DT":["Tous les prix du catalogue sont affichés en DT","جميع أسعار الكتالوج بالدينار التونسي"],
   "START WITH WHAT YOU NEED":["COMMENCEZ PAR VOS BESOINS","ابدأ بما تحتاجه"],
   "Explore all categories":["Explorer toutes les catégories","استكشف جميع الفئات"],
   "A quick route to the things you shop for most.":["Accédez rapidement aux catégories que vous recherchez le plus.","طريق سريع إلى الفئات التي تتسوق منها غالباً."],
@@ -272,7 +272,7 @@ const translations = {
   ,"Browse category":["Parcourir la catégorie","تصفح الفئة"]
   ,"No product information has been supplied for this sample listing. Contact the seller to confirm the exact product, condition, specifications and what is included.":["Aucune information produit n’a été fournie pour cette annonce de démonstration. Contactez le vendeur pour confirmer le produit, son état, ses caractéristiques et les éléments inclus.","لم يتم توفير معلومات عن المنتج في هذا العرض التجريبي. تواصل مع البائع لتأكيد المنتج وحالته ومواصفاته والعناصر المرفقة."]
   ,"This is not live stock information.":["Il ne s’agit pas d’informations de stock en temps réel.","هذه ليست معلومات مخزون مباشرة."]
-  ,"Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.":["Affiché en dinars tunisiens (TND). Le prix final et la disponibilité doivent être confirmés auprès du vendeur.","السعر معروض بالدينار التونسي. يجب تأكيد السعر النهائي والتوفر مع البائع."]
+  ,"Displayed in Tunisian dinars (DT). Final price and availability must be confirmed with the seller.":["Affiché en dinars tunisiens (DT). Le prix final et la disponibilité doivent être confirmés auprès du vendeur.","السعر معروض بالدينار التونسي. يجب تأكيد السعر النهائي والتوفر مع البائع."]
   ,"Ask the seller about delivery coverage, cost and estimated timing before placing an order.":["Demandez au vendeur la zone, le coût et le délai estimé de livraison avant de commander.","اسأل البائع عن نطاق التوصيل وتكلفته والمدة المتوقعة قبل الطلب."]
   ,"Frontend demonstration only. No order, payment or delivery booking is submitted.":["Démonstration frontend uniquement. Aucune commande, aucun paiement ni réservation de livraison n’est effectué.","واجهة تجريبية فقط. لا يتم إرسال طلب أو دفع أو حجز توصيل."]
   ,"Added to your demo cart. You can review it whenever you're ready.":["Ajouté à votre panier de démonstration. Vous pouvez le consulter à tout moment.","تمت الإضافة إلى سلة العرض التجريبية. يمكنك مراجعتها في أي وقت."]
@@ -505,7 +505,7 @@ Object.assign(translations, {
  "Product information":["Informations produit","معلومات المنتج"],
  "Product name":["Nom du produit","اسم المنتج"],
  "Category":["Catégorie","الفئة"],
- "Indicative price (TND)":["Prix indicatif (TND)","السعر التقديري (د.ت)"],
+ "Indicative price (DT)":["Prix indicatif (DT)","السعر التقديري (د.ت)"],
  "Description":["Description","الوصف"],
  "Save draft on this device":["Enregistrer sur cet appareil","حفظ المسودة على هذا الجهاز"],
  "Your local drafts":["Vos brouillons locaux","مسوداتك المحلية"],
@@ -585,7 +585,7 @@ Object.assign(translations, {
  "Home":["Maison","المنزل"],
  "Fashion":["Mode","الأزياء"],
  "Beauty":["Beauté","الجمال"],
- "Prices shown in TND":["Prix affichés en TND","الأسعار بالدينار"],
+ "Prices shown in DT":["Prix affichés en DT","الأسعار بالدينار"],
  "Explore local storefronts":["Découvrez les boutiques locales","اكتشف المتاجر المحلية"],
  "One place to discover":["Un seul endroit pour découvrir","مكان واحد للاكتشاف"],
  "A little more to discover":["Encore plus à découvrir","المزيد لاكتشافه"],
@@ -711,8 +711,8 @@ Object.assign(translations, {
 Object.assign(translations, {
  "FULFILMENT PREFERENCES":["PRÉFÉRENCES D’EXPÉDITION","تفضيلات تنفيذ الطلب"],
  "Choose how customers can receive orders.":["Choisissez comment les clients peuvent recevoir leurs commandes.","اختر كيفية استلام العملاء لطلباتهم."],
- "Enable the methods this sample storefront wants to offer and set an illustrative fee in TND. Checkout will reflect these choices.":["Activez les modes proposés par cette boutique de démonstration et définissez des frais indicatifs en TND. Le paiement en tiendra compte.","فعّل طرق الاستلام التي يقدمها هذا المتجر التجريبي وحدد رسوماً توضيحية بالدينار. ستظهر هذه الاختيارات في إتمام الشراء."],
- "Illustrative fee (TND)":["Frais indicatifs (TND)","رسوم توضيحية (د.ت)"],
+ "Enable the methods this sample storefront wants to offer and set an illustrative fee in DT. Checkout will reflect these choices.":["Activez les modes proposés par cette boutique de démonstration et définissez des frais indicatifs en DT. Le paiement en tiendra compte.","فعّل طرق الاستلام التي يقدمها هذا المتجر التجريبي وحدد رسوماً توضيحية بالدينار. ستظهر هذه الاختيارات في إتمام الشراء."],
+ "Illustrative fee (DT)":["Frais indicatifs (DT)","رسوم توضيحية (د.ت)"],
  "Regular local delivery":["Livraison locale standard","توصيل محلي عادي"],
  "Priority delivery":["Livraison prioritaire","توصيل ذو أولوية"],
  "Customer collects from your shop":["Le client récupère sa commande en boutique","يستلم العميل الطلب من متجرك"],
