@@ -72,9 +72,11 @@ function Header({ cartCount, query, setQuery, language, setLanguage, theme, setT
 function ProductCard({ product, addToCart, wished, toggleWish, language, compareIds = [], toggleCompare }) {
   const [added,setAdded]=useState(false)
   const [quickViewOpen,setQuickViewOpen]=useState(false)
+  const [quickQty,setQuickQty]=useState(1)
   const seller=sellerForProduct(product)
   const discount=product.oldPrice?Math.round((1-product.price/product.oldPrice)*100):0
-  function quickAdd(){addToCart(product);setAdded(true)}
+  function quickAdd(){addToCart(product,quickQty);setAdded(true)}
+  function changeQuickQty(delta){setQuickQty(value=>Math.max(1,Math.min(99,value+delta)));setAdded(false)}
   useEffect(()=>{
     if(!quickViewOpen)return
     const trigger=document.activeElement
@@ -123,7 +125,16 @@ function ProductCard({ product, addToCart, wished, toggleWish, language, compare
           <div className="quick-view-price">{money(product.price)}</div>
           <p>{product.description||'Product specifications and included items should be confirmed directly with the seller.'}</p>
           <div className="quick-view-seller">Sold by <b>{seller.name}</b> · {seller.city}</div>
-          <div className="quick-view-actions"><button type="button" className="primary-btn" onClick={quickAdd}>{added?'Added to cart ✓':'Add to demo cart'}</button><Link to={`/product/${product.id}`} className="outline-btn" onClick={()=>setQuickViewOpen(false)}>View full details →</Link></div>
+          <div className="quick-view-quantity-row">
+            <span>Quantity</span>
+            <div className="quantity product-quantity" role="group" aria-label="Quick-view quantity">
+              <button type="button" aria-label="Decrease quick-view quantity" disabled={quickQty<=1} onClick={()=>changeQuickQty(-1)}>−</button>
+              <output aria-label="Quick-view selected quantity" aria-live="polite">{quickQty}</output>
+              <button type="button" aria-label="Increase quick-view quantity" disabled={quickQty>=99} onClick={()=>changeQuickQty(1)}>＋</button>
+            </div>
+            <strong className="quick-view-quantity-total">{money(product.price*quickQty)}</strong>
+          </div>
+          <div className="quick-view-actions"><button type="button" className="primary-btn" onClick={quickAdd}>{added?'Added to cart ✓':`Add ${quickQty} to demo cart`}</button><Link to={`/product/${product.id}`} className="outline-btn" onClick={()=>setQuickViewOpen(false)}>View full details →</Link></div>
           <small>Illustrative catalogue information. Availability and final terms are not verified.</small>
         </div>
       </section>
