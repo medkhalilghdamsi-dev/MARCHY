@@ -6,17 +6,22 @@ A responsive, multi-page Tunisia-first marketplace frontend built with React and
 
 ```text
 MARCHY/
-├── public/                 # Static public assets
+├── public/                     # Static assets
 ├── src/
 │   ├── app/
-│   │   └── MarketplaceApp.jsx  # Application shell, routes, page composition and shared UI
+│   │   └── MarketplaceApp.jsx  # Route composition and application-level state
 │   ├── data/
-│   │   └── products.js         # Illustrative product catalogue and categories
+│   │   ├── products.js         # Illustrative product catalogue and categories
+│   │   └── sellers.js          # Illustrative seller profiles and category mapping
+│   ├── i18n/
+│   │   └── translations.js     # English source copy + French/Arabic translations
 │   ├── styles/
 │   │   └── marketplace.css    # Marketplace design system and responsive styles
+│   ├── utils/
+│   │   └── marketplace.js     # Search, text normalisation and browser storage helpers
 │   ├── App.jsx                 # Stable application entry/re-export
 │   ├── main.jsx                # React + router bootstrap
-│   └── styles.css              # Stable global stylesheet entry/import
+│   └── styles.css              # Stable stylesheet entry/import
 ├── tests/
 │   └── marketplace.spec.js     # Playwright frontend and accessibility coverage
 ├── index.html
@@ -25,25 +30,25 @@ MARCHY/
 └── vite.config.js
 ```
 
-### Architecture boundaries
+## Module responsibilities
 
-- **App bootstrap:** `src/main.jsx` owns React mounting and router setup.
-- **Application shell:** `src/App.jsx` remains a stable import boundary; the current route composition lives in `src/app/MarketplaceApp.jsx`.
-- **Catalogue data:** `src/data/` contains sample catalogue data only. UI components should not invent verified seller or stock claims.
-- **Styles:** `src/styles.css` remains the global style entry; marketplace rules live in `src/styles/marketplace.css`.
-- **Tests:** `tests/` contains browser-level route, responsive, interaction and accessibility checks.
+- **Bootstrap:** `src/main.jsx` mounts React and configures the browser router.
+- **Application:** `src/App.jsx` is the stable entry boundary; route composition and shared application state currently live in `src/app/MarketplaceApp.jsx`.
+- **Data:** `src/data/` holds illustrative catalogue and seller records. Keep sample data separate from UI and never present it as verified inventory.
+- **Internationalisation:** `src/i18n/` owns interface copy for English, French and Arabic.
+- **Utilities:** `src/utils/` owns reusable search normalisation and browser-local storage helpers.
+- **Styles:** `src/styles.css` is the stable global style entry; marketplace rules live in `src/styles/marketplace.css`.
+- **Tests:** `tests/` contains route, responsive, interaction and accessibility checks.
 
-### Next modularisation boundary
+### Remaining modularisation
 
-The application shell currently still contains several page and shared-component implementations. The next refactor should extract these into:
-- `src/components/` — reusable UI (header, footer, product cards, navigation)
+The route module still contains page and visual component implementations. Extract them incrementally into:
+- `src/components/` — reusable header, footer, navigation and product cards
 - `src/layouts/` — shared page layouts
-- `src/pages/` — route-level pages
-- `src/hooks/` — reusable browser-state and interaction hooks
-- `src/utils/` — formatting, search and storage helpers
-- `src/i18n/` — translation dictionaries and language helpers
+- `src/pages/` — route-level pages grouped by shopping, seller and support journeys
+- `src/hooks/` — reusable state and interaction hooks
 
-Keep route URLs, browser-local state behaviour, English/French/Arabic support and RTL behaviour stable while extracting modules. Avoid mixing visual redesigns with structural refactors.
+Preserve all route URLs, local-storage keys, browser-local state, language behaviour and RTL layout during extraction. Keep structural refactors separate from visual redesigns.
 
 ## Run locally
 
