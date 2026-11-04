@@ -498,3 +498,27 @@ test('keyboard users can skip navigation and operate search suggestions and quic
   await expect(dialog).toBeHidden()
   await expect(quickViewTrigger).toBeFocused()
 })
+
+
+test('mobile navigation Escape closes the menu and restores focus to its trigger', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  const trigger = page.getByRole('button', { name: 'Open navigation menu' })
+  await trigger.click()
+  const navigation = page.getByRole('navigation', { name: 'Primary navigation' })
+  const wishlist = navigation.getByRole('link', { name: 'Wishlist' })
+  await wishlist.focus()
+  await page.keyboard.press('Escape')
+  await expect(navigation).toBeHidden()
+  await expect(page.getByRole('button', { name: 'Open navigation menu' })).toBeFocused()
+})
+
+test('Escape from header search suggestions restores focus to the search field', async ({ page }) => {
+  await page.goto('/')
+  const search = page.getByRole('textbox', { name: 'Search products' })
+  await search.focus()
+  await search.fill('headphones')
+  await page.keyboard.press('Escape')
+  await expect(search).toHaveAttribute('aria-expanded', 'false')
+  await expect(search).toBeFocused()
+})
