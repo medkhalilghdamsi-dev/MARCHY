@@ -544,7 +544,48 @@ Object.assign(translations, {
  "Primary navigation":["Navigation principale","التنقل الرئيسي"],
  "Shopping cart":["Panier","سلة التسوق"],
  "Selected quantity":["Quantité sélectionnée","الكمية المحددة"],
- "Breadcrumb":["Fil d’Ariane","مسار التنقل"]
+ "Breadcrumb":["Fil d’Ariane","مسار التنقل"],
+ "Checkout preview":["Aperçu du paiement","معاينة إتمام الشراء"],
+ "A CLEARER WAY TO CHECK OUT":["UN PARCOURS DE COMMANDE PLUS CLAIR","خطوات شراء أوضح"],
+ "Review your order":["Vérifier votre commande","راجع طلبك"],
+ "Confirm the details a real marketplace would need before any order is placed.":["Confirmez les informations nécessaires avant toute commande sur une vraie marketplace.","راجع البيانات اللازمة قبل تأكيد أي طلب في سوق حقيقي."],
+ "Delivery details":["Informations de livraison","بيانات التوصيل"],
+ "Your contact and address":["Vos coordonnées et votre adresse","بيانات الاتصال والعنوان"],
+ "Order review":["Vérification de la commande","مراجعة الطلب"],
+ "Products and sellers":["Produits et vendeurs","المنتجات والبائعون"],
+ "Preview complete":["Aperçu terminé","اكتملت المعاينة"],
+ "No order submitted":["Aucune commande envoyée","لم يتم إرسال أي طلب"],
+ "Where should the seller contact you?":["Comment le vendeur peut-il vous contacter ?","كيف يمكن للبائع التواصل معك؟"],
+ "This information stays in this page session and is not sent or saved.":["Ces informations restent dans cette session et ne sont ni envoyées ni enregistrées.","تبقى هذه المعلومات ضمن الجلسة ولا يتم إرسالها أو حفظها."],
+ "Full name":["Nom complet","الاسم الكامل"],
+ "Phone number":["Numéro de téléphone","رقم الهاتف"],
+ "City":["Ville","المدينة"],
+ "Delivery address":["Adresse de livraison","عنوان التوصيل"],
+ "Delivery notes":["Instructions de livraison","ملاحظات التوصيل"],
+ "Optional":["Facultatif","اختياري"],
+ "Review order":["Vérifier la commande","راجع الطلب"],
+ "STEP 02":["ÉTAPE 02","الخطوة 02"],
+ "Review before proceeding":["Vérifiez avant de continuer","راجع قبل المتابعة"],
+ "Each seller handles their own availability and delivery confirmation.":["Chaque vendeur confirme ses disponibilités et sa livraison.","يتولى كل بائع تأكيد التوفر والتوصيل."],
+ "Delivery contact":["Contact de livraison","بيانات مستلم التوصيل"],
+ "Edit details":["Modifier les informations","تعديل البيانات"],
+ "To be confirmed by seller":["À confirmer par le vendeur","يؤكده البائع"],
+ "Edit delivery details":["Modifier les informations de livraison","تعديل بيانات التوصيل"],
+ "Continue to final preview":["Continuer vers l’aperçu final","المتابعة إلى المعاينة النهائية"],
+ "FRONTEND PREVIEW COMPLETE":["APERÇU DE L’INTERFACE TERMINÉ","اكتملت معاينة الواجهة"],
+ "Your checkout flow is ready for a live integration":["Votre parcours de commande est prêt pour une intégration réelle","مسار الشراء جاهز للربط الفعلي"],
+ "Your details and basket have been reviewed on this device. No order has been created, no seller has been contacted, and no payment has been taken.":["Vos informations et votre panier ont été vérifiés sur cet appareil. Aucune commande n’a été créée, aucun vendeur n’a été contacté et aucun paiement n’a été effectué.","تمت مراجعة بياناتك وسلتك على هذا الجهاز. لم يتم إنشاء طلب أو التواصل مع بائع أو تحصيل أي دفعة."],
+ "What a live marketplace would do next":["Les prochaines étapes d’une marketplace réelle","الخطوات التالية في سوق فعلي"],
+ "Verify each seller's stock and final price":["Vérifier le stock et le prix final de chaque vendeur","التحقق من المخزون والسعر النهائي لكل بائع"],
+ "Confirm delivery coverage, fees and timing per seller":["Confirmer la zone, les frais et le délai de livraison de chaque vendeur","تأكيد مناطق ورسوم وموعد التوصيل لكل بائع"],
+ "Present a final payable total before payment":["Afficher le montant final avant le paiement","عرض المبلغ النهائي قبل الدفع"],
+ "Create an order only after explicit confirmation":["Créer une commande uniquement après confirmation explicite","إنشاء الطلب بعد التأكيد الصريح فقط"],
+ "Continue shopping":["Continuer vos achats","مواصلة التسوق"],
+ "Your basket":["Votre panier","سلتك"],
+ "Delivery is not included. Each seller must confirm their own delivery fees and availability.":["La livraison n’est pas incluse. Chaque vendeur doit confirmer ses frais et disponibilités.","التوصيل غير مشمول. يجب على كل بائع تأكيد الرسوم والتوفر."],
+ "sample seller":["vendeur de démonstration","بائع تجريبي"],
+ "in this basket":["dans ce panier","في هذه السلة"],
+ "Demo only. This checkout does not submit personal data or process payments.":["Démo uniquement. Ce parcours n’envoie aucune donnée personnelle et ne traite aucun paiement.","للعرض فقط. لا يرسل هذا المسار بيانات شخصية ولا يعالج المدفوعات."]
 });
 
 function translateText(value, lang) {
@@ -939,7 +980,6 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
 }
 
 function CartPage({ cart, updateQty, removeItem, language }) {
-  const [checkoutInfo, setCheckoutInfo] = useState(false)
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const sellerCount = new Set(cart.map(item => sellerForProduct(item).slug)).size
@@ -985,12 +1025,63 @@ function CartPage({ cart, updateQty, removeItem, language }) {
         <div className="cart-summary-row"><span>Discounts</span><b>—</b></div>
         <div className="summary-total"><span>Estimated product total</span><strong>{money(subtotal)}</strong></div>
         <p className="cart-summary-note">Delivery charges, availability and final prices are not yet connected to live seller systems. They are not included in this estimate.</p>
-        <button type="button" className="primary-btn full-btn cart-checkout-button" onClick={() => setCheckoutInfo(v => !v)} aria-expanded={checkoutInfo}>Review checkout <span>→</span></button>
-        {checkoutInfo && <div className="checkout-demo" role="status"><b>Checkout preview</b><p>This is a frontend demonstration. No order is submitted and no personal or payment information is collected. In a live marketplace, the next step would confirm each seller's stock, delivery and final payable amount.</p><button type="button" className="outline-btn" onClick={() => setCheckoutInfo(false)}>Close preview</button></div>}
+        <Link to="/checkout" className="primary-btn full-btn cart-checkout-button">Continue to checkout <span>→</span></Link>
         <div className="cart-trust-note"><span>ⓘ</span><p>You're reviewing a sample basket. No payment is taken and no order is placed.</p></div>
       </aside>
     </div> : <div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">A FRESH START</span><h2>Your cart is empty</h2><p>Explore the marketplace and add products you'd like to come back to.</p><div><Link to="/search" className="primary-btn">Explore products →</Link><Link to="/categories" className="cart-empty-secondary">Browse categories</Link></div></div>}
   </main>, language)
+}
+
+function CheckoutPage({cart,language}) {
+  const [step,setStep]=useState(1)
+  const [details,setDetails]=useState({name:'',phone:'',city:'',address:'',notes:''})
+  const [reviewed,setReviewed]=useState(false)
+  const navigate=useNavigate()
+  const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0)
+  const itemCount=cart.reduce((sum,item)=>sum+item.qty,0)
+  const groups=[...new Set(cart.map(item=>sellerForProduct(item).slug))].map(slug=>{
+    const seller=sellers.find(entry=>entry.slug===slug)
+    const items=cart.filter(item=>sellerForProduct(item).slug===slug)
+    return {seller,items,subtotal:items.reduce((sum,item)=>sum+item.price*item.qty,0)}
+  })
+  const update=(key,value)=>setDetails(current=>({...current,[key]:value}))
+  if(!cart.length)return translateTree(<main id="main-content" className="shell page checkout-page"><div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span>Checkout</span></div><div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">NOTHING TO CHECK OUT</span><h1>Your cart is empty</h1><p>Add products before starting checkout.</p><Link to="/search" className="primary-btn">Explore products →</Link></div></main>,language)
+  return translateTree(<main id="main-content" className="shell page checkout-page">
+    <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span aria-current="page">Checkout preview</span></div>
+    <div className="checkout-heading"><div><span className="eyebrow">A CLEARER WAY TO CHECK OUT</span><h1>Review your order</h1><p>Confirm the details a real marketplace would need before any order is placed.</p></div><Link to="/cart" className="cart-continue-link">← Back to cart</Link></div>
+    <ol className="checkout-steps" aria-label="Checkout progress">
+      <li className={step>=1?'is-current':''} aria-current={step===1?'step':undefined}><span>1</span><div><b>Delivery details</b><small>Your contact and address</small></div></li>
+      <li className={step>=2?'is-current':''} aria-current={step===2?'step':undefined}><span>2</span><div><b>Order review</b><small>Products and sellers</small></div></li>
+      <li className={step>=3?'is-current':''} aria-current={step===3?'step':undefined}><span>3</span><div><b>Preview complete</b><small>No order submitted</small></div></li>
+    </ol>
+    <div className="checkout-layout">
+      <section className="checkout-main-panel" aria-live="polite">
+        {step===1&&<form className="checkout-form" onSubmit={event=>{event.preventDefault();setStep(2);window.scrollTo({top:0,behavior:'smooth'})}}>
+          <div className="checkout-panel-title"><span className="eyebrow">STEP 01</span><h2>Where should the seller contact you?</h2><p>This information stays in this page session and is not sent or saved.</p></div>
+          <div className="checkout-fields">
+            <label>Full name<input autoComplete="name" required value={details.name} onChange={e=>update('name',e.target.value)} placeholder="Your full name"/></label>
+            <label>Phone number<input autoComplete="tel" type="tel" required inputMode="tel" pattern="[+0-9() .-]{7,20}" value={details.phone} onChange={e=>update('phone',e.target.value)} placeholder="+216 XX XXX XXX"/></label>
+            <label>City<input autoComplete="address-level2" required value={details.city} onChange={e=>update('city',e.target.value)} placeholder="e.g. Tunis"/></label>
+            <label className="checkout-field-wide">Delivery address<input autoComplete="street-address" required value={details.address} onChange={e=>update('address',e.target.value)} placeholder="Street, building and neighbourhood"/></label>
+            <label className="checkout-field-wide">Delivery notes <span className="checkout-optional">Optional</span><textarea value={details.notes} onChange={e=>update('notes',e.target.value)} rows="3" placeholder="Landmark or useful delivery instructions"/></label>
+          </div>
+          <div className="checkout-form-actions"><span>Required fields are marked by the browser.</span><button type="submit" className="primary-btn">Review order <span>→</span></button></div>
+        </form>}
+        {step===2&&<section className="checkout-review">
+          <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2>Review before proceeding</h2><p>Each seller handles their own availability and delivery confirmation.</p></div>
+          <div className="checkout-contact-review"><div><b>Delivery contact</b><button type="button" className="text-link" onClick={()=>setStep(1)}>Edit details</button></div><p>{details.name} · {details.phone}</p><p>{details.address}, {details.city}</p>{details.notes&&<small>{details.notes}</small>}</div>
+          {groups.map(group=><article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={item.id}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-status"><span>Delivery and stock</span><b>To be confirmed by seller</b></div></article>)}
+          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" onClick={()=>setStep(3)}>Continue to final preview <span>→</span></button></div>
+        </section>}
+        {step===3&&<section className="checkout-complete-preview">
+          <div className="checkout-preview-icon">✓</div><span className="eyebrow">FRONTEND PREVIEW COMPLETE</span><h2>Your checkout flow is ready for a live integration</h2><p>Your details and basket have been reviewed on this device. No order has been created, no seller has been contacted, and no payment has been taken.</p>
+          <div className="checkout-next-list"><b>What a live marketplace would do next</b><ul><li>Verify each seller's stock and final price</li><li>Confirm delivery coverage, fees and timing per seller</li><li>Present a final payable total before payment</li><li>Create an order only after explicit confirmation</li></ul></div>
+          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(2)}>← Back to review</button><button type="button" className="primary-btn" onClick={()=>navigate('/search')}>Continue shopping</button></div>
+        </section>}
+      </section>
+      <aside className="summary-card checkout-summary"><span className="eyebrow">YOUR BASKET</span><h2>Order summary</h2><div className="cart-summary-row"><span>{itemCount} items · {cart.length} products</span><b>{money(subtotal)}</b></div><div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div><div className="summary-total"><span>Estimated product total</span><strong>{money(subtotal)}</strong></div><p className="cart-summary-note">Delivery is not included. Each seller must confirm their own delivery fees and availability.</p><div className="checkout-seller-count"><b>{groups.length}</b><span>sample seller{groups.length===1?'':'s'} in this basket</span></div><div className="cart-trust-note"><span>ⓘ</span><p>Demo only. This checkout does not submit personal data or process payments.</p></div></aside>
+    </div>
+  </main>,language)
 }
 
 function WishlistPage({ products: allProducts, wishlist, toggleWish, addToCart, language }) {
@@ -1220,7 +1311,7 @@ function App(){
       const seller=sellers.find(item=>item.slug===slug)
       title=seller?seller.name:'Seller storefront'
     }else{
-      const titles={'/cart':'Shopping cart','/wishlist':'Saved products','/categories':'Browse categories','/sellers':'Discover sellers','/account':'Your account','/help':'Help centre','/delivery':'Delivery guide','/returns':'Returns guide','/seller-help':'Seller preparation guide','/sell':'Sell on MARCHY','/seller-dashboard':'Seller workspace'}
+      const titles={'/cart':'Shopping cart','/checkout':'Checkout preview','/wishlist':'Saved products','/categories':'Browse categories','/sellers':'Discover sellers','/account':'Your account','/help':'Help centre','/delivery':'Delivery guide','/returns':'Returns guide','/seller-help':'Seller preparation guide','/sell':'Sell on MARCHY','/seller-dashboard':'Seller workspace'}
       title=titles[path]||'Page not found'
     }
     document.title=title+' | MARCHY'
@@ -1232,7 +1323,7 @@ function App(){
   function updateQty(id,qty){if(qty<1)return;setCart(prev=>prev.map(x=>x.id===id?{...x,qty}:x))}
   function removeItem(id){setCart(prev=>prev.filter(x=>x.id!==id))}
   function toggleWish(id){setWishlist(prev=>prev.includes(id)?prev.filter(x=>x!==id):[...prev,id])}
-  return <div className={language==='ar'?'app-root is-rtl':'app-root'} dir={language==='ar'?'rtl':'ltr'}><ScrollToTop/><a className="skip-to-content" href="#main-content">Skip to main content</a><Header cartCount={cart.reduce((s,x)=>s+x.qty,0)} query={query} setQuery={setQuery} language={language} setLanguage={setLanguage}/><Routes><Route path="/" element={<Home addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/search" element={<SearchPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/category/:category" element={<SearchPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/product/:id" element={<ProductPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/cart" element={<CartPage cart={cart} updateQty={updateQty} removeItem={removeItem} language={language}/>}/><Route path="/wishlist" element={<WishlistPage products={products} wishlist={wishlist} toggleWish={toggleWish} addToCart={addToCart} language={language}/>}/><Route path="/categories" element={<CategoriesPage language={language}/>}/><Route path="/sellers" element={<SellersPage language={language}/>}/><Route path="/seller/:slug" element={<SellerPage language={language} addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish}/>}/><Route path="/account" element={<AccountPage cart={cart} wishlist={wishlist} language={language}/>}/><Route path="/help" element={<HelpCenterPage language={language}/>}/><Route path="/delivery" element={<MarketplaceGuidePage type="delivery" language={language}/>}/><Route path="/returns" element={<MarketplaceGuidePage type="returns" language={language}/>}/><Route path="/seller-help" element={<SellerPreparationPage language={language}/>}/><Route path="/sell" element={<SellerLaunchPage language={language}/>}/><Route path="/seller-dashboard" element={<SellerDashboardPage language={language}/>}/><Route path="*" element={<NotFoundPage language={language}/>}/></Routes><Footer language={language}/><MobileTabBar cartCount={cart.reduce((s,x)=>s+x.qty,0)} wishlistCount={wishlist.length} language={language}/></div>
+  return <div className={language==='ar'?'app-root is-rtl':'app-root'} dir={language==='ar'?'rtl':'ltr'}><ScrollToTop/><a className="skip-to-content" href="#main-content">Skip to main content</a><Header cartCount={cart.reduce((s,x)=>s+x.qty,0)} query={query} setQuery={setQuery} language={language} setLanguage={setLanguage}/><Routes><Route path="/" element={<Home addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/search" element={<SearchPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/category/:category" element={<SearchPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/product/:id" element={<ProductPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language}/>}/><Route path="/cart" element={<CartPage cart={cart} updateQty={updateQty} removeItem={removeItem} language={language}/>}/><Route path="/checkout" element={<CheckoutPage cart={cart} language={language}/>}/><Route path="/wishlist" element={<WishlistPage products={products} wishlist={wishlist} toggleWish={toggleWish} addToCart={addToCart} language={language}/>}/><Route path="/categories" element={<CategoriesPage language={language}/>}/><Route path="/sellers" element={<SellersPage language={language}/>}/><Route path="/seller/:slug" element={<SellerPage language={language} addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish}/>}/><Route path="/account" element={<AccountPage cart={cart} wishlist={wishlist} language={language}/>}/><Route path="/help" element={<HelpCenterPage language={language}/>}/><Route path="/delivery" element={<MarketplaceGuidePage type="delivery" language={language}/>}/><Route path="/returns" element={<MarketplaceGuidePage type="returns" language={language}/>}/><Route path="/seller-help" element={<SellerPreparationPage language={language}/>}/><Route path="/sell" element={<SellerLaunchPage language={language}/>}/><Route path="/seller-dashboard" element={<SellerDashboardPage language={language}/>}/><Route path="*" element={<NotFoundPage language={language}/>}/></Routes><Footer language={language}/><MobileTabBar cartCount={cart.reduce((s,x)=>s+x.qty,0)} wishlistCount={wishlist.length} language={language}/></div>
 }
 
 export default App
