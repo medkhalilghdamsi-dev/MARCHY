@@ -323,3 +323,27 @@ test('core shopping pages have no serious or critical accessibility violations',
     ).toEqual([])
   }
 })
+
+
+test('buyer routes update browser titles and descriptions', async ({ page }) => {
+  await page.goto('/')
+  await expect(page).toHaveTitle('Discover more, closer to home | MARCHY')
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Discover products and local storefronts/)
+
+  await page.goto('/search?q=headphones')
+  await expect(page).toHaveTitle('Search results for headphones | MARCHY')
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /sample marketplace results for headphones/)
+
+  await page.goto('/product/1')
+  await expect(page).toHaveTitle('Wireless noise-cancelling headphones | MARCHY')
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', 'Wireless noise-cancelling headphones | MARCHY')
+  await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute('content', /sample listing for Wireless noise-cancelling headphones/)
+
+  await page.goto('/seller/atlas-tech-tunis')
+  await expect(page).toHaveTitle('Atlas Tech | MARCHY')
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /demo storefront for Atlas Tech/)
+
+  await page.goto('/checkout')
+  await expect(page).toHaveTitle('Checkout preview | MARCHY')
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /No order or payment is submitted/)
+})
