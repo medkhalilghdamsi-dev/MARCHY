@@ -56,18 +56,12 @@ MARCHY/
 - **Data:** `src/data/` holds illustrative catalogue and seller records. Keep sample data separate from UI and never present it as verified inventory.
 - **Internationalisation:** `src/i18n/` owns interface copy for English, French and Arabic.
 - **Utilities:** `src/utils/` owns reusable search normalisation and browser-local storage helpers.
-- **Styles:** `src/styles.css` is the stable global style entry. Ordered CSS modules in `src/styles/` separate foundations, discovery, shopping, seller experiences, checkout and refinements without changing cascade order.
+- **Styles:** `src/styles.css` is the stable global style entry. Ordered CSS modules in `src/styles/` separate foundations, discovery, shopping, seller experiences, checkout, result controls and the final cross-page experience layer without changing cascade order.
 - **Tests:** `tests/` contains route, responsive, interaction and accessibility checks.
 
 ### Remaining modularisation
 
-The route module still contains page and visual component implementations. Extract them incrementally into:
-- `src/components/` — reusable header, footer, navigation and product cards
-- `src/layouts/` — shared page layouts
-- `src/pages/` — route-level pages grouped by shopping, seller and support journeys
-- `src/hooks/` — reusable state and interaction hooks
-
-Preserve all route URLs, local-storage keys, browser-local state, language behaviour and RTL layout during extraction. Keep structural refactors separate from visual redesigns.
+The current structure separates route composition, shared marketplace chrome, page journeys, persistent browser state, translations, utilities and ordered style layers. Continue extracting individual components only when doing so creates a clear reusable boundary; avoid empty abstraction layers or changing route and storage contracts just for file-count reasons.
 
 ## Run locally
 
@@ -88,6 +82,8 @@ npm run dev
 - Seller directory, storefront previews and browser-local seller workspace demonstration
 - English, French and Arabic interface with RTL layout support
 - Responsive navigation and keyboard interactions
+- Refined page hierarchy, product-card states, cart/checkout surfaces and comparison tray
+- Contrast and keyboard-focus improvements guided by automated accessibility checks
 
 ## Validation
 
