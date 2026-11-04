@@ -160,6 +160,18 @@ test('seller workspace can save and delete a local product draft without publish
   await expect(page.locator('.seller-local-drafts')).toHaveCount(0)
 })
 
+test('seller storefront exposes active filters and can clear them', async ({ page }) => {
+  await page.goto('/seller/atlas-tech-tunis')
+  await page.getByRole('button', { name: 'Electronics', exact: true }).click()
+  await expect(page.locator('.store-active-filters')).toContainText('Electronics')
+  await page.getByRole('button', { name: 'Clear all' }).click()
+  await expect(page.locator('.store-active-filters')).toHaveCount(0)
+  await page.getByRole('textbox', { name: 'Search this storefront' }).fill('headphones')
+  await expect(page.locator('.store-active-filters')).toContainText('headphones')
+  await page.getByRole('button', { name: /Search:/ }).click()
+  await expect(page.locator('.store-active-filters')).toHaveCount(0)
+})
+
 test('seller storefront supports persistent grid and list product layouts', async ({ page }) => {
   await page.goto('/seller/atlas-tech-tunis')
   await page.getByRole('button', { name: 'List view' }).click()
