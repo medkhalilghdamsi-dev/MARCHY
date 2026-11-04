@@ -51,7 +51,7 @@ function Header({ cartCount, query, setQuery, language, setLanguage }) {
   }
   function submit(e) { e.preventDefault(); rememberSearch(query); setSearchOpen(false); navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search') }
   return translateTree(<>
-    <div className="topline marchy-topline"><div className="shell topline-inner"><span>Discover products and independent sellers across Tunisia</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span></div></div></div>
+    <div className="topline marchy-topline"><div className="shell topline-inner"><span>Discover products and independent sellers across Tunisia</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in DT</span></div></div></div>
     <header ref={headerRef} className="header marchy-header"><div className="shell header-main marchy-header-main">
       <button type="button" className="mobile-menu icon-btn marchy-menu-toggle" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? "×" : "☰"}</button>
       <Link to="/" className="logo marchy-logo"><img className="logo-mark" src="/favicon.svg" alt="" width="34" height="34"/><span className="logo-word">MARCHY</span><span className="logo-period">.</span></Link>
