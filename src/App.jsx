@@ -1164,7 +1164,9 @@ function MobileTabBar({cartCount,wishlistCount,language}) {
 }
 
 function App(){
+  const location=useLocation()
   const [language,setLanguage]=useState(()=>{const saved=readText('marchy-language','en');return ['en','fr','ar'].includes(saved)?saved:'en'}); const [query,setQuery]=useState(''); const [cart,setCart]=useState(()=>readJson('marchy-cart',[])); const [wishlist,setWishlist]=useState(()=>readJson('marchy-wishlist',[]))
+  useEffect(()=>{const params=new URLSearchParams(location.search);setQuery(params.get('q')||'')},[location.pathname,location.search])
   useEffect(()=>{try{localStorage.setItem('marchy-language',language)}catch{} document.documentElement.lang=language;document.documentElement.dir=language==='ar'?'rtl':'ltr'},[language])
   useEffect(()=>{writeJson('marchy-cart',cart)},[cart])
   useEffect(()=>{writeJson('marchy-wishlist',wishlist)},[wishlist])
