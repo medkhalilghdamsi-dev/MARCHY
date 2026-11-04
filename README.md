@@ -26,7 +26,16 @@ MARCHY/
 │   │   ├── SellerPages.jsx     # Seller onboarding, workspace and preparation
 │   │   └── SupportPages.jsx    # Account, help, delivery, returns and not-found
 │   ├── styles/
-│   │   └── marketplace.css    # Design system and responsive styles
+│   │   ├── base.css                 # Fonts, tokens and foundational rules
+│   │   ├── discovery.css            # Category and seller discovery
+│   │   ├── shopping.css             # Shopping, product and cart styles
+│   │   ├── design-foundation.css    # Shared design-system refinements
+│   │   ├── seller-experience.css    # Seller-facing pages
+│   │   ├── seller-workspace.css     # Seller dashboard workspace
+│   │   ├── quality-refinements.css  # Accessibility and responsive polish
+│   │   ├── multi-seller-basket.css  # Multi-seller cart details
+│   │   ├── checkout.css             # Checkout preview
+│   │   └── result-controls.css      # Search and listing controls
 │   ├── utils/
 │   │   └── marketplace.js     # Search, text normalisation and storage helpers
 │   ├── App.jsx                 # Stable application entry/re-export
@@ -47,7 +56,7 @@ MARCHY/
 - **Data:** `src/data/` holds illustrative catalogue and seller records. Keep sample data separate from UI and never present it as verified inventory.
 - **Internationalisation:** `src/i18n/` owns interface copy for English, French and Arabic.
 - **Utilities:** `src/utils/` owns reusable search normalisation and browser-local storage helpers.
-- **Styles:** `src/styles.css` is the stable global style entry; marketplace rules live in `src/styles/marketplace.css`.
+- **Styles:** `src/styles.css` is the stable global style entry. Ordered CSS modules in `src/styles/` separate foundations, discovery, shopping, seller experiences, checkout and refinements without changing cascade order.
 - **Tests:** `tests/` contains route, responsive, interaction and accessibility checks.
 
 ### Remaining modularisation
