@@ -643,3 +643,9 @@ html[dir="rtl"] .seller-preview-body{text-align:right}
 @media(max-width:900px){
   .product-buy-panel{position:relative;top:auto;max-height:none;overflow:visible}
 }
+
+
+html[dir="rtl"] .compare-full-table th,
+html[dir="rtl"] .compare-full-table td{text-align:right}
+html[dir="rtl"] .compare-page-count{align-items:flex-start}
+html[dir="rtl"] .compare-next-step{direction:rtl}
