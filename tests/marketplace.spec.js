@@ -374,5 +374,5 @@ test('mobile product page keeps the purchase action reachable in the sticky buy 
   await expect(buyBar.getByText('189.000 TND')).toBeVisible()
   await buyBar.getByRole('button', { name: 'Add to cart' }).click()
   await expect(buyBar.getByRole('button', { name: 'Added ✓' })).toBeVisible()
-  await expect(page.getByRole('status').filter({ hasText: 'Added to your demo cart' })).toBeVisible()
+  await expect(page.locator('.mobile-tabbar a[href="/cart"]')).toContainText('1')
 })
