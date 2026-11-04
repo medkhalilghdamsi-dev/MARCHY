@@ -735,6 +735,16 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const product = products.find(p => p.id === Number(id))
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
+  const [imageZoomOpen,setImageZoomOpen]=useState(false)
+  useEffect(()=>{
+    if(!imageZoomOpen)return
+    const trigger=document.activeElement
+    const previousOverflow=document.body.style.overflow
+    document.body.style.overflow='hidden'
+    const close=e=>{if(e.key==='Escape')setImageZoomOpen(false)}
+    window.addEventListener('keydown',close)
+    return ()=>{window.removeEventListener('keydown',close);document.body.style.overflow=previousOverflow;trigger?.focus?.()}
+  },[imageZoomOpen])
   if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
   const seller = sellerForProduct(product)
   const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
@@ -747,6 +757,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
       <section className="product-visual-column" aria-label="Product images">
         <div className="product-image-stage">
           <img src={product.image} alt={product.name} fetchPriority="high" />
+          <button type="button" className="product-image-zoom-button" onClick={()=>setImageZoomOpen(true)} aria-label="Enlarge product image">⤢</button>
           <span className="product-image-label">MARCHY SAMPLE</span>
           {discount > 0 && <span className="product-image-discount">-{discount}%</span>}
         </div>
@@ -794,6 +805,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
       </article>
     </section>
     {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>More from {product.category}</h2></div><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="text-link">Browse category →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
+    {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img src={product.image} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
     <div className="product-mobile-buybar"><div><small>Price</small><b>{money(product.price)}</b></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? 'Added ✓' : 'Add to cart'}</button></div>
   </main>, language)
 }
