@@ -134,6 +134,25 @@ test('cart groups products by seller and keeps each seller subtotal visible', as
 })
 
 
+test('seller storefront supports persistent grid and list product layouts', async ({ page }) => {
+  await page.goto('/seller/atlas-tech-tunis')
+  await page.getByRole('button', { name: 'List view' }).click()
+  await expect(page.locator('.seller-store-page .product-grid')).toHaveClass(/product-list-view/)
+  await page.goto('/seller/atlas-tech-tunis')
+  await expect(page.locator('.seller-store-page .product-grid')).toHaveClass(/product-list-view/)
+  await page.getByRole('button', { name: 'Grid view' }).click()
+  await expect(page.locator('.seller-store-page .product-grid')).not.toHaveClass(/product-list-view/)
+})
+
+test('product page can copy a shareable listing link', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+  await page.addInitScript(() => Object.defineProperty(navigator, 'share', { configurable: true, value: undefined }))
+  await page.goto('/product/1')
+  await page.getByRole('button', { name: /Share/ }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'Listing link copied' })).toBeVisible()
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('/product/1')
+})
+
 test('checkout preview validates contact details and reviews each seller without submitting an order', async ({ page }) => {
   await page.goto('/product/1')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
