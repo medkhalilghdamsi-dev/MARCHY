@@ -1702,3 +1702,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .seller-name,.seller-name.seller-link{color:#56645b}
 .price-row del,.detail-price del{color:#626b73}
 .catalogue-note{color:#5f6b76}
+
+/* Search and category discovery contrast refinements */
+.breadcrumbs{color:#5f6b76}
+.breadcrumbs a{color:#176b4b;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.filters h3>button{color:#b94a25}
+.filters label small,.price-range-labels span,.results-toolbar>span{color:#5f6b76}
