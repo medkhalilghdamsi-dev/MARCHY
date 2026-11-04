@@ -1,7 +1,6 @@
 import { Children, cloneElement, isValidElement } from 'react'
 import { translations } from './translations'
 
-}
 
 function translateText(value, lang) {
   const trimmed = value.trim();
