@@ -39,7 +39,7 @@ export function useMarketplaceState() {
     setCart(previous => previous.filter(item => item.id !== id))
   }
 
-  function placeDemoOrder(details, items) {
+  function placeDemoOrder(details, items, deliveryChoices) {
     const existing = readJson('marchy-demo-orders', null) || createDemoOrders(sellers, products, sellerForProduct)
     const groups = [...new Set(items.map(item => sellerForProduct(item).slug))].map(slug => ({ seller: sellers.find(entry => entry.slug === slug), items: items.filter(item => sellerForProduct(item).slug === slug) }))
     const now = Date.now()
@@ -49,7 +49,9 @@ export function useMarketplaceState() {
       customer: details.name, city: details.city, createdAt, status: 'pending',
       sellerSlug: group.seller.slug, sellerName: group.seller.name,
       items: group.items.map(item => ({ id: item.id, name: item.name, quantity: item.qty, price: item.price })),
-      deliveryMethod: 'Seller to confirm', trackingReference: 'Not assigned',
+      deliveryMethod: deliveryChoices?.[group.seller.slug]?.label || 'Standard delivery · demo estimate',
+      deliveryFee: deliveryChoices?.[group.seller.slug]?.fee ?? 8,
+      trackingReference: 'Not assigned',
       paymentStatus: 'Not collected · demo only', deliveryAddress: `${details.address}, ${details.city}`,
       customerPhone: details.phone, deliveryNotes: details.notes || ''
     }))
