@@ -1210,3 +1210,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
  .seller-guide-aside{position:static;order:-1}
  .seller-guide-content section{grid-template-columns:34px 1fr;gap:12px}
 }
+
+
+/* Expanded seller listing editor */
+.seller-image-upload{padding:13px;border:1px dashed #d8dfe4;border-radius:8px;background:#fafbfc}
+.seller-image-upload input[type=file]{padding:9px;border:1px solid #e5e9ed;background:#fff;font-size:10px}
+.seller-image-upload>small{align-self:flex-start;color:#89939c;font-size:9px;line-height:1.5}
+.seller-preview-product-image{overflow:hidden}
+.seller-preview-product-image img{width:100%;height:100%;object-fit:cover}
+.seller-preview-product>div:last-child del{color:#9aa3aa;font-size:9px}
+.seller-product-preview-details{display:flex;flex-direction:column;gap:7px;margin-top:12px;padding:11px;border-radius:7px;background:#f8fafb;color:#66727e;font-size:9px;line-height:1.65;overflow-wrap:anywhere}
+.seller-product-preview-details span{padding-top:7px;border-top:1px solid #e9edf0;color:#89939c;font-size:8px}
+@media(max-width:640px){.seller-image-upload{padding:10px}.seller-image-upload input[type=file]{font-size:9px}}
