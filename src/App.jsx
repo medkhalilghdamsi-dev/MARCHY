@@ -491,6 +491,8 @@ function ProductCard({ product, addToCart, wished, toggleWish, language, compare
   useEffect(()=>{
     if(!quickViewOpen)return
     const trigger=document.activeElement
+    const previousOverflow=document.body.style.overflow
+    document.body.style.overflow='hidden'
     const dialog=document.querySelector(`[aria-labelledby="quick-view-title-${product.id}"]`)
     const focusable=dialog?Array.from(dialog.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')):[]
     focusable[0]?.focus()
@@ -503,7 +505,7 @@ function ProductCard({ product, addToCart, wished, toggleWish, language, compare
       }
     }
     window.addEventListener('keydown',handleKeys)
-    return ()=>{window.removeEventListener('keydown',handleKeys);trigger?.focus?.()}
+    return ()=>{window.removeEventListener('keydown',handleKeys);document.body.style.overflow=previousOverflow;trigger?.focus?.()}
   },[quickViewOpen,product.id])
   return translateTree(<>
     <article className="product-card">
