@@ -9,14 +9,14 @@ export function createDemoOrders(sellers, products, sellerForProduct) {
       id: 'MCH-DEMO-1042', customer: 'Amira Ben Salem', city: 'Tunis', createdAt: '2026-10-28',
       status: 'preparing', sellerSlug: firstSeller.slug, sellerName: firstSeller.name,
       items: [{ id: firstProduct.id, name: firstProduct.name, quantity: 1, price: firstProduct.price }],
-      deliveryMethod: 'Seller-arranged delivery', trackingReference: 'Not assigned',
+      deliveryMethod: 'MARCHY delivery partner · demo', trackingReference: 'Not assigned',
       paymentStatus: 'Not collected · demo only', deliveryAddress: 'Tunis · sample address'
     },
     {
       id: 'MCH-DEMO-1038', customer: 'Youssef Trabelsi', city: 'Ariana', createdAt: '2026-10-25',
       status: 'shipped', sellerSlug: secondSeller.slug, sellerName: secondSeller.name,
       items: [{ id: secondProduct.id, name: secondProduct.name, quantity: 1, price: secondProduct.price }],
-      deliveryMethod: 'Seller-arranged delivery', trackingReference: 'Demo reference only',
+      deliveryMethod: 'MARCHY delivery partner · demo', trackingReference: 'Demo reference only',
       paymentStatus: 'Not collected · demo only', deliveryAddress: 'Ariana · sample address'
     },
     {
