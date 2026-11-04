@@ -154,6 +154,14 @@ test('product detail can add a listing to the cross-page comparison tray', async
   await expect(page.locator('.compare-tray')).toContainText('Wireless noise-cancelling headphones')
 })
 
+test('product comparison button reflects the current product after related-item navigation', async ({ page }) => {
+  await page.goto('/product/1')
+  await page.getByRole('button', { name: '＋ Compare' }).click()
+  await page.locator('.related-products a').first().click()
+  await expect(page).toHaveURL(/\/product\//)
+  await expect(page.getByRole('button', { name: '＋ Compare' })).toHaveAttribute('aria-pressed', 'false')
+})
+
 test('product page can copy a shareable listing link', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.addInitScript(() => Object.defineProperty(navigator, 'share', { configurable: true, value: undefined }))
