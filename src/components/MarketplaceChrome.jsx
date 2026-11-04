@@ -109,7 +109,7 @@ function ProductCard({ product, addToCart, wished, toggleWish, language, compare
         <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
         <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice&&<del>{money(product.oldPrice)}</del>}</div>
         {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)} aria-label={compareIds.includes(product.id) ? `Remove ${product.name} from comparison` : `Compare ${product.name}`} disabled={compareIds.length >= 3 && !compareIds.includes(product.id)}>{compareIds.includes(product.id) ? '✓ Added to compare' : compareIds.length >= 3 ? 'Compare limit reached' : '＋ Compare'}</button>}
-        <button type="button" className={`add-btn ${added?'added':''}`} onClick={quickAdd} aria-live="polite" aria-label={added ? `${product.name} added to demo cart` : `Add ${product.name} to demo cart`}>{added?'Added to cart ✓':'Add to cart'} <span aria-hidden="true">{added?'✓':'＋'}</span></button>
+        <button type="button" className={`add-btn ${added?'added':''}`} onClick={quickAdd} aria-live="polite" aria-label={added ? `Added to cart: ${product.name}` : `Add to cart: ${product.name}`}>{added?'Added to cart ✓':'Add to cart'} <span aria-hidden="true">{added?'✓':'＋'}</span></button>
       </div>
     </article>
     {quickViewOpen&&<div className="quick-view-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setQuickViewOpen(false)}}>
