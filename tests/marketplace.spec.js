@@ -333,3 +333,19 @@ test('core shopping pages have no serious or critical accessibility violations',
     ).toEqual([])
   }
 })
+
+
+test('mobile discovery filters open as a usable panel without horizontal overflow', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 })
+  await page.goto('/search')
+  const filters = page.locator('#marketplace-filters')
+  await expect(filters).toBeHidden()
+  await page.getByRole('button', { name: /Filters/ }).click()
+  await expect(filters).toBeVisible()
+  await expect(page.getByRole('button', { name: /Filters/ })).toHaveAttribute('aria-expanded', 'true')
+  const dimensions = await page.evaluate(() => ({
+    viewport: document.documentElement.clientWidth,
+    document: document.documentElement.scrollWidth,
+  }))
+  expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport + 1)
+})
