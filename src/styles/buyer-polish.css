@@ -541,3 +541,12 @@ html[dir="rtl"] .searchbar{direction:rtl}
 html[dir="rtl"] .header-actions{margin-left:0;margin-right:auto}
 html[dir="rtl"] .seller-planner-form,
 html[dir="rtl"] .seller-preview-body{text-align:right}
+
+
+/* Quick-view quantity selector: make the chosen total visible before adding */
+.quick-view-quantity-row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:12px 0;border-top:1px solid #e6eaed;border-bottom:1px solid #e6eaed;color:#596671;font-size:12px;font-weight:750}
+.quick-view-quantity-row .product-quantity{flex:0 0 auto}
+.quick-view-quantity-total{margin-left:auto;color:#1f342b;font-size:14px;font-weight:900;white-space:nowrap}
+:root[data-theme="dark"] .quick-view-quantity-row{border-color:#35424d;color:#c0ccd4}
+:root[data-theme="dark"] .quick-view-quantity-total{color:#b8ddc9}
+@media(max-width:380px){.quick-view-quantity-row{gap:7px;font-size:11px}.quick-view-quantity-row .product-quantity button{min-width:34px}}
