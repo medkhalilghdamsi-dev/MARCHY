@@ -6,7 +6,7 @@ import { readJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { ProductCard } from '../../components/marketplace/ProductCard'
 import { useMarketplace } from '../../providers/MarketplaceContext'
-import { ArrowRight, ArrowUpRight, Check, Search, Smartphone, ShoppingBasket, House, Shirt, Sparkles, Dumbbell, CarFront, BookOpen, Gamepad2, Baby, PawPrint, Sprout, Package, Compass } from 'lucide-react'
+import { ArrowRight, Check, Search, Smartphone, ShoppingBasket, House, Shirt, Sparkles, Dumbbell, CarFront, BookOpen, Gamepad2, Baby, PawPrint, Sprout, Package, Compass } from 'lucide-react'
 
 export function Home() {
   const { addToCart, wishlist, toggleWish, language } = useMarketplace()
