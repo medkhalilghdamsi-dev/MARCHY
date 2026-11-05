@@ -48,15 +48,6 @@ export function Home() {
     navigate(query ? '/search?q=' + encodeURIComponent(query) : '/search')
   }
 
-  const searchMatches = useMemo(() => {
-    const query = heroSearch.trim().toLowerCase()
-    if (!query) return { products: [], categories: [] }
-    return {
-      products: products.filter(product => [product.name, product.category, product.description || ''].join(' ').toLowerCase().includes(query)).slice(0, 4),
-      categories: populatedCategories.filter(name => name.toLowerCase().includes(query)).slice(0, 3),
-    }
-  }, [heroSearch, populatedCategories])
-
   const chooseSearch = value => {
     setHeroSearch(value)
     const next = [value, ...recentSearches.filter(item => item.toLowerCase() !== value.toLowerCase())].slice(0, 5)
@@ -70,6 +61,14 @@ export function Home() {
     () => categories.slice(1).filter(name => products.some(product => product.category === name)),
     []
   )
+  const searchMatches = useMemo(() => {
+    const query = heroSearch.trim().toLowerCase()
+    if (!query) return { products: [], categories: [] }
+    return {
+      products: products.filter(product => [product.name, product.category, product.description || ''].join(' ').toLowerCase().includes(query)).slice(0, 4),
+      categories: populatedCategories.filter(name => name.toLowerCase().includes(query)).slice(0, 3),
+    }
+  }, [heroSearch, populatedCategories])
   const popular = populatedCategories.map((name, index) => ({
     name,
     count: products.filter(product => product.category === name).length,
