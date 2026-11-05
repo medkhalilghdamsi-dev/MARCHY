@@ -8,7 +8,7 @@ import { ProductCard } from '../../components/marketplace/ProductCard'
 import { ProductReviews } from '../../components/marketplace/ProductReviews'
 import { ProductSpecs } from '../../components/marketplace/ProductSpecs'
 import { useMarketplace } from '../../providers/MarketplaceContext'
-import { ArrowRight, ArrowUpRight, Check, Heart, MapPin, Plus, Share2, Search, ShoppingCart } from 'lucide-react'
+import { ArrowRight, Check, Heart, MapPin, Plus, Share2, Search, ShoppingCart } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
 export function ProductPage() {
