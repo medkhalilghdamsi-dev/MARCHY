@@ -23,8 +23,8 @@ export function ProductSpecs({ product, seller }) {
             <dd>{seller.name} ({seller.city}, Tunisia)</dd>
           </div>
           <div>
-            <dt>Stock Status</dt>
-            <dd>{product.stock || 'In stock'}</dd>
+            <dt>Catalogue availability</dt>
+            <dd>Not verified — confirm with seller</dd>
           </div>
         </dl>
       ) : (
