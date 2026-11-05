@@ -75,3 +75,21 @@
 .ops-order-link:focus-visible,.seller-order-id-link:focus-visible{outline:2px solid var(--accent,#245b42);outline-offset:3px;border-radius:3px}
 
 .ops-order-link{color:var(--accent,#245b42);font-weight:800;text-decoration:none}.ops-order-link:hover{text-decoration:underline;text-underline-offset:3px}
+
+
+/* Marketplace accessibility and tablet-width refinements verified by axe/Playwright. */
+.page .muted{color:#56616c}
+.filters .filter-group>label small{color:#56616c}
+.filters .price-inputs label{color:#56616c}
+.filters .price-range-labels{color:#56616c}
+.filters .filter-note{color:#56616c}
+.results-toolbar{color:#56616c}
+.results-toolbar-actions>label{color:#56616c}
+.listing-view-toggle button,.listing-view-toggle button span{color:#56616c}
+.pagination span{color:#56616c}
+@media(min-width:641px) and (max-width:900px){
+ .listing-head{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+ .listing-head>div:first-child{min-width:0}
+ .listing-search{width:100%;max-width:420px}
+}
+html[dir="rtl"] .page{overflow-x:clip}
