@@ -131,7 +131,7 @@ export function Header({ cartCount }) {
           <div className="header-user-status">
             <Link to="/account" className="action-link header-user-link">
               <span className="action-icon user-avatar-pill">{authUser.name?.slice(0, 1).toUpperCase() || 'U'}</span>
-              <span><small>Active buyer</small><b>{authUser.name}</b></span>
+              <span><small>Preview session</small><b>{authUser.name}</b></span>
             </Link>
             <button type="button" className="header-signout-btn" onClick={handleLogout} title="Sign out of MARCHY">
               Sign out
