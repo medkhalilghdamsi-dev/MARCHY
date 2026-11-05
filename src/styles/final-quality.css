@@ -112,3 +112,265 @@
     flex:1 1 120px;
   }
 }
+
+
+/* =========================================================
+   MARCHY — Unified marketplace color board
+   Single visual language: Forest / Sage / Neutral
+   ========================================================= */
+:root {
+  --marchy-primary: #1f5b45;
+  --marchy-primary-deep: #174735;
+  --marchy-primary-dark: #123b2d;
+  --marchy-primary-soft: #edf5f0;
+  --marchy-primary-soft-2: #f4f8f6;
+  --marchy-primary-border: #c9ded1;
+  --marchy-neutral-0: #ffffff;
+  --marchy-neutral-1: #f7f9f8;
+  --marchy-neutral-2: #eef2f0;
+  --marchy-neutral-3: #dfe7e3;
+  --marchy-text: #17212b;
+  --marchy-muted-text: #65717d;
+}
+
+/* Brand/accent colors */
+.logo-mark,
+.hero-kicker i {
+  background: var(--marchy-primary)!important;
+  box-shadow: 0 5px 13px rgba(31,91,69,.20)!important;
+}
+.logo-period,
+.logo-word,
+.eyebrow,
+.nav-deal,
+.header .logo-word,
+.header .logo-period,
+.header .wishlist-link .action-icon,
+.home-seller-banner h2 em {
+  color: var(--marchy-primary)!important;
+}
+a:hover,
+.nav-inner a:hover,
+.action-link:hover,
+.text-link:hover,
+.seller-link:hover,
+.seller-visit-link:hover,
+.product-seller-card>a:hover {
+  color: var(--marchy-primary-deep)!important;
+}
+
+/* Primary actions */
+.primary-btn,
+.add-btn,
+.cart-checkout-button,
+.checkout-form-actions button,
+.hero-search-form button,
+.searchbar button,
+.filter-apply,
+.header-join-link {
+  background: var(--marchy-primary)!important;
+  border-color: var(--marchy-primary)!important;
+  color: #fff!important;
+}
+.primary-btn:hover,
+.add-btn:hover,
+.cart-checkout-button:hover,
+.checkout-form-actions button:hover,
+.hero-search-form button:hover,
+.searchbar button:hover,
+.filter-apply:hover,
+.header-join-link:hover {
+  background: var(--marchy-primary-deep)!important;
+  border-color: var(--marchy-primary-deep)!important;
+}
+.outline-btn:hover,
+.hero-secondary:hover,
+.add-btn:hover {
+  color: var(--marchy-primary-deep)!important;
+  border-color: var(--marchy-primary-border)!important;
+}
+
+/* Soft accent surfaces */
+.hero-floating-icon,
+.product-buyer-highlights>div>span,
+.floating-note>span,
+.home-budget-links a:hover,
+.product-save-button.is-saved,
+.product-image-discount,
+.discount-tag {
+  background: var(--marchy-primary-soft)!important;
+  color: var(--marchy-primary)!important;
+}
+.discount-tag,
+.product-image-discount {
+  background: var(--marchy-primary)!important;
+  color: #fff!important;
+}
+
+/* Marketplace cards and controls */
+.product-card,
+.home-category-card,
+.seller-card,
+.category-directory-card,
+.product-information-card,
+.product-buy-panel,
+.product-seller-card,
+.product-delivery-card,
+.filters,
+.listing-search,
+.results-toolbar,
+.cart-items-panel,
+.cart-summary,
+.checkout-main-panel,
+.checkout-summary,
+.checkout-seller-review,
+.checkout-contact-review,
+.wishlist-toolbar,
+.wishlist-empty,
+.account-panel,
+.account-stat-card,
+.account-recent-card,
+.help-card,
+.auth-card,
+.quick-view-dialog,
+.seller-directory-card,
+.seller-store-products,
+.seller-store-hero {
+  border-color: var(--marchy-neutral-3);
+}
+.product-card:hover,
+.home-category-card:hover {
+  border-color: var(--marchy-primary-border)!important;
+}
+
+/* Replace multicolor category tiles with one coherent board */
+.cat-blue,
+.cat-sand,
+.cat-pink,
+.cat-lilac,
+.cat-green,
+.cat-yellow,
+.home-category-card {
+  background: var(--marchy-primary-soft-2)!important;
+}
+.home-category-card:hover {
+  background: var(--marchy-primary-soft)!important;
+}
+
+/* Hero/editorial surfaces */
+.hero,
+.market-hero,
+.market-hero-premium {
+  background: var(--marchy-primary-soft-2)!important;
+}
+.market-hero-premium:before {
+  background: linear-gradient(135deg,#fff 0%,var(--marchy-primary-soft-2) 72%,#e5f0ea 100%)!important;
+}
+.market-hero-art {
+  background: #e5ece8!important;
+}
+.hero-orbit {
+  border-color: var(--marchy-primary-border)!important;
+}
+.promo-banner {
+  background: var(--marchy-primary-dark)!important;
+}
+.promo-banner .eyebrow {
+  color: #a8cdbb!important;
+}
+.home-deals-section {
+  background: var(--marchy-neutral-2)!important;
+}
+.home-seller-banner,
+.seller-cta {
+  background: var(--marchy-neutral-0)!important;
+}
+
+/* Product imagery containers */
+.product-photo,
+.product-image-stage,
+.product-gallery-thumbnails button,
+.cart-item-photo,
+.quick-view-image {
+  background: var(--marchy-neutral-2)!important;
+}
+
+/* Status, delivery and trust accents */
+.delivery,
+.product-category-pill,
+.category-total b,
+.product-price-block>span,
+.product-seller-card>a,
+.product-visual-note>span,
+.seller-visit-link {
+  color: var(--marchy-primary)!important;
+}
+.product-buyer-highlights,
+.product-trust-panel,
+.product-visual-note,
+.product-image-caption,
+.checkout-delivery-status,
+.seller-form-note,
+.auth-demo-note {
+  background: var(--marchy-primary-soft-2)!important;
+  border-color: var(--marchy-primary-border)!important;
+}
+.product-trust-panel .product-trust-heading>span {
+  color: var(--marchy-primary)!important;
+}
+
+/* Inputs, focus and selection */
+.searchbar:focus-within,
+.checkout-form input:focus,
+.checkout-form select:focus,
+.checkout-form textarea:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--marchy-primary-border)!important;
+  box-shadow: 0 0 0 3px rgba(31,91,69,.12)!important;
+}
+input,select,textarea {
+  accent-color: var(--marchy-primary)!important;
+}
+::selection {
+  background: rgba(31,91,69,.18)!important;
+  color: var(--marchy-text)!important;
+}
+:focus-visible {
+  outline-color: rgba(31,91,69,.72)!important;
+}
+
+/* Compare / saved / informational states */
+.compare-tray,
+.buyer-tracking-cancelled {
+  background: var(--marchy-primary-soft-2)!important;
+  border-color: var(--marchy-primary-border)!important;
+}
+.compare-show {
+  background: var(--marchy-primary)!important;
+}
+.compare-show:not(:disabled):hover {
+  background: var(--marchy-primary-deep)!important;
+}
+
+/* Footer keeps the same brand family instead of introducing another accent */
+.footer {
+  background: var(--marchy-primary-dark)!important;
+}
+.footer .logo-period {
+  color: #a8cdbb!important;
+}
+.footer a:hover {
+  color: #c7dfd2!important;
+}
+
+/* Mobile navigation uses the same neutral/brand board */
+@media(max-width:640px) {
+  .nav-inner a {
+    background: var(--marchy-neutral-1)!important;
+  }
+  .nav-inner a:hover {
+    background: var(--marchy-primary-soft)!important;
+  }
+}
