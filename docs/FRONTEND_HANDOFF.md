@@ -12,6 +12,7 @@ This repository is the MARCHY frontend. It is a React 18 + Vite application usin
 | Merchant | `/sell`, `/seller-dashboard`, `/seller/:slug` | Storefront planning and merchant workspace preview |
 | Delivery operations | `/operations/delivery` | Fulfilment queue, courier assignment UI and status progression |
 | Platform admin | `/admin` | Cross-marketplace order overview and operational status controls |
+| Buyer order tracking | `/orders/:id` | Sample buyer-facing order progress using the same shared demo order state |
 
 The operations workspaces use one shared browser-local demo order store (`marchy-demo-operations-v1`). Delivery and admin changes are reflected in both workspaces, including across open tabs. This is a frontend demonstration, not a source of truth.
 
@@ -21,7 +22,7 @@ The operations workspaces use one shared browser-local demo order store (`marchy
 - `marchy-cart`: buyer cart
 - `marchy-wishlist`: buyer wishlist
 - `marchy-seller-drafts`: merchant product drafts
-- `marchy-demo-operations-v1`: shared illustrative operations orders
+- `marchy-demo-operations-v1`: shared illustrative operations orders used by merchant, buyer tracking, delivery and admin views
 
 Do not treat local storage as secure, authoritative or multi-user persistence. It is only for prototype continuity.
 
