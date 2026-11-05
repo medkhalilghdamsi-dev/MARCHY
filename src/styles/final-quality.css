@@ -60,8 +60,10 @@
 .product-save-button.is-saved {
   background:var(--marchy-accent-soft)!important;
 }
-.product-trust-heading>span {
-  flex-shrink:0;
+.product-trust-panel .product-trust-heading>span {
+  flex:0 0 auto;
+  width:auto;
+  max-width:45%;
   white-space:nowrap;
   font-size:8px;
   letter-spacing:.08em;
