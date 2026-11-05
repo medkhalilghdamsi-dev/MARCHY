@@ -78,7 +78,8 @@ npm run dev
 - Sorting and switchable grid/list result layouts
 - Product detail pages with image zoom, seller information, related listings and buyer checklists
 - Product comparison, cart, wishlist and recently viewed products
-- Multi-step checkout preview with contact validation and explicit non-submission confirmation
+- Multi-step demo checkout with contact validation, one local demo order per merchant and buyer tracking
+- Buyer order history with search, status filters and direct tracking links
 - Seller directory, storefront previews and browser-local seller workspace demonstration
 - English, French and Arabic interface with RTL layout support
 - Responsive navigation and keyboard interactions
@@ -96,9 +97,12 @@ The Playwright suite covers public routes, responsive overflow, Arabic RTL, navi
 
 ## Connected operational workspaces
 
+- Buyer order history: `/orders` — searchable sample order list with status filters and tracking links.
+- Buyer order tracking: `/orders/:id` — sample delivery progress linked to merchant and operations updates.
 - Delivery operations: `/operations/delivery` — shared demo fulfilment queue and courier assignment.
 - Platform administration: `/admin` — cross-marketplace demo order overview.
 - Merchant workspace links directly to delivery and admin interfaces.
+- Checkout creates browser-local demo orders and clears the cart; it does not submit a real order, send notifications or process payment.
 - Both operational screens use the same browser-local demo order store. This demonstrates frontend workflow continuity only; it is not a live multi-user system.
 - Backend integration boundaries and suggested resource contracts: [Frontend handoff](docs/FRONTEND_HANDOFF.md).
 
