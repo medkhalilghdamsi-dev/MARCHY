@@ -181,3 +181,8 @@ The existing .github/workflows/buyer-frontend-qa.yml and .github/workflows/front
 Seller workspace styles, support/auth styles and operations styles are now imported by their corresponding lazy-loaded page modules instead of the global stylesheet entry. This allows those stylesheets to load only when their route group is visited. Buyer discovery and shopping styles remain global for now because the homepage and search/product journeys share those page modules and selectors.
 
 The MarketplaceProvider also exposes a small notification API. Adding a product to the cart or toggling a wishlist item displays a dismissible, automatically-clearing accessible toast. This is local interaction feedback only; it does not represent a server response.
+
+
+## Demo coupon behavior
+
+The cart accepts two illustrative, frontend-only promotion codes: MARCHY10 (10% off the product subtotal) and BIENVENUE (5 TND off). The selected code is kept in browser local storage while the buyer moves from cart to checkout. Checkout allocates the discount proportionally across seller demo orders and clears the local code after demo-order creation. These codes are not real offers and do not validate against seller campaigns or a backend promotion service.
