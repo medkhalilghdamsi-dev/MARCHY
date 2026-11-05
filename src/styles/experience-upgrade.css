@@ -1,7 +1,7 @@
 /* MARCHY experience layer — final visual polish across the marketplace */
 :root{
-  --marchy-orange:#f36b35;
-  --marchy-orange-deep:#b94a25;
+  --marchy-orange:#1f5b45;
+  --marchy-orange-deep:#174735;
   --marchy-ink:#17212b;
   --marchy-muted:#687482;
   --marchy-line:#e7ebee;
@@ -921,3 +921,63 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 
 @media(max-width:680px){.product-mobile-buybar>.mobile-buybar-actions{flex-direction:row;align-items:center;justify-content:flex-end}}
+
+
+/* MARCHY brand alignment — forest green is the single marketplace accent. */
+:root{
+  --orange:#1f5b45;
+  --orange-dark:#174735;
+  --green:#1f5b45;
+  --forest:#1f5b45;
+  --marchy-orange:#1f5b45;
+  --marchy-orange-deep:#174735;
+  --marchy-green:#1f5b45;
+  --marchy-accent-soft:#edf5f0;
+  --marchy-accent-border:#c9ded1;
+}
+::selection{background:#1f5b4530;color:var(--marchy-ink)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:3px solid #78a58c;
+  outline-offset:3px;
+}
+.searchbar:focus-within{border-color:#78a58c;box-shadow:0 0 0 4px #1f5b4515}
+.searchbar button,.primary-btn,.add-btn,.cart-checkout-button,.checkout-form-actions button{
+  background:var(--marchy-orange-deep);
+}
+.searchbar button:hover,.primary-btn:hover,.add-btn:hover,.cart-checkout-button:hover,.checkout-form-actions button:hover{
+  background:#123c2d;
+}
+.header-actions .action-link:hover,.nav-inner a:hover,.text-link:hover,.hero-trending button:hover{
+  color:var(--marchy-orange-deep);
+}
+.market-hero-copy h1 em,.eyebrow,.hero-kicker,.product-price-block strong{
+  color:var(--marchy-green);
+}
+.market-hero-actions .primary-btn,.filter-apply,.mobile-filter-count{
+  background:var(--marchy-green);
+}
+.filter-group>label input,.price-filter-group>input[type=range]{accent-color:var(--marchy-green)}
+.filter-group label:has(input:checked) span,.active-filter-chips .clear-filter-chips{
+  color:var(--marchy-green);
+}
+.active-filter-chips button:hover,.home-budget-links a:hover,.product-gallery-thumbnails button.is-active{
+  border-color:#8bb49b;
+}
+.home-budget-links a span,.home-quick-links a:hover,.home-category-card small span{
+  color:var(--marchy-green);
+}
+.product-card .wish-btn[aria-pressed="true"],.wish-btn[aria-pressed="true"]{
+  color:var(--marchy-green);
+}
+.add-btn.added{background:#edf5f0;border-color:#c9ded1;color:#174735}
+.product-gallery-thumbnails button.is-active{box-shadow:0 0 0 3px #1f5b4515}
+.product-trust-panel .trust-check{background:#edf5f0;color:#174735}
+.compare-tray{border-color:#c9ded1;background:#f7fbf8}
+.compare-show{background:#174735}
+.filter-budget-presets button:hover,.filter-budget-presets button.is-active{
+  border-color:#8bb49b;background:#edf5f0;color:#174735;
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
