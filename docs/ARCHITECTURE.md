@@ -10,7 +10,7 @@ Runtime entry:
 3. `src/App.jsx` is a stable re-export boundary.
 4. `src/app/MarketplaceApp.jsx` composes the app shell, global buyer state, shared chrome and route table. `src/components/AppErrorBoundary.jsx` provides a recoverable UI fallback for render failures.
 5. `src/app/MarketplaceRoutes.jsx` maps stable URLs to page components.
-6. `src/app/usePageMetadata.js` owns route-derived document titles.
+6. `src/app/usePageMetadata.js` owns route-derived titles, descriptions and social-sharing metadata.
 
 ## Source map
 
