@@ -15,12 +15,12 @@ import {
   SellerPreparationPage,
 } from '../pages/SellerPages'
 import {
-  AccountPage,
-  AuthPage,
   MarketplaceGuidePage,
   HelpCenterPage,
   NotFoundPage,
 } from '../pages/SupportPages'
+import { AccountPage } from '../pages/AccountPage'
+import { AuthPage } from '../pages/AuthPage'
 import {
   DeliveryOperationsPage,
   AdminOperationsPage,
