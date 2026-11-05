@@ -55,7 +55,7 @@ export function CheckoutPage() {
     <ol className="checkout-steps" aria-label="Checkout progress">
       <li className={step>1?'is-complete':step===1?'is-current':''} aria-current={step===1?'step':undefined}><span>{step>1?<Check size={15}/>: '1'}</span><div><b>Delivery details</b><small>Your contact and address</small></div></li>
       <li className={step>2?'is-complete':step===2?'is-current':''} aria-current={step===2?'step':undefined}><span>{step>2?<Check size={15}/>: '2'}</span><div><b>Order review</b><small>Products and sellers</small></div></li>
-      <li><span>3</span><div><b>Demo order</b><small>Saved on this device</small></div></li>
+      
     </ol>
     <div className="checkout-layout">
       <section className="checkout-main-panel" aria-live="polite">
