@@ -155,6 +155,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     setMaxPrice(catalogueMaxPrice)
     setTerm('')
     setCity('All')
+    setSort('featured')
     setPage(1)
     setParams({}, { replace: true })
   }
