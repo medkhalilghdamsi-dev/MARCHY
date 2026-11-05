@@ -6,7 +6,7 @@ import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
 
-export function ProductCard({ product, addToCart, wished, toggleWish, compareIds = [], toggleCompare }) {
+export function ProductCard({ product, addToCart, wished, toggleWish, compareIds = [], toggleCompare, returnTo }) {
   const { language } = useMarketplace()
   const toast = useToast()
   const [added, setAdded] = useState(false)
@@ -46,7 +46,7 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
   return translateTree(<>
     <article className="product-card">
       <div className="product-photo">
-        <Link to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
+        <Link to={`/product/${product.id}`} state={returnTo ? { from: returnTo } : undefined} aria-label={`View ${product.name}`}>
           <img onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/product-placeholder.svg' }} src={product.image} alt={product.name} loading="lazy" />
         </Link>
         <span className="product-tag">SAMPLE</span>
@@ -57,7 +57,7 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
       </div>
       <div className="product-info">
         <div className="product-category">{product.category}</div>
-        <Link to={`/product/${product.id}`} className="product-name">{product.name}</Link>
+        <Link to={`/product/${product.id}`} state={returnTo ? { from: returnTo } : undefined} className="product-name">{product.name}</Link>
         <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
         {product.rating && <div className="product-rating" aria-label={`Rating: ${product.rating} out of 5`}>
           <span aria-hidden="true">{'★'.repeat(Math.round(product.rating))}{'☆'.repeat(5 - Math.round(product.rating))}</span>
@@ -85,7 +85,7 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
           <div className="quick-view-seller">Sold by <b>{seller.name}</b> · {seller.city}</div>
           <div className="quick-view-actions">
             <button type="button" className="primary-btn" onClick={quickAdd}>{added ? 'Added to cart ✓' : 'Add to demo cart'}</button>
-            <Link to={`/product/${product.id}`} className="outline-btn" onClick={() => setQuickViewOpen(false)}>View full details →</Link>
+            <Link to={`/product/${product.id}`} state={returnTo ? { from: returnTo } : undefined} className="outline-btn" onClick={() => setQuickViewOpen(false)}>View full details →</Link>
           </div>
           <small>Illustrative catalogue information. Availability and final terms are not verified.</small>
         </div>
