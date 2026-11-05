@@ -161,6 +161,18 @@ test('clearing marketplace filters also restores featured sorting', async ({ pag
 })
 
 
+test('marketplace search autocomplete suggests products and opens the selected product', async ({ page }) => {
+  await page.goto('/search')
+  const search = page.getByRole('textbox', { name: 'Search marketplace' })
+  await search.fill('headphones')
+  await expect(page.locator('.search-suggestions')).toBeVisible()
+  await expect(page.locator('.search-suggestion-product').first()).toContainText('headphones')
+  await page.locator('.search-suggestion-product').first().click()
+  await expect(page).toHaveURL(/\/product\//)
+  await expect(page.locator('.product-buy-panel h1')).toContainText('headphones')
+})
+
+
 test('marketplace filters can be bookmarked and restored from the URL', async ({ page }) => {
   await page.goto('/search?q=headphones')
   await page.locator('input[name="marketplace-category"]').nth(1).check()
