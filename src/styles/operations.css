@@ -73,3 +73,5 @@
 .ops-order-link,.seller-order-id-link{display:inline-flex;color:var(--accent,#245b42);font-weight:800;text-decoration:none}
 .ops-order-link:hover,.seller-order-id-link:hover{text-decoration:underline;text-underline-offset:3px}
 .ops-order-link:focus-visible,.seller-order-id-link:focus-visible{outline:2px solid var(--accent,#245b42);outline-offset:3px;border-radius:3px}
+
+.ops-order-link{color:var(--accent,#245b42);font-weight:800;text-decoration:none}.ops-order-link:hover{text-decoration:underline;text-underline-offset:3px}
