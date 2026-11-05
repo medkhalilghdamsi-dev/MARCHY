@@ -1058,3 +1058,7 @@ select:focus-visible,textarea:focus-visible{
 /* WCAG AA contrast corrections for compact product-trust copy. */
 .product-trust-heading>span{color:#59636c}
 .product-trust-panel p small{color:#59636c}
+
+
+/* Large accent text on the dark seller banner needs a lighter accessible tint. */
+.home-seller-banner h2 em{color:#8fc2a4}
