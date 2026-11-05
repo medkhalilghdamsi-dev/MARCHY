@@ -102,6 +102,7 @@ export function Home() {
                 type="search"
                 value={heroSearch}
                 onFocus={() => setSearchOpen(true)}
+                onBlur={() => window.setTimeout(() => setSearchOpen(false), 140)}
                 onChange={event => setHeroSearch(event.target.value)}
                 onKeyDown={event => { if (event.key === 'Escape') setSearchOpen(false) }}
                 placeholder="Search products, brands or categories"
