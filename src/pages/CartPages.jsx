@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { categories, products } from '../data/products'
 import { sellers, sellerForProduct } from '../data/sellers'
 import { money } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
