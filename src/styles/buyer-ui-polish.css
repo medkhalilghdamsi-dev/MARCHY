@@ -81,3 +81,45 @@
 html[data-theme="dark"] .home-category-image-card:after{background:linear-gradient(110deg,rgba(20,35,28,.96),rgba(20,35,28,.78))}
 html[data-theme="dark"] .home-category-image-card>img{opacity:.12}
 html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);color:var(--ink)}
+
+
+/* Buyer order confirmation */
+.buyer-order-success {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  margin: 24px 0;
+  padding: 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--forest) 24%, var(--line));
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--forest) 7%, var(--surface));
+}
+.buyer-order-success > div:first-child {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.buyer-order-success-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--forest);
+  color: #fff;
+  font-weight: 800;
+}
+.buyer-order-success b { display: block; }
+.buyer-order-success p { margin: 4px 0 0; color: var(--muted); }
+.buyer-order-success > div:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+@media (max-width: 760px) {
+  .buyer-order-success { grid-template-columns: 1fr; }
+  .buyer-order-success > div:last-child { justify-content: flex-start; }
+}
