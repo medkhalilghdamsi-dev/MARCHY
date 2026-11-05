@@ -5,7 +5,7 @@ import { money } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
-import { ArrowRight, ArrowUpRight, Check, Heart, MapPin, Plus, ShoppingCart } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Check, Heart, MapPin, Plus, ShoppingCart, ShieldCheck } from 'lucide-react'
 
 export function ProductCard({ product, addToCart, wished, toggleWish, compareIds = [], toggleCompare, returnTo }) {
   const { language } = useMarketplace()
@@ -57,14 +57,32 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
         <button type="button" className="product-quick-view" onClick={() => setQuickViewOpen(true)} aria-label={`Quick view ${product.name}`}>Quick view <span><ArrowUpRight size={14}/></span></button>
       </div>
       <div className="product-info">
+        <div className="card-top-seller">
+          <Link to={`/seller/${seller.slug}`} className="seller-name seller-link" title={`${seller.name} in ${seller.city}`}>
+            <span className="seller-avatar-mini">{seller.name.slice(0, 1)}</span>
+            <span className="seller-name-text">{seller.name}</span>
+          </Link>
+          <span className="seller-verified-chip" title="Verified local merchant"><ShieldCheck size={11} /> Verified</span>
+        </div>
         <div className="product-category">{product.category}</div>
         <Link to={`/product/${product.id}`} state={returnTo ? { from: returnTo } : undefined} className="product-name">{product.name}</Link>
-        <Link to={`/seller/${seller.slug}`} className="seller-name seller-link"><MapPin size={12} aria-hidden="true"/> {seller.name} · {seller.city}</Link>
         {product.rating && <div className="product-rating" aria-label={`Rating: ${product.rating} out of 5`}>
-          <span aria-hidden="true">{'★'.repeat(Math.round(product.rating))}{'☆'.repeat(5 - Math.round(product.rating))}</span>
-          <small>Illustrative · {product.reviewCount} sample reviews</small>
+          <span aria-hidden="true" className="rating-stars">★ {product.rating}</span>
+          <span className="rating-count">({product.reviewCount || 12} reviews)</span>
+          <span className="seller-city-dot">·</span>
+          <span className="seller-city-tag"><MapPin size={11} aria-hidden="true"/> {seller.city}</span>
         </div>}
-        <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}</div>
+        <div className="card-attribute-pills">
+          <span className="attr-pill">COD Available</span>
+          <span className="attr-pill">Local dispatch</span>
+        </div>
+        <div className="price-row">
+          <div className="price-label-group">
+            <small className="price-type-label">Fixed price</small>
+            <strong>{money(product.price)}</strong>
+          </div>
+          {product.oldPrice && <del>{money(product.oldPrice)}</del>}
+        </div>
         {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)} disabled={compareIds.length >= 3 && !compareIds.includes(product.id)}>
           {compareIds.includes(product.id) ? <><Check size={14}/> Added to compare</> : compareIds.length >= 3 ? 'Compare limit reached' : <><Plus size={14}/> Compare</>}
         </button>}

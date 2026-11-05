@@ -77,11 +77,17 @@ export function Header({ cartCount }) {
   }
   function navIsActive(path) { return location.pathname === path || (path !== '/' && location.pathname.startsWith(`${path}/`)) }
 
+  const [searchScope, setSearchScope] = useState('All')
+
   function submit(e) {
     e.preventDefault()
     rememberSearch(query)
     setSearchOpen(false)
-    navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search')
+    if (searchScope === 'Sellers') {
+      navigate(query.trim() ? `/sellers?q=${encodeURIComponent(query)}` : '/sellers')
+    } else {
+      navigate(query.trim() ? `/search?q=${encodeURIComponent(query)}` : '/search')
+    }
   }
 
   return translateTree(<>
@@ -90,6 +96,16 @@ export function Header({ cartCount }) {
       <button type="button" className="mobile-menu icon-btn" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? <X size={20} strokeWidth={2}/> : <Menu size={20} strokeWidth={2}/>}</button>
       <Link to="/" className="logo" aria-label="MARCHY home"><img className="logo-mark" src="/favicon.svg" alt="" width="34" height="34" /><span className="logo-word">MARCHY</span><span className="logo-period">.</span></Link>
       <form className="searchbar" onSubmit={submit} role="search">
+        <select
+          className="searchbar-scope-select"
+          aria-label="Search scope"
+          value={searchScope}
+          onChange={e => setSearchScope(e.target.value)}
+        >
+          <option value="All">All Categories</option>
+          <option value="Products">Products</option>
+          <option value="Sellers">Stores</option>
+        </select>
         <span className="search-symbol"><Search size={18}/></span>
         <input
           value={query}
@@ -143,7 +159,7 @@ export function Header({ cartCount }) {
         ) : (
           <>
             <Link to="/login" aria-label="Sign in" className="action-link header-signin"><span className="action-icon"><UserRound size={20}/></span><span><small>Welcome to MARCHY</small><b>Sign in</b></span></Link>
-            <Link to="/signup" className="header-join-link">Join free <ArrowRight size={15}/></Link>
+            <Link to="/signup" className="header-join-link header-join-pill">Join free <ArrowRight size={15}/></Link>
           </>
         )}
         <Link to="/cart" aria-label={`Shopping cart, ${cartCount} items`} className="action-link cart-link"><span className="cart-icon"><ShoppingCart size={21}/><i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link>

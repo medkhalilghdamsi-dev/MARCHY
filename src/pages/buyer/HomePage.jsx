@@ -9,7 +9,8 @@ import { useMarketplace } from '../../providers/MarketplaceContext'
 import {
   ArrowRight, Check, Search, Smartphone, ShoppingBasket, House, Shirt,
   Sparkles, Dumbbell, CarFront, BookOpen, Gamepad2, Baby, PawPrint,
-  Sprout, Package, Compass, ArrowUpRight, SlidersHorizontal
+  Sprout, Package, Compass, ArrowUpRight, SlidersHorizontal,
+  ShieldCheck, Coins, Store, Truck, Star, MapPin
 } from 'lucide-react'
 
 const categoryIcons = {
@@ -32,6 +33,7 @@ export function Home() {
   const { addToCart, wishlist, toggleWish, language } = useMarketplace()
   const [active, setActive] = useState('All')
   const [heroSearch, setHeroSearch] = useState('')
+  const [heroSegment, setHeroSegment] = useState('products')
   const [searchOpen, setSearchOpen] = useState(false)
   const [recentSearches, setRecentSearches] = useState(() => readJson('marchy-search-history', []).slice(0, 5))
   const navigate = useNavigate()
@@ -45,7 +47,13 @@ export function Home() {
       try { localStorage.setItem('marchy-search-history', JSON.stringify(next)) } catch {}
     }
     setSearchOpen(false)
-    navigate(query ? '/search?q=' + encodeURIComponent(query) : '/search')
+    if (heroSegment === 'sellers') {
+      navigate(query ? '/sellers?q=' + encodeURIComponent(query) : '/sellers')
+    } else if (heroSegment === 'handmade') {
+      navigate(query ? '/search?q=' + encodeURIComponent('handmade ' + query) : '/search?q=handmade')
+    } else {
+      navigate(query ? '/search?q=' + encodeURIComponent(query) : '/search')
+    }
   }
 
   const chooseSearch = value => {
@@ -93,9 +101,39 @@ export function Home() {
     <main id="main-content" className="shell page home-page home-landing-v2">
       <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
         <div className="market-hero-copy">
-          <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · READY TO EXPLORE</span>
-          <h1 id="market-hero-title">Find what you need.<br /><em>Love what you find.</em></h1>
-          <p>Discover everyday products, compare catalogue prices in Tunisian dinars, and explore storefronts — all in one place.</p>
+          <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · PRODUCTION-READY MARKETPLACE</span>
+          <h1 id="market-hero-title">How local shopping<br /><em>should work.</em></h1>
+          <p>Discover authentic Tunisian goods, compare transparent prices in Dinars (TND), and order directly from verified local workshops with 100% Cash on Delivery inspection.</p>
+
+          <div className="hero-segmented-tabs" role="tablist" aria-label="Search scope">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={heroSegment === 'products'}
+              className={`hero-seg-tab ${heroSegment === 'products' ? 'is-active' : ''}`}
+              onClick={() => setHeroSegment('products')}
+            >
+              🛍️ Products
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={heroSegment === 'sellers'}
+              className={`hero-seg-tab ${heroSegment === 'sellers' ? 'is-active' : ''}`}
+              onClick={() => setHeroSegment('sellers')}
+            >
+              🏪 Stores & Artisans
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={heroSegment === 'handmade'}
+              className={`hero-seg-tab ${heroSegment === 'handmade' ? 'is-active' : ''}`}
+              onClick={() => setHeroSegment('handmade')}
+            >
+              🇹🇳 Made in Tunisia
+            </button>
+          </div>
 
           <div className="home-search-wrap">
             <form id="home-search-submit" className="hero-search-form" role="search" onSubmit={submitHeroSearch}>
@@ -109,7 +147,7 @@ export function Home() {
                 onBlur={() => window.setTimeout(() => setSearchOpen(false), 140)}
                 onChange={event => setHeroSearch(event.target.value)}
                 onKeyDown={event => { if (event.key === 'Escape') setSearchOpen(false) }}
-                placeholder="Search products, brands or categories"
+                placeholder={heroSegment === 'sellers' ? "Search Tunisian storefronts, artisans, workshops..." : heroSegment === 'handmade' ? "Search pottery, olive wood, rugs, leather..." : "Search products, brands or categories"}
                 autoComplete="off"
               />
               {heroSearch && <button className="home-search-clear" type="button" aria-label="Clear search" onClick={() => setHeroSearch('')}>×</button>}
@@ -129,14 +167,28 @@ export function Home() {
 
           <div className="hero-trending" aria-label="Popular searches">
             <span>Try:</span>
-            {['Headphones', 'Home', 'Fashion', 'Beauty'].map(term => (
+            {['Olive Wood', 'Leathercraft', 'Ceramics', 'Honey', 'Fashion'].map(term => (
               <button type="button" key={term} onClick={() => navigate('/search?q=' + encodeURIComponent(term))}>{term}</button>
             ))}
           </div>
-          <div className="market-hero-proof">
-            <span><Check size={14} /> Prices shown in TND</span>
-            <span><Check size={14} /> Explore multiple categories</span>
-            <span><Check size={14} /> Save your favourites</span>
+
+          <div className="upwork-hero-stats">
+            <div className="upwork-stat-item">
+              <b>4.9 / 5</b>
+              <span>Average artisan rating</span>
+            </div>
+            <div className="upwork-stat-item">
+              <b>100% COD</b>
+              <span>Inspect before paying</span>
+            </div>
+            <div className="upwork-stat-item">
+              <b>24 Govs</b>
+              <span>Delivery across Tunisia</span>
+            </div>
+            <div className="upwork-stat-item">
+              <b>0 TND</b>
+              <span>Zero hidden fees</span>
+            </div>
           </div>
         </div>
 
@@ -191,6 +243,36 @@ export function Home() {
         </div>
       </section>
 
+      <section className="upwork-value-section" aria-label="Why Choose MARCHY">
+        <div className="upwork-value-header">
+          <span className="eyebrow">A BETTER WAY TO SHOP LOCALLY</span>
+          <h2>A whole world of Tunisian craft at your fingertips</h2>
+          <p>We built MARCHY so you never have to guess prices, chase Facebook sellers, or gamble on delivery quality again.</p>
+        </div>
+        <div className="upwork-value-grid">
+          <div className="upwork-value-card">
+            <span className="value-icon-circle"><ShieldCheck size={22} /></span>
+            <h3>Inspect before payment</h3>
+            <p>Every order is backed by Cash on Delivery with full rights to open and inspect your parcel upon courier delivery.</p>
+          </div>
+          <div className="upwork-value-card">
+            <span className="value-icon-circle"><Coins size={22} /></span>
+            <h3>Transparent prices in TND</h3>
+            <p>Transparent catalogue prices in Tunisian Dinars with clear governorate delivery fees. No surprise currency conversions.</p>
+          </div>
+          <div className="upwork-value-card">
+            <span className="value-icon-circle"><Store size={22} /></span>
+            <h3>Direct artisan connection</h3>
+            <p>Coordinate directly with the actual local workshops, creators, and specialist retailers across Tunisia.</p>
+          </div>
+          <div className="upwork-value-card">
+            <span className="value-icon-circle"><Truck size={22} /></span>
+            <h3>Nationwide reach</h3>
+            <p>From Tunis and Bizerte to Sfax, Gabès, and Djerba, connect with authentic makers wherever they are based.</p>
+          </div>
+        </div>
+      </section>
+
       <section className="section home-featured-section">
         <div className="section-heading">
           <div><span className="eyebrow">PICK YOUR NEXT DISCOVERY</span><h2>Popular in the catalogue</h2><p className="muted">Explore a selection of illustrative catalogue listings.</p></div>
@@ -204,6 +286,35 @@ export function Home() {
         </div>
         <div className="product-grid">
           {shown.map(product => <ProductCard key={product.id} product={product} addToCart={addToCart} wished={wishlist.includes(product.id)} toggleWish={toggleWish} language={language} />)}
+        </div>
+      </section>
+
+      <section className="section upwork-seller-showcase" aria-label="Featured Tunisian Storefronts">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">AUTHENTIC LOCAL MAKERS</span>
+            <h2>Top Rated Storefronts</h2>
+            <p className="muted">Explore independently run Tunisian shops, ateliers and artisan workshops.</p>
+          </div>
+          <Link to="/sellers" className="text-link">Explore all storefronts <ArrowRight size={15} /></Link>
+        </div>
+        <div className="upwork-seller-grid">
+          {sellers.slice(0, 3).map(seller => (
+            <article key={seller.slug} className="upwork-seller-card">
+              <div className="upwork-seller-header">
+                <span className="upwork-seller-badge">{seller.name.slice(0, 1)}</span>
+                <div className="upwork-seller-meta">
+                  <h3>{seller.name}</h3>
+                  <p><MapPin size={12} /> {seller.city}, Tunisia</p>
+                </div>
+              </div>
+              <p className="upwork-seller-tagline">{seller.tagline}</p>
+              <div className="upwork-seller-footer">
+                <span className="upwork-seller-rating"><Star size={13} fill="currentColor" /> 4.9 Top Rated</span>
+                <Link to={`/seller/${seller.slug}`} className="upwork-seller-link">Visit shop <ArrowRight size={13} /></Link>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -259,16 +370,22 @@ export function Home() {
         </div>
       </section>
 
-      <section className="home-seller-banner">
-        <div>
-          <span className="eyebrow">FOR THE STORES BEHIND THE FINDS</span>
-          <h2>Have a store?<br /><em>Meet your next customers.</em></h2>
-          <p>Explore the merchant experience and see how a storefront can appear on MARCHY.</p>
-          <Link to="/sell" className="light-btn">Discover selling on MARCHY <ArrowRight size={15} /></Link>
+      <section className="upwork-dual-cta" aria-label="Get Started with MARCHY">
+        <div className="upwork-cta-card upwork-cta-buyers">
+          <div>
+            <span className="eyebrow">FOR DISCERNING SHOPPERS</span>
+            <h3>Find authentic craft<br />and everyday goods.</h3>
+            <p>Explore thousands of items from verified local Tunisian makers with 100% Cash on Delivery inspection.</p>
+          </div>
+          <Link to="/search">Browse Marketplace <ArrowRight size={14} /></Link>
         </div>
-        <div className="seller-banner-stats">
-          <b>{sellers.length}</b><span>sample storefronts</span>
-          <b>{populatedCategories.length}</b><span>categories with listings</span>
+        <div className="upwork-cta-card upwork-cta-sellers">
+          <div>
+            <span className="eyebrow" style={{ color: '#86efac' }}>FOR ARTISANS & MERCHANTS</span>
+            <h3>Are you a maker<br />or store owner?</h3>
+            <p>Bring your products to customers across all 24 Tunisian governorates with zero upfront subscription fees.</p>
+          </div>
+          <Link to="/sell">Open a Storefront <ArrowRight size={14} /></Link>
         </div>
       </section>
 
