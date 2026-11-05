@@ -1,0 +1,68 @@
+/* Final shared brand layer: MARCHY green, sage and neutral palette */
+:root {
+  --board-primary:#1f5b45;
+  --board-primary-deep:#174735;
+  --board-primary-dark:#123b2d;
+  --board-soft:#edf5f0;
+  --board-soft-2:#f4f8f6;
+  --board-border:#c9ded1;
+  --board-neutral:#f7f9f8;
+  --board-neutral-2:#eef2f0;
+  --board-text:#17212b;
+  --board-muted:#65717d;
+}
+.header .logo-word,
+.header .logo-period,
+.header .wishlist-link .action-icon,
+.header .nav-deal,
+.eyebrow,
+.logo-period,
+.nav-deal,
+.product-category-pill,
+.product-price-block>span,
+.product-seller-card>a,
+.product-visual-note>span,
+.category-total b,
+.seller-visit-link,
+.seller-link:hover,
+.home-category-card small span,
+.delivery,
+.text-link:hover,
+.nav-inner a:hover,
+.action-link:hover { color:var(--board-primary)!important; }
+.hero-search-form button,
+.searchbar button,
+.primary-btn,
+.add-btn,
+.cart-checkout-button,
+.checkout-form-actions button,
+.filter-apply,
+.header-join-link,
+.compare-show { background:var(--board-primary)!important; border-color:var(--board-primary)!important; color:#fff!important; }
+.hero-search-form button:hover,
+.searchbar button:hover,
+.primary-btn:hover,
+.add-btn:hover,
+.cart-checkout-button:hover,
+.checkout-form-actions button:hover,
+.filter-apply:hover,
+.header-join-link:hover,
+.compare-show:hover { background:var(--board-primary-deep)!important; }
+.cat-blue,.cat-sand,.cat-pink,.cat-lilac,.cat-green,.cat-yellow {
+  background:var(--board-soft)!important; border-color:var(--board-border)!important;
+}
+.product-tag,.product-image-discount,.discount-badge { background:var(--board-primary)!important; color:#fff!important; }
+.hero-orbit,.market-hero-art { border-color:var(--board-border)!important; }
+.footer { background:var(--board-primary)!important; color:#fff!important; }
+.footer .logo-word,.footer .logo-period,.footer a,.footer p,.footer-bottom { color:#fff!important; }
+.footer a:hover { color:var(--board-soft)!important; }
+:focus-visible { outline-color:var(--board-primary)!important; }
+@media(max-width:640px) {
+  .nav-inner a { background:var(--board-neutral)!important; border-color:var(--board-border)!important; }
+  .nav-inner a:hover { background:var(--board-soft)!important; }
+}
+
+.app-error-state{max-width:760px;min-height:50vh;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.app-error-state h1{margin:0 0 12px;color:var(--board-text);font-size:clamp(28px,4vw,42px)}
+.app-error-state p{max-width:560px;line-height:1.7}
+.app-error-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}

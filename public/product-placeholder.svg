@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+<title id="title">MARCHY product image placeholder</title>
+<desc id="desc">A neutral product placeholder with the MARCHY mark.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f8f9"/><stop offset="1" stop-color="#eceff1"/></linearGradient></defs>
+<rect width="600" height="600" rx="28" fill="url(#bg)"/>
+<circle cx="300" cy="260" r="104" fill="#fff" opacity=".8"/>
+<path d="M242 242h116l-10 118H252z" fill="none" stroke="#c9d0d5" stroke-width="10" stroke-linejoin="round"/>
+<path d="M270 244c0-22 12-38 30-38s30 16 30 38" fill="none" stroke="#c9d0d5" stroke-width="10" stroke-linecap="round"/>
+<text x="300" y="430" text-anchor="middle" fill="#17212b" font-family="Arial,sans-serif" font-size="42" font-weight="800" letter-spacing="-2">MARCHY<tspan fill="#1f5b45">.</tspan></text>
+<text x="300" y="466" text-anchor="middle" fill="#7b8791" font-family="Arial,sans-serif" font-size="15" letter-spacing="3">PRODUCT IMAGE</text>
+</svg>
