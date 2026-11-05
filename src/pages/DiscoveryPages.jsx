@@ -1,3 +1,4 @@
+import { connectMarketplacePage } from '../context/connectMarketplacePage'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { categories, products } from '../data/products'
@@ -58,4 +59,7 @@ function CategoriesPage({language}) {
 }
 
 
+export const SellersPageConnected = connectMarketplacePage(SellersPage)
+export const SellerPageConnected = connectMarketplacePage(SellerPage)
+export const CategoriesPageConnected = connectMarketplacePage(CategoriesPage)
 export { SellersPage, SellerPage, CategoriesPage }
