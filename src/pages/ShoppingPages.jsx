@@ -101,12 +101,14 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     if (!filtersOpen) return undefined
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    filterCloseRef.current?.focus()
+    // Wait until the sheet has entered the visible state before moving focus.
+    const focusTimer = window.setTimeout(() => filterCloseRef.current?.focus(), 280)
     const closeOnEscape = event => {
       if (event.key === 'Escape') setFiltersOpen(false)
     }
     window.addEventListener('keydown', closeOnEscape)
     return () => {
+      window.clearTimeout(focusTimer)
       document.body.style.overflow = previousOverflow
       filterTriggerRef.current?.focus()
       window.removeEventListener('keydown', closeOnEscape)
@@ -242,7 +244,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
       <button type="button" className="clear-filter-chips" onClick={clearFilters}>Clear all</button>
     </div>}
     {routeCategory && <div className="category-context-strip"><span className="category-context-icon">✦</span><div><b>{category}</b><small>Browse sample listings, compare displayed prices and visit demo storefronts.</small></div><Link to="/categories">All categories →</Link></div>}
-    {filtersOpen && <button type="button" className="mobile-filter-backdrop" aria-label="Close filters" onClick={() => setFiltersOpen(false)} />}
+    {filtersOpen && <div className="mobile-filter-backdrop" aria-hidden="true" onClick={() => setFiltersOpen(false)} />}
     <div className="listing-layout">
       <aside id="marketplace-filters" className={'filters ' + (filtersOpen ? 'filters-open' : '')} aria-label="Marketplace filters" role={filtersOpen ? 'dialog' : undefined} aria-modal={filtersOpen ? 'true' : undefined} aria-labelledby="marketplace-filter-title" onKeyDown={event => {
         if (event.key !== 'Tab') return
