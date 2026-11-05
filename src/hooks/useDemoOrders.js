@@ -22,5 +22,11 @@ export function useDemoOrders() {
     return () => window.removeEventListener('storage', sync)
   }, [])
   const updateOrder = (id, patch) => setOrders(current => current.map(order => order.id === id ? { ...order, ...patch, updatedAt: new Date().toISOString() } : order))
-  return { orders, updateOrder, reset: () => setOrders(seedDemoOrders) }
+  const createOrders = payloads => {
+    const createdAt = new Date().toISOString()
+    const created = payloads.map((payload, index) => ({ ...payload, id: 'MC-' + Date.now().toString().slice(-8) + (payloads.length > 1 ? '-' + (index + 1) : ''), status: 'Processing', courier: 'Unassigned', created: 'Just now', createdAt }))
+    setOrders(current => [...created, ...current])
+    return created
+  }
+  return { orders, updateOrder, createOrders, reset: () => setOrders(seedDemoOrders) }
 }
