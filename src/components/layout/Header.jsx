@@ -129,7 +129,7 @@ export function Header({ cartCount }) {
             <option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option>
           </select>
         </label>
-        <Link to="/wishlist" className="action-link wishlist-link"><span className="action-icon"><Heart size={20}/></span><span><small>Saved</small><b>Wishlist</b></span></Link>
+        <Link to="/wishlist" aria-label="Wishlist" className="action-link wishlist-link"><span className="action-icon"><Heart size={20}/></span><span><small>Saved</small><b>Wishlist</b></span></Link>
         {authUser?.isLoggedIn ? (
           <div className="header-user-status">
             <Link to="/account" className="action-link header-user-link">
@@ -142,11 +142,11 @@ export function Header({ cartCount }) {
           </div>
         ) : (
           <>
-            <Link to="/login" className="action-link header-signin"><span className="action-icon"><UserRound size={20}/></span><span><small>Welcome to MARCHY</small><b>Sign in</b></span></Link>
+            <Link to="/login" aria-label="Sign in" className="action-link header-signin"><span className="action-icon"><UserRound size={20}/></span><span><small>Welcome to MARCHY</small><b>Sign in</b></span></Link>
             <Link to="/signup" className="header-join-link">Join free <ArrowRight size={15}/></Link>
           </>
         )}
-        <Link to="/cart" className="action-link cart-link"><span className="cart-icon"><ShoppingCart size={21}/><i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link>
+        <Link to="/cart" aria-label={`Shopping cart, ${cartCount} items`} className="action-link cart-link"><span className="cart-icon"><ShoppingCart size={21}/><i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link>
       </div>
     </div>
     <nav id="primary-navigation" aria-label="Primary navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}>
