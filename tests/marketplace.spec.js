@@ -48,7 +48,29 @@ for (const viewport of viewports) {
       await expect(page.locator('main').first()).toBeVisible()
       const dimensions = await page.evaluate(() => ({
         viewport: document.documentElement.clientWidth,
+        innerWidth: window.innerWidth,
         document: document.documentElement.scrollWidth,
+        bodyScrollWidth: document.body.scrollWidth,
+        scrollers: Array.from(document.querySelectorAll('body *')).map(element => {
+          const style = getComputedStyle(element)
+          return {
+            tag: element.tagName.toLowerCase(),
+            className: typeof element.className === 'string' ? element.className : '',
+            clientWidth: element.clientWidth,
+            scrollWidth: element.scrollWidth,
+            overflowX: style.overflowX,
+          }
+        }).filter(element => element.scrollWidth > element.clientWidth + 1).slice(0, 15),
+        offenders: Array.from(document.querySelectorAll('body *')).map(element => {
+          const rect = element.getBoundingClientRect()
+          return {
+            tag: element.tagName.toLowerCase(),
+            className: typeof element.className === 'string' ? element.className : '',
+            left: Math.round(rect.left),
+            right: Math.round(rect.right),
+            width: Math.round(rect.width),
+          }
+        }).filter(element => element.width > 0 && (element.left < -1 || element.right > document.documentElement.clientWidth + 1)).slice(0, 12),
       }))
       expect(
         dimensions.document,
@@ -91,7 +113,7 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/product/1')
   await page.getByRole('group', { name: 'Quantity', exact: true }).getByRole('button', { name: 'Increase quantity' }).click()
-  await expect(page.getByLabel('Selected quantity')).toHaveText('2')
+  await expect(page.getByRole('group', { name: 'Quantity', exact: true }).getByLabel('Selected quantity')).toHaveText('2')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
   await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
   await page.locator('.mobile-tabbar a[href="/cart"]').click()
@@ -169,14 +191,14 @@ test('marketplace search autocomplete offers category and no-match guidance', as
   await page.locator('.search-suggestion-group button').filter({ hasText: 'Electronics' }).click()
   await expect(page).toHaveURL(/\/category\/electronics/)
   await page.goto('/search')
-  await page.getByRole('textbox', { name: 'Search marketplace' }).fill('zzqv-no-match')
+  await page.getByRole('combobox', { name: 'Search marketplace' }).fill('zzqv-no-match')
   await expect(page.locator('.search-suggestions-empty')).toBeVisible()
 })
 
 
 test('marketplace search autocomplete suggests products and opens the selected product', async ({ page }) => {
   await page.goto('/search')
-  const search = page.getByRole('textbox', { name: 'Search marketplace' })
+  const search = page.getByRole('combobox', { name: 'Search marketplace' })
   await search.fill('headphones')
   await expect(page.locator('.search-suggestions')).toBeVisible()
   await expect(page.locator('.search-suggestion-product').first()).toContainText('headphones')
@@ -591,4 +613,22 @@ test('MARCHY uses the locked forest-green brand accent across buyer touchpoints'
   expect(tokens.searchButton).toBe('rgb(23, 71, 53)')
   await page.locator('.searchbar input').focus()
   await expect(page.locator('.searchbar')).toHaveCSS('border-color', 'rgb(120, 165, 140)')
+})
+
+
+test('light and dark themes toggle accessibly and persist across reloads', async ({ page }) => {
+  await page.goto('/')
+  const toggle = page.getByRole('button', { name: 'Switch to dark mode' })
+  await expect(toggle).toBeVisible()
+  await toggle.click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('html')).toHaveCSS('color-scheme', 'dark')
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(17, 25, 21)')
+  await expect(page.getByRole('button', { name: 'Switch to light mode' })).toHaveAttribute('aria-pressed', 'true')
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await page.getByRole('button', { name: 'Switch to light mode' }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
 })

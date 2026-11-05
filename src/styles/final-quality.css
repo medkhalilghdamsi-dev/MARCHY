@@ -1,0 +1,114 @@
+/* Final cross-page quality fixes: brand consistency, contrast and compact navigation */
+.header .logo-word,
+.header .logo-period,
+.header .wishlist-link .action-icon,
+.header .nav-deal {
+  color:var(--forest)!important;
+}
+.footer .logo-word { color:#ffffff!important; }
+.footer .logo-period { color:#8fc6a7!important; }
+.home-seller-banner h2 em {
+  color:#8fc6a7!important;
+}
+@media(max-width:760px) {
+  .header-join-link { display:none!important; }
+}
+
+/* One accent system across the complete experience */
+:root {
+  --orange:#1f5b45;
+  --orange-dark:#174735;
+  --green:#1f5b45;
+  --marchy-orange:#1f5b45;
+  --marchy-orange-deep:#174735;
+  --marchy-green:#1f5b45;
+  --marchy-accent-soft:#edf5f0;
+  --marchy-accent-border:#c9ded1;
+}
+.hero-search-form button {
+  background:var(--marchy-orange-deep)!important;
+  color:var(--text-on-accent,#fff)!important;
+}
+.hero-search-form button:hover { filter:brightness(.94); }
+.discount-tag,
+.product-image-discount {
+  background:var(--marchy-orange-deep)!important;
+  color:var(--text-on-accent,#fff)!important;
+}
+.product-category-pill,
+.product-price-block>span,
+.product-seller-card>a,
+.product-visual-note>span,
+.category-total b,
+.seller-visit-link,
+.seller-link:hover,
+.home-category-card small span {
+  color:var(--marchy-green)!important;
+}
+.hero-floating-icon,
+.product-buyer-highlights>div>span {
+  background:var(--marchy-accent-soft)!important;
+  color:var(--marchy-green)!important;
+}
+.home-category-card:hover,
+.home-budget-links a:hover,
+.product-gallery-thumbnails button.is-active,
+.product-save-button.is-saved {
+  border-color:var(--marchy-accent-border)!important;
+}
+.home-budget-links a:hover,
+.product-save-button.is-saved {
+  background:var(--marchy-accent-soft)!important;
+}
+.product-trust-panel .product-trust-heading>span {
+  flex:0 0 auto;
+  width:auto;
+  max-width:45%;
+  white-space:nowrap;
+  font-size:8px;
+  letter-spacing:.08em;
+}
+.product-seller-copy .seller-profile-status {
+  color:var(--muted)!important;
+}
+
+/* Product recommendation heading must flex before it can create page overflow. */
+.related-products,
+.related-products .product-grid {
+  min-width:0;
+  max-width:100%;
+}
+.related-products .section-heading {
+  min-width:0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 18px;
+}
+.related-products .section-heading>div {
+  min-width:0;
+  flex:1 1 300px;
+}
+.related-products .section-heading>.text-link {
+  flex:0 1 auto;
+  max-width:100%;
+  white-space:normal;
+}
+@media(max-width:760px) {
+  .related-products .section-heading {
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+}
+
+/* Keep the fixed purchase bar inside narrow phone viewports. */
+@media(max-width:680px) {
+  .product-mobile-buybar .mobile-buybar-actions {
+    min-width:0;
+    flex:0 1 auto;
+  }
+  .product-mobile-buybar .primary-btn {
+    min-width:0!important;
+    flex:1 1 120px;
+  }
+}
