@@ -1,15 +1,15 @@
 // Locale-aware formatting. Digits stay Latin in every language (the convention in Tunisia).
-// Marketplace prices may arrive either as TND (e.g. 50) or millimes (e.g. 50000).
-// Normalize millimes at the presentation boundary so buyers see normal DT prices.
+// Values are TND by default. Millime conversion must be explicit at the data boundary;
+// magnitude-based guessing breaks legitimate high-value prices (for example 1,500 DT).
 const LOCALES = { en: 'en-GB', fr: 'fr-TN-u-nu-latn', ar: 'ar-TN-u-nu-latn' }
-const normalizeTnd = value => {
+const normalizeTnd = (value, unit = 'TND') => {
   const n = Number(value) || 0
-  return Math.abs(n) >= 1000 ? n / 1000 : n
+  return unit === 'millimes' ? n / 1000 : n
 }
 const loc = lang => LOCALES[lang] || LOCALES.en
 
-export function formatMoney(value, lang = 'en', { compact = false } = {}) {
-  const n = normalizeTnd(value)
+export function formatMoney(value, lang = 'en', { compact = false, unit = 'TND' } = {}) {
+  const n = normalizeTnd(value, unit)
   const unit = lang === 'ar' ? 'د.ت' : 'DT'
   if (compact && Math.abs(n) >= 10000) {
     return `${new Intl.NumberFormat(loc(lang), { notation: 'compact', maximumFractionDigits: 1 }).format(n)} ${unit}`
