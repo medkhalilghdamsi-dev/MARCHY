@@ -38,11 +38,27 @@ export function CheckoutPage() {
     const discountRatio = subtotal > 0 ? finalTotal / subtotal : 1
     const created=createOrders(groups.map(group=>({
       buyer:details.name.trim(),
+      phone:details.phone.trim(),
       city:details.city.trim(),
+      address:details.address.trim(),
+      notes:details.notes.trim(),
       seller:group.seller.name,
+      sellerCity:group.seller.city,
       items:group.items.reduce((sum,item)=>sum+item.qty,0),
+      products:group.items.map(item=>({
+        id:item.id,
+        name:item.name,
+        price:item.price,
+        qty:item.qty,
+        image:item.image,
+        category:item.category,
+        selectedVariant:item.selectedVariant||null
+      })),
+      subtotal:group.subtotal,
+      discountRatio,
       total:Math.round(group.subtotal * discountRatio * 1000) / 1000,
-      payment:details.paymentMethod || 'Cash on delivery · demo',
+      payment:details.paymentMethod || 'Cash on delivery · Pay upon inspection',
+      deliveryMethod:details.deliveryMethod || 'Standard courier (seller confirmed)',
     })))
     clearCart?.()
     // A multi-seller basket creates one order per seller. Show the order hub so the buyer can see every created order instead of silently landing on only the first one.
