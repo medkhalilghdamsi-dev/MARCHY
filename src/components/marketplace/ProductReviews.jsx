@@ -7,11 +7,11 @@ export function ProductReviews({ product }) {
   const toast = useToast()
   const storageKey = `marchy-product-reviews-${product.id}`
 
-  // Initial reviews combining mock data and any saved user reviews
-  const defaultReviews = mockReviews[product.id] || [
-    { id: `mock-${product.id}-1`, author: 'Sarra B.', date: '2026-10-18', rating: 5, comment: 'High quality and exactly as pictured. Delivered in good condition.' },
-    { id: `mock-${product.id}-2`, author: 'Mohamed K.', date: '2026-10-09', rating: 4, comment: 'Good value for money in Tunisia. Seller confirmed details promptly.' }
-  ]
+  // Seeded reviews are illustrative catalogue content, never verified purchases.
+  const defaultReviews = (mockReviews[product.id] || [
+    { id: `mock-${product.id}-1`, author: 'Sample reviewer', date: '2026-10-18', rating: 5, comment: 'Illustrative review content for the frontend preview.' },
+    { id: `mock-${product.id}-2`, author: 'Sample reviewer', date: '2026-10-09', rating: 4, comment: 'Illustrative review content for the frontend preview.' }
+  ]).map(review => ({ ...review, sample: true }))
 
   const [reviews, setReviews] = useState(() => readJson(storageKey, defaultReviews))
   const [formOpen, setFormOpen] = useState(false)
@@ -41,7 +41,7 @@ export function ProductReviews({ product }) {
       date: new Date().toISOString().split('T')[0],
       rating: Number(rating),
       comment: comment.trim(),
-      verified: true
+      localPreview: true
     }
 
     const updated = [newReview, ...reviews]
@@ -50,11 +50,12 @@ export function ProductReviews({ product }) {
     setFormOpen(false)
     setName('')
     setComment('')
-    toast('Thank you! Your review has been published.', { type: 'success' })
+    toast('Review saved in this browser preview. It has not been submitted to MARCHY.', { type: 'info' })
   }
 
   return (
     <section className="product-reviews-section card" aria-labelledby="product-reviews-heading">
+      <p className="product-demo-disclaimer">Sample ratings and reviews are illustrative, not verified customer feedback. Reviews you add are saved only in this browser preview.</p>
       <div className="reviews-section-header">
         <div>
           <span className="eyebrow">CUSTOMER FEEDBACK</span>
@@ -125,7 +126,7 @@ export function ProductReviews({ product }) {
               Cancel
             </button>
             <button type="submit" className="primary-btn">
-              Publish Review <span>→</span>
+              Save Preview <span>→</span>
             </button>
           </div>
         </form>
@@ -163,7 +164,7 @@ export function ProductReviews({ product }) {
                 <span className="reviewer-avatar">{r.author.slice(0, 1)}</span>
                 <div>
                   <b>{r.author}</b>
-                  <small className="review-date">{r.date} · <span className="verified-badge">✓ Verified Buyer</span></small>
+                  <small className="review-date">{r.date} · <span className="sample-status">{r.localPreview ? 'Local preview · unverified' : 'Sample review'}</span></small>
                 </div>
               </div>
               <div className="review-stars" aria-label={`${r.rating} stars`}>
