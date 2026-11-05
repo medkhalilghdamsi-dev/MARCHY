@@ -25,7 +25,9 @@ export function useDemoOrders() {
   const createOrders = payloads => {
     const createdAt = new Date().toISOString()
     const created = payloads.map((payload, index) => ({ ...payload, id: 'MC-' + Date.now().toString().slice(-8) + (payloads.length > 1 ? '-' + (index + 1) : ''), status: 'Processing', courier: 'Unassigned', created: 'Just now', createdAt }))
-    setOrders(current => [...created, ...current])
+    const next = [...created, ...orders]
+    writeJson(DEMO_OPERATIONS_STORAGE_KEY, next)
+    setOrders(next)
     return created
   }
   return { orders, updateOrder, createOrders, reset: () => setOrders(seedDemoOrders) }
