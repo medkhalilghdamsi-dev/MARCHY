@@ -148,6 +148,27 @@ test('recently viewed products appear on the homepage', async ({ page }) => {
 })
 
 
+test('marketplace filters can be bookmarked and restored from the URL', async ({ page }) => {
+  await page.goto('/search?q=headphones')
+  await page.getByLabel('Seller location').selectOption({ index: 1 })
+  await page.getByLabel('Minimum price in TND').fill('30')
+  await page.getByLabel('Maximum price in TND').fill('250')
+  await page.getByLabel('Sort products').selectOption('price-high')
+  await expect(page).toHaveURL(/q=headphones/)
+  await expect(page).toHaveURL(/city=/)
+  await expect(page).toHaveURL(/min=30/)
+  await expect(page).toHaveURL(/max=250/)
+  await expect(page).toHaveURL(/sort=price-high/)
+  const savedUrl = page.url()
+  await page.reload()
+  await expect(page.getByLabel('Seller location')).not.toHaveValue('All')
+  await expect(page.getByLabel('Minimum price in TND')).toHaveValue('30')
+  await expect(page.getByLabel('Maximum price in TND')).toHaveValue('250')
+  await expect(page.getByLabel('Sort products')).toHaveValue('price-high')
+  expect(page.url()).toBe(savedUrl)
+})
+
+
 test('cart groups products by seller and keeps each seller subtotal visible', async ({ page }) => {
   await page.goto('/product/1')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
