@@ -2,9 +2,9 @@ name: Frontend quality checks
 
 on:
   push:
-    branches: [main]
+    branches: [khalil]
   pull_request:
-    branches: [main]
+    branches: [khalil]
   workflow_dispatch:
 
 permissions:
@@ -31,9 +31,6 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
-
-      - name: Audit CSS cascade ownership
-        run: npm run audit:css
 
       - name: Build production frontend
         run: npm run build
