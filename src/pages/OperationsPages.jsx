@@ -1,3 +1,4 @@
+import '../styles/operations.css'
 import { connectMarketplacePage } from '../context/connectMarketplacePage'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
