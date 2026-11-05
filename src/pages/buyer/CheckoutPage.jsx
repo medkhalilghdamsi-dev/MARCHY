@@ -44,7 +44,8 @@ export function CheckoutPage() {
       payment:details.paymentMethod || 'Cash on delivery · demo',
     })))
     clearCart?.()
-    navigate('/orders/'+created[0].id)
+    // A multi-seller basket creates one order per seller. Show the order hub so the buyer can see every created order instead of silently landing on only the first one.
+    navigate(created.length === 1 ? '/orders/' + created[0].id : '/orders', { state: { justCreatedOrderIds: created.map(order => order.id) } })
   }
   if(!cart.length)return translateTree(<main id="main-content" className="shell page checkout-page"><div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span>Checkout</span></div><div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">NOTHING TO CHECK OUT</span><h1>Your cart is empty</h1><p>Add products before starting checkout.</p><Link to="/search" className="primary-btn">Explore products →</Link></div></main>,language)
   return translateTree(<main id="main-content" className="shell page checkout-page">
