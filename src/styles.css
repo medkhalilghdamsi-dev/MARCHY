@@ -1,4 +1,7 @@
-@import './styles/base.css';
+@import './styles/base-foundation.css';
+@import './styles/base-discovery.css';
+@import './styles/base-shopping.css';
+@import './styles/base-mobile-navigation.css';
 @import './styles/discovery.css';
 @import './styles/shopping.css';
 @import './styles/design-foundation.css';
@@ -8,10 +11,11 @@
 @import './styles/multi-seller-basket.css';
 @import './styles/checkout.css';
 @import './styles/result-controls.css';
-@import './styles/experience-upgrade.css';
-
+@import './styles/experience-foundation.css';
+@import './styles/product-experience.css';
+@import './styles/discovery-experience.css';
+@import './styles/buyer-experience.css';
 @import './styles/auth.css';
-
 @import './styles/operations.css';
 @import './styles/theme.css';
 @import './styles/final-quality.css';
