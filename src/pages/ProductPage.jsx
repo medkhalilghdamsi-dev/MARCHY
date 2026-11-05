@@ -4,7 +4,7 @@ import { products } from '../data/products'
 import { sellerForProduct } from '../data/sellers'
 import { money, readJson, writeJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
-import { ProductCard } from '../components/MarketplaceChrome'
+import { ProductCard } from '../components/ProductCard'
 
 function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const { id } = useParams()
