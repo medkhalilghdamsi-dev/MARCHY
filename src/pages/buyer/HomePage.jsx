@@ -12,7 +12,21 @@ import {
   Sprout, Package, Compass, ArrowUpRight, SlidersHorizontal
 } from 'lucide-react'
 
-const categoryIcons = [Smartphone, ShoppingBasket, House, Shirt, Sparkles, Dumbbell, CarFront, BookOpen, Gamepad2, Baby, PawPrint, Sprout, Package]
+const categoryIcons = {
+  Electronics: Smartphone,
+  Groceries: ShoppingBasket,
+  Home: House,
+  Fashion: Shirt,
+  Beauty: Sparkles,
+  Sports: Dumbbell,
+  Accessories: Package,
+  Automotive: CarFront,
+  Books: BookOpen,
+  'Toys & Games': Gamepad2,
+  'Baby & Kids': Baby,
+  Pets: PawPrint,
+  'Garden & DIY': Sprout,
+}
 
 export function Home() {
   const { addToCart, wishlist, toggleWish, language } = useMarketplace()
@@ -33,7 +47,7 @@ export function Home() {
   const popular = populatedCategories.map((name, index) => ({
     name,
     count: products.filter(product => product.category === name).length,
-    Icon: categoryIcons[index % categoryIcons.length],
+    Icon: categoryIcons[name] || Package,
     tone: ['cat-blue', 'cat-sand', 'cat-pink', 'cat-lilac', 'cat-green', 'cat-yellow'][index % 6],
     image: products.find(product => product.category === name)?.image,
   }))
