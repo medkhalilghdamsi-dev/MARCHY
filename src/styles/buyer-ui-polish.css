@@ -162,3 +162,96 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
   .header .action-icon svg { width: 19px; height: 19px; }
   .nav-inner > a { justify-content: flex-start; }
 }
+
+
+/* MARCHY landing page — clearer discovery hierarchy and deliberate brand accents. */
+.home-landing-v2 .market-hero-copy h1 em { color: #F36B35; }
+.home-landing-v2 .hero-kicker i { background: #F36B35; }
+.home-landing-v2 .hero-search-form button {
+  background: #F36B35 !important;
+  color: #17212B !important;
+  font-weight: 850;
+}
+.home-landing-v2 .hero-search-form button:hover { background: #e95e2c !important; }
+.home-landing-v2 .hero-floating-icon {
+  background: #fff0e8;
+  color: #b94b21;
+}
+.home-landing-v2 .market-benefits.home-benefits-strip {
+  margin: 20px 0 48px;
+  border-radius: 14px;
+}
+.home-landing-v2 .home-benefits-strip > div > span { color: #F36B35; }
+.home-landing-v2 .home-category-section { margin-bottom: 42px; }
+.home-landing-v2 .home-category-image-card {
+  min-height: 146px;
+  border-radius: 5px 15px 5px 15px;
+}
+.home-landing-v2 .home-category-image-card:focus-visible {
+  outline: 3px solid #F36B35;
+  outline-offset: 3px;
+}
+.home-landing-v2 .home-budget-discovery {
+  margin: 0 0 54px;
+  border-radius: 5px 15px 5px 15px;
+}
+.home-landing-v2 .home-budget-links a span,
+.home-landing-v2 .home-budget-links a svg { color: #F36B35; }
+.home-landing-v2 .home-featured-section { margin-bottom: 54px; }
+.home-landing-v2 .home-category-tabs button.active {
+  background: #17212B;
+  border-color: #17212B;
+}
+.home-landing-v2 .home-deals-section {
+  margin-bottom: 44px;
+  border-radius: 5px 18px 5px 18px;
+}
+.home-landing-v2 .home-seller-banner {
+  border-radius: 5px 22px 5px 22px;
+}
+.home-landing-v2 .home-seller-banner .light-btn {
+  color: #17212B;
+  background: #F36B35;
+  border-color: #F36B35;
+}
+.home-landing-v2 .home-seller-banner .light-btn:hover {
+  background: #ff8050;
+  border-color: #ff8050;
+}
+.home-landing-v2 .catalogue-note {
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+}
+.is-rtl .home-landing-v2 .market-benefits.home-benefits-strip,
+.is-rtl .home-landing-v2 .home-category-section,
+.is-rtl .home-landing-v2 .home-featured-section,
+.is-rtl .home-landing-v2 .home-deals-section { direction: rtl; }
+
+@media (max-width: 760px) {
+  .home-landing-v2 .market-benefits.home-benefits-strip {
+    margin: 14px 0 34px;
+    padding: 14px 12px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .home-landing-v2 .home-benefits-strip > div {
+    padding: 0;
+    border: 0;
+  }
+  .home-landing-v2 .home-benefits-strip > div > span {
+    font-size: 16px;
+  }
+  .home-landing-v2 .home-category-section { margin-bottom: 34px; }
+  .home-landing-v2 .home-category-image-card { min-height: 112px; }
+  .home-landing-v2 .home-budget-discovery { margin-bottom: 38px; }
+  .home-landing-v2 .home-featured-section { margin-bottom: 38px; }
+  .home-landing-v2 .home-deals-section { margin-bottom: 32px; }
+  .home-landing-v2 .home-seller-banner .light-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+}
