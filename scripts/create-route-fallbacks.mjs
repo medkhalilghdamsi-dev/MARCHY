@@ -5,7 +5,7 @@ import { resolve } from 'node:path'
 // directory index fallbacks so React Router URLs work on direct visits/reloads.
 const routes = [
   'search', 'cart', 'checkout', 'wishlist', 'categories', 'sellers', 'account',
-  'login', 'signup', 'help', 'delivery', 'returns', 'seller-help', 'sell', 'seller-dashboard',
+  'login', 'signup', 'help', 'delivery', 'returns', 'seller-help', 'sell', 'seller-dashboard',\n  'orders', 'operations/delivery', 'admin',\n  ...['MC-1048', 'MC-1047', 'MC-1046', 'MC-1045', 'MC-1044'].map(id => `orders/${id}`),
   ...Array.from({ length: 15 }, (_, index) => `product/${index + 1}`),
   ...['Electronics', 'Groceries', 'Home', 'Fashion', 'Beauty', 'Sports', 'Accessories', 'Automotive', 'Books', 'Toys & Games', 'Baby & Kids', 'Pets', 'Garden & DIY'].map(category => `category/${encodeURIComponent(category.toLowerCase())}`),
   ...['atlas-tech-tunis', 'maison-sousse', 'urban-steps-sfax', 'nour-beauty-tunis', 'daily-essentials-monastir', 'active-life-bizerte', 'souks-frais-tunis', 'autocare-sfax', 'paper-trail-tunis', 'playbox-sousse'].map(slug => `seller/${slug}`),
@@ -17,4 +17,4 @@ for (const route of routes) {
   await mkdir(resolve(destination, '..'), { recursive: true })
   await cp(indexFile, destination)
 }
-console.log(`Generated SPA entry points for ${routes.length} buyer-facing routes.`)
+console.log(`Generated SPA entry points for ${routes.length} application routes.`)
