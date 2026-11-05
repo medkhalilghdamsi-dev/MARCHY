@@ -981,3 +981,75 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   html{scroll-behavior:auto}
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* Legacy component reconciliation: remove the old orange accent from buyer and seller UI. */
+:root{
+  --orange:#1f5b45;
+  --orange-dark:#174735;
+  --green:#1f5b45;
+}
+.market-hero-copy h1 em,.home-seller-banner h2 em,
+.hero-floating-icon,.home-category-card small span,
+.seller-link:hover,.category-context-icon,.category-context-strip>a,
+.category-total b,.category-directory-arrow,.product-visual-note>span,
+.product-category-pill,.product-price-block>span,.product-seller-card>a,
+.cart-continue-link,.cart-panel-footer>a,.wishlist-toolbar>a,
+.wishlist-footnote>span,.search-suggestion-empty a:hover,
+.store-category-filters button:hover,.home-quick-links a:hover{
+  color:var(--marchy-green)!important;
+}
+.hero-floating-icon,.category-context-icon,.product-category-pill,
+.wishlist-empty-icon,.account-guest-avatar,.help-topic-panel>a>span,
+.guide-checklist-item>span,.seller-step-card>span,
+.seller-guide-content section>span{
+  background:var(--marchy-accent-soft)!important;
+  color:var(--marchy-green)!important;
+}
+.home-category-card:hover,.store-category-filters button:hover,
+.search-suggestion-empty a:hover,.home-quick-links a:hover{
+  border-color:var(--marchy-accent-border)!important;
+}
+.product-card:focus-within,.product-card :focus-visible,
+.quick-view-dialog :focus-visible,.skip-to-content:focus,
+.nav-inner a:focus-visible,.header a:focus-visible,
+.header button:focus-visible,.mobile-tabbar a:focus-visible,
+a:focus-visible,button:focus-visible,input:focus-visible,
+select:focus-visible,textarea:focus-visible{
+  outline-color:#78a58c!important;
+}
+.searchbar:focus-within,.seller-planner-form input:focus,
+.seller-planner-form select:focus,.seller-planner-form textarea:focus,
+.seller-directory-tools input:focus,.seller-directory-tools select:focus{
+  border-color:#78a58c!important;
+  box-shadow:0 0 0 3px #1f5b4518!important;
+}
+.product-save-button.is-saved{
+  border-color:var(--marchy-accent-border)!important;
+  background:var(--marchy-accent-soft)!important;
+  color:var(--marchy-green)!important;
+}
+.compare-tray{
+  border-color:var(--marchy-accent-border)!important;
+  background:#f7fbf8!important;
+}
+.seller-preview-dot{
+  color:var(--marchy-green)!important;
+  background:var(--marchy-accent-soft)!important;
+  border-color:var(--marchy-accent-border)!important;
+}
+.seller-preview-cover{
+  background:linear-gradient(115deg,#e7f0ea,#f5f7f6 55%,#e9eef0)!important;
+  color:var(--marchy-green)!important;
+}
+.seller-art-products span:first-child{
+  background:var(--marchy-accent-soft)!important;
+  color:var(--marchy-green)!important;
+}
+.help-faq-item[open] summary i{
+  background:var(--marchy-accent-soft)!important;
+}
+@media(prefers-contrast:more){
+  :root{--marchy-green:#123c2d;--marchy-accent-border:#6f9d82}
+  .product-name,.seller-name,.muted{color:#26323d}
+}
