@@ -295,7 +295,7 @@ test('checkout creates shared demo seller orders and opens buyer tracking', asyn
   await expect(page.locator('.checkout-seller-review')).toHaveCount(2)
   await expect(page.locator('.checkout-summary')).toContainText('268.000 TND')
   await page.getByRole('button', { name: 'Place demo order' }).click()
-  await expect(page).toHaveURL(/\\/orders\\/MC-/)
+  await expect(page).toHaveURL(new RegExp('/orders/MC-'))
   await expect(page.getByRole('heading', { name: /Track MC-/ })).toBeVisible()
   await expect(page.locator('.buyer-tracking-panel')).toContainText('Demo Customer')
   await page.goto('/cart')
