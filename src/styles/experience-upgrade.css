@@ -825,3 +825,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Checkout seller subtotals retain readable contrast on white summary cards. */
 .seller-summary-row span{color:#59656f!important}
+
+
+/* WCAG AA contrast pass — seller storefront metadata and breadcrumbs */
+.seller-store-page .breadcrumbs,.seller-store-page .breadcrumbs a{color:#56616c}
+.seller-store-identity>div>p,.seller-store-meta>span,.store-sort-label>span,.storefront-demo-note{color:#56616c}
