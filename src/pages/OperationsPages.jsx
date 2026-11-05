@@ -1,9 +1,10 @@
-const statuses = ['Processing', 'Ready for pickup', 'In transit', 'Delivered', 'Cancelled']
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { money } from '../utils/marketplace'
 import { useDemoOrders } from '../hooks/useDemoOrders'
 import { translateTree } from '../i18n/translate'
+
+const statuses = ['Processing', 'Ready for pickup', 'In transit', 'Delivered', 'Cancelled']
 
 function Status({ value }) {
   return <span className={'ops-status ops-status-' + value.toLowerCase().replaceAll(' ', '-')}>{value}</span>
