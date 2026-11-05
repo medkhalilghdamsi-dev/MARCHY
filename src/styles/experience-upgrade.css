@@ -1053,3 +1053,8 @@ select:focus-visible,textarea:focus-visible{
   :root{--marchy-green:#123c2d;--marchy-accent-border:#6f9d82}
   .product-name,.seller-name,.muted{color:#26323d}
 }
+
+
+/* WCAG AA contrast corrections for compact product-trust copy. */
+.product-trust-heading>span{color:#59636c}
+.product-trust-panel p small{color:#59636c}
