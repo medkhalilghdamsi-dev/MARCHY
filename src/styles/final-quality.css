@@ -374,3 +374,198 @@ input,select,textarea {
     background: var(--marchy-primary-soft)!important;
   }
 }
+
+
+/* =========================================================
+   MARCHY — Global color-board lock
+   Every marketplace surface now uses the same brand family.
+   ========================================================= */
+:root {
+  --board-primary:#1f5b45;
+  --board-primary-deep:#174735;
+  --board-primary-dark:#123b2d;
+  --board-soft:#edf5f0;
+  --board-soft-2:#f4f8f6;
+  --board-border:#c9ded1;
+  --board-neutral:#f7f9f8;
+  --board-neutral-2:#eef2f0;
+  --board-text:#17212b;
+  --board-muted:#65717d;
+}
+
+/* Kill legacy warm/orange accent colors at the component level */
+.hero-search-form button,
+.searchbar button,
+.primary-btn,
+.add-btn,
+.cart-checkout-button,
+.checkout-form-actions button,
+.filter-apply,
+.header-join-link,
+.compare-show {
+  background:var(--board-primary)!important;
+  border-color:var(--board-primary)!important;
+  color:#fff!important;
+}
+.hero-search-form button:hover,
+.searchbar button:hover,
+.primary-btn:hover,
+.add-btn:hover,
+.cart-checkout-button:hover,
+.checkout-form-actions button:hover,
+.filter-apply:hover,
+.header-join-link:hover,
+.compare-show:not(:disabled):hover {
+  background:var(--board-primary-deep)!important;
+  border-color:var(--board-primary-deep)!important;
+}
+
+/* All interactive brand accents */
+.eyebrow,
+.logo-word,
+.logo-period,
+.nav-deal,
+.product-category-pill,
+.product-price-block>span,
+.product-seller-card>a,
+.product-visual-note>span,
+.category-total b,
+.seller-visit-link,
+.seller-link:hover,
+.home-category-card small span,
+.delivery,
+.hero-secondary:hover,
+.text-link:hover,
+.nav-inner a:hover,
+.action-link:hover {
+  color:var(--board-primary)!important;
+}
+
+/* All marketplace accent surfaces */
+.cat-blue,.cat-sand,.cat-pink,.cat-lilac,.cat-green,.cat-yellow,
+.home-category-card,
+.home-budget-links a:hover,
+.hero-floating-icon,
+.product-buyer-highlights>div>span,
+.floating-note>span,
+.product-save-button.is-saved,
+.product-trust-panel,
+.product-buyer-highlights,
+.product-visual-note,
+.checkout-delivery-status,
+.seller-form-note,
+.auth-demo-note,
+.compare-tray {
+  background:var(--board-soft)!important;
+  border-color:var(--board-border)!important;
+}
+.home-category-card:hover,
+.home-budget-links a:hover {
+  background:var(--board-soft)!important;
+  border-color:var(--board-border)!important;
+}
+
+/* Accent tags use the same green instead of orange/red */
+.discount-tag,
+.product-image-discount {
+  background:var(--board-primary)!important;
+  border-color:var(--board-primary)!important;
+  color:#fff!important;
+}
+
+/* All major page canvases */
+body,
+.page,
+.marketplace-shell,
+.market-hero,
+.market-hero-premium {
+  background-color:var(--board-neutral)!important;
+}
+.market-hero-premium:before {
+  background:linear-gradient(135deg,#fff 0%,var(--board-soft-2) 72%,#e5f0ea 100%)!important;
+}
+.market-hero-art {
+  background:var(--board-neutral-2)!important;
+}
+
+/* Unified product/card imagery backplates */
+.product-photo,
+.product-image-stage,
+.product-gallery-thumbnails button,
+.cart-item-photo,
+.quick-view-image {
+  background:var(--board-neutral-2)!important;
+}
+
+/* Unified borders */
+.product-card,
+.home-category-card,
+.seller-card,
+.category-directory-card,
+.product-information-card,
+.product-buy-panel,
+.product-seller-card,
+.product-delivery-card,
+.filters,
+.listing-search,
+.results-toolbar,
+.cart-items-panel,
+.cart-summary,
+.checkout-main-panel,
+.checkout-summary,
+.seller-directory-card,
+.seller-store-hero {
+  border-color:#dfe7e3!important;
+}
+
+/* Unified focus treatment */
+input:focus,
+select:focus,
+textarea:focus,
+.searchbar:focus-within,
+.checkout-form input:focus,
+.checkout-form select:focus,
+.checkout-form textarea:focus {
+  border-color:var(--board-border)!important;
+  box-shadow:0 0 0 3px rgba(31,91,69,.12)!important;
+}
+input,select,textarea {
+  accent-color:var(--board-primary)!important;
+}
+:focus-visible {
+  outline-color:rgba(31,91,69,.72)!important;
+}
+::selection {
+  background:rgba(31,91,69,.18)!important;
+  color:var(--board-text)!important;
+}
+
+/* Unified footer */
+.footer {
+  background:var(--board-primary-dark)!important;
+}
+.footer .logo-period {
+  color:#a8cdbb!important;
+}
+.footer a:hover {
+  color:#c7dfd2!important;
+}
+
+/* Remove the remaining warm category/hero shadows and borders */
+.hero-orbit {
+  border-color:var(--board-border)!important;
+}
+.market-hero-art {
+  border-color:var(--board-border)!important;
+}
+
+/* Mobile navigation */
+@media(max-width:640px) {
+  .nav-inner a {
+    background:var(--board-neutral)!important;
+    border-color:#dfe7e3!important;
+  }
+  .nav-inner a:hover {
+    background:var(--board-soft)!important;
+  }
+}
