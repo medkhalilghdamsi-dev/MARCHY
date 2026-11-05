@@ -372,3 +372,14 @@ test('buyer account can follow shared demo order status changes', async ({ page 
   await page.goto('/orders/MC-1048')
   await expect(page.locator('.buyer-tracking-panel')).toContainText('In transit')
 })
+
+
+test('connected operations workspaces respect French and Arabic interface language', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-language', 'fr'))
+  await page.goto('/operations/delivery')
+  await expect(page.getByRole('heading', { name: 'Opérations de livraison' })).toBeVisible()
+  await page.evaluate(() => localStorage.setItem('marchy-language', 'ar'))
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'عمليات التوصيل' })).toBeVisible()
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+})
