@@ -307,3 +307,40 @@ html[data-theme="dark"] .seller-settings-fields textarea { color:var(--ink); bac
 @media(prefers-reduced-motion:reduce) {
   .marchy-toast { animation:none; }
 }
+
+
+/* Demo coupon interaction inside the multi-seller basket */
+.cart-coupon-form {
+  display:grid;
+  gap:8px;
+  margin:16px 0;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--surface-soft);
+}
+.cart-coupon-form>label { color:var(--ink); font-size:11px; font-weight:700; }
+.cart-coupon-form>div { display:flex; min-width:0; gap:7px; }
+.cart-coupon-form input {
+  flex:1;
+  min-width:0;
+  padding:10px 11px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  color:var(--ink);
+  background:var(--surface);
+  font-size:12px;
+}
+.cart-coupon-form>div button {
+  padding:0 13px;
+  border:0;
+  border-radius:6px;
+  color:#fff;
+  background:var(--forest);
+  font-size:11px;
+  font-weight:700;
+}
+.cart-coupon-form small { color:var(--muted); font-size:9px; line-height:1.5; }
+.cart-coupon-form p[role="status"] { margin:0; color:var(--forest); font-size:10px; line-height:1.5; }
+.cart-coupon-remove { justify-self:start; padding:0; border:0; color:var(--muted); background:transparent; font-size:10px; text-decoration:underline; }
+html[data-theme="dark"] .cart-coupon-form { border-color:var(--line); background:var(--surface-soft); }
