@@ -864,3 +864,58 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(prefers-reduced-motion:reduce){
   .listing-layout .filters,.mobile-filter-backdrop{animation:none!important;transition:none!important}
 }
+
+
+/* Product page upgrade — gallery, transparent seller trust, fulfilment clarity */
+.product-gallery-count{position:absolute;right:22px;bottom:22px;padding:7px 10px;border:1px solid #17212b12;border-radius:20px;background:#ffffffdf;color:#56616b;font-size:9px;font-weight:800;backdrop-filter:blur(8px)}
+.product-image-stage .product-image-zoom-button{bottom:20px;right:20px}
+.product-gallery-thumbnails{display:flex;gap:10px;margin-top:13px;overflow-x:auto;padding:2px 1px 5px;scrollbar-width:thin}
+.product-gallery-thumbnails button{width:76px;height:76px;flex:0 0 76px;padding:5px;border:1px solid #e3e7e9;border-radius:9px;background:#fff;cursor:pointer;transition:border-color .18s,box-shadow .18s,transform .18s}
+.product-gallery-thumbnails button:hover{transform:translateY(-2px);border-color:#d9a28b}
+.product-gallery-thumbnails button.is-active{border:2px solid var(--marchy-orange-deep);padding:4px;box-shadow:0 0 0 3px #f36b3515}
+.product-gallery-thumbnails img{width:100%;height:100%;object-fit:cover;border-radius:5px}
+.product-seller-card{grid-template-columns:44px minmax(0,1fr) auto}
+.product-seller-copy .seller-profile-status{color:#9b654b;font-size:8px}
+.product-trust-panel{margin-top:11px;padding:14px;border:1px solid #e8ecee;border-radius:9px;background:#fff}
+.product-trust-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.product-trust-heading>b{font-size:10px;color:#28343e}
+.product-trust-heading>span{font-size:8px;color:#8a949c;text-transform:uppercase;letter-spacing:.7px}
+.product-trust-panel>div:not(.product-trust-heading){display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-top:1px solid #f0f2f3}
+.product-trust-panel>div>span{display:grid;place-items:center;width:19px;height:19px;flex:0 0 19px;border-radius:50%;font-size:10px;font-weight:900}
+.trust-check{background:#edf4ef;color:#477252}
+.trust-pending{background:#fff3e9;color:#a65a2d}
+.product-trust-panel p{display:flex;flex-direction:column;gap:3px;margin:0}
+.product-trust-panel p b{font-size:9px;color:#394650}
+.product-trust-panel p small{font-size:8px;line-height:1.5;color:#77828b}
+.product-delivery-card ul{display:grid;gap:5px;margin:9px 0 0;padding-left:15px}
+.product-delivery-card li{font-size:8px;color:#66727c;line-height:1.5}
+.product-buyer-highlights{margin-top:30px}
+.product-buyer-highlights>div{min-width:0}
+.product-mobile-buybar{gap:12px}
+.mobile-buybar-total{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mobile-buybar-total small{font-size:8px;color:#66727c}
+.mobile-buybar-total b{font-size:15px;color:#25313b;white-space:nowrap}
+.mobile-buybar-actions{display:flex;align-items:center;gap:8px}
+.mobile-buybar-quantity{height:42px;flex:0 0 auto}
+.mobile-buybar-quantity button{width:29px;min-height:40px}
+.mobile-buybar-quantity output{min-width:17px;font-size:11px}
+.mobile-buybar-actions>.primary-btn{min-height:42px;padding:0 15px;white-space:nowrap}
+@media(max-width:680px){
+ .product-gallery-thumbnails{gap:8px;margin-top:9px}
+ .product-gallery-thumbnails button{width:64px;height:64px;flex-basis:64px}
+ .product-image-caption{font-size:8px}
+ .product-trust-panel{padding:12px}
+ .product-mobile-buybar{left:0;right:0;bottom:calc(70px + env(safe-area-inset-bottom));width:100%;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #e8ecef;border-width:1px 0 0;background:#fffffff2;box-shadow:0 -8px 28px #17212b12;backdrop-filter:blur(14px)}
+ .mobile-buybar-actions{gap:6px}
+ .mobile-buybar-quantity{height:40px}
+ .mobile-buybar-quantity button{width:25px;min-height:38px}
+ .mobile-buybar-actions>.primary-btn{min-height:40px;padding:0 12px;font-size:10px}
+ .product-page{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+}
+@media(max-width:360px){
+ .product-mobile-buybar{padding-inline:9px}
+ .mobile-buybar-actions{gap:4px}
+ .mobile-buybar-quantity button{width:22px}
+ .mobile-buybar-actions>.primary-btn{padding:0 9px}
+ .mobile-buybar-total b{font-size:13px}
+}
