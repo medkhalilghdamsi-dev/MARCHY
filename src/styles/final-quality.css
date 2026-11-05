@@ -61,8 +61,3 @@
   .nav-inner a { background:var(--board-neutral)!important; border-color:var(--board-border)!important; }
   .nav-inner a:hover { background:var(--board-soft)!important; }
 }
-
-.app-error-state{max-width:760px;min-height:50vh;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
-.app-error-state h1{margin:0 0 12px;color:var(--board-text);font-size:clamp(28px,4vw,42px)}
-.app-error-state p{max-width:560px;line-height:1.7}
-.app-error-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}

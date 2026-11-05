@@ -54,7 +54,7 @@ See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for the full module map, rout
 - Buyer order history and tracking preview.
 - Seller onboarding, local product-draft workspace and preparation guide.
 - Delivery operations and platform admin preview sharing a browser-local demo order store.
-- English, French and Arabic interface support, including RTL layout.\n- Persistent light/dark theme preference and a recoverable application error boundary.
+- English, French and Arabic interface support, including RTL layout.
 - Responsive navigation, keyboard interactions and accessibility checks.
 
 ## Route groups
