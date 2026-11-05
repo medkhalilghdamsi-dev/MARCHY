@@ -3,7 +3,8 @@ import { products } from '../data/products'
 import { Home } from '../pages/HomePage'
 import { SearchPage } from '../pages/SearchPage'
 import { ProductPage } from '../pages/ProductPage'
-import { CartPage, CheckoutPage } from '../pages/CartPages'
+import { CartPage } from '../pages/CartPage'
+import { CheckoutPage } from '../pages/CheckoutPage'
 import { WishlistPage } from '../pages/WishlistPage'
 import {
   SellersPage,
