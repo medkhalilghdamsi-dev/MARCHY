@@ -1,13 +1,10 @@
 import { Route, Routes } from 'react-router-dom'
 import { products } from '../data/products'
-import {
-  Home,
-  SearchPage,
-  ProductPage,
-  CartPage,
-  CheckoutPage,
-  WishlistPage,
-} from '../pages/ShoppingPages'
+import { Home } from '../pages/HomePage'
+import { SearchPage } from '../pages/SearchPage'
+import { ProductPage } from '../pages/ProductPage'
+import { CartPage, CheckoutPage } from '../pages/CartPages'
+import { WishlistPage } from '../pages/WishlistPage'
 import {
   SellersPage,
   SellerPage,
