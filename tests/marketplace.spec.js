@@ -14,6 +14,8 @@ const routes = [
   '/account',
   '/orders',
   '/orders/MC-1048',
+  '/operations/delivery',
+  '/admin',
   '/help',
   '/delivery',
   '/returns',

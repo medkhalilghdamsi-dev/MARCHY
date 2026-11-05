@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { money } from '../utils/marketplace'
 import { useDemoOrders } from '../hooks/useDemoOrders'
-import { translateTree } from '../i18n/translate'
-import { OpsShell, Status, statuses } from './OperationsShared'
+import { translateTree, translateText } from '../i18n/translate'
+import { Status, statuses } from './OperationsShared'
 
 function BuyerOrdersPage({ language }) {
   const { orders } = useDemoOrders()
