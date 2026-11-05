@@ -93,12 +93,13 @@ When adding CSS:
 
 ## Known modularisation targets
 
-These are deliberate follow-up refactors, not reasons to perform a risky mass move:
-1. Split `ShoppingPages.jsx` into home/discovery, search/listing, product detail and basket/checkout modules.
-2. Split `MarketplaceChrome.jsx` into header, product card, footer and mobile navigation components.
-3. Split `experience-upgrade.css` into component-owned layers after duplicate-selector and cascade analysis.
-4. Move browser-local demo order operations behind an explicit demo service interface before backend adapter work.
-5. Add a route smoke-test table that stays aligned with `MarketplaceRoutes.jsx`.
+The buyer journey and shared marketplace chrome have already been extracted into focused modules. The legacy `ShoppingPages.jsx` and `MarketplaceChrome.jsx` files remain as small compatibility barrels; new code should import focused modules directly.
+
+Remaining deliberate refactors:
+1. Split the discovery, seller, support and operations page groups where each extraction has a clear dependency boundary.
+2. Split `experience-upgrade.css` into component-owned layers after duplicate-selector and cascade analysis.
+3. Move browser-local demo order operations behind an explicit demo service interface before backend adapter work.
+4. Add a route smoke-test table that stays aligned with `MarketplaceRoutes.jsx`.
 
 Refactor one boundary at a time. Preserve route URLs, storage keys, accessible names, visible copy, RTL behavior and test coverage.
 
