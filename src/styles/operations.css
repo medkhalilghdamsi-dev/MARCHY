@@ -49,3 +49,22 @@
 .seller-order-row>strong{font-size:11px}.seller-order-row label{display:grid;gap:5px;color:var(--muted);font-size:9px;font-weight:750}
 .seller-order-row select{width:100%;min-height:34px;padding:0 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface,#fff);color:var(--ink);font-size:10px}
 @media(max-width:760px){.seller-order-row{grid-template-columns:1fr 1fr}.seller-order-row label{grid-column:1/-1}}
+
+
+.account-demo-caption{margin:8px 0 13px;color:var(--muted);font-size:10px;line-height:1.6}
+.account-demo-orders{display:grid;gap:7px;margin-bottom:14px}
+.account-demo-order{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 10px;padding:11px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none}
+.account-demo-order>span:first-child{min-width:0}.account-demo-order b{display:block;font-size:11px}.account-demo-order small{display:block;margin-top:4px;color:var(--muted);font-size:9px}
+.account-demo-order-status{align-self:center;padding:5px 7px;border-radius:99px;background:var(--surface-soft,#f5f6f5);font-size:9px;font-weight:750}
+.account-demo-order strong{grid-column:1/-1;font-size:11px}
+.buyer-tracking-panel{max-width:850px;margin:12px auto}
+.buyer-tracking-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:18px 0;padding:14px;border:1px solid var(--line);border-radius:9px;background:var(--surface-soft,#f7f9f8)}
+.buyer-tracking-meta div{min-width:0}.buyer-tracking-meta small{display:block;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.05em}.buyer-tracking-meta b{display:block;margin-top:6px;font-size:11px;overflow-wrap:anywhere}
+.buyer-tracking-steps{display:grid;gap:0;list-style:none;margin:20px 0;padding:0}
+.buyer-tracking-steps li{position:relative;display:grid;grid-template-columns:30px 1fr;gap:12px;min-height:76px}
+.buyer-tracking-steps li:not(:last-child):before{position:absolute;top:29px;bottom:0;left:14px;width:1px;background:var(--line);content:""}
+.buyer-tracking-step-dot{z-index:1;display:grid;place-items:center;width:29px;height:29px;border:1px solid var(--line);border-radius:50%;background:var(--surface,#fff);color:var(--muted);font-size:10px;font-weight:800}
+.buyer-tracking-steps li.complete .buyer-tracking-step-dot{border-color:var(--accent,#245b42);background:var(--accent,#245b42);color:#fff}
+.buyer-tracking-steps li div{padding:4px 0 16px}.buyer-tracking-steps li b{display:block;font-size:12px}.buyer-tracking-steps li small{display:block;margin-top:5px;color:var(--muted);font-size:10px}
+.buyer-tracking-cancelled{margin:20px 0;padding:15px;border:1px solid #e7b9b9;border-radius:8px;background:#fff7f7;color:#853d3d}.buyer-tracking-cancelled p{margin:5px 0 0;font-size:11px}
+@media(max-width:600px){.buyer-tracking-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.account-demo-order{grid-template-columns:1fr}.account-demo-order strong{grid-column:auto}}
