@@ -98,3 +98,15 @@
     gap:8px;
   }
 }
+
+/* Keep the fixed purchase bar inside narrow phone viewports. */
+@media(max-width:680px) {
+  .product-mobile-buybar .mobile-buybar-actions {
+    min-width:0;
+    flex:0 1 auto;
+  }
+  .product-mobile-buybar .primary-btn {
+    min-width:0!important;
+    flex:1 1 120px;
+  }
+}
