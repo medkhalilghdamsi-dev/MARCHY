@@ -61,7 +61,7 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
         <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
         {product.rating && <div className="product-rating" aria-label={`Rating: ${product.rating} out of 5`}>
           <span aria-hidden="true">{'★'.repeat(Math.round(product.rating))}{'☆'.repeat(5 - Math.round(product.rating))}</span>
-          <small>({product.reviewCount})</small>
+          <small>Illustrative · {product.reviewCount} sample reviews</small>
         </div>}
         <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}</div>
         {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)} disabled={compareIds.length >= 3 && !compareIds.includes(product.id)}>
