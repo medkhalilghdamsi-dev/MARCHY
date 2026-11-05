@@ -2,6 +2,7 @@ import { connectMarketplacePage } from '../context/connectMarketplacePage'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { categories, products } from '../data/products'
+import { productReviews } from '../data/reviews'
 import { sellers, sellerByCategory, sellerForProduct } from '../data/sellers'
 import { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText, readJson, writeJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
@@ -370,6 +371,8 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
     Pets:['Intended animal type, size and dimensions','Materials and cleaning instructions','Included accessories and usage guidance','Return conditions'],
     'Garden & DIY':['Exact kit contents, dimensions and materials','Compatibility with the intended project','Care, storage or installation requirements','Delivery handling and return conditions']
   })[product.category] || ['Exact product specifications and included items','Product condition and any limitations','Current availability and final price','Delivery, returns and warranty conditions']
+  const reviewsForProduct = productReviews.filter(review => review.productId === product.id)
+  const averageReview = reviewsForProduct.length ? reviewsForProduct.reduce((sum, review) => sum + review.rating, 0) / reviewsForProduct.length : 0
   const saved = wishlist.includes(product.id)
   const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
   const handleAdd = () => { addToCart(product, qty); setAdded(true) }
@@ -442,6 +445,25 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <ul>{sellerQuestions.map(question=><li key={question}>{question}</li>)}</ul>
         <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront →</Link>
       </article>
+    </section>
+    <section className="product-reviews" aria-labelledby="product-reviews-title">
+      <div className="product-reviews-heading">
+        <div><span className="eyebrow">COMMUNITY FEEDBACK PREVIEW</span><h2 id="product-reviews-title">Sample product reviews</h2><p>Illustrative feedback for the interface. These are not real customer reviews or verified purchases.</p></div>
+        <div className="product-review-summary"><strong>{averageReview.toFixed(1)}</strong><div><span aria-label={averageReview.toFixed(1)+' out of 5 stars'}>★★★★★</span><small>{reviewsForProduct.length} sample reviews</small></div></div>
+      </div>
+      <div className="product-review-layout">
+        <div className="product-review-distribution" aria-label="Sample rating distribution">
+          {[5,4,3,2,1].map(rating=>{const count=reviewsForProduct.filter(review=>review.rating===rating).length;return <div className="product-review-rating-row" key={rating}><span>{rating} star{rating===1?'':'s'}</span><div><i style={{width:(reviewsForProduct.length?count/reviewsForProduct.length*100:0)+'%'}}/></div><b>{count}</b></div>})}
+          <small>Sample ratings only</small>
+        </div>
+        <div className="product-review-list">
+          {reviewsForProduct.map((review,index)=><article className="product-review-card" key={product.id+'-'+index}>
+            <div className="product-review-author"><span>{review.author.slice(0,1)}</span><div><b>{review.author}</b><small>{review.date} · Not verified</small></div><strong>{'★'.repeat(review.rating)}{'☆'.repeat(5-review.rating)}</strong></div>
+            <h3>{review.title}</h3><p>{review.body}</p>
+            <span className="product-review-sample-label">ILLUSTRATIVE SAMPLE</span>
+          </article>)}
+        </div>
+      </div>
     </section>
     {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>Discover more products</h2><p className="muted">More from this category and other corners of the marketplace.</p></div><Link to="/search" className="text-link">Explore marketplace →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
     {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={displayedImage} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
