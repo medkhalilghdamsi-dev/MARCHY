@@ -529,3 +529,17 @@ test('mobile marketplace filter sheet closes with Escape and backdrop', async ({
   await page.getByRole('button', { name: 'Close filters', exact: true }).last().click()
   await expect(page.getByRole('dialog', { name: 'Filters' })).toBeHidden()
 })
+
+
+test('mobile filter sheet manages keyboard focus and returns it to its trigger', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/search')
+  const trigger = page.getByRole('button', { name: /Filters/ })
+  await trigger.click()
+  const close = page.getByRole('button', { name: 'Close filters', exact: true }).last()
+  await expect(close).toBeFocused()
+  await page.keyboard.press('Shift+Tab')
+  await expect(page.getByRole('button', { name: /Show \d+ products/ })).toBeFocused()
+  await page.getByRole('button', { name: /Show \d+ products/ }).click()
+  await expect(trigger).toBeFocused()
+})
