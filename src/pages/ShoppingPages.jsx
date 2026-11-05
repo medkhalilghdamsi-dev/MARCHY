@@ -8,6 +8,14 @@ import { translateTree } from '../i18n/translate'
 import { ProductCard } from '../components/MarketplaceChrome'
 import { useDemoOrders } from '../hooks/useDemoOrders'
 
+const DEMO_COUPON_KEY = 'marchy-demo-coupon'
+function demoCouponDiscount(subtotal, coupon) {
+  if (!coupon?.code) return 0
+  if (coupon.code === 'MARCHY10') return Number((subtotal * 0.1).toFixed(3))
+  if (coupon.code === 'BIENVENUE') return Math.min(subtotal, 5)
+  return 0
+}
+
 function Home({ addToCart, wishlist, toggleWish, language }) {
   const [active,setActive]=useState('All')
   const [heroSearch,setHeroSearch]=useState('')
@@ -446,6 +454,28 @@ function CartPage({ cart, updateQty, removeItem, language }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const sellerCount = new Set(cart.map(item => sellerForProduct(item).slug)).size
+  const [couponInput, setCouponInput] = useState(() => readJson(DEMO_COUPON_KEY, null)?.code || '')
+  const [appliedCoupon, setAppliedCoupon] = useState(() => readJson(DEMO_COUPON_KEY, null))
+  const [couponFeedback, setCouponFeedback] = useState('')
+  const discount = demoCouponDiscount(subtotal, appliedCoupon)
+  const applyCoupon = event => {
+    event.preventDefault()
+    const code = couponInput.trim().toUpperCase()
+    if (!['MARCHY10', 'BIENVENUE'].includes(code)) {
+      setCouponFeedback('That demo code is not recognised. Try MARCHY10 or BIENVENUE.')
+      return
+    }
+    const coupon = { code }
+    setAppliedCoupon(coupon)
+    writeJson(DEMO_COUPON_KEY, coupon)
+    setCouponFeedback(code === 'MARCHY10' ? 'MARCHY10 applied: 10% demo discount.' : 'BIENVENUE applied: 5.000 TND demo discount.')
+  }
+  const removeCoupon = () => {
+    setAppliedCoupon(null)
+    setCouponInput('')
+    writeJson(DEMO_COUPON_KEY, null)
+    setCouponFeedback('Demo code removed.')
+  }
   const sellerGroups = [...new Set(cart.map(item => sellerForProduct(item).slug))].map(slug => {
     const seller = sellers.find(entry => entry.slug === slug)
     const items = cart.filter(item => sellerForProduct(item).slug === slug)
@@ -485,9 +515,16 @@ function CartPage({ cart, updateQty, removeItem, language }) {
         <div className="cart-summary-title"><div><span className="eyebrow">YOUR ORDER</span><h2>Order summary</h2></div><span className="cart-summary-count">{itemCount} items</span></div>
         <div className="cart-summary-row"><span>Products subtotal</span><b>{money(subtotal)}</b></div>
         {sellerGroups.map(group=><div className="cart-summary-row seller-summary-row" key={group.seller.slug}><span>{group.seller.name}</span><b>{money(group.subtotal)}</b></div>)}
+        <form className="cart-coupon-form" onSubmit={applyCoupon}>
+          <label htmlFor="cart-coupon-code">Promo code</label>
+          <div><input id="cart-coupon-code" value={couponInput} onChange={event=>setCouponInput(event.target.value)} placeholder="Enter a demo code" maxLength="24"/><button type="submit">Apply</button></div>
+          <small>Try MARCHY10 for 10% off or BIENVENUE for 5 TND off. Demo only.</small>
+          {couponFeedback&&<p role="status">{couponFeedback}</p>}
+          {appliedCoupon&&<button type="button" className="cart-coupon-remove" onClick={removeCoupon}>Remove {appliedCoupon.code}</button>}
+        </form>
         <div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div>
-        <div className="cart-summary-row"><span>Discounts</span><b>—</b></div>
-        <div className="summary-total"><span>Estimated product total</span><strong>{money(subtotal)}</strong></div>
+        <div className="cart-summary-row"><span>Discounts{appliedCoupon?' · '+appliedCoupon.code:''}</span><b>{discount>0?'- '+money(discount):'—'}</b></div>
+        <div className="summary-total"><span>Estimated product total</span><strong>{money(Math.max(0,subtotal-discount))}</strong></div>
         <p className="cart-summary-note">Delivery charges, availability and final prices are not yet connected to live seller systems. They are not included in this estimate.</p>
         <Link to="/checkout" className="primary-btn full-btn cart-checkout-button">Continue to checkout <span>→</span></Link>
         <div className="cart-trust-note"><span>ⓘ</span><p>You're reviewing a sample basket. No payment is taken and no order is placed.</p></div>
@@ -504,6 +541,8 @@ function CheckoutPage({cart,language,clearCart}) {
   const navigate=useNavigate()
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0)
   const itemCount=cart.reduce((sum,item)=>sum+item.qty,0)
+  const appliedCoupon=readJson(DEMO_COUPON_KEY,null)
+  const discount=demoCouponDiscount(subtotal,appliedCoupon)
   const groups=[...new Set(cart.map(item=>sellerForProduct(item).slug))].map(slug=>{
     const seller=sellers.find(entry=>entry.slug===slug)
     const items=cart.filter(item=>sellerForProduct(item).slug===slug)
@@ -511,8 +550,12 @@ function CheckoutPage({cart,language,clearCart}) {
   })
   const update=(key,value)=>setDetails(current=>({...current,[key]:value}))
   const submitDemoOrder=()=>{
-    const created=createOrders(groups.map(group=>({buyer:details.name.trim(),city:details.city.trim(),seller:group.seller.name,items:group.items.reduce((sum,item)=>sum+item.qty,0),total:group.subtotal,payment:'Cash on delivery · demo'})))
+    const created=createOrders(groups.map(group=>{
+      const groupDiscount=subtotal>0?discount*group.subtotal/subtotal:0
+      return {buyer:details.name.trim(),city:details.city.trim(),seller:group.seller.name,items:group.items.reduce((sum,item)=>sum+item.qty,0),total:Number((group.subtotal-groupDiscount).toFixed(3)),discount:Number(groupDiscount.toFixed(3)),couponCode:appliedCoupon?.code||null,payment:'Cash on delivery · demo'}
+    }))
     clearCart?.()
+    writeJson(DEMO_COUPON_KEY,null)
     navigate('/orders/'+created[0].id)
   }
   if(!cart.length)return translateTree(<main id="main-content" className="shell page checkout-page"><div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span>Checkout</span></div><div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">NOTHING TO CHECK OUT</span><h1>Your cart is empty</h1><p>Add products before starting checkout.</p><Link to="/search" className="primary-btn">Explore products →</Link></div></main>,language)
@@ -545,7 +588,7 @@ function CheckoutPage({cart,language,clearCart}) {
         </section>}
       </section>
       <aside className="summary-card checkout-summary"><span className="eyebrow">YOUR BASKET</span><h2>Order summary</h2><div className="cart-summary-row"><span>{itemCount} items · {cart.length} products</span><b>{money(subtotal)}</b></div>
-      {groups.map(group=><div className="cart-summary-row seller-summary-row" key={group.seller.slug}><span>{group.seller.name}</span><b>{money(group.subtotal)}</b></div>)}<div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div><div className="summary-total"><span>Estimated product total</span><strong>{money(subtotal)}</strong></div><p className="cart-summary-note">Delivery is not included. Each seller must confirm their own delivery fees and availability.</p><div className="checkout-seller-count"><b>{groups.length}</b><span>sample seller{groups.length===1?'':'s'} in this basket</span></div><div className="cart-trust-note"><span>ⓘ</span><p>Demo only. Confirmation creates a sample order on this device; no real order or payment is submitted.</p></div></aside>
+      {groups.map(group=><div className="cart-summary-row seller-summary-row" key={group.seller.slug}><span>{group.seller.name}</span><b>{money(group.subtotal)}</b></div>)}<div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div><div className="cart-summary-row"><span>Discount{appliedCoupon?' · '+appliedCoupon.code:''}</span><b>{discount>0?'- '+money(discount):'—'}</b></div><div className="summary-total"><span>Estimated product total</span><strong>{money(Math.max(0,subtotal-discount))}</strong></div><p className="cart-summary-note">Delivery is not included. Each seller must confirm their own delivery fees and availability.</p><div className="checkout-seller-count"><b>{groups.length}</b><span>sample seller{groups.length===1?'':'s'} in this basket</span></div><div className="cart-trust-note"><span>ⓘ</span><p>Demo only. Confirmation creates a sample order on this device; no real order or payment is submitted.</p></div></aside>
     </div>
   </main>,language)
 }
