@@ -50,6 +50,17 @@ for (const viewport of viewports) {
         viewport: document.documentElement.clientWidth,
         innerWidth: window.innerWidth,
         document: document.documentElement.scrollWidth,
+        bodyScrollWidth: document.body.scrollWidth,
+        scrollers: Array.from(document.querySelectorAll('body *')).map(element => {
+          const style = getComputedStyle(element)
+          return {
+            tag: element.tagName.toLowerCase(),
+            className: typeof element.className === 'string' ? element.className : '',
+            clientWidth: element.clientWidth,
+            scrollWidth: element.scrollWidth,
+            overflowX: style.overflowX,
+          }
+        }).filter(element => element.scrollWidth > element.clientWidth + 1).slice(0, 15),
         offenders: Array.from(document.querySelectorAll('body *')).map(element => {
           const rect = element.getBoundingClientRect()
           return {
