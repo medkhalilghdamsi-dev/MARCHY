@@ -1253,3 +1253,108 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
   background: var(--surface-hover);
 }
 
+/* Product detail refinement — decision-first hierarchy and readable supporting facts. */
+.product-page .product-image-caption { font-size: 11px; line-height: 1.45; }
+.product-page .product-visual-note { padding: 14px 16px; }
+.product-page .product-visual-note p { font-size: 12px; line-height: 1.65; }
+.product-page .product-buy-topline { margin-bottom: 20px; }
+.product-page .product-category-pill { min-height: 31px; font-size: 11px; }
+.product-page .sample-status { font-size: 10px; }
+.product-page .product-compare-button,
+.product-page .product-share-button { min-height: 34px; font-size: 11px; }
+.product-page .product-share-feedback,
+.product-page .product-compare-feedback { font-size: 12px; line-height: 1.5; }
+.product-page .product-buy-panel > h1 { font-size: clamp(30px, 3vw, 40px); line-height: 1.12; }
+.product-page .product-price-block > strong { font-size: clamp(30px, 3vw, 38px); }
+.product-page .product-price-block > del { font-size: 15px; }
+.product-page .product-price-block > span { font-size: 10px; }
+.product-page .product-price-caption { font-size: 12px; line-height: 1.6; }
+.product-page .product-listing-status { padding: 14px 15px; }
+.product-page .product-listing-status b { font-size: 12px; }
+.product-page .product-listing-status small { font-size: 11px; line-height: 1.45; }
+.product-page .product-variant-label { font-size: 12px; }
+.product-page .product-variant-value { font-size: 13px; }
+.product-page .variant-pill { min-height: 39px; font-size: 12px; }
+.product-page .product-quantity-label { font-size: 12px; }
+.product-page .product-quantity output { font-size: 13px; }
+.product-page .product-add-button { font-size: 13px; }
+.product-page .product-quantity-summary { font-size: 11px; }
+.product-page .product-quantity-summary strong { font-size: 13px; }
+.product-page .product-added-feedback { font-size: 12px; line-height: 1.5; }
+.product-page .product-seller-copy small,
+.product-page .product-seller-copy > span { font-size: 11px; }
+.product-page .product-seller-copy b { font-size: 14px; }
+.product-page .product-seller-card > a { font-size: 12px; }
+.product-page .product-trust-heading > b { font-size: 13px; }
+.product-page .product-trust-heading > span { font-size: 10px; }
+.product-page .product-trust-panel p b { font-size: 12px; }
+.product-page .product-trust-panel p small { font-size: 11px; line-height: 1.6; }
+.product-page .product-delivery-card { padding: 15px; }
+.product-page .product-delivery-card > div b { font-size: 12px; }
+.product-page .product-delivery-card p { font-size: 11px; line-height: 1.65; }
+.product-page .product-delivery-facts { margin-top: 12px; }
+.product-page .product-delivery-facts li { font-size: 11px; }
+.product-page .product-demo-disclaimer { font-size: 11px; line-height: 1.6; }
+.product-page .product-buyer-highlights { gap: 18px; padding: 22px; }
+.product-page .product-buyer-highlights > div { grid-template-columns: 30px minmax(0,1fr); gap: 5px 10px; }
+.product-page .product-buyer-highlights > div > span { font-size: 11px; }
+.product-page .product-buyer-highlights b { font-size: 12px; line-height: 1.4; }
+.product-page .product-buyer-highlights small { font-size: 11px; line-height: 1.55; }
+.product-page .product-information-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
+.product-page .product-information-grid > * { padding: 20px; }
+.product-page .product-information-grid .eyebrow { font-size: 10px; }
+.product-page .product-information-grid h2 { font-size: 18px; }
+.product-page .product-information-grid p { font-size: 12px; line-height: 1.7; }
+.product-page .product-attribute-list dt { font-size: 10px; }
+.product-page .product-attribute-list dd { font-size: 11px; line-height: 1.45; }
+.product-page .product-order-checklist li { font-size: 11px; line-height: 1.6; }
+.product-page .product-order-checklist .text-link { font-size: 11px; }
+.product-page .related-products .section-heading p { font-size: 12px; }
+.product-page .related-products .section-heading h2 { font-size: 24px; }
+@media (max-width: 1000px) {
+  .product-page .product-information-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .product-page .product-information-grid > :last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .product-page .breadcrumbs { font-size: 11px; }
+  .product-page .product-image-caption { font-size: 10px; }
+  .product-page .product-visual-note p { font-size: 11px; }
+  .product-page .product-buy-panel > h1 { font-size: 29px; }
+  .product-page .product-price-block > strong { font-size: 31px; }
+  .product-page .product-price-caption { font-size: 11px; }
+  .product-page .product-listing-status b { font-size: 11px; }
+  .product-page .product-listing-status small { font-size: 10px; }
+  .product-page .product-variant-label,
+  .product-page .product-variant-value { font-size: 11px; }
+  .product-page .variant-pill { min-height: 38px; font-size: 11px; }
+  .product-page .product-quantity-label { font-size: 11px; }
+  .product-page .product-add-button { font-size: 12px; }
+  .product-page .product-seller-copy b { font-size: 13px; }
+  .product-page .product-trust-panel p b { font-size: 11px; }
+  .product-page .product-trust-panel p small { font-size: 10px; }
+  .product-page .product-delivery-card > div b { font-size: 11px; }
+  .product-page .product-delivery-card p { font-size: 10px; }
+  .product-page .product-buyer-highlights { grid-template-columns: 1fr; gap: 13px; }
+  .product-page .product-buyer-highlights > div { grid-template-columns: 27px minmax(0,1fr); }
+  .product-page .product-buyer-highlights b { font-size: 11px; }
+  .product-page .product-buyer-highlights small { font-size: 10px; }
+  .product-page .product-information-grid { grid-template-columns: 1fr; }
+  .product-page .product-information-grid > :last-child { grid-column: auto; }
+  .product-page .product-information-grid p { font-size: 11px; }
+  .product-page .product-attribute-list dt { font-size: 10px; }
+  .product-page .product-attribute-list dd { font-size: 11px; }
+  .product-page .product-order-checklist li { font-size: 11px; }
+  .product-page .related-products .section-heading h2 { font-size: 20px; }
+  .product-page .mobile-buybar-total small { font-size: 10px; }
+  .product-page .mobile-buybar-total b { font-size: 17px; }
+  .product-page .mobile-buybar-actions > .primary-btn { font-size: 11px; }
+}
+@media (max-width: 390px) {
+  .product-page .product-buy-panel > h1 { font-size: 26px; }
+  .product-page .product-topline-actions { gap: 5px; }
+  .product-page .product-compare-button,
+  .product-page .product-share-button { min-height: 31px; font-size: 10px; }
+  .product-page .mobile-buybar-total b { font-size: 15px; }
+  .product-page .mobile-buybar-actions > .primary-btn { font-size: 10px; }
+}
+
