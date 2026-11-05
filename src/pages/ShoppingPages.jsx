@@ -95,6 +95,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   }, [budgetParam, catalogueMaxPrice])
   const [city, setCity] = useState(() => params.get('city') || 'All')
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const [searchFocused, setSearchFocused] = useState(false)
   const [page, setPage] = useState(1)
   const [compareIds, setCompareIds] = useState(() => readJson('marchy-compare', []))
   const [compareOpen, setCompareOpen] = useState(false)
@@ -131,6 +132,21 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     }
     return b.id - a.id
   }), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
+  const searchSuggestions = useMemo(() => {
+    const query = term.trim()
+    if (!query) return { products: [], categories: [] }
+    const matchingProducts = [...products].filter(product => searchTextMatches([product.name, product.category, product.description || ''].join(' '), query))
+      .sort((a, b) => {
+        const score = product => {
+          const name = normalizeSearchText(product.name)
+          const q = normalizeSearchText(query)
+          return name === q ? 3 : name.startsWith(q) ? 2 : name.includes(q) ? 1 : 0
+        }
+        return score(b) - score(a)
+      }).slice(0, 5)
+    const matchingCategories = categories.filter(name => name !== 'All' && searchTextMatches(name, query)).slice(0, 3)
+    return { products: matchingProducts, categories: matchingCategories }
+  }, [term])
   const pageCount = Math.max(1, Math.ceil(results.length / pageSize))
   const visibleResults = results.slice((page - 1) * pageSize, page * pageSize)
   const activeFilterCount = Number(Boolean(term)) + Number(category !== 'All' && !routeCategory) + Number(city !== 'All') + Number(minPrice > 0) + Number(maxPrice < catalogueMaxPrice) + Number(dealsOnly)
@@ -186,7 +202,17 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link> / Marketplace</div>
     <div className="listing-head">
       <div><span className="eyebrow">{routeCategory ? "EXPLORE THIS CATEGORY" : "SHOP THE MARCHY MARKETPLACE"}</span><h1>{routeCategory ? category : "Find what you’re looking for."}</h1><p className="muted">{routeCategory ? "Browse products in this category." : results.length + " products to explore"}</p></div>
-      <div className="listing-search"><input aria-label="Search marketplace" value={term} onChange={e => updateTerm(e.target.value)} placeholder="What are you looking for?"/><span>⌕</span></div>
+      <div className="listing-search listing-search-autocomplete" onFocus={() => setSearchFocused(true)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setSearchFocused(false) }}>
+        <input aria-label="Search marketplace" value={term} onChange={e => updateTerm(e.target.value)} onKeyDown={event => { if (event.key === 'Escape') setSearchFocused(false) }} placeholder="What are you looking for?" aria-expanded={searchFocused && Boolean(term.trim())} aria-controls="marketplace-search-suggestions" aria-autocomplete="list"/>
+        {term && <button type="button" className="listing-search-clear" aria-label="Clear search" onClick={() => updateTerm('')}>×</button>}
+        <span aria-hidden="true">⌕</span>
+        {searchFocused && term.trim() && <div className="search-suggestions" id="marketplace-search-suggestions">
+          {searchSuggestions.products.length > 0 && <div className="search-suggestion-group"><small>Products</small>{searchSuggestions.products.map(product => <Link key={product.id} to={'/product/' + product.id} className="search-suggestion-product" onClick={() => setSearchFocused(false)}><img src={product.image} alt="" loading="lazy"/><span><b>{product.name}</b><small>{product.category} · {money(product.price)}</small></span><span aria-hidden="true">↗</span></Link>)}</div>}
+          {searchSuggestions.categories.length > 0 && <div className="search-suggestion-group"><small>Categories</small>{searchSuggestions.categories.map(name => <button type="button" key={name} onClick={() => { setCategory(name); updateTerm(''); setSearchFocused(false); navigate('/category/' + encodeURIComponent(name.toLowerCase())) }}>{name}<span aria-hidden="true">→</span></button>)}</div>}
+          <button type="button" className="search-suggestions-all" onClick={() => setSearchFocused(false)}>View all {results.length} matching results <span aria-hidden="true">→</span></button>
+          {searchSuggestions.products.length === 0 && searchSuggestions.categories.length === 0 && <p className="search-suggestions-empty">No quick matches. Press Enter or keep typing to search the full catalogue.</p>}
+        </div>}
+      </div>
     </div>
     <div className="mobile-filter-toggle"><button type="button" className="outline-btn" onClick={() => setFiltersOpen(v => !v)} aria-expanded={filtersOpen} aria-controls="marketplace-filters">☷ Filters {activeFilterCount > 0 ? '· ' + activeFilterCount + ' active' : ''}</button><span>{results.length} results</span></div>
     {activeFilterCount > 0 && <div className="active-filter-chips" aria-label="Active filters">
