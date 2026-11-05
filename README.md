@@ -94,6 +94,14 @@ npm run test:e2e
 
 The Playwright suite covers public routes, responsive overflow, Arabic RTL, navigation, cart and wishlist interactions, comparison, seller storefront interactions and accessibility checks. These checks are authored but must be run locally or in CI before treating them as passing.
 
+## Connected operational workspaces
+
+- Delivery operations: `/operations/delivery` — shared demo fulfilment queue and courier assignment.
+- Platform administration: `/admin` — cross-marketplace demo order overview.
+- Merchant workspace links directly to delivery and admin interfaces.
+- Both operational screens use the same browser-local demo order store. This demonstrates frontend workflow continuity only; it is not a live multi-user system.
+- Backend integration boundaries and suggested resource contracts: [Frontend handoff](docs/FRONTEND_HANDOFF.md).
+
 ## Important
 
 MARCHY is currently a frontend prototype. The product catalogue, seller storefronts, prices, discounts, stock and delivery information are illustrative and are not verified live offers. Cart, wishlist, comparison and recently viewed data are stored locally in the browser. Authentication, order submission, payment processing, inventory, seller management, delivery calculations and backend integrations are not connected.
