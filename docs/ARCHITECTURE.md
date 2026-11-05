@@ -31,17 +31,17 @@ Runtime entry:
 
 | URL | Page owner | Journey |
 |---|---|---|
-| `/` | `Home` — ShoppingPages | Buyer discovery |
-| `/search`, `/category/:category` | `SearchPage` — ShoppingPages | Search, filters and sorting |
-| `/product/:id` | `ProductPage` — ShoppingPages | Product evaluation and add-to-cart |
-| `/cart`, `/checkout`, `/wishlist` | ShoppingPages | Basket and buyer intent |
+| `/` | `HomePage.jsx` | Buyer discovery |
+| `/search`, `/category/:category` | `SearchPage.jsx` | Search, filters and sorting |
+| `/product/:id` | `ProductPage.jsx` | Product evaluation and add-to-cart |
+| `/cart`, `/checkout` | `CartPages.jsx` | Basket and checkout preview |\n| `/wishlist` | `WishlistPage.jsx` | Saved buyer items |
 | `/categories`, `/sellers`, `/seller/:slug` | DiscoveryPages | Category and seller discovery |
 | `/account`, `/login`, `/signup`, `/help`, `/delivery`, `/returns` | SupportPages | Account and support previews |
 | `/sell`, `/seller-dashboard`, `/seller-help` | SellerPages | Merchant-facing prototype |
 | `/orders`, `/orders/:id`, `/operations/delivery`, `/admin` | OperationsPages | Connected local demo order workflow |
 | unmatched URL | SupportPages | Not-found state |
 
-Keep route URLs stable. If a route must change, retain a redirect or compatibility alias and update the route tests.
+Keep route URLs stable. If a route must change, retain a redirect or compatibility alias and update the route tests. See [QA_MATRIX.md](./QA_MATRIX.md) for the full route inventory, release gates and buyer journey checks.
 
 ## State ownership
 
@@ -93,7 +93,7 @@ When adding CSS:
 
 ## Known modularisation targets
 
-The buyer journey and shared marketplace chrome have already been extracted into focused modules. The legacy `ShoppingPages.jsx` and `MarketplaceChrome.jsx` files remain as small compatibility barrels; new code should import focused modules directly.
+The buyer journey and shared marketplace chrome have already been extracted into focused modules. `HomePage.jsx`, `SearchPage.jsx`, `ProductPage.jsx`, `CartPages.jsx` and `WishlistPage.jsx` own their respective buyer routes. The legacy `ShoppingPages.jsx` and `MarketplaceChrome.jsx` files remain as small compatibility barrels; new code should import focused modules directly.
 
 Remaining deliberate refactors:
 1. Split the discovery, seller, support and operations page groups where each extraction has a clear dependency boundary.
