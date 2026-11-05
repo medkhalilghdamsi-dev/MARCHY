@@ -73,7 +73,7 @@ This matrix describes the buyer-facing frontend surface and the checks required 
 
 ## Automated coverage policy
 
-The Playwright suite lives in `tests/marketplace.spec.js`. Keep tests focused on user-visible behavior and accessible roles/names rather than implementation details. Every new buyer-critical interaction should add or update a regression test in the same change.
+The Playwright suite is split under `tests/` into route/responsive, shopping, seller, product-detail, operations, accessibility and mobile suites. Keep tests focused on user-visible behavior and accessible roles/names rather than implementation details. Every new buyer-critical interaction should add or update a regression test in the same change.
 
 A passing browser suite is not proof that every route in this matrix has been manually inspected. Record manual checks separately in the pull request or release notes. Do not mark a route as fully verified until desktop, mobile and (where relevant) Arabic behavior have actually been exercised.
 
