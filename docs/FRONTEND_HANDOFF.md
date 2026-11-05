@@ -186,3 +186,8 @@ The MarketplaceProvider also exposes a small notification API. Adding a product 
 ## Demo coupon behavior
 
 The cart accepts two illustrative, frontend-only promotion codes: MARCHY10 (10% off the product subtotal) and BIENVENUE (5 TND off). The selected code is kept in browser local storage while the buyer moves from cart to checkout. Checkout allocates the discount proportionally across seller demo orders and clears the local code after demo-order creation. These codes are not real offers and do not validate against seller campaigns or a backend promotion service.
+
+
+## Product review preview
+
+Product detail pages include illustrative rating summaries, rating distributions and review cards sourced from src/data/reviews.js. Every entry is explicitly labelled as sample content and not a verified purchase. These fixtures are for interface development only and must be replaced with authenticated, order-linked review data before production.
