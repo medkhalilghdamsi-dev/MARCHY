@@ -172,3 +172,69 @@
 .is-rtl .checkout-delivery-status,.is-rtl .checkout-form-actions,.is-rtl .checkout-review-actions{direction:rtl}
 .is-rtl .checkout-contact-review>div{direction:rtl}
 .is-rtl .checkout-delivery-status b{text-align:start}
+
+/* Checkout readability: keep labels, step descriptions and review details legible. */
+.checkout-page .checkout-heading h1 {
+  font-size: clamp(30px, 3.4vw, 40px);
+  letter-spacing: -1.25px;
+}
+.checkout-page .checkout-heading p { font-size: 14px; }
+.checkout-page .checkout-steps li { min-height: 78px; padding: 16px; gap: 12px; }
+.checkout-page .checkout-steps li > span { width: 32px; height: 32px; flex-basis: 32px; font-size: 13px; }
+.checkout-page .checkout-steps li b { font-size: 13px; }
+.checkout-page .checkout-steps li small { font-size: 11px; }
+.checkout-page .checkout-panel-title h2 { font-size: 22px; }
+.checkout-page .checkout-panel-title p { font-size: 13px; line-height: 1.65; }
+.checkout-page .checkout-fields label { font-size: 13px; }
+.checkout-page .checkout-fields input,
+.checkout-page .checkout-fields select,
+.checkout-page .checkout-fields textarea { font-size: 14px; }
+.checkout-page .checkout-optional { font-size: 11px; }
+.checkout-page .checkout-form-actions > span { font-size: 11px; }
+.checkout-page .checkout-contact-review p { font-size: 13px; line-height: 1.5; }
+.checkout-page .checkout-contact-review small { font-size: 11px; }
+.checkout-page .checkout-seller-heading b { font-size: 13px; }
+.checkout-page .checkout-seller-heading small { font-size: 11px; }
+.checkout-page .checkout-seller-heading > strong { font-size: 14px; }
+.checkout-page .checkout-review-item > span,
+.checkout-page .checkout-review-item > b { font-size: 12px; }
+.checkout-page .checkout-review-item small { font-size: 11px; }
+.checkout-page .checkout-delivery-status { font-size: 11px; }
+.checkout-page .checkout-summary .cart-summary-row,
+.checkout-page .checkout-summary .cart-summary-row > b { font-size: 12px; }
+.checkout-page .checkout-summary .summary-total > span { font-size: 13px; }
+.checkout-page .checkout-summary .summary-total strong { font-size: 22px; }
+.checkout-page .checkout-summary .cart-summary-note { font-size: 11px; line-height: 1.6; }
+.checkout-page .checkout-seller-count span { font-size: 12px; }
+.checkout-page .checkout-page .cart-trust-note p { font-size: 11px; }
+@media (max-width: 680px) {
+  .checkout-page .checkout-heading h1 { font-size: 29px; }
+  .checkout-page .checkout-heading p { font-size: 13px; }
+  .checkout-page .checkout-steps li {
+    min-height: 82px;
+    flex-direction: row;
+    align-items: center;
+    padding: 11px 9px;
+    gap: 8px;
+  }
+  .checkout-page .checkout-steps li > span {
+    width: 27px; height: 27px; flex-basis: 27px; font-size: 11px;
+  }
+  .checkout-page .checkout-steps li b { font-size: 11px; line-height: 1.35; }
+  .checkout-page .checkout-steps li small { font-size: 10px; line-height: 1.35; }
+  .checkout-page .checkout-panel-title h2 { font-size: 19px; }
+  .checkout-page .checkout-panel-title p { font-size: 12px; }
+  .checkout-page .checkout-fields label { font-size: 12px; }
+  .checkout-page .checkout-fields input,
+  .checkout-page .checkout-fields select,
+  .checkout-page .checkout-fields textarea { font-size: 16px; }
+  .checkout-page .checkout-review-item > span,
+  .checkout-page .checkout-review-item > b { font-size: 11px; }
+  .checkout-page .checkout-review-item small { font-size: 10px; }
+}
+@media (max-width: 390px) {
+  .checkout-page .checkout-steps li { padding: 9px 7px; }
+  .checkout-page .checkout-steps li b { font-size: 10px; }
+  .checkout-page .checkout-steps li small { font-size: 9px; }
+}
+
