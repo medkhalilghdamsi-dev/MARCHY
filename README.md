@@ -1,111 +1,78 @@
 # MARCHY Marketplace
 
-A responsive, multi-page Tunisia-first marketplace frontend built with React and Vite.
+MARCHY is a Tunisia-first, multi-page marketplace **frontend prototype** built with React 18, React Router and Vite. The repository focuses on the buyer shopping experience while also containing seller, support and connected operations-preview workspaces.
 
-## Project structure
-
-```text
-MARCHY/
-├── public/                     # Static assets
-├── src/
-│   ├── app/
-│   │   └── MarketplaceApp.jsx  # Route composition and app shell
-│   ├── components/
-│   │   └── MarketplaceChrome.jsx # Header, product card, footer, mobile tabs
-│   ├── data/
-│   │   ├── products.js         # Illustrative product catalogue and categories
-│   │   └── sellers.js          # Illustrative seller profiles and mappings
-│   ├── hooks/
-│   │   └── useMarketplaceState.js # Persistent language, cart and wishlist state
-│   ├── i18n/
-│   │   ├── translations.js     # English/French/Arabic interface copy
-│   │   └── translate.js        # Shared translated React-tree helper
-│   ├── pages/
-│   │   ├── ShoppingPages.jsx   # Home, search, product, cart, checkout, wishlist
-│   │   ├── DiscoveryPages.jsx  # Categories and seller discovery/storefront
-│   │   ├── SellerPages.jsx     # Seller onboarding, workspace and preparation
-│   │   └── SupportPages.jsx    # Account, help, delivery, returns and not-found
-│   ├── styles/
-│   │   ├── base.css                 # Fonts, tokens and foundational rules
-│   │   ├── discovery.css            # Category and seller discovery
-│   │   ├── shopping.css             # Shopping, product and cart styles
-│   │   ├── design-foundation.css    # Shared design-system refinements
-│   │   ├── seller-experience.css    # Seller-facing pages
-│   │   ├── seller-workspace.css     # Seller dashboard workspace
-│   │   ├── quality-refinements.css  # Accessibility and responsive polish
-│   │   ├── multi-seller-basket.css  # Multi-seller cart details
-│   │   ├── checkout.css             # Checkout preview
-│   │   └── result-controls.css      # Search and listing controls
-│   ├── utils/
-│   │   └── marketplace.js     # Search, text normalisation and storage helpers
-│   ├── App.jsx                 # Stable application entry/re-export
-│   ├── main.jsx                # React + router bootstrap
-│   └── styles.css              # Stable stylesheet entry/import
-├── tests/
-│   └── marketplace.spec.js     # Playwright route, responsive and interaction tests
-├── index.html
-├── package.json
-├── playwright.config.js
-└── vite.config.js
-```
-
-## Module responsibilities
-
-- **Bootstrap:** `src/main.jsx` mounts React and configures the browser router.
-- **Application:** `src/App.jsx` is the stable entry boundary; route composition and shared application state currently live in `src/app/MarketplaceApp.jsx`.
-- **Data:** `src/data/` holds illustrative catalogue and seller records. Keep sample data separate from UI and never present it as verified inventory.
-- **Internationalisation:** `src/i18n/` owns interface copy for English, French and Arabic.
-- **Utilities:** `src/utils/` owns reusable search normalisation and browser-local storage helpers.
-- **Styles:** `src/styles.css` is the stable global style entry. Ordered CSS modules in `src/styles/` separate foundations, discovery, shopping, seller experiences, checkout, result controls and the final cross-page experience layer without changing cascade order.
-- **Tests:** `tests/` contains route, responsive, interaction and accessibility checks.
-
-### Remaining modularisation
-
-The current structure separates route composition, shared marketplace chrome, page journeys, persistent browser state, translations, utilities and ordered style layers. Continue extracting individual components only when doing so creates a clear reusable boundary; avoid empty abstraction layers or changing route and storage contracts just for file-count reasons.
-
-## Run locally
+## Start here
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-## Frontend experience
-
-- Responsive marketplace homepage and category discovery
-- Global search suggestions with multilingual synonyms and relevance-aware results
-- Category, seller-location and price filters
-- Sorting and switchable grid/list result layouts
-- Product detail pages with image zoom, seller information, related listings and buyer checklists
-- Product comparison, cart, wishlist and recently viewed products
-- Multi-step demo checkout with contact validation, one local demo order per merchant and buyer tracking
-- Buyer order history with search, status filters and direct tracking links
-- Seller directory, storefront previews and browser-local seller workspace demonstration
-- English, French and Arabic interface with RTL layout support
-- Responsive navigation and keyboard interactions
-- Refined page hierarchy, product-card states, cart/checkout surfaces and comparison tray
-- Contrast and keyboard-focus improvements guided by automated accessibility checks
-
-## Validation
+Validate changes before committing:
 
 ```bash
 npm run build
 npm run test:e2e
 ```
 
-The Playwright suite covers public routes, responsive overflow, Arabic RTL, navigation, cart and wishlist interactions, comparison, seller storefront interactions and accessibility checks. These checks are authored but must be run locally or in CI before treating them as passing.
+Node.js 22 is used in CI. Playwright starts the Vite server automatically and runs the browser suite against Chromium.
 
-## Connected operational workspaces
+## Repository map
 
-- Buyer order history: `/orders` — searchable sample order list with status filters and tracking links.
-- Buyer order tracking: `/orders/:id` — sample delivery progress linked to merchant and operations updates.
-- Delivery operations: `/operations/delivery` — shared demo fulfilment queue and courier assignment.
-- Platform administration: `/admin` — cross-marketplace demo order overview.
-- Merchant workspace links directly to delivery and admin interfaces.
-- Checkout creates browser-local demo orders and clears the cart; it does not submit a real order, send notifications or process payment.
-- Both operational screens use the same browser-local demo order store. This demonstrates frontend workflow continuity only; it is not a live multi-user system.
-- Backend integration boundaries and suggested resource contracts: [Frontend handoff](docs/FRONTEND_HANDOFF.md).
+```text
+MARCHY/
+├── .github/workflows/       # Single frontend CI workflow
+├── docs/
+│   ├── ARCHITECTURE.md      # Route, state, CSS and module ownership
+│   └── FRONTEND_HANDOFF.md  # Backend integration boundaries and proposals
+├── public/                 # Static assets and route fallback support
+├── scripts/                # Build-time route fallback generation
+├── src/
+│   ├── app/                # App shell, route table and page metadata
+│   ├── components/         # Shared marketplace chrome and product cards
+│   ├── data/               # Illustrative product and seller fixtures
+│   ├── hooks/              # Shared browser state and demo order behavior
+│   ├── i18n/               # English, French and Arabic translations
+│   ├── pages/              # Buyer, discovery, seller, support and operations pages
+│   ├── styles/             # Ordered design-system and page style layers
+│   └── utils/              # Search, formatting and guarded storage helpers
+├── tests/                  # Playwright route, journey and accessibility tests
+├── index.html
+├── package.json
+├── playwright.config.js
+└── vite.config.js
+```
 
-## Important
+See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for the full module map, route ownership, browser-state keys, CSS cascade order and safe modularisation plan. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the working and validation rules.
 
-MARCHY is currently a frontend prototype. The product catalogue, seller storefronts, prices, discounts, stock and delivery information are illustrative and are not verified live offers. Cart, wishlist, comparison and recently viewed data are stored locally in the browser. Authentication, order submission, payment processing, inventory, seller management, delivery calculations and backend integrations are not connected.
+## Frontend capabilities
+
+- Buyer homepage, category discovery, search suggestions, URL-persistent filters and sorting.
+- Product detail, seller storefront previews, product comparison and recently viewed products.
+- Wishlist, multi-seller cart and multi-step demo checkout.
+- Buyer order history and tracking preview.
+- Seller onboarding, local product-draft workspace and preparation guide.
+- Delivery operations and platform admin preview sharing a browser-local demo order store.
+- English, French and Arabic interface support, including RTL layout.
+- Responsive navigation, keyboard interactions and accessibility checks.
+
+## Route groups
+
+| Group | Routes |
+|---|---|
+| Buyer shopping | `/`, `/search`, `/category/:category`, `/product/:id`, `/cart`, `/checkout`, `/wishlist` |
+| Discovery | `/categories`, `/sellers`, `/seller/:slug` |
+| Account and support | `/account`, `/login`, `/signup`, `/help`, `/delivery`, `/returns` |
+| Seller preview | `/sell`, `/seller-dashboard`, `/seller-help` |
+| Demo operations | `/orders`, `/orders/:id`, `/operations/delivery`, `/admin` |
+
+## Important limitations
+
+This is not a live marketplace backend. Product and seller records, prices, discounts, stock, reviews and delivery details are illustrative. Cart, wishlist, comparison, seller drafts and demo orders are stored in the browser. Checkout does not create a real order, authenticate a buyer, process a payment, notify a seller or book a courier. Never present prototype state as verified or multi-user data.
+
+The senior backend developer's integration boundary is documented in [docs/FRONTEND_HANDOFF.md](./docs/FRONTEND_HANDOFF.md). This frontend organisation pass does not implement backend services.
+
+## Quality checks
+
+One GitHub Actions workflow runs the production build and Playwright browser regression suite for pushes and pull requests targeting `main`. CI uses `npm ci` and Node.js 22 for reproducible installs.
