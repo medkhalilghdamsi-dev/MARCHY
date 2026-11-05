@@ -10,9 +10,9 @@ const loc = lang => LOCALES[lang] || LOCALES.en
 
 export function formatMoney(value, lang = 'en', { compact = false, unit = 'TND' } = {}) {
   const n = normalizeTnd(value, unit)
-  const unit = lang === 'ar' ? 'د.ت' : 'DT'
+  const currencyLabel = lang === 'ar' ? 'د.ت' : 'DT'
   if (compact && Math.abs(n) >= 10000) {
-    return `${new Intl.NumberFormat(loc(lang), { notation: 'compact', maximumFractionDigits: 1 }).format(n)} ${unit}`
+    return `${new Intl.NumberFormat(loc(lang), { notation: 'compact', maximumFractionDigits: 1 }).format(n)} ${currencyLabel}`
   }
   const num = new Intl.NumberFormat(loc(lang), { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(n)
   return `${num} ${unit}`
