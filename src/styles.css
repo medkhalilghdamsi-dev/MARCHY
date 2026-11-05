@@ -1,4 +1,7 @@
-@import './styles/base.css';
+@import './styles/base-foundation.css';
+@import './styles/base-discovery.css';
+@import './styles/base-shopping.css';
+@import './styles/base-mobile-navigation.css';
 @import './styles/discovery.css';
 @import './styles/shopping.css';
 @import './styles/design-foundation.css';

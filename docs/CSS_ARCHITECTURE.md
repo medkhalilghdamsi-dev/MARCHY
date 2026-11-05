@@ -2,16 +2,17 @@
 
 ## Current cascade
 
-The entry point is `src/styles.css`. Import order is intentional: `base.css`, discovery and shopping foundations, design foundation, seller styles, quality refinements, basket and checkout, result controls, then the four experience layers (`experience-foundation.css`, `product-experience.css`, `discovery-experience.css`, `buyer-experience.css`), followed by auth and operations styles. The four new files preserve the original experience stylesheet's exact section order and declarations. Later imports can override earlier declarations. Do not reorder these files without browser comparison.
+The entry point is `src/styles.css`. Import order is intentional: `base-foundation.css`, `base-discovery.css`, `base-shopping.css`, `base-mobile-navigation.css`, discovery and shopping foundations, design foundation, seller styles, quality refinements, basket and checkout, result controls, then the four experience layers (`experience-foundation.css`, `product-experience.css`, `discovery-experience.css`, `buyer-experience.css`), followed by auth and operations styles. The four new files preserve the original experience stylesheet's exact section order and declarations. Later imports can override earlier declarations. Do not reorder these files without browser comparison.
 
-The four experience layers are page-family layers, not yet fully component-scoped styles. This is a clearer, documented cascade, but some older global selectors still overlap and need visual regression checks before relocation.
+The base stylesheet has been divided into global foundation, discovery, shopping and mobile-navigation layers at existing top-level section boundaries. The four experience layers are page-family layers, not yet fully component-scoped styles. This is a clearer, documented cascade, but some older global selectors still overlap and need visual regression checks before relocation.
 
 ## Ownership rules
 
 | Concern | Preferred owner |
 |---|---|
-| Reset, tokens, typography and element defaults | `base.css` |
-| Header, footer and mobile navigation | shared chrome styles (existing shared component layer; CSS extraction remains) |
+| Reset, tokens, typography and element defaults | `base-foundation.css` |
+| Header and footer | shared chrome styles (existing shared component layer; CSS extraction remains) |
+| Mobile navigation | `base-mobile-navigation.css` plus shared chrome styles |
 | Product card and product grid | `shopping.css` and `product-experience.css` (consolidation target) |
 | Homepage hero and merchandising | `experience-foundation.css` and `buyer-experience.css` (page-family layer) |
 | Search, filters, sorting and comparison | `discovery.css`, `result-controls.css` and `discovery-experience.css` |
@@ -35,4 +36,4 @@ Run `npm run audit:css` from the repository root. The script follows local impor
 4. Remove old rules only after confirming no component relies on them.
 5. Keep the global stylesheet entry explicit; do not create files for tiny one-off selectors.
 
-The experience stylesheet has been separated at four existing top-level section boundaries, with balanced CSS blocks and unchanged declaration order. Do not combine the new layers or move rules between them without checking responsive, theme, RTL and keyboard states.
+The base and experience stylesheets have been separated at existing top-level section boundaries, with balanced CSS blocks and unchanged declaration order. Do not combine the new layers or move rules between them without checking responsive, theme, RTL and keyboard states.
