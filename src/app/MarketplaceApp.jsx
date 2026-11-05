@@ -35,7 +35,8 @@ function App(){
     }else if(path.startsWith('/product/')){
       const product=products.find(item=>item.id===Number(path.split('/').pop()))
       title=product?product.name:'Product not found'
-    }else if(path.startsWith('/seller/')){
+    }else if(path.startsWith('/orders/')) title='Order tracking '+path.split('/').pop()
+    else if(path.startsWith('/seller/')){
       const slug=path.split('/').pop()
       const seller=sellers.find(item=>item.slug===slug)
       title=seller?seller.name:'Seller storefront'
