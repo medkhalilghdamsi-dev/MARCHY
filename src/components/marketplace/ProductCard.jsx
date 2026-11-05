@@ -5,6 +5,7 @@ import { money } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
+import { ArrowRight, ArrowUpRight, Check, Heart, MapPin, Plus, ShoppingCart } from 'lucide-react'
 
 export function ProductCard({ product, addToCart, wished, toggleWish, compareIds = [], toggleCompare, returnTo }) {
   const { language } = useMarketplace()
@@ -52,23 +53,23 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
         <span className="product-tag">SAMPLE</span>
         {product.badge && <span className={`product-badge ${badgeColors[product.badge] || ''}`}>{product.badge}</span>}
         {discount > 0 && <span className="discount-tag">-{discount}%</span>}
-        <button type="button" className={`wish-btn ${wished ? 'wished' : ''}`} onClick={() => toggleWish(product.id)} aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'} aria-pressed={wished}>{wished ? '♥' : '♡'}</button>
-        <button type="button" className="product-quick-view" onClick={() => setQuickViewOpen(true)} aria-label={`Quick view ${product.name}`}>Quick view <span>↗</span></button>
+        <button type="button" className={`wish-btn ${wished ? 'wished' : ''}`} onClick={() => toggleWish(product.id)} aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'} aria-pressed={wished}>{wished ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/ >}</button>
+        <button type="button" className="product-quick-view" onClick={() => setQuickViewOpen(true)} aria-label={`Quick view ${product.name}`}>Quick view <span><ArrowUpRight size={14}/></span></button>
       </div>
       <div className="product-info">
         <div className="product-category">{product.category}</div>
         <Link to={`/product/${product.id}`} state={returnTo ? { from: returnTo } : undefined} className="product-name">{product.name}</Link>
-        <Link to={`/seller/${seller.slug}`} className="seller-name seller-link">⌖ {seller.name} · {seller.city}</Link>
+        <Link to={`/seller/${seller.slug}`} className="seller-name seller-link"><MapPin size={12} aria-hidden="true"/> {seller.name} · {seller.city}</Link>
         {product.rating && <div className="product-rating" aria-label={`Rating: ${product.rating} out of 5`}>
           <span aria-hidden="true">{'★'.repeat(Math.round(product.rating))}{'☆'.repeat(5 - Math.round(product.rating))}</span>
           <small>Illustrative · {product.reviewCount} sample reviews</small>
         </div>}
         <div className="price-row"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}</div>
         {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)} disabled={compareIds.length >= 3 && !compareIds.includes(product.id)}>
-          {compareIds.includes(product.id) ? '✓ Added to compare' : compareIds.length >= 3 ? 'Compare limit reached' : '＋ Compare'}
+          {compareIds.includes(product.id) ? <><Check size={14}/> Added to compare</> : compareIds.length >= 3 ? 'Compare limit reached' : <><Plus size={14}/> Compare</>}
         </button>}
         <button type="button" className={`add-btn ${added ? 'added' : ''}`} onClick={quickAdd} aria-live="polite">
-          {added ? 'Added to cart ✓' : 'Add to cart'} <span>{added ? '✓' : '＋'}</span>
+          {added ? 'Added to cart' : 'Add to cart'} <span>{added ? <Check size={16}/> : <ShoppingCart size={16}/>}</span>
         </button>
       </div>
     </article>
@@ -85,7 +86,7 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
           <div className="quick-view-seller">Sold by <b>{seller.name}</b> · {seller.city}</div>
           <div className="quick-view-actions">
             <button type="button" className="primary-btn" onClick={quickAdd}>{added ? 'Added to cart ✓' : 'Add to demo cart'}</button>
-            <Link to={`/product/${product.id}`} state={returnTo ? { from: returnTo } : undefined} className="outline-btn" onClick={() => setQuickViewOpen(false)}>View full details →</Link>
+            <Link to={`/product/${product.id}`} state={returnTo ? { from: returnTo } : undefined} className="outline-btn" onClick={() => setQuickViewOpen(false)}>View full details <ArrowRight size={15}/></Link>
           </div>
           <small>Illustrative catalogue information. Availability and final terms are not verified.</small>
         </div>
