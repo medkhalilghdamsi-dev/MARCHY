@@ -90,7 +90,7 @@ test('mobile navigation opens and closes after route selection', async ({ page }
 test('product quantity, cart updates and wishlist persist across routes', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/product/1')
-  await page.getByRole('button', { name: 'Increase quantity' }).click()
+  await page.getByRole('group', { name: 'Quantity', exact: true }).getByRole('button', { name: 'Increase quantity' }).click()
   await expect(page.getByLabel('Selected quantity')).toHaveText('2')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
   await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
@@ -163,7 +163,7 @@ test('clearing marketplace filters also restores featured sorting', async ({ pag
 
 test('marketplace search autocomplete offers category and no-match guidance', async ({ page }) => {
   await page.goto('/search')
-  const search = page.getByRole('textbox', { name: 'Search marketplace' })
+  const search = page.getByRole('combobox', { name: 'Search marketplace' })
   await search.fill('Electronics')
   await expect(page.locator('.search-suggestion-group').filter({ hasText: 'Categories' })).toContainText('Electronics')
   await page.locator('.search-suggestion-group button').filter({ hasText: 'Electronics' }).click()
