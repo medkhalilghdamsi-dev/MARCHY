@@ -75,12 +75,17 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const budgetParam = Number(params.get('max') || 0)
   useEffect(() => setTerm(initial), [initial])
   useEffect(() => setCategory(initialCategory), [initialCategory])
-  const [sort, setSort] = useState('featured')
+  const validSorts = ['featured', 'price-low', 'price-high', 'name', 'newest', 'savings']
+  const [sort, setSort] = useState(() => validSorts.includes(params.get('sort')) ? params.get('sort') : 'featured')
   const [view,setView] = useState(()=>readText('marchy-product-view','grid')==='list'?'list':'grid')
   useEffect(()=>{try{localStorage.setItem('marchy-product-view',view)}catch{}},[view])
   const catalogueMaxPrice = Math.max(100, Math.ceil(Math.max(...products.map(p => p.price)) / 50) * 50)
-  const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(budgetParam > 0 ? Math.min(catalogueMaxPrice, budgetParam) : catalogueMaxPrice)
+  const initialMinPrice = Math.max(0, Number(params.get('min')) || 0)
+  const [minPrice, setMinPrice] = useState(Math.min(initialMinPrice, catalogueMaxPrice))
+  const [maxPrice, setMaxPrice] = useState(() => {
+    const requestedMax = Number(params.get('max')) || 0
+    return Math.max(Math.min(initialMinPrice, catalogueMaxPrice), requestedMax > 0 ? Math.min(catalogueMaxPrice, requestedMax) : catalogueMaxPrice)
+  })
   const lastBudgetParam = useRef(budgetParam)
   useEffect(() => {
     if (budgetParam !== lastBudgetParam.current) {
@@ -88,7 +93,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
       lastBudgetParam.current = budgetParam
     }
   }, [budgetParam, catalogueMaxPrice])
-  const [city, setCity] = useState('All')
+  const [city, setCity] = useState(() => params.get('city') || 'All')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [compareIds, setCompareIds] = useState(() => readJson('marchy-compare', []))
@@ -122,6 +127,19 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const visibleResults = results.slice((page - 1) * pageSize, page * pageSize)
   const activeFilterCount = Number(Boolean(term)) + Number(category !== 'All' && !routeCategory) + Number(city !== 'All') + Number(minPrice > 0) + Number(maxPrice < catalogueMaxPrice) + Number(dealsOnly)
   useEffect(() => setPage(1), [term, category, sort, minPrice, maxPrice, dealsOnly, city])
+  // Keep result controls in the URL so a buyer can bookmark or share this exact view.
+  useEffect(() => {
+    const next = new URLSearchParams(params)
+    if (sort === 'featured') next.delete('sort')
+    else next.set('sort', sort)
+    if (city === 'All') next.delete('city')
+    else next.set('city', city)
+    if (minPrice > 0) next.set('min', String(minPrice))
+    else next.delete('min')
+    if (maxPrice < catalogueMaxPrice) next.set('max', String(maxPrice))
+    else next.delete('max')
+    if (next.toString() !== params.toString()) setParams(next, { replace: true })
+  }, [sort, city, minPrice, maxPrice, catalogueMaxPrice, params, setParams])
   const updateTerm = value => {
     setTerm(value)
     const next = new URLSearchParams(params)
