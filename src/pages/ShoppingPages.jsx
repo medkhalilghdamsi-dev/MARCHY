@@ -423,7 +423,7 @@ function CheckoutPage({cart,language,clearCart}) {
     <div className="checkout-layout">
       <section className="checkout-main-panel" aria-live="polite">
         {step===1&&<form className="checkout-form" onSubmit={event=>{event.preventDefault();setStep(2);window.scrollTo({top:0,behavior:'smooth'})}}>
-          <div className="checkout-panel-title"><span className="eyebrow">STEP 01</span><h2>Where should the seller contact you?</h2><p>This information stays in this page session and is not sent or saved.</p></div>
+          <div className="checkout-panel-title"><span className="eyebrow">STEP 01</span><h2>Where should the seller contact you?</h2><p>Phone, street address and notes stay in this page session. Only your display name and city are kept in the local demo order after confirmation.</p></div>
           <div className="checkout-fields">
             <label>Full name<input autoComplete="name" required value={details.name} onChange={e=>update('name',e.target.value)} placeholder="Your full name"/></label>
             <label>Phone number<input autoComplete="tel" type="tel" required inputMode="tel" pattern="[+0-9() .-]{7,20}" value={details.phone} onChange={e=>update('phone',e.target.value)} placeholder="+216 XX XXX XXX"/></label>
