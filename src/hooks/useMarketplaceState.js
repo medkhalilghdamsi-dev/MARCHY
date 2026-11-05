@@ -6,6 +6,10 @@ export function useMarketplaceState() {
     const saved = readText('marchy-language', 'en')
     return ['en', 'fr', 'ar'].includes(saved) ? saved : 'en'
   })
+  const [theme, setTheme] = useState(() => {
+    const saved = readText('marchy-theme', 'light')
+    return saved === 'dark' ? 'dark' : 'light'
+  })
   const [cart, setCart] = useState(() => readJson('marchy-cart', []))
   const [wishlist, setWishlist] = useState(() => readJson('marchy-wishlist', []))
 
@@ -14,6 +18,12 @@ export function useMarketplaceState() {
     document.documentElement.lang = language
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
   }, [language])
+
+  useEffect(() => {
+    try { localStorage.setItem('marchy-theme', theme) } catch {}
+    document.documentElement.dataset.theme = theme
+    document.documentElement.style.colorScheme = theme
+  }, [theme])
 
   useEffect(() => { writeJson('marchy-cart', cart) }, [cart])
   useEffect(() => { writeJson('marchy-wishlist', wishlist) }, [wishlist])
@@ -45,7 +55,7 @@ export function useMarketplaceState() {
   }
 
   return {
-    language, setLanguage, cart, wishlist,
+    language, setLanguage, theme, setTheme, cart, wishlist,
     addToCart, updateQty, removeItem, clearCart, toggleWish,
   }
 }
