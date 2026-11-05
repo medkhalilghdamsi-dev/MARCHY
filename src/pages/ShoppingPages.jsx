@@ -291,6 +291,7 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
   const [imageZoomOpen,setImageZoomOpen]=useState(false)
+  const [activeImage,setActiveImage]=useState('')
   const [shareFeedback,setShareFeedback]=useState('')
   const [isCompared,setIsCompared]=useState(()=>readJson('marchy-compare',[]).includes(Number(id)))
   const [compareFeedback,setCompareFeedback]=useState('')
@@ -337,7 +338,12 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
   }, [product?.id])
   if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
   const seller = sellerForProduct(product)
-  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
+  const galleryImages = [...new Set([...(Array.isArray(product.images) ? product.images : []), product.image].filter(Boolean))]
+  const displayedImage = galleryImages.includes(activeImage) ? activeImage : galleryImages[0]
+  const related = [
+    ...products.filter(p => p.category === product.category && p.id !== product.id),
+    ...products.filter(p => p.category !== product.category && p.id !== product.id)
+  ].slice(0, 4)
   const sellerQuestions = ({
     Electronics:['Exact model, technical specifications and compatibility','Condition, included accessories and original packaging','Warranty coverage and proof of purchase','Current availability and final price'],
     Fashion:['Size measurements, fit and available variants','Material composition and care instructions','Condition and any visible defects','Exchange and return conditions'],
@@ -361,12 +367,16 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
     <div className="product-detail-layout">
       <section className="product-visual-column" aria-label="Product images">
         <div className="product-image-stage">
-          <img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={product.image} alt={product.name} fetchPriority="high" />
+          <img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={displayedImage} alt={product.name} fetchPriority="high" />
           <button type="button" className="product-image-zoom-button" onClick={()=>setImageZoomOpen(true)} aria-label="Enlarge product image">⤢</button>
           <span className="product-image-label">MARCHY SAMPLE</span>
           {discount > 0 && <span className="product-image-discount">-{discount}%</span>}
+          <span className="product-gallery-count">{galleryImages.indexOf(displayedImage)+1} / {galleryImages.length}</span>
         </div>
-        <div className="product-image-caption"><span>01 / 01</span><span>Product image for this illustrative listing</span></div>
+        <div className="product-gallery-thumbnails" role="group" aria-label="Choose product image">
+          {galleryImages.map((image,index)=><button type="button" key={image} className={displayedImage===image?'is-active':''} aria-pressed={displayedImage===image} aria-label={`Show product image ${index+1}`} onClick={()=>setActiveImage(image)}><img src={image} alt="" loading="lazy"/></button>)}
+        </div>
+        <div className="product-image-caption"><span>{String(galleryImages.indexOf(displayedImage)+1).padStart(2,'0')} / {String(galleryImages.length).padStart(2,'0')}</span><span>{galleryImages.length>1?'Select a thumbnail to view another image':'Only one catalogue image has been supplied'}</span></div>
         <div className="product-visual-note"><span>ⓘ</span><p>Images and listing information are provided as demonstration content. Confirm the exact item with the seller before ordering.</p></div>
       </section>
       <section className="product-buy-panel">
@@ -392,12 +402,20 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
           </div>
           {added && <p className="product-added-feedback" role="status">Added to your demo cart. You can review it whenever you're ready.</p>}
         </div>
-        <div className="product-seller-card">
+        <section className="product-seller-card" aria-label="Seller information">
           <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
-          <div className="product-seller-copy"><small>Seller storefront</small><b>{seller.name}</b><span>{seller.city}, Tunisia · Demo profile</span></div>
-          <Link to={`/seller/${seller.slug}`}>View seller <span>→</span></Link>
-        </div>
-        <div className="product-delivery-card"><span className="delivery-symbol">⌖</span><div><b>Delivery details confirmed by seller</b><p>Ask the seller about delivery coverage, cost and estimated timing before placing an order.</p></div></div>
+          <div className="product-seller-copy"><small>Sold by · Sample storefront</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Profile details are illustrative</span></div>
+          <Link to={`/seller/${seller.slug}`}>Visit shop <span>→</span></Link>
+        </section>
+        <section className="product-trust-panel" aria-label="Buyer confidence information">
+          <div className="product-trust-heading"><b>Shop with clarity</b><span>What to verify</span></div>
+          <div><span className="trust-check">✓</span><p><b>Seller profile</b><small>Storefront and location are shown as sample information.</small></p></div>
+          <div><span className="trust-pending">!</span><p><b>Identity and reputation</b><small>Not independently verified in this frontend demo.</small></p></div>
+          <div><span className="trust-pending">!</span><p><b>Product condition and stock</b><small>Confirm directly with the seller before paying.</small></p></div>
+        </section>
+        <section className="product-delivery-card" aria-label="Delivery and availability">
+          <span className="delivery-symbol">⌖</span><div><b>Delivery & availability</b><p>Stock status, delivery areas, fees, carrier and estimated arrival are not connected. Ask the seller to confirm each detail for your address.</p><ul><li>Availability: confirmation required</li><li>Delivery fee: not provided</li><li>Estimated arrival: not provided</li></ul></div>
+        </section>
         <p className="product-demo-disclaimer">Frontend demonstration only. No order, payment or delivery booking is submitted.</p>
       </section>
     </div>
@@ -414,9 +432,9 @@ function ProductPage({ addToCart, wishlist, toggleWish, language }) {
         <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront →</Link>
       </article>
     </section>
-    {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>More from {product.category}</h2></div><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="text-link">Browse category →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
-    {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={product.image} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
-    <div className="product-mobile-buybar"><div><small>Subtotal · {qty} {qty === 1 ? 'item' : 'items'}</small><b>{money(product.price * qty)}</b></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? 'Added ✓' : 'Add to cart'}</button></div>
+    {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>Discover more products</h2></div><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="text-link">Browse category →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language}/>)}</div></section>}
+    {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={displayedImage} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
+    <div className="product-mobile-buybar"><div className="mobile-buybar-total"><small>Subtotal · {qty} {qty === 1 ? 'item' : 'items'}</small><b>{money(product.price * qty)}</b></div><div className="mobile-buybar-actions"><div className="quantity mobile-buybar-quantity" role="group" aria-label="Mobile quantity"><button type="button" aria-label="Decrease quantity" disabled={qty<=1} onClick={()=>setQty(value=>Math.max(1,value-1))}>−</button><output aria-label="Selected quantity">{qty}</output><button type="button" aria-label="Increase quantity" disabled={qty>=99} onClick={()=>setQty(value=>Math.min(99,value+1))}>＋</button></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? 'Added ✓' : 'Add to cart'}</button></div></div>
   </main>, language)
 }
 
