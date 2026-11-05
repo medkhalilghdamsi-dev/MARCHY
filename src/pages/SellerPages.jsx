@@ -4,7 +4,7 @@ import { categories, products } from '../data/products'
 import { sellers, sellerByCategory, sellerForProduct } from '../data/sellers'
 import { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText, readJson, writeJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
-import { ProductCard } from '../components/MarketplaceChrome'
+import { ProductCard } from '../components/ProductCard'
 import { useDemoOrders } from '../hooks/useDemoOrders'
 
 function SellerLaunchPage({language}) {
