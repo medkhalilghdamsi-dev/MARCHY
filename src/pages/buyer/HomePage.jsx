@@ -75,6 +75,7 @@ export function Home() {
     Icon: categoryIcons[name] || Package,
     tone: ['cat-blue', 'cat-sand', 'cat-pink', 'cat-lilac', 'cat-green', 'cat-yellow'][index % 6],
     image: products.find(product => product.category === name)?.image,
+    picks: products.filter(product => product.category === name).slice(0, 2),
   }))
   const filterOptions = ['All', ...populatedCategories.slice(0, 5)]
   // Keep the homepage collections distinct so buyers do not see the same cards repeated.
@@ -173,12 +174,21 @@ export function Home() {
         </div>
         <div className="home-category-grid home-category-grid-premium">
           {popular.slice(0, 8).map(item => (
-            <Link key={item.name} to={`/category/${encodeURIComponent(item.name.toLowerCase())}`} className={`home-category-card home-category-image-card ${item.tone}`}>
-              {item.image && <img src={item.image} alt="" loading="lazy" decoding="async" />}
-              <span className="home-category-icon" aria-hidden="true"><item.Icon size={23} strokeWidth={1.7} /></span>
-              <b>{item.name}</b>
-              <small>Explore category <ArrowUpRight size={13} /></small>
-            </Link>
+            <div key={item.name} className="home-category-tile">
+              <Link to={`/category/${encodeURIComponent(item.name.toLowerCase())}`} className={`home-category-card home-category-image-card ${item.tone}`}>
+                {item.image && <img src={item.image} alt="" loading="lazy" decoding="async" />}
+                <span className="home-category-icon" aria-hidden="true"><item.Icon size={23} strokeWidth={1.7} /></span>
+                <b>{item.name}</b>
+                <small>{item.count} sample {item.count === 1 ? 'listing' : 'listings'} <ArrowUpRight size={13} /></small>
+              </Link>
+              {item.picks.length > 0 && <div className="home-category-picks" aria-label={`${item.name} sample product picks`}>
+                {item.picks.map(product => <Link key={product.id} to={`/product/${product.id}`} title={product.name}>
+                  <img src={product.image} alt="" loading="lazy" decoding="async" />
+                  <span>{product.name}</span>
+                  <b>{product.price} TND</b>
+                </Link>)}
+              </div>}
+            </div>
           ))}
         </div>
       </section>
