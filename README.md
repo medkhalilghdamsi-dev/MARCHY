@@ -34,7 +34,7 @@ MARCHY/
 │   ├── data/               # Illustrative product and seller fixtures
 │   ├── hooks/              # Shared browser state and demo order behavior
 │   ├── i18n/               # English, French and Arabic translations
-│   ├── pages/              # Buyer, discovery, seller, support and operations pages
+│   ├── pages/              # Focused buyer pages + discovery, seller, support and operations groups
 │   ├── styles/             # Ordered design-system and page style layers
 │   └── utils/              # Search, formatting and guarded storage helpers
 ├── tests/                  # Playwright route, journey and accessibility tests
