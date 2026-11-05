@@ -5,7 +5,7 @@ import { useDemoOrders } from '../hooks/useDemoOrders'
 import { translateTree } from '../i18n/translate'
 import { OpsShell, Status, statuses } from './OperationsShared'
 
-export function BuyerOrdersPage({ language }) {
+function BuyerOrdersPage({ language }) {
   const { orders } = useDemoOrders()
   const [filter, setFilter] = useState('All')
   const [query, setQuery] = useState('')
