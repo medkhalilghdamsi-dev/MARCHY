@@ -488,3 +488,88 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
 @media(prefers-reduced-motion:reduce){
  .home-landing-v2 .product-card,.home-landing-v2 .wish-btn,.home-landing-v2 .product-card .add-btn{transition:none}
 }
+
+
+/* Global buyer header refinement: clearer hierarchy, states and responsive behavior. */
+.header{position:relative;z-index:40;background:var(--surface,#fff);border-bottom:1px solid #e2ebe5;box-shadow:0 7px 24px rgba(18,38,30,.045)}
+.header-main{min-height:82px;gap:clamp(14px,2vw,28px)}
+.header .logo{flex:0 0 auto;display:inline-flex;align-items:center;gap:2px;color:#174735;text-decoration:none}
+.header .logo-mark{width:34px;height:34px;object-fit:contain}
+.header .logo-word{font-size:27px;font-weight:900;letter-spacing:-1.8px}
+.header .logo-period{color:#1f5b45}
+.header .searchbar{min-width:180px;max-width:560px;flex:1;height:46px;border:1px solid #dce8e0;border-radius:999px;background:#f7faf8;transition:border-color .18s,box-shadow .18s,background .18s}
+.header .searchbar:focus-within{border-color:#83ae95;background:#fff;box-shadow:0 0 0 4px rgba(31,91,69,.08)}
+.header .searchbar input{min-width:0;font-size:11px}
+.header .searchbar button{min-width:84px;height:100%;border-radius:0 999px 999px 0;background:#1f5b45;color:#fff;font-size:10px;font-weight:850}
+.header .searchbar button:hover{background:#174735}
+.header-actions{flex:0 0 auto;align-items:center;gap:clamp(10px,1.35vw,19px)}
+.header-actions .action-link{min-height:40px;gap:8px;border-radius:9px;transition:background .18s,color .18s}
+.header-actions .action-link:hover{background:#f0f6f2;color:#174735}
+.header-actions .action-link small{color:#78877e;font-size:8px}
+.header-actions .action-link b{font-size:10px}
+.header-actions .action-icon,.header-actions .cart-icon{color:#315c46}
+.header-actions .theme-toggle{min-height:38px;display:inline-flex;align-items:center;gap:6px;padding:0 9px;border:1px solid #e0eae3;border-radius:999px;background:#fff;color:#315c46;font-size:9px}
+.header-actions .theme-toggle:hover{border-color:#b8d1c1;background:#f5faf6}
+.header-actions .language-picker select{min-height:34px;padding:0 8px;border:1px solid #e0eae3;border-radius:7px;background:#fff;color:#315c46;font-size:9px;font-weight:800}
+.header-actions .header-join-link{min-height:36px;display:inline-flex;align-items:center;gap:7px;padding:0 13px;border:1px solid #1f5b45;border-radius:999px;background:#1f5b45;color:#fff;font-size:9px;font-weight:850;white-space:nowrap}
+.header-actions .header-join-link:hover{background:#174735;border-color:#174735}
+.header-actions .cart-icon i{background:#1f5b45}
+.header .nav{border-top:1px solid #edf2ee;background:#fff}
+.header .nav-inner{min-height:45px;height:auto;gap:clamp(18px,2.4vw,34px)}
+.header .nav-inner>a{position:relative;min-height:45px;display:inline-flex;align-items:center;gap:7px;color:#526b5d;font-size:10px;font-weight:650;transition:color .18s}
+.header .nav-inner>a:hover,.header .nav-inner>a[aria-current="page"]{color:#174735}
+.header .nav-inner>a[aria-current="page"]:after{position:absolute;right:0;bottom:0;left:0;height:2px;border-radius:2px 2px 0 0;background:#1f5b45;content:""}
+.header .nav-inner>a:first-child{margin-right:3px;color:#174735;font-weight:850}
+.header .nav-inner .nav-deal{margin-left:auto;color:#1f5b45!important;font-weight:850}
+.header .nav-inner .nav-deal:after{display:none}
+.header .mobile-menu{width:38px;height:38px;display:none;place-items:center;border:1px solid #e0eae3;border-radius:10px;background:#fff;color:#174735}
+.header .mobile-menu:hover{background:#f0f6f2}
+.header .global-search-suggestions{z-index:60;border:1px solid #dce8e0;border-radius:14px;box-shadow:0 18px 44px rgba(18,38,30,.14)}
+.header .search-suggestion-close{min-height:38px;color:#315c46;font-weight:750}
+@media(max-width:1050px){
+ .header-main{gap:14px}
+ .header-actions{gap:8px}
+ .header-actions .action-link small{display:none}
+ .header-actions .action-link{gap:5px}
+ .header-actions .theme-toggle small{display:none}
+ .header .nav-inner{gap:18px}
+}
+@media(max-width:760px){
+ .topline-inner{min-height:30px}
+ .header-main{min-height:0;display:flex;flex-wrap:wrap;gap:10px;padding:11px 0}
+ .header .mobile-menu{display:grid;flex:0 0 38px}
+ .header .logo{gap:1px}
+ .header .logo-mark{width:29px;height:29px}
+ .header .logo-word{font-size:23px}
+ .header-actions{margin-left:auto;gap:8px}
+ .header-actions .theme-toggle{width:34px;min-width:34px;height:34px;min-height:34px;justify-content:center;padding:0}
+ .header-actions .language-picker select{width:43px;min-height:32px;padding:0 3px}
+ .header-actions .wishlist-link>span:last-child,.header-actions .header-signin>span:last-child,.header-actions .header-join-link,.header-actions .header-user-status>button{display:none}
+ .header-actions .action-link{width:34px;min-width:34px;height:34px;min-height:34px;justify-content:center;padding:0}
+ .header-actions .action-icon,.header-actions .cart-icon{display:grid;place-items:center}
+ .header-actions .cart-link>span:last-child{display:none}
+ .header-actions .cart-icon i{right:-6px;top:-6px}
+ .header .searchbar{order:5;flex:1 0 100%;width:100%;max-width:none;height:43px;margin-top:1px}
+ .header .searchbar button{min-width:72px}
+ .header .nav{display:none;border-top:1px solid #e6eee8;background:#fff}
+ .header .nav.nav-open{display:block}
+ .header .nav-inner{height:auto;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px;padding:7px 0 12px}
+ .header .nav-inner>a{min-height:43px;padding:0 4px;border-bottom:1px solid #edf2ee;font-size:10px}
+ .header .nav-inner>a:first-child{grid-column:1/-1}
+ .header .nav-inner .nav-deal{margin-left:0}
+ .header .nav-inner>a[aria-current="page"]:after{right:4px;left:4px}
+ .header .global-search-suggestions{max-height:min(62vh,440px);overflow-y:auto}
+}
+@media(max-width:390px){
+ .header-main{gap:7px}
+ .header .mobile-menu{width:34px;height:34px;flex-basis:34px}
+ .header .logo-mark{width:25px;height:25px}
+ .header .logo-word{font-size:20px;letter-spacing:-1.3px}
+ .header-actions{gap:5px}
+ .header-actions .theme-toggle,.header-actions .action-link{width:31px;min-width:31px;height:31px;min-height:31px}
+ .header-actions .language-picker select{width:39px;min-height:30px;font-size:8px}
+ .header .searchbar{height:40px}
+}
+@media(prefers-reduced-motion:reduce){
+ .header *{scroll-behavior:auto!important;transition:none!important}
+}
