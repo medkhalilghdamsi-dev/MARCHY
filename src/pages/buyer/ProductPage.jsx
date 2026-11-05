@@ -120,7 +120,7 @@ export function ProductPage() {
           <span className="product-gallery-count">{galleryImages.indexOf(displayedImage)+1} / {galleryImages.length}</span>
         </div>
         <div className="product-gallery-thumbnails" role="group" aria-label="Choose product image">
-          {galleryImages.map((image,index)=><button type="button" key={image} className={displayedImage===image?'is-active':''} aria-pressed={displayedImage===image} aria-label={`Show product image ${index+1}`} onClick={()=>setActiveImage(image)}><img src={image} alt="" loading="lazy"/></button>)}
+          {galleryImages.map((image,index)=><button type="button" key={image} className={displayedImage===image?'is-active':''} aria-pressed={displayedImage===image} aria-label={`Show product image ${index+1}`} onClick={()=>setActiveImage(image)}><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src="/product-placeholder.svg"}} src={image} alt="" loading="lazy"/></button>)}
         </div>
         <div className="product-image-caption"><span>{String(galleryImages.indexOf(displayedImage)+1).padStart(2,'0')} / {String(galleryImages.length).padStart(2,'0')}</span><span>{galleryImages.length>1?'Select a thumbnail to view another image':'Only one catalogue image has been supplied'}</span></div>
         <div className="product-visual-note"><span>ⓘ</span><p>Images and listing information are provided as demonstration content. Confirm the exact item with the seller before ordering.</p></div>
