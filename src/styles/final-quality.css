@@ -1,0 +1,15 @@
+/* Final cross-page quality fixes: brand consistency, contrast and compact navigation */
+.header .logo-word,
+.header .logo-period,
+.header .wishlist-link .action-icon,
+.header .nav-deal {
+  color:var(--forest)!important;
+}
+.footer .logo-word { color:#ffffff!important; }
+.footer .logo-period { color:#8fc6a7!important; }
+.home-seller-banner h2 em {
+  color:#8fc6a7!important;
+}
+@media(max-width:760px) {
+  .header-join-link { display:none!important; }
+}
