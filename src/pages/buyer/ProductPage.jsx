@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { products } from '../../data/products'
 import { sellerForProduct } from '../../data/sellers'
 import { money, readJson, writeJson } from '../../utils/marketplace'
@@ -14,6 +14,8 @@ export function ProductPage() {
   const { addToCart, wishlist, toggleWish, language } = useMarketplace()
   const toast = useToast()
   const { id } = useParams()
+  const location = useLocation()
+  const returnTo = typeof location.state?.from === 'string' && location.state.from.startsWith('/') ? location.state.from : '/search'
   const product = products.find(p => p.id === Number(id))
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
@@ -107,7 +109,7 @@ export function ProductPage() {
   }
   const handleToggleWish = () => { toggleWish(product.id); toast(!saved ? "Saved " + product.name + " to wishlist" : "Removed from wishlist", { type: "info" }) }
   return translateTree(<main id="main-content" className="shell page product-page">
-    <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to="/search">Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
+    <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to={returnTo}>Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
     <div className="product-detail-layout">
       <section className="product-visual-column" aria-label="Product images">
         <div className="product-image-stage">
