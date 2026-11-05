@@ -59,7 +59,7 @@ for (const viewport of viewports) {
 test('Arabic RTL layout remains within the viewport on key marketplace routes', async ({ page }) => {
   for (const width of [360, 390, 768]) {
     await page.setViewportSize({ width, height: 844 })
-    for (const route of ['/search', '/product/1', '/seller/atlas-tech-tunis', '/account', '/seller-dashboard']) {
+    for (const route of ['/search', '/product/1', '/seller/atlas-tech-tunis', '/account', '/seller-dashboard', '/operations/delivery', '/admin', '/orders/MC-1048']) {
       await page.goto(route)
       await page.locator('.language-picker select').selectOption('ar')
       await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
