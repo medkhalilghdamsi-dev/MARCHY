@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { readText, readJson, writeJson } from '../utils/marketplace'
 
+const isSameCartLine = (entry, item) =>
+  entry.id === item.id && (entry.selectedVariant || null) === (item.selectedVariant || null)
+
 export function useMarketplaceState() {
   const [language, setLanguage] = useState(() => {
     const saved = readText('marchy-language', 'en')
@@ -42,28 +45,31 @@ export function useMarketplaceState() {
   }, [appliedCoupon])
 
   const addToCart = useCallback((product, qty = 1, variant = null) => {
+    const line = { id: product.id, selectedVariant: variant || null }
     setCart(previous => {
-      const found = previous.find(item => item.id === product.id)
+      const found = previous.find(item => isSameCartLine(item, line))
       const next = found
-        ? previous.map(item => item.id === product.id ? { ...item, qty: item.qty + qty, ...(variant ? { selectedVariant: variant } : {}) } : item)
+        ? previous.map(item => isSameCartLine(item, line) ? { ...item, qty: item.qty + qty } : item)
         : [...previous, { ...product, qty, ...(variant ? { selectedVariant: variant } : {}) }]
       writeJson('marchy-cart', next)
       return next
     })
   }, [])
 
-  const updateQty = useCallback((id, qty) => {
+  const updateQty = useCallback((id, qty, variant = null) => {
     if (qty < 1) return
+    const line = { id, selectedVariant: variant || null }
     setCart(previous => {
-      const next = previous.map(item => item.id === id ? { ...item, qty } : item)
+      const next = previous.map(item => isSameCartLine(item, line) ? { ...item, qty } : item)
       writeJson('marchy-cart', next)
       return next
     })
   }, [])
 
-  const removeItem = useCallback((id) => {
+  const removeItem = useCallback((id, variant = null) => {
+    const line = { id, selectedVariant: variant || null }
     setCart(previous => {
-      const next = previous.filter(item => item.id !== id)
+      const next = previous.filter(item => !isSameCartLine(item, line))
       writeJson('marchy-cart', next)
       return next
     })
@@ -86,12 +92,12 @@ export function useMarketplaceState() {
 
   const saveForLater = useCallback((item) => {
     setCart(previous => {
-      const next = previous.filter(entry => entry.id !== item.id)
+      const next = previous.filter(entry => !isSameCartLine(entry, item))
       writeJson('marchy-cart', next)
       return next
     })
     setSavedForLater(previous => {
-      const next = previous.some(entry => entry.id === item.id)
+      const next = previous.some(entry => isSameCartLine(entry, item))
         ? previous
         : [...previous, { ...item, qty: item.qty || 1 }]
       writeJson('marchy-saved-for-later', next)
@@ -101,23 +107,24 @@ export function useMarketplaceState() {
 
   const moveToCart = useCallback((item) => {
     setSavedForLater(previous => {
-      const next = previous.filter(entry => entry.id !== item.id)
+      const next = previous.filter(entry => !isSameCartLine(entry, item))
       writeJson('marchy-saved-for-later', next)
       return next
     })
     setCart(previous => {
-      const found = previous.find(entry => entry.id === item.id)
+      const found = previous.find(entry => isSameCartLine(entry, item))
       const next = found
-        ? previous.map(entry => entry.id === item.id ? { ...entry, qty: entry.qty + (item.qty || 1) } : entry)
+        ? previous.map(entry => isSameCartLine(entry, item) ? { ...entry, qty: entry.qty + (item.qty || 1) } : entry)
         : [...previous, { ...item, qty: item.qty || 1 }]
       writeJson('marchy-cart', next)
       return next
     })
   }, [])
 
-  const removeSavedItem = useCallback((id) => {
+  const removeSavedItem = useCallback((id, variant = null) => {
+    const line = { id, selectedVariant: variant || null }
     setSavedForLater(previous => {
-      const next = previous.filter(entry => entry.id !== id)
+      const next = previous.filter(entry => !isSameCartLine(entry, line))
       writeJson('marchy-saved-for-later', next)
       return next
     })
