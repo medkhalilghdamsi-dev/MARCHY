@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta id="theme-color-meta" name="theme-color" content="#f5f7f6" />
     <meta name="color-scheme" content="light dark" />
+    <script>
+      try {
+        const savedTheme = localStorage.getItem('marchy-theme')
+        if (savedTheme === 'dark') document.documentElement.dataset.theme = 'dark'
+      } catch {}
+    </script>
     <meta name="description" content="Discover products and local storefronts across Tunisia on MARCHY. Explore categories and compare illustrative listings with prices in TND." />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="MARCHY — Discover more, closer to home" />
