@@ -810,3 +810,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .nav.nav-open{max-height:calc(100dvh - 110px);overflow-y:auto;overscroll-behavior:contain}
  .nav.nav-open .nav-inner a{min-height:44px}
 }
+
+
+/* WCAG AA contrast pass — supporting text on product detail pages */
+.product-image-discount{background:#a94421;color:#fff}
+.product-price-block>del,.product-price-caption{color:#59656f}
+.product-listing-status small{color:#536057}
+.product-quantity-summary>span{color:#59656f}
+.product-seller-copy small,.product-seller-copy>span{color:#59656f}
+.product-delivery-card p{color:#59656f}
+.product-demo-disclaimer{color:#59656f}
+.product-buyer-highlights>div>span{color:#a94421}
+.product-attribute-list dt{color:#59656f}
