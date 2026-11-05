@@ -98,10 +98,6 @@ export function Header({ cartCount }) {
           onChange={e => { setQuery(e.target.value); setSearchOpen(true) }}
           placeholder="Search products, brands and local finds…"
           aria-label="Search products"
-          role="combobox"
-          aria-expanded={searchOpen}
-          aria-controls="global-search-suggestions"
-          aria-autocomplete="list"
         />
         <button type="submit">Search</button>
         {searchOpen && <div className="global-search-suggestions" id="global-search-suggestions">
