@@ -4,7 +4,7 @@ import { categories, products } from '../data/products'
 import { sellers } from '../data/sellers'
 import { readJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
-import { ProductCard } from '../components/MarketplaceChrome'
+import { ProductCard } from '../components/ProductCard'
 
 function Home({ addToCart, wishlist, toggleWish, language }) {
   const [active,setActive]=useState('All')
