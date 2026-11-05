@@ -678,3 +678,12 @@ test('demo coupon remains applied from cart through checkout review', async ({ p
   await expect(page.getByText('Discount · MARCHY10')).toBeVisible()
   await expect(page.getByText('- 18.900 TND')).toBeVisible()
 })
+
+
+test('product detail shows clearly labelled sample review feedback', async ({ page }) => {
+  await page.goto('/product/1')
+  await expect(page.getByRole('heading', { name: 'Sample product reviews' })).toBeVisible()
+  await expect(page.getByText('3 sample reviews')).toBeVisible()
+  await expect(page.getByText('ILLUSTRATIVE SAMPLE').first()).toBeVisible()
+  await expect(page.getByText(/not real customer reviews or verified purchases/i)).toBeVisible()
+})
