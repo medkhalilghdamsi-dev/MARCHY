@@ -4,7 +4,7 @@ import { categories, products } from '../data/products'
 import { sellerForProduct } from '../data/sellers'
 import { money, normalizeSearchText, searchTextMatches, readText, readJson, writeJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
-import { ProductCard } from '../components/MarketplaceChrome'
+import { ProductCard } from '../components/ProductCard'
 
 function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const [params, setParams] = useSearchParams()
