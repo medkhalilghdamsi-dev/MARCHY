@@ -88,3 +88,87 @@
  .checkout-main-panel{box-shadow:none}
  .checkout-summary{box-shadow:0 8px 24px #12261e08}
 }
+
+
+/* MARCHY checkout polish — clearer form rhythm and mobile review hierarchy */
+.checkout-page{padding-bottom:76px}
+.checkout-heading .cart-continue-link{display:inline-flex;align-items:center;gap:7px}
+.checkout-steps li{position:relative;min-height:76px}
+.checkout-steps li.is-current{border-color:#8eb69d;background:linear-gradient(120deg,#f0f7f2,#fff)}
+.checkout-steps li.is-complete{border-color:#cfe3d6;background:#f7fbf8}
+.checkout-steps li.is-complete>span{background:#dcefe3;color:#174735}
+.checkout-panel-title .eyebrow{display:inline-block;margin-bottom:8px}
+.checkout-fields label{line-height:1.45}
+.checkout-fields input,.checkout-fields select,.checkout-fields textarea{
+  min-height:46px;border:1px solid #d4e2d9;border-radius:8px;background:#fff;color:#173b2a;
+  transition:border-color .16s,box-shadow .16s
+}
+.checkout-fields select{width:100%;padding:0 12px;font-size:12px}
+.checkout-fields input::placeholder,.checkout-fields textarea::placeholder{color:#6d8175}
+.checkout-fields input:focus,.checkout-fields select:focus,.checkout-fields textarea:focus{
+  border-color:#5d9875;outline:0;box-shadow:0 0 0 3px #1f5b4515
+}
+.checkout-form-actions,.checkout-review-actions{margin-top:26px}
+.checkout-form-actions .primary-btn,.checkout-review-actions .primary-btn{min-height:46px}
+.checkout-contact-review{background:linear-gradient(120deg,#f3f8f4,#fff 75%)}
+.checkout-contact-review p{overflow-wrap:anywhere}
+.checkout-seller-review{overflow:hidden}
+.checkout-seller-heading{margin:-14px -14px 0;padding:13px 14px;background:#f5f9f6}
+.checkout-review-item>span{line-height:1.45}
+.checkout-review-item img{border:1px solid #e3ece6}
+.checkout-delivery-status{align-items:center;flex-wrap:wrap}
+.checkout-summary{box-shadow:0 12px 34px #12261e08}
+.checkout-summary .summary-total{padding-top:16px}
+.checkout-summary .cart-trust-note{margin-top:14px}
+.checkout-page button:focus-visible,.checkout-page a:focus-visible{outline:3px solid #79a98d;outline-offset:3px}
+.checkout-page .cart-empty-state{margin-top:28px}
+@media(max-width:900px){
+ .checkout-layout{gap:16px}
+ .checkout-main-panel,.checkout-summary{padding:20px}
+}
+@media(max-width:680px){
+ .checkout-page{padding-bottom:48px}
+ .checkout-heading{gap:12px;margin:10px 0 19px}
+ .checkout-heading h1{font-size:30px;letter-spacing:-1px}
+ .checkout-heading p{font-size:11px}
+ .checkout-steps{gap:7px;margin-bottom:14px}
+ .checkout-steps li{min-height:88px;align-items:flex-start;padding:11px 8px}
+ .checkout-steps li>span{width:26px;height:26px;flex-basis:26px}
+ .checkout-steps li b{font-size:9px;line-height:1.35}
+ .checkout-steps li small{font-size:7px;line-height:1.35}
+ .checkout-layout{display:flex;flex-direction:column;gap:12px}
+ .checkout-summary{order:0;width:100%;padding:16px}
+ .checkout-main-panel{order:1;width:100%;padding:16px;border-radius:11px}
+ .checkout-panel-title{margin-bottom:17px}
+ .checkout-panel-title h2{font-size:19px}
+ .checkout-panel-title p{font-size:10px}
+ .checkout-fields{gap:12px}
+ .checkout-fields label{font-size:10px}
+ .checkout-fields input,.checkout-fields select,.checkout-fields textarea{font-size:16px}
+ .checkout-form-actions,.checkout-review-actions{gap:9px;margin-top:19px;padding-top:14px}
+ .checkout-form-actions>span{font-size:9px}
+ .checkout-contact-review{padding:12px}
+ .checkout-contact-review p{font-size:10px}
+ .checkout-seller-review{padding:11px}
+ .checkout-seller-heading{margin:-11px -11px 0;padding:11px}
+ .checkout-review-item{grid-template-columns:42px minmax(0,1fr) auto;gap:8px}
+ .checkout-review-item img{width:42px;height:42px}
+ .checkout-review-item>span,.checkout-review-item>b{font-size:9px}
+ .checkout-review-item small{font-size:8px}
+ .checkout-delivery-status{align-items:flex-start;flex-direction:column;gap:5px;font-size:9px}
+}
+@media(max-width:390px){
+ .checkout-steps li{padding:9px 6px}
+ .checkout-steps li b{font-size:8px}
+ .checkout-steps li small{font-size:6px}
+ .checkout-heading h1{font-size:27px}
+ .checkout-main-panel{padding:13px}
+}
+@media(prefers-reduced-motion:reduce){
+ .checkout-steps li,.checkout-fields input,.checkout-fields select,.checkout-fields textarea{transition:none}
+}
+.is-rtl .checkout-page .checkout-heading,.is-rtl .checkout-steps,.is-rtl .checkout-fields,
+.is-rtl .checkout-contact-review,.is-rtl .checkout-seller-heading,.is-rtl .checkout-review-item,
+.is-rtl .checkout-delivery-status,.is-rtl .checkout-form-actions,.is-rtl .checkout-review-actions{direction:rtl}
+.is-rtl .checkout-contact-review>div{direction:rtl}
+.is-rtl .checkout-delivery-status b{text-align:start}
