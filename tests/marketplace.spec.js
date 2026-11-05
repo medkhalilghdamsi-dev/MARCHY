@@ -499,3 +499,33 @@ test('mobile product purchase bar stays clear of the persistent navigation', asy
   await buybar.getByRole('button', { name: /Add to cart/ }).click()
   await expect(page.locator('.product-added-feedback')).toBeVisible()
 })
+
+
+test('mobile marketplace filters open as an accessible sheet and apply budget presets', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/search')
+  const trigger = page.getByRole('button', { name: /Filters/ })
+  await expect(trigger).toBeVisible()
+  await trigger.click()
+  const sheet = page.getByRole('dialog', { name: 'Filters' })
+  await expect(sheet).toBeVisible()
+  await expect(page.locator('body')).toHaveCSS('overflow', 'hidden')
+  await sheet.getByRole('button', { name: 'Under 100 TND' }).click()
+  await expect(sheet).toContainText('matching products')
+  await sheet.getByRole('button', { name: /Show \d+ products/ }).click()
+  await expect(sheet).toBeHidden()
+  await expect(page).toHaveURL(/max=100/)
+  await expect(page.getByText('Up to 100 TND', { exact: false })).toBeVisible()
+})
+
+test('mobile marketplace filter sheet closes with Escape and backdrop', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/search')
+  await page.getByRole('button', { name: /Filters/ }).click()
+  await expect(page.getByRole('dialog', { name: 'Filters' })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog', { name: 'Filters' })).toBeHidden()
+  await page.getByRole('button', { name: /Filters/ }).click()
+  await page.getByRole('button', { name: 'Close filters', exact: true }).last().click()
+  await expect(page.getByRole('dialog', { name: 'Filters' })).toBeHidden()
+})
