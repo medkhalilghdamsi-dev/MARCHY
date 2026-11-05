@@ -9,11 +9,9 @@ import { WishlistPage } from '../pages/WishlistPage'
 import { SellersPage } from '../pages/SellersPage'
 import { SellerPage } from '../pages/SellerPage'
 import { CategoriesPage } from '../pages/CategoriesPage'
-import {
-  SellerLaunchPage,
-  SellerDashboardPage,
-  SellerPreparationPage,
-} from '../pages/SellerPages'
+import { SellerLaunchPage } from '../pages/SellerLaunchPage'
+import { SellerDashboardPage } from '../pages/SellerDashboardPage'
+import { SellerPreparationPage } from '../pages/SellerPreparationPage'
 import {
   MarketplaceGuidePage,
   HelpCenterPage,
