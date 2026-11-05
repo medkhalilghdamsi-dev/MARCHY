@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
-import { ArrowUpRight, Compass, CircleHelp, Store, UserRound } from 'lucide-react'
+import { Compass, CircleHelp, Store, UserRound } from 'lucide-react'
 
 export function Footer() {
   const { language } = useMarketplace()
