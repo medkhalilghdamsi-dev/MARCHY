@@ -13,7 +13,7 @@ export function Header({ cartCount }) {
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [recentSearches, setRecentSearches] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('marchy-recent-searches') || '[]').filter(v => typeof v === 'string').slice(0, 5) } catch { return [] }
+    try { return JSON.parse(localStorage.getItem('marchy-search-history') || '[]').filter(v => typeof v === 'string').slice(0, 5) } catch { return [] }
   })
   const [authUser, setAuthUser] = useState(() => readJson('marchy-auth-user', null))
   const headerRef = useRef(null)
@@ -71,7 +71,7 @@ export function Header({ cartCount }) {
     if (!clean) return
     setRecentSearches(current => {
       const updated = [clean, ...current.filter(item => item.toLowerCase() !== clean.toLowerCase())].slice(0, 5)
-      try { localStorage.setItem('marchy-recent-searches', JSON.stringify(updated)) } catch {}
+      try { localStorage.setItem('marchy-search-history', JSON.stringify(updated)) } catch {}
       return updated
     })
   }
@@ -114,7 +114,7 @@ export function Header({ cartCount }) {
             {categoryMatches.length > 0 && <><div className="search-suggestion-heading">Categories</div>{categoryMatches.map(name => <Link className="category-suggestion" key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`} onMouseDown={() => setSearchOpen(false)}><span><LayoutGrid size={15}/></span>{name}<span className="suggestion-arrow"><ArrowRight size={15}/></span></Link>)}</>}
           </> : <div className="search-suggestion-empty">
             {recentSearches.length > 0 && <div className="recent-searches">
-              <div className="search-suggestion-heading">Recent searches <button type="button" onClick={() => { setRecentSearches([]); try { localStorage.removeItem('marchy-recent-searches') } catch {} }}>Clear</button></div>
+              <div className="search-suggestion-heading">Recent searches <button type="button" onClick={() => { setRecentSearches([]); try { localStorage.removeItem('marchy-search-history') } catch {} }}>Clear</button></div>
               {recentSearches.map(item => <Link key={item} to={`/search?q=${encodeURIComponent(item)}`} onMouseDown={() => setSearchOpen(false)}><span aria-hidden="true"><Clock3 size={15}/></span>{item}<span className="suggestion-arrow"><ArrowUpRight size={15}/></span></Link>)}
             </div>}
             <b>Start with a category</b>
