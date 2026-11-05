@@ -12,6 +12,8 @@ const routes = [
   '/sellers',
   '/seller/atlas-tech-tunis',
   '/account',
+  '/orders',
+  '/orders/MC-1048',
   '/help',
   '/delivery',
   '/returns',
