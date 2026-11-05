@@ -14,6 +14,11 @@ const statuses = ['Processing', 'Ready for pickup', 'In transit', 'Delivered', '
 function useDemoOrders() {
   const [orders, setOrders] = useState(() => readJson(STORAGE_KEY, seedOrders))
   useEffect(() => writeJson(STORAGE_KEY, orders), [orders])
+  useEffect(() => {
+    const sync = event => { if (event.key === STORAGE_KEY && event.newValue) { try { setOrders(JSON.parse(event.newValue)) } catch {} } }
+    window.addEventListener('storage', sync)
+    return () => window.removeEventListener('storage', sync)
+  }, [])
   const updateOrder = (id, patch) => setOrders(current => current.map(order => order.id === id ? { ...order, ...patch, updatedAt: new Date().toISOString() } : order))
   return { orders, updateOrder, reset: () => setOrders(seedOrders) }
 }
