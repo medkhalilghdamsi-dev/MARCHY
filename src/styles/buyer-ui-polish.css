@@ -918,3 +918,19 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
 .is-rtl .product-order-checklist li{padding-left:0;padding-right:17px}
 .is-rtl .product-order-checklist li:before{left:auto;right:0}
 .is-rtl .product-image-lightbox-close{right:auto;left:10px}
+
+/* Accessibility corrections from the buyer browser audit */
+.header .action-link small,
+.home-landing-v2 .price-row del,
+.home-landing-v2 .product-info .price-row del {
+  color: #52665b;
+}
+.home-landing-v2 .price-row del,
+.home-landing-v2 .product-info .price-row del {
+  color: #52665b;
+}
+@media (max-width: 760px) {
+  .product-page .product-mobile-buybar {
+    bottom: calc(86px + env(safe-area-inset-bottom));
+  }
+}
