@@ -27,7 +27,7 @@
 .cart-seller-group-footer{border-top:1px solid #f0f2f3}
 .cart-item-quantity .quantity{min-height:38px;border:1px solid #e5e9eb;border-radius:7px;overflow:hidden;background:#fff}
 .cart-item-quantity .quantity button{width:34px;min-height:36px;background:#f8f9fa;color:#47535d;transition:background .15s,color .15s}
-.cart-item-quantity .quantity button:hover:not(:disabled){background:#fff0e9;color:#a34b2b}
+.cart-item-quantity .quantity button:hover:not(:disabled){background:#edf5f0;color:#1f5b45}
 .cart-item-quantity .quantity button:disabled{opacity:.35;cursor:not-allowed}
 .cart-item-quantity .quantity output{min-width:30px;font-size:11px;font-weight:850}
 .cart-item-photo img{transition:transform .2s}
@@ -36,11 +36,11 @@
 .cart-checkout-button{min-height:47px;display:flex;align-items:center;justify-content:center;gap:10px}
 .cart-trust-note{align-items:flex-start}
 .cart-trust-note p{line-height:1.55}
-.cart-item-quantity button:focus-visible,.remove-link:focus-visible,.cart-checkout-button:focus-visible{outline:3px solid #f36b3540;outline-offset:2px}
+.cart-item-quantity button:focus-visible,.remove-link:focus-visible,.cart-checkout-button:focus-visible{outline:3px solid #1f5b4540;outline-offset:2px}
 @media(max-width:640px){
  .cart-seller-group-heading>strong{font-size:8px;padding:5px 7px}
  .cart-item-quantity .quantity{min-height:35px}
  .cart-item-quantity .quantity button{min-height:33px}
- .cart-summary{box-shadow:0 9px 26px #17212b0a}
- .cart-checkout-button{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom));z-index:5;box-shadow:0 7px 22px #17212b20}
+ .cart-summary{box-shadow:0 9px 26px #1747350a}
+ .cart-checkout-button{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom));z-index:5;box-shadow:0 7px 22px #17473520}
 }
