@@ -164,31 +164,31 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
 }
 
 
-/* MARCHY landing page — clearer discovery hierarchy and deliberate brand accents. */
-.home-landing-v2 .market-hero-copy h1 em { color: #F36B35; }
-.home-landing-v2 .hero-kicker i { background: #F36B35; }
+/* MARCHY landing page — preserve the established forest-green identity. */
+.home-landing-v2 .market-hero-copy h1 em { color: #1f5b45; }
+.home-landing-v2 .hero-kicker i { background: #1f5b45; }
 .home-landing-v2 .hero-search-form button {
-  background: #F36B35 !important;
-  color: #17212B !important;
+  background: #1f5b45 !important;
+  color: #fff !important;
   font-weight: 850;
 }
-.home-landing-v2 .hero-search-form button:hover { background: #e95e2c !important; }
+.home-landing-v2 .hero-search-form button:hover { background: #174735 !important; }
 .home-landing-v2 .hero-floating-icon {
-  background: #fff0e8;
-  color: #b94b21;
+  background: #e8f2ec;
+  color: #174735;
 }
 .home-landing-v2 .market-benefits.home-benefits-strip {
   margin: 20px 0 48px;
   border-radius: 14px;
 }
-.home-landing-v2 .home-benefits-strip > div > span { color: #F36B35; }
+.home-landing-v2 .home-benefits-strip > div > span { color: #1f5b45; }
 .home-landing-v2 .home-category-section { margin-bottom: 42px; }
 .home-landing-v2 .home-category-image-card {
   min-height: 146px;
   border-radius: 5px 15px 5px 15px;
 }
 .home-landing-v2 .home-category-image-card:focus-visible {
-  outline: 3px solid #F36B35;
+  outline: 3px solid #1f5b45;
   outline-offset: 3px;
 }
 .home-landing-v2 .home-budget-discovery {
@@ -196,11 +196,12 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
   border-radius: 5px 15px 5px 15px;
 }
 .home-landing-v2 .home-budget-links a span,
-.home-landing-v2 .home-budget-links a svg { color: #F36B35; }
+.home-landing-v2 .home-budget-links a svg { color: #1f5b45; }
 .home-landing-v2 .home-featured-section { margin-bottom: 54px; }
 .home-landing-v2 .home-category-tabs button.active {
-  background: #17212B;
-  border-color: #17212B;
+  background: #174735;
+  border-color: #174735;
+  color: #fff;
 }
 .home-landing-v2 .home-deals-section {
   margin-bottom: 44px;
@@ -210,13 +211,13 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
   border-radius: 5px 22px 5px 22px;
 }
 .home-landing-v2 .home-seller-banner .light-btn {
-  color: #17212B;
-  background: #F36B35;
-  border-color: #F36B35;
+  color: #fff;
+  background: #1f5b45;
+  border-color: #1f5b45;
 }
 .home-landing-v2 .home-seller-banner .light-btn:hover {
-  background: #ff8050;
-  border-color: #ff8050;
+  background: #174735;
+  border-color: #174735;
 }
 .home-landing-v2 .catalogue-note {
   padding: 13px 16px;
