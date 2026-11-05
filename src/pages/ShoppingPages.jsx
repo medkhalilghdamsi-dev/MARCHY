@@ -95,16 +95,20 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   }, [budgetParam, catalogueMaxPrice])
   const [city, setCity] = useState(() => params.get('city') || 'All')
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const filterTriggerRef = useRef(null)
+  const filterCloseRef = useRef(null)
   useEffect(() => {
     if (!filtersOpen) return undefined
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    filterCloseRef.current?.focus()
     const closeOnEscape = event => {
       if (event.key === 'Escape') setFiltersOpen(false)
     }
     window.addEventListener('keydown', closeOnEscape)
     return () => {
       document.body.style.overflow = previousOverflow
+      filterTriggerRef.current?.focus()
       window.removeEventListener('keydown', closeOnEscape)
     }
   }, [filtersOpen])
@@ -227,7 +231,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
         </div>}
       </div>
     </div>
-    <div className="mobile-filter-toggle"><button type="button" className="outline-btn mobile-filter-trigger" onClick={() => setFiltersOpen(true)} aria-expanded={filtersOpen} aria-controls="marketplace-filters"><span aria-hidden="true">☷</span> Filters {activeFilterCount > 0 && <span className="mobile-filter-count">{activeFilterCount}</span>}</button><span><b>{results.length}</b> results</span></div>
+    <div className="mobile-filter-toggle"><button type="button" className="outline-btn mobile-filter-trigger" ref={filterTriggerRef} onClick={() => setFiltersOpen(true)} aria-expanded={filtersOpen} aria-controls="marketplace-filters"><span aria-hidden="true">☷</span> Filters {activeFilterCount > 0 && <span className="mobile-filter-count">{activeFilterCount}</span>}</button><span><b>{results.length}</b> results</span></div>
     {activeFilterCount > 0 && <div className="active-filter-chips" aria-label="Active filters">
       {term && <button type="button" onClick={() => updateTerm('')}>Search: {term} <span>×</span></button>}
       {category !== 'All' && !routeCategory && <button type="button" onClick={removeCategoryFilter}>{category} <span>×</span></button>}
@@ -240,8 +244,15 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     {routeCategory && <div className="category-context-strip"><span className="category-context-icon">✦</span><div><b>{category}</b><small>Browse sample listings, compare displayed prices and visit demo storefronts.</small></div><Link to="/categories">All categories →</Link></div>}
     {filtersOpen && <button type="button" className="mobile-filter-backdrop" aria-label="Close filters" onClick={() => setFiltersOpen(false)} />}
     <div className="listing-layout">
-      <aside id="marketplace-filters" className={'filters ' + (filtersOpen ? 'filters-open' : '')} aria-label="Marketplace filters" role={filtersOpen ? 'dialog' : undefined} aria-modal={filtersOpen ? 'true' : undefined} aria-labelledby="marketplace-filter-title">
-        <div className="mobile-filter-sheet-heading"><div><span className="eyebrow">REFINE YOUR SEARCH</span><h2 id="marketplace-filter-title">Filters</h2><p>{results.length} matching products</p></div><button type="button" aria-label="Close filters" onClick={() => setFiltersOpen(false)}>×</button></div>
+      <aside id="marketplace-filters" className={'filters ' + (filtersOpen ? 'filters-open' : '')} aria-label="Marketplace filters" role={filtersOpen ? 'dialog' : undefined} aria-modal={filtersOpen ? 'true' : undefined} aria-labelledby="marketplace-filter-title" onKeyDown={event => {
+        if (event.key !== 'Tab') return
+        const focusable = [...event.currentTarget.querySelectorAll('button:not([disabled]), input:not([disabled]), select:not([disabled]), a[href]')]
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
+      }}>
+        <div className="mobile-filter-sheet-heading"><div><span className="eyebrow">REFINE YOUR SEARCH</span><h2 id="marketplace-filter-title">Filters</h2><p>{results.length} matching products</p></div><button type="button" aria-label="Close filters" ref={filterCloseRef} onClick={() => setFiltersOpen(false)}>×</button></div>
         <h3 className="desktop-filter-heading">Filters <button type="button" onClick={clearFilters}>Clear all</button></h3>
         <div className="filter-group"><b>Category</b>{categories.map(c => <label key={c}><input type="radio" name="marketplace-category" checked={category === c} onChange={() => routeCategory ? navigate(c === "All" ? "/search" : "/category/" + encodeURIComponent(c.toLowerCase())) : setCategory(c)}/><span>{c === 'All' ? 'All categories' : c}</span><small>{c === 'All' ? products.length : (categoryCounts[c] || 0)}</small></label>)}</div>
         <div className="filter-group"><b>Seller location</b><select aria-label="Seller location" value={city} onChange={e => setCity(e.target.value)}>{cities.map(c => <option key={c} value={c}>{c === 'All' ? 'All locations' : c}</option>)}</select></div>
