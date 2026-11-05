@@ -34,7 +34,9 @@ Runtime entry:
 | `/` | `HomePage.jsx` | Buyer discovery |
 | `/search`, `/category/:category` | `SearchPage.jsx` | Search, filters and sorting |
 | `/product/:id` | `ProductPage.jsx` | Product evaluation and add-to-cart |
-| `/cart`, `/checkout` | `CartPages.jsx` | Basket and checkout preview |\n| `/wishlist` | `WishlistPage.jsx` | Saved buyer items |
+| `/cart` | `CartPage.jsx` | Multi-seller basket |
+| `/checkout` | `CheckoutPage.jsx` | Checkout preview |
+| `/wishlist` | `WishlistPage.jsx` | Saved buyer items |
 | `/categories`, `/sellers`, `/seller/:slug` | DiscoveryPages | Category and seller discovery |
 | `/account`, `/login`, `/signup`, `/help`, `/delivery`, `/returns` | SupportPages | Account and support previews |
 | `/sell`, `/seller-dashboard`, `/seller-help` | SellerPages | Merchant-facing prototype |
