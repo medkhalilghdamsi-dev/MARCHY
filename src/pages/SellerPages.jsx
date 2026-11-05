@@ -130,7 +130,7 @@ function SellerInsightsPanel({ seller, sellerOrders, sellerProducts }) {
 
 function SellerSettingsPanel({ seller }) {
  const key = 'marchy-seller-settings-'+seller.slug
- const [form,setForm] = useState(()=>readJson(key,{displayName:seller.name,description:seller.description||'',contactEmail:'',processingDays:'2',deliveryNote:'',returnsNote:'',orderAlerts:true,productAlerts:true,marketingAlerts:false}))
+ const [form,setForm] = useState(()=>readJson(key,{displayName:seller.name,description:seller.description||'',processingDays:'2',deliveryNote:'',returnsNote:'',orderAlerts:true,productAlerts:true,marketingAlerts:false}))
  const [saved,setSaved] = useState(false)
  const update=(field,value)=>{setForm(current=>({...current,[field]:value}));setSaved(false)}
  const submit=event=>{event.preventDefault();writeJson(key,form);setSaved(true)}
@@ -138,7 +138,6 @@ function SellerSettingsPanel({ seller }) {
   <div className="seller-insights-notice"><b>Store preferences preview</b><span>These preferences are saved only in this browser. They do not change a public store, send notifications or configure real fulfilment or payouts.</span></div>
   <section className="seller-settings-section"><div><span className="eyebrow">01 · STOREFRONT PROFILE</span><h3>Public store information</h3><p>Prepare the details that would appear on your storefront.</p></div><div className="seller-settings-fields">
    <label>Store display name<input required maxLength="80" value={form.displayName} onChange={e=>update('displayName',e.target.value)}/></label>
-   <label>Contact email (demo only)<input type="email" maxLength="120" value={form.contactEmail} onChange={e=>update('contactEmail',e.target.value)} placeholder="name@example.com"/></label>
    <label className="seller-settings-full">Store description<textarea rows="3" maxLength="500" value={form.description} onChange={e=>update('description',e.target.value)}/></label>
   </div></section>
   <section className="seller-settings-section"><div><span className="eyebrow">02 · FULFILMENT PREFERENCES</span><h3>Order preparation</h3><p>Illustrative defaults for a future seller workflow.</p></div><div className="seller-settings-fields">
