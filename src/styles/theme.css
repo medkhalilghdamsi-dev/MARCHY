@@ -199,3 +199,60 @@ html[data-theme="dark"] :focus-visible {
   html { scroll-behavior:auto; }
   *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
 }
+
+html[data-theme="dark"] .cart-items-panel,
+html[data-theme="dark"] .cart-summary,
+html[data-theme="dark"] .wishlist-toolbar,
+html[data-theme="dark"] .wishlist-empty,
+html[data-theme="dark"] .account-panel,
+html[data-theme="dark"] .account-stat-card,
+html[data-theme="dark"] .account-recent-card,
+html[data-theme="dark"] .account-auth-prompt,
+html[data-theme="dark"] .seller-launch-hero,
+html[data-theme="dark"] .seller-step-card,
+html[data-theme="dark"] .seller-workspace,
+html[data-theme="dark"] .seller-planner-form,
+html[data-theme="dark"] .seller-live-preview,
+html[data-theme="dark"] .seller-guide-content,
+html[data-theme="dark"] .seller-guide-content section,
+html[data-theme="dark"] .checkout-main-panel,
+html[data-theme="dark"] .checkout-summary,
+html[data-theme="dark"] .checkout-seller-review,
+html[data-theme="dark"] .checkout-contact-review,
+html[data-theme="dark"] .auth-form-panel,
+html[data-theme="dark"] .auth-card,
+html[data-theme="dark"] .help-topic-panel,
+html[data-theme="dark"] .seller-store-hero,
+html[data-theme="dark"] .seller-store-products {
+  color:var(--ink);
+  background:var(--surface);
+  border-color:var(--line);
+}
+html[data-theme="dark"] .account-recent-card,
+html[data-theme="dark"] .seller-local-drafts article,
+html[data-theme="dark"] .seller-preview-product {
+  background:var(--surface-soft);
+  border-color:var(--line);
+}
+html[data-theme="dark"] .product-buyer-highlights,
+html[data-theme="dark"] .product-image-caption,
+html[data-theme="dark"] .product-visual-note,
+html[data-theme="dark"] .checkout-delivery-status,
+html[data-theme="dark"] .seller-form-note,
+html[data-theme="dark"] .auth-demo-note {
+  color:var(--muted);
+  background:var(--surface-soft);
+  border-color:var(--line);
+}
+html[data-theme="dark"] .product-image-stage img,
+html[data-theme="dark"] .product-gallery-thumbnails img {
+  background:#26352c;
+}
+html[data-theme="dark"] .product-gallery-thumbnails button {
+  background:var(--surface-soft);
+  border-color:var(--line);
+}
+html[data-theme="dark"] .seller-launch-art,
+html[data-theme="dark"] .auth-brand-panel {
+  background:#1b2b21;
+}
