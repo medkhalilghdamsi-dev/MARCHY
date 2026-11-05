@@ -76,3 +76,68 @@ npm run test:e2e
 ```
 
 The tests are authored in `tests/marketplace.spec.js`. A passing CI run is required before release; source changes alone are not evidence that the tests passed.
+
+## End-to-end order workflow contract
+
+The buyer demo checkout groups cart lines by merchant and creates one order per merchant. Production should expose this as a single checkout operation so a multi-merchant basket cannot be partially submitted.
+
+Suggested request:
+
+```ts
+type CheckoutRequest = {
+  lines: Array<{ productId: string; variantId?: string; quantity: number }>;
+  deliveryAddressId: string;
+  paymentMethod: 'cash_on_delivery' | 'online';
+  idempotencyKey: string;
+};
+```
+
+Suggested response:
+
+```ts
+type CheckoutResponse = {
+  checkoutId: string;
+  orders: Array<{
+    id: string;
+    merchantId: string;
+    status: 'pending_payment' | 'processing';
+    subtotalTnd: number;
+    deliveryFeeTnd: number;
+    totalTnd: number;
+    currency: 'TND';
+  }>;
+};
+```
+
+Recommended service boundaries (route names are proposals, not existing endpoints):
+
+| Operation | Suggested API | Required server behavior |
+|---|---|---|
+| Submit basket | `POST /checkouts` | Reprice every line, validate stock/address/payment, group by merchant, create all orders atomically, enforce idempotency |
+| Buyer order history | `GET /me/orders` | Return only orders belonging to the authenticated buyer |
+| Order detail/tracking | `GET /orders/:id` | Check buyer/merchant/courier/admin access; return status and shipment events |
+| Merchant order queue | `GET /merchant/orders` | Scope to authenticated merchant; never accept arbitrary merchant ownership from the client |
+| Merchant status update | `PATCH /merchant/orders/:id/status` | Validate allowed state transitions and write an audit event |
+| Courier assignment | `PATCH /operations/orders/:id/courier` | Require operations permission; validate provider and assignment eligibility |
+| Shipment events | `GET /orders/:id/shipments` | Return provider events and timestamps; distinguish estimated from confirmed events |
+
+### Shared order lifecycle
+
+Use one canonical server-side order status vocabulary and return allowed actions for the current actor. A practical baseline is:
+
+`processing → ready_for_pickup → in_transit → delivered`
+
+Cancellation, failed delivery, return and refund should be explicit states or separate workflows with documented transition rules. The frontend demo status selector is intentionally permissive; it is not a business-rules implementation.
+
+### Role ownership
+
+- Buyer: create checkout, view own orders, request cancellation/return where eligible.
+- Merchant: view orders containing that merchant's lines, prepare/hand over those lines, update merchant-owned fulfilment status.
+- Courier/operations: view assigned shipments, record pickup/delivery events, manage eligible courier assignments.
+- Platform admin: cross-marketplace moderation and operations according to explicit permissions, with audit history.
+
+A multi-merchant checkout may produce several merchant orders under one checkout reference. The buyer should see one grouped purchase in order history with access to each merchant shipment. Delivery charges and final totals must come from the server, not the current demo subtotal.
+
+### Frontend adapter boundary
+
+Keep the current `useDemoOrders` implementation as a demo adapter. Introduce a production `orderService` with equivalent methods (list, get, create checkout, update merchant status, assign courier) and select the adapter at the app/service composition layer. Do not let page components read or write local storage directly. Add explicit loading, empty, validation, conflict, permission and network-error states when the API is connected.
