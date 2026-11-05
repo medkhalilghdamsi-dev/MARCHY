@@ -110,7 +110,7 @@ export function Header({ cartCount }) {
           </> : <div className="search-suggestion-empty">
             {recentSearches.length > 0 && <div className="recent-searches">
               <div className="search-suggestion-heading">Recent searches <button type="button" onClick={() => { setRecentSearches([]); try { localStorage.removeItem('marchy-recent-searches') } catch {} }}>Clear</button></div>
-              {recentSearches.map(item => <Link key={item} to={`/search?q=${encodeURIComponent(item)}`} onMouseDown={() => setSearchOpen(false)}><span aria-hidden="true"><Clock3 size={15}/></span>{item}<span className="suggestion-arrow">↗</span></Link>)}
+              {recentSearches.map(item => <Link key={item} to={`/search?q=${encodeURIComponent(item)}`} onMouseDown={() => setSearchOpen(false)}><span aria-hidden="true"><Clock3 size={15}/></span>{item}<span className="suggestion-arrow"><ArrowUpRight size={15}/></span></Link>)}
             </div>}
             <b>Start with a category</b>
             <div>{categories.slice(1, 5).map(name => <Link key={name} to={`/category/${encodeURIComponent(name.toLowerCase())}`} onMouseDown={() => setSearchOpen(false)}>{name}</Link>)}</div>
