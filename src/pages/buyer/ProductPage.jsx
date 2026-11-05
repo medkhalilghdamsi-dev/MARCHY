@@ -171,14 +171,14 @@ export function ProductPage() {
         </div>
         <section className="product-seller-card" aria-label="Seller information">
           <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
-          <div className="product-seller-copy"><small>Direct artisan · {seller.city}</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Verified local storefront</span></div>
+          <div className="product-seller-copy"><small>Local seller · {seller.city}</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Sample storefront</span></div>
           <Link to={`/seller/${seller.slug}`}>Visit shop <span>→</span></Link>
         </section>
         <section className="product-trust-panel" aria-label="Buyer confidence information">
-          <div className="product-trust-heading"><b>Shop with clarity</b><span>Buyer protections</span></div>
-          <div><span className="trust-check">✓</span><p><b>Pay upon inspection</b><small>Inspect the package before handing payment to the courier.</small></p></div>
-          <div><span className="trust-check">✓</span><p><b>Direct seller connection</b><small>Coordinate dispatch directly with {seller.name} in {seller.city}.</small></p></div>
-          <div><span className="trust-check">✓</span><p><b>14-day sample return guarantee</b><small>Eligible for return or exchange if unopened or defective.</small></p></div>
+          <div className="product-trust-heading"><b>Shop with clarity</b><span>Preview information</span></div>
+          <div><span className="trust-check">✓</span><p><b>Payment options</b><small>Payment methods shown here are previews and are not connected to a live payment provider.</small></p></div>
+          <div><span className="trust-check">✓</span><p><b>Seller contact</b><small>Messaging and seller contact are not connected in this frontend preview.</small></p></div>
+          <div><span className="trust-check">✓</span><p><b>Returns and exchanges</b><small>Confirm the return window, eligibility and process with the seller before ordering.</small></p></div>
         </section>
         <section className="product-delivery-card" aria-label="Delivery information">
           <span className="delivery-symbol">⌖</span>
