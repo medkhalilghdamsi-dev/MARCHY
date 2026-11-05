@@ -550,3 +550,44 @@
 .is-rtl .cart-saved-item,.is-rtl .cart-saved-item-actions,.is-rtl .cart-coupon-form{direction:rtl}
 .is-rtl .cart-saved-item .cart-item-info{align-items:flex-start;text-align:right}
 .is-rtl .coupon-remove-btn{margin-right:5px;margin-left:0}
+
+/* Cart information hierarchy: readable product rows and a clearly grouped total. */
+.cart-page .cart-panel-heading > b { font-size: 14px; }
+.cart-page .cart-panel-heading > span { font-size: 12px; }
+.cart-page .cart-items-panel .cart-item-info .cart-item-name {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.cart-page .cart-item-info > small,
+.cart-page .cart-item-unit-price span { font-size: 11px; }
+.cart-page .cart-item-info .cart-item-unit-price { font-size: 13px; }
+.cart-page .cart-item-actions-row button { min-height: 34px; font-size: 12px; }
+.cart-page .cart-item-quantity > span { font-size: 11px; }
+.cart-page .cart-item-quantity .quantity { min-height: 40px; }
+.cart-page .cart-line-total { font-size: 14px; }
+.cart-page .cart-summary-title h2 { font-size: 21px; }
+.cart-page .cart-summary-count { font-size: 11px; }
+.cart-page .cart-summary-row { font-size: 13px; line-height: 1.45; }
+.cart-page .cart-summary-row > b { font-size: 13px; }
+.cart-page .cart-summary-row .summary-pending { font-size: 12px; }
+.cart-page .cart-summary .summary-total > span { font-size: 13px; }
+.cart-page .cart-summary .summary-total strong { font-size: 22px; }
+.cart-page .cart-summary-note { font-size: 11px; line-height: 1.6; }
+.cart-page .cart-checkout-button { min-height: 48px; font-size: 13px; }
+.cart-page .cart-trust-note p { font-size: 10px; line-height: 1.55; }
+.cart-page .cart-coupon-form input { min-height: 42px; font-size: 13px; }
+.cart-page .cart-coupon-form button,
+.cart-page .cart-coupon-chips button { min-height: 38px; font-size: 11px; }
+.cart-page .cart-panel-footer > span,
+.cart-page .cart-panel-footer > a { font-size: 12px; }
+@media (max-width: 640px) {
+  .cart-page .cart-items-panel .cart-item-info .cart-item-name { font-size: 13px; }
+  .cart-page .cart-item-info > small { font-size: 11px; }
+  .cart-page .cart-item-info .cart-item-unit-price { font-size: 13px; }
+  .cart-page .cart-summary-row,
+  .cart-page .cart-summary-row > b { font-size: 12px; }
+  .cart-page .cart-summary .summary-total strong { font-size: 21px; }
+  .cart-page .cart-summary-note { font-size: 11px; }
+}
+
