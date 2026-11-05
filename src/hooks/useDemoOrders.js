@@ -21,7 +21,11 @@ export function useDemoOrders() {
     window.addEventListener('storage', sync)
     return () => window.removeEventListener('storage', sync)
   }, [])
-  const updateOrder = (id, patch) => setOrders(current => current.map(order => order.id === id ? { ...order, ...patch, updatedAt: new Date().toISOString() } : order))
+  const updateOrder = (id, patch) => setOrders(current => {
+    const next = current.map(order => order.id === id ? { ...order, ...patch, updatedAt: new Date().toISOString() } : order)
+    writeJson(DEMO_OPERATIONS_STORAGE_KEY, next)
+    return next
+  })
   const createOrders = payloads => {
     const createdAt = new Date().toISOString()
     const created = payloads.map((payload, index) => ({ ...payload, id: 'MC-' + Date.now().toString().slice(-8) + (payloads.length > 1 ? '-' + (index + 1) : ''), status: 'Processing', courier: 'Unassigned', created: 'Just now', createdAt }))
@@ -30,5 +34,6 @@ export function useDemoOrders() {
     setOrders(next)
     return created
   }
-  return { orders, updateOrder, createOrders, reset: () => setOrders(seedDemoOrders) }
+  const reset = () => { writeJson(DEMO_OPERATIONS_STORAGE_KEY, seedDemoOrders); setOrders(seedDemoOrders) }
+  return { orders, updateOrder, createOrders, reset }
 }
