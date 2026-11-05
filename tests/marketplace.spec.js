@@ -664,3 +664,17 @@ test('adding a product provides an accessible toast confirmation', async ({ page
   await page.getByRole('button', { name: 'Add to cart' }).last().click()
   await expect(page.getByRole('status').filter({ hasText: 'Added to your cart' })).toBeVisible()
 })
+
+
+test('demo coupon remains applied from cart through checkout review', async ({ page }) => {
+  await page.goto('/product/1')
+  await page.getByRole('button', { name: 'Add to cart' }).last().click()
+  await page.goto('/cart')
+  await page.getByLabel('Promo code').fill('MARCHY10')
+  await page.getByRole('button', { name: 'Apply' }).click()
+  await expect(page.getByText('MARCHY10 applied: 10% demo discount.')).toBeVisible()
+  await expect(page.getByText('- 18.900 TND')).toBeVisible()
+  await page.getByRole('link', { name: /continue to checkout/i }).click()
+  await expect(page.getByText('Discount · MARCHY10')).toBeVisible()
+  await expect(page.getByText('- 18.900 TND')).toBeVisible()
+})
