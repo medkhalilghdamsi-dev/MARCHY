@@ -95,13 +95,12 @@ When adding CSS:
 
 ## Known modularisation targets
 
-The buyer journey and shared marketplace chrome have already been extracted into focused modules. `HomePage.jsx`, `SearchPage.jsx`, `ProductPage.jsx`, `CartPages.jsx`, `WishlistPage.jsx`, `SellersPage.jsx`, `SellerPage.jsx`, `CategoriesPage.jsx`, `AccountPage.jsx`, `AuthPage.jsx`, `SellerLaunchPage.jsx`, `SellerDashboardPage.jsx` and `SellerPreparationPage.jsx` own their respective routes. `DiscoveryPages.jsx` and `SellerPages.jsx` and `OperationsPages.jsx` are compatibility barrels; `SupportPages.jsx` retains the shared help and guide pages. `OperationsShared.jsx` owns the shared operations shell, status presentation and order table. `DiscoveryPages.jsx` is a compatibility export barrel. The legacy `ShoppingPages.jsx` and `MarketplaceChrome.jsx` files remain as small compatibility barrels; new code should import focused modules directly.
+The buyer journey and shared marketplace chrome have focused modules. Route pages are `HomePage.jsx`, `SearchPage.jsx`, `ProductPage.jsx`, `CartPages.jsx`, `WishlistPage.jsx`, `SellersPage.jsx`, `SellerPage.jsx`, `CategoriesPage.jsx`, `AccountPage.jsx`, `AuthPage.jsx`, `SellerLaunchPage.jsx`, `SellerDashboardPage.jsx`, `SellerPreparationPage.jsx`, `DeliveryOperationsPage.jsx`, `AdminOperationsPage.jsx`, `BuyerOrderTrackingPage.jsx` and `BuyerOrdersPage.jsx`. `DiscoveryPages.jsx`, `SellerPages.jsx` and `OperationsPages.jsx` are compatibility barrels. `SupportPages.jsx` retains help and guide pages; `OperationsShared.jsx` owns shared operations presentation. `ShoppingPages.jsx` and `MarketplaceChrome.jsx` remain backwards-compatible export barrels; new code should import focused modules directly.
 
 Remaining deliberate refactors:
-1. Review and safely extract remaining CSS layers. Discovery, seller, account, authentication and operations routes now have focused page modules.
-2. Split `experience-upgrade.css` into component-owned layers after duplicate-selector and cascade analysis.
-3. Move browser-local demo order operations behind an explicit demo service interface before backend adapter work.
-4. Add a route smoke-test table that stays aligned with `MarketplaceRoutes.jsx`.
+1. Continue reducing CSS cross-layer coupling by moving component rules into their owning stylesheets only when cascade analysis proves it safe.
+2. Move browser-local demo order operations behind an explicit demo service interface before backend adapter work.
+3. Keep the route smoke-test matrix aligned with `MarketplaceRoutes.jsx`.
 
 Refactor one boundary at a time. Preserve route URLs, storage keys, accessible names, visible copy, RTL behavior and test coverage.
 
