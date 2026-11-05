@@ -190,7 +190,7 @@ export function SearchPage() {
     <div className="listing-head">
       <div><span className="eyebrow">{routeCategory ? "EXPLORE THIS CATEGORY" : "SHOP THE MARCHY MARKETPLACE"}</span><h1>{routeCategory ? category : "Find what you’re looking for."}</h1><p className="muted">{routeCategory ? "Browse products in this category." : results.length + " products to explore"}</p></div>
       <div className="listing-search listing-search-autocomplete" onFocus={() => setSearchFocused(true)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setSearchFocused(false) }}>
-        <input role="combobox" aria-label="Search marketplace" value={term} onChange={e => updateTerm(e.target.value)} onKeyDown={event => { if (event.key === 'Escape') setSearchFocused(false) }} placeholder="What are you looking for?" aria-expanded={searchFocused && Boolean(term.trim())} aria-controls="marketplace-search-suggestions" aria-autocomplete="list"/>
+        <input role="combobox" aria-label="Search marketplace" value={term} onFocus={() => setSearchFocused(true)} onChange={e => updateTerm(e.target.value)} onKeyDown={event => { if (event.key === 'Escape') setSearchFocused(false) }} placeholder="What are you looking for?" aria-expanded={searchFocused && Boolean(term.trim())} aria-controls="marketplace-search-suggestions" aria-autocomplete="list"/>
         {term && <button type="button" className="listing-search-clear" aria-label="Clear search" onClick={() => updateTerm('')}>×</button>}
         <span aria-hidden="true"><Search size={17}/></span>
         {searchFocused && term.trim() && <div className="search-suggestions" id="marketplace-search-suggestions" role="listbox" aria-label="Search suggestions">

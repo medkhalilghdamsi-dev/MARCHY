@@ -24,7 +24,7 @@ const searchTextMatches = (text, query) => {
   const words = cleanedQuery.split(/\\s+/).filter(Boolean)
   return words.every(word => {
     const variants = [word, ...Object.entries(searchSynonyms).filter(([key, values]) => key === word || values.some(value => normalizeSearchText(value) === word)).flatMap(([key, values]) => [key, ...values].map(normalizeSearchText))]
-    return variants.some(variant => normalized.split(' ').some(token => token === variant || token.startsWith(variant) || variant.startsWith(token)))
+    return variants.some(variant => normalized.split(' ').some(token => token === variant || token.startsWith(variant) || (token.length >= 3 && variant.startsWith(token))))
   })
 }
 const readText = (key, fallback) => { try { const value = localStorage.getItem(key); return value || fallback } catch { return fallback } }

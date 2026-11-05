@@ -170,7 +170,7 @@ export function ProductPage() {
             <span>{qty} {qty === 1 ? 'item' : 'items'} selected{selectedVariant ? ` (${selectedVariant})` : ''}</span>
             <strong>{money(product.price * qty)}</strong>
           </div>
-          {added && <p className="product-added-feedback" role="status">Added {qty}x {product.name}{selectedVariant ? ` (${selectedVariant})` : ''} to your cart.</p>}
+          {added && <p className="product-added-feedback" role="status">Added to your demo cart: {qty}x {product.name}{selectedVariant ? ` (${selectedVariant})` : ''}.</p>}
         </div>
         <section className="product-seller-card" aria-label="Seller information">
           <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
@@ -180,14 +180,15 @@ export function ProductPage() {
         <section className="product-trust-panel" aria-label="Buyer confidence information">
           <div className="product-trust-heading"><b>Shop with clarity</b><span>Preview information</span></div>
           <div><span className="trust-check"><Check size={15}/></span><p><b>Payment options</b><small>Payment methods shown here are previews and are not connected to a live payment provider.</small></p></div>
+          <div><span className="trust-check"><Check size={15}/></span><p><b>Seller verification</b><small>Not independently verified in this frontend preview.</small></p></div>
           <div><span className="trust-check"><Check size={15}/></span><p><b>Seller contact</b><small>Messaging and seller contact are not connected in this frontend preview.</small></p></div>
           <div><span className="trust-check">✓</span><p><b>Returns and exchanges</b><small>Confirm the return window, eligibility and process with the seller before ordering.</small></p></div>
         </section>
-        <section className="product-delivery-card" aria-label="Delivery information">
+        <section className="product-delivery-card" aria-label="Delivery and availability">
           <span className="delivery-symbol"><MapPin size={18}/></span>
           <div>
             <b>Delivery confirmed before ordering</b>
-            <p>Delivery coverage, courier fees and arrival estimates are not connected to live seller or courier services in this frontend preview. The seller must confirm the available service and final cost before an order is placed.</p>
+            <p>Delivery coverage, courier fees and arrival estimates are not connected to live seller or courier services in this frontend preview. The seller must confirm the available service and final cost before an order is placed.</p><ul className="product-delivery-facts"><li><span>Delivery fee</span><b>Not provided</b></li><li><span>Estimated arrival</span><b>Not provided</b></li></ul>
           </div>
         </section>
         <p className="product-demo-disclaimer">Frontend demonstration only. No order, payment or delivery booking is submitted.</p>

@@ -104,6 +104,7 @@ export function Home() {
               <input
                 id="home-market-search"
                 type="search"
+                role="combobox"
                 value={heroSearch}
                 onFocus={() => setSearchOpen(true)}
                 onBlur={() => window.setTimeout(() => setSearchOpen(false), 140)}
@@ -113,6 +114,7 @@ export function Home() {
                 autoComplete="off"
                 aria-expanded={searchOpen}
                 aria-controls="home-search-suggestions"
+                aria-autocomplete="list"
               />
               {heroSearch && <button className="home-search-clear" type="button" aria-label="Clear search" onClick={() => setHeroSearch('')}>×</button>}
               <button type="submit">Search <ArrowRight size={16} /></button>

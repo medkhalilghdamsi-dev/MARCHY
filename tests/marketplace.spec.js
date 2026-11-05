@@ -152,7 +152,7 @@ test('product grid and list preferences persist across marketplace navigation', 
 
 test('homepage hero search submits queries and popular shortcuts navigate to search', async ({ page }) => {
   await page.goto('/')
-  const heroSearch = page.getByRole('search').getByRole('searchbox', { name: 'Search products and categories' })
+  const heroSearch = page.getByRole('search').getByRole('combobox', { name: 'Search products and categories' })
   await heroSearch.fill('headphones')
   await page.locator('.hero-search-form').getByRole('button', { name: /Search/ }).click()
   await expect(page).toHaveURL(/\/search\?q=headphones/)
@@ -241,10 +241,10 @@ test('cart groups products by seller and keeps each seller subtotal visible', as
   const sellerGroups = page.locator('.cart-seller-group')
   await expect(sellerGroups).toHaveCount(2)
   await expect(sellerGroups.nth(0)).toContainText('Atlas Tech')
-  await expect(sellerGroups.nth(0)).toContainText('189.000 TND')
+  await expect(sellerGroups.nth(0)).toContainText('189 DT')
   await expect(sellerGroups.nth(1)).toContainText('Maison & Co')
-  await expect(sellerGroups.nth(1)).toContainText('79.000 TND')
-  await expect(page.locator('.cart-summary')).toContainText('268.000 TND')
+  await expect(sellerGroups.nth(1)).toContainText('79 DT')
+  await expect(page.locator('.cart-summary')).toContainText('268 DT')
 })
 
 
@@ -328,7 +328,7 @@ test('seller storefront supports persistent grid and list product layouts', asyn
 
 test('product detail can add a listing to the cross-page comparison tray', async ({ page }) => {
   await page.goto('/product/1')
-  await page.getByRole('button', { name: '＋ Compare' }).click()
+  await page.getByRole('button', { name: /Compare/ }).click()
   await expect(page.getByRole('status').filter({ hasText: 'Added to comparison' })).toBeVisible()
   await page.getByRole('link', { name: 'Open comparison' }).click()
   await expect(page).toHaveURL(/\/search$/)
@@ -374,7 +374,7 @@ test('checkout creates shared demo seller orders and opens buyer tracking', asyn
   expect(await page.locator('.checkout-form').evaluate(form => form.checkValidity())).toBe(false)
   await page.getByRole('textbox', { name: 'Full name' }).fill('Demo Customer')
   await page.getByRole('textbox', { name: 'Phone number' }).fill('+216 20 000 000')
-  await page.getByRole('textbox', { name: 'City' }).fill('Tunis')
+  await page.getByLabel('Governorate / Region').selectOption('Tunis')
   await page.getByRole('textbox', { name: 'Delivery address' }).fill('10 Demo Street')
   await page.getByRole('button', { name: 'Review order' }).click()
   await expect(page.getByRole('heading', { name: 'Review before proceeding' })).toBeVisible()
@@ -589,7 +589,7 @@ test('mobile product purchase bar quantity stays in sync with the main purchase 
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/product/1')
   await page.locator('.mobile-buybar-quantity').getByRole('button', { name: 'Increase quantity' }).click()
-  await expect(page.locator('.mobile-buybar-total')).toContainText('378.000 TND')
+  await expect(page.locator('.mobile-buybar-total')).toContainText('378 DT')
   await page.locator('.mobile-buybar-actions').getByRole('button', { name: 'Add to cart' }).click()
   await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
 })
