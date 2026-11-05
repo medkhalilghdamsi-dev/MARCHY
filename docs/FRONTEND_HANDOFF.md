@@ -12,6 +12,7 @@ This repository is the MARCHY frontend. It is a React 18 + Vite application usin
 | Merchant | `/sell`, `/seller-dashboard`, `/seller/:slug` | Storefront planning and merchant workspace preview |
 | Delivery operations | `/operations/delivery` | Fulfilment queue, courier assignment UI and status progression |
 | Platform admin | `/admin` | Cross-marketplace order overview and operational status controls |
+| Buyer order history | `/orders` | Searchable/filterable sample order list with links to tracking |
 | Buyer order tracking | `/orders/:id` | Sample buyer-facing order progress using the same shared demo order state |
 
 The operations workspaces use one shared browser-local demo order store (`marchy-demo-operations-v1`). Delivery and admin changes are reflected in both workspaces, including across open tabs. This is a frontend demonstration, not a source of truth.
@@ -24,7 +25,7 @@ The operations workspaces use one shared browser-local demo order store (`marchy
 - `marchy-seller-drafts`: merchant product drafts
 - `marchy-demo-operations-v1`: shared illustrative operations orders used by buyer checkout, merchant, buyer tracking, delivery and admin views
 
-Buyer checkout creates one local demo order per seller in the basket, clears the local cart after confirmation and opens the first order's tracking page. Only a display name, city, seller, item count, total and demo payment label are placed in the local demo order; phone, street address and delivery notes are not persisted. No real order, notification or payment is created.
+Buyer checkout creates one local demo order per seller in the basket, clears the local cart after confirmation and opens the first order's tracking page. The buyer account and `/orders` history page read the same browser-local demo order collection; they are not authenticated or tied to an individual guest identity. Only a display name, city, seller, item count, total and demo payment label are placed in the local demo order; phone, street address and delivery notes are not persisted. No real order, notification or payment is created.
 
 Do not treat local storage as secure, authoritative or multi-user persistence. It is only for prototype continuity.
 
