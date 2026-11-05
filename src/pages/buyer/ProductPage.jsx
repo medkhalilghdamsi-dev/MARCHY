@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { products } from '../../data/products'
-import { sellerForProduct } from '../../data/sellers'
+import { sellers, sellerForProduct } from '../../data/sellers'
 import { money, readJson, writeJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { ProductCard } from '../../components/marketplace/ProductCard'
 import { ProductReviews } from '../../components/marketplace/ProductReviews'
 import { ProductSpecs } from '../../components/marketplace/ProductSpecs'
+import { MultiSellerOffers } from '../../components/marketplace/MultiSellerOffers'
+import { FrequentlyBoughtTogether } from '../../components/marketplace/FrequentlyBoughtTogether'
+import { ProductQA } from '../../components/marketplace/ProductQA'
+import { MarketplaceService } from '../../services/marketplaceService'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { ArrowRight, Check, Heart, MapPin, Plus, Share2, Search, ShoppingCart, Truck, ShieldCheck, RotateCcw } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
@@ -18,14 +22,23 @@ export function ProductPage() {
   const { id } = useParams()
   const location = useLocation()
   const returnTo = typeof location.state?.from === 'string' && location.state.from.startsWith('/') ? location.state.from : '/search'
-  const product = products.find(p => p.id === Number(id))
+  const product = MarketplaceService.getProductById(id) || products.find(p => p.id === Number(id))
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
-  const [imageZoomOpen,setImageZoomOpen]=useState(false)
-  const [activeImage,setActiveImage]=useState('')
-  const [shareFeedback,setShareFeedback]=useState('')
-  const [isCompared,setIsCompared]=useState(()=>readJson('marchy-compare',[]).includes(Number(id)))
-  const [compareFeedback,setCompareFeedback]=useState('')
+  const [imageZoomOpen, setImageZoomOpen] = useState(false)
+  const [activeImage, setActiveImage] = useState('')
+  const [shareFeedback, setShareFeedback] = useState('')
+  const [isCompared, setIsCompared] = useState(() => MarketplaceService.getCompareIds().includes(Number(id)))
+  const [compareFeedback, setCompareFeedback] = useState('')
+
+  // Multi-seller offers for this product
+  const sellerOffers = product ? MarketplaceService.getProductOffers(product.id) : []
+  const [selectedOffer, setSelectedOffer] = useState(null)
+
+  const defaultSeller = product ? sellerForProduct(product) : sellers[0]
+  const currentSellerName = selectedOffer?.sellerName || defaultSeller.name
+  const currentPrice = selectedOffer?.price || product?.price || 0
+  const currentSellerSlug = selectedOffer?.sellerSlug || defaultSeller.slug
 
   const tunisianGovs = [
     { name: 'Tunis', time: 'Tomorrow (within 24h)', fee: 7 },
@@ -43,7 +56,7 @@ export function ProductPage() {
   ]
   const [selectedGov, setSelectedGov] = useState('Tunis')
   const currentGovData = tunisianGovs.find(g => g.name === selectedGov) || tunisianGovs[0]
-  const isFreeShipping = (product ? product.price * qty : 0) >= 120
+  const isFreeShipping = (currentPrice * qty) >= 120
 
   const productVariants = Array.isArray(product?.variants) && product.variants.length > 0
     ? product.variants
@@ -56,22 +69,54 @@ export function ProductPage() {
     setActiveImage('')
   }, [id])
 
-  useEffect(()=>{setIsCompared(readJson('marchy-compare',[]).includes(Number(id)));setCompareFeedback('')},[id])
-  const toggleProductCompare=()=>{
-    const selected=readJson('marchy-compare',[]).filter(item=>products.some(entry=>entry.id===item))
-    if(selected.includes(Number(id))){writeJson('marchy-compare',selected.filter(item=>item!==Number(id)));setIsCompared(false);setCompareFeedback('Removed from comparison')}
-    else if(selected.length>=3){setCompareFeedback('You can compare up to 3 listings')}
-    else{writeJson('marchy-compare',[...selected,Number(id)]);setIsCompared(true);setCompareFeedback('Added to comparison')}
+  useEffect(() => {
+    setIsCompared(MarketplaceService.getCompareIds().includes(Number(id)))
+    setCompareFeedback('')
+  }, [id])
+
+  const toggleProductCompare = () => {
+    const next = MarketplaceService.toggleCompare(id)
+    setIsCompared(next.includes(Number(id)))
+    window.dispatchEvent(new Event('marchy-compare-changed'))
+    toast(next.includes(Number(id)) ? 'Added to comparison tray' : 'Removed from comparison', { type: 'info' })
   }
-  const handleShare=async()=>{
-    const shareData={title:product?.name||'MARCHY listing',text:'View this sample listing on MARCHY',url:window.location.href}
-    try{
-      if(navigator.share){await navigator.share(shareData);setShareFeedback('Share options opened');return}
-      if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(shareData.url);setShareFeedback('Listing link copied')}
-      else{
-        const field=document.createElement('textarea');field.value=shareData.url;field.setAttribute('readonly','');field.style.position='absolute';field.style.left='-9999px';document.body.appendChild(field);field.select();const copied=document.execCommand('copy');field.remove();setShareFeedback(copied?'Listing link copied':'Copy is unavailable in this browser')
+
+  const handleShare = async () => {
+    const shareData = { title: product?.name || 'MARCHY listing', text: 'View this listing on MARCHY', url: window.location.href }
+    try {
+      if (navigator.share) { await navigator.share(shareData); setShareFeedback('Share options opened'); return }
+      if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(shareData.url); setShareFeedback('Listing link copied') }
+      else {
+        const field = document.createElement('textarea'); field.value = shareData.url; field.setAttribute('readonly', ''); field.style.position = 'absolute'; field.style.left = '-9999px'; document.body.appendChild(field); field.select(); const copied = document.execCommand('copy'); field.remove(); setShareFeedback(copied ? 'Listing link copied' : 'Copy is unavailable in this browser')
       }
-    }catch(error){if(error?.name!=='AbortError')setShareFeedback('Could not share this listing')}
+    } catch (error) { if (error?.name !== 'AbortError') setShareFeedback('Could not share this listing') }
+  }
+
+  const effectiveProduct = {
+    ...product,
+    price: currentPrice,
+    seller: currentSellerName,
+    sellerSlug: currentSellerSlug
+  }
+
+  const handleAdd = () => {
+    const variant = selectedVariant || null
+    addToCart(effectiveProduct, qty, variant)
+    setAdded(true)
+    toast(`Added ${qty}x ${product.name}${variant ? ` (${variant})` : ''} from ${currentSellerName} to cart`, { type: 'success' })
+    setTimeout(() => setAdded(false), 2500)
+  }
+
+  const handleBuyNow = () => {
+    const variant = selectedVariant || null
+    addToCart(effectiveProduct, qty, variant)
+    navigate('/checkout')
+  }
+
+  const handleAddBundle = (bundleItems) => {
+    bundleItems.forEach(item => {
+      addToCart(item, 1, 'Standard Edition')
+    })
   }
   useEffect(()=>{
     if(!imageZoomOpen)return
@@ -122,18 +167,6 @@ export function ProductPage() {
   })[product.category] || ['Exact product specifications and included items','Product condition and any limitations','Current availability and final price','Delivery, returns and warranty conditions']
   const saved = wishlist.includes(product.id)
   const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
-  const handleAdd = () => {
-    const variant = selectedVariant || null
-    addToCart(product, qty, variant)
-    setAdded(true)
-    toast(`Added ${qty}x ${product.name}${variant ? ` (${variant})` : ''} to cart`, { type: 'success' })
-    setTimeout(() => setAdded(false), 2500)
-  }
-  const handleBuyNow = () => {
-    const variant = selectedVariant || null
-    addToCart(product, qty, variant)
-    navigate('/checkout')
-  }
   const handleToggleWish = () => { toggleWish(product.id); toast(!saved ? "Saved " + product.name + " to wishlist" : "Removed from wishlist", { type: "info" }) }
   return translateTree(<main id="main-content" className="shell page product-page">
     <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to={returnTo}>Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
@@ -155,9 +188,19 @@ export function ProductPage() {
       <section className="product-buy-panel">
         <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare} >{isCompared?<><Check size={14}/> Compared</>:<><Plus size={14}/> Compare</>}</button><button type="button" className="product-share-button" onClick={handleShare}><Share2 size={15}/> Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/search">Open comparison</Link></p>}
         <h1>{product.name}</h1>
-        <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
-        <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
-        <div className="product-listing-status"><span className="status-dot"></span><div><b>Sample catalogue listing</b><small>Illustrative listing from {seller.name} in {seller.city}, Tunisia</small></div></div>
+        <div className="product-price-block">
+          <strong>{money(currentPrice)}</strong>
+          {selectedOffer?.oldPrice ? <del>{money(selectedOffer.oldPrice)}</del> : product.oldPrice ? <del>{money(product.oldPrice)}</del> : null}
+          {discount > 0 && <span>{discount}% illustrative difference</span>}
+        </div>
+        <p className="product-price-caption">Displayed in Tunisian dinars (TND). Offered by <b>{currentSellerName}</b> with Cash on Delivery protection.</p>
+        <div className="product-listing-status">
+          <span className="status-dot"></span>
+          <div>
+            <b>Verified merchant offer</b>
+            <small>Dispatched by {currentSellerName} from {selectedOffer?.sellerCity || seller.city}, Tunisia</small>
+          </div>
+        </div>
 
         {productVariants.length > 0 && (
           <div className="product-variant-picker" role="group" aria-label="Select product option">
@@ -265,14 +308,27 @@ export function ProductPage() {
           </div>
         </section>
 
+        {/* Other Sellers on MARCHY (Multi-Seller Offers) */}
+        <MultiSellerOffers
+          offers={sellerOffers}
+          onSelectOffer={setSelectedOffer}
+          activeOfferId={selectedOffer?.id}
+        />
+
         <section className="product-seller-card" aria-label="Seller information">
-          <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
-          <div className="product-seller-copy"><small>Local seller · {seller.city}</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Verified storefront</span></div>
-          <Link to={`/seller/${seller.slug}`}>Visit shop <span><ArrowRight size={15}/></span></Link>
+          <span className="seller-avatar">{currentSellerName.slice(0, 1)}</span>
+          <div className="product-seller-copy">
+            <small>Selected merchant · {currentSellerName}</small>
+            <b>{currentSellerName}</b>
+            <span>Verified merchant · Tunisia</span>
+            <span className="seller-profile-status">Verified storefront</span>
+          </div>
+          <Link to={`/seller/${currentSellerSlug}`}>Visit shop <span><ArrowRight size={15}/></span></Link>
         </section>
       </section>
     </div>
     <section className="product-buyer-highlights" aria-label="Important product information"><div><span>01</span><b>Know what you're buying</b><small>Review the description and confirm exact specifications.</small></div><div><span>02</span><b>Check with the shop</b><small>Ask about variants, condition and current availability.</small></div><div><span>03</span><b>Confirm delivery first</b><small>Agree on coverage, cost and timing before ordering.</small></div></section>
+    
     <section className="product-information-grid"><ProductSpecs product={product} seller={seller} />
       <article className="product-information-card">
         <span className="eyebrow">PRODUCT DETAILS</span><h2>About this listing</h2>
@@ -285,7 +341,20 @@ export function ProductPage() {
         <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront <ArrowRight size={15}/></Link>
       </article>
     </section>
+
+    {/* Smart Bundle: Frequently Bought Together */}
+    <FrequentlyBoughtTogether
+      currentProduct={product}
+      bundleProducts={related}
+      onAddBundle={handleAddBundle}
+    />
+
+    {/* Customer Reviews & Feedback */}
     <ProductReviews product={product} />
+
+    {/* Interactive Customer Q&A with Verified Merchant Answers */}
+    <ProductQA productId={product.id} productName={product.name} />
+
     {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>Discover more products</h2><p className="muted">More from this category and other corners of the marketplace.</p></div><Link to="/search" className="text-link">Explore marketplace <ArrowRight size={15}/></Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language} returnTo={location.pathname}/>)}</div></section>}
     {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={displayedImage} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
     <div className="product-mobile-buybar"><div className="mobile-buybar-total"><small>Subtotal · {qty} {qty === 1 ? 'item' : 'items'}</small><b>{money(product.price * qty)}</b></div><div className="mobile-buybar-actions"><div className="quantity mobile-buybar-quantity" role="group" aria-label="Mobile quantity"><button type="button" aria-label="Decrease quantity" disabled={qty<=1} onClick={()=>setQty(value=>Math.max(1,value-1))}>−</button><output aria-label="Mobile selected quantity">{qty}</output><button type="button" aria-label="Increase quantity" disabled={qty>=99} onClick={()=>setQty(value=>Math.min(99,value+1))}>＋</button></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? <><Check size={15}/> Added</> : <><ShoppingCart size={15}/> Add to cart</>}</button></div></div>

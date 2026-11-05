@@ -5,6 +5,7 @@ import { money } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
+import { MarketplaceService } from '../../services/marketplaceService'
 import { ArrowRight, ArrowUpRight, Check, Heart, MapPin, Plus, ShoppingCart, ShieldCheck } from 'lucide-react'
 
 export function ProductCard({ product, addToCart, wished, toggleWish, compareIds = [], toggleCompare, returnTo }) {
@@ -83,9 +84,22 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
           </div>
           {product.oldPrice && <del>{money(product.oldPrice)}</del>}
         </div>
-        {toggleCompare && <button type="button" className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`} onClick={() => toggleCompare(product.id)} aria-pressed={compareIds.includes(product.id)} disabled={compareIds.length >= 3 && !compareIds.includes(product.id)}>
-          {compareIds.includes(product.id) ? <><Check size={14}/> Added to compare</> : compareIds.length >= 3 ? 'Compare limit reached' : <><Plus size={14}/> Compare</>}
-        </button>}
+        <button
+          type="button"
+          className={`compare-product-button ${compareIds.includes(product.id) ? 'is-selected' : ''}`}
+          onClick={() => {
+            if (toggleCompare) {
+              toggleCompare(product.id)
+            } else {
+              MarketplaceService.toggleCompare(product.id)
+              window.dispatchEvent(new Event('marchy-compare-changed'))
+              toast('Updated comparison dock', { type: 'info' })
+            }
+          }}
+          aria-pressed={compareIds.includes(product.id)}
+        >
+          {compareIds.includes(product.id) ? <><Check size={14}/> Compared</> : <><Plus size={14}/> Compare</>}
+        </button>
         <button type="button" className={`add-btn ${added ? 'added' : ''}`} onClick={quickAdd} aria-live="polite">
           {added ? 'Added to cart' : 'Add to cart'} <span>{added ? <Check size={16}/> : <ShoppingCart size={16}/>}</span>
         </button>

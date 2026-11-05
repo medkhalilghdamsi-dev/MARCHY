@@ -18,51 +18,61 @@ ul, ol { list-style: none; padding: 0; }
 
 /* ---- Design tokens: Light mode (default) ------------------ */
 :root {
-  /* Brand — Unified Forest Green Palette */
-  --forest: #1f5b45;
-  --forest-dark: #164033;
-  --forest-light: #e6f0eb;
-  --gold: #1f5b45;
+  /* Official MARCHY Emerald Brand Palette */
+  --emerald-deep: #064E3B;    /* Deep Emerald: Brand surfaces, headers */
+  --emerald-primary: #047857; /* Primary Green: Action buttons, interactive states */
+  --emerald-accent: #10B981;  /* Emerald Accent: Verified tags, highlights */
+  --mint-surface: #ECFDF5;    /* Mint Surface: Soft background accents */
+  --charcoal: #111827;        /* Charcoal: High-contrast typography */
+  --white: #FFFFFF;           /* White: Elevated cards, sheet panels */
+  --neutral-bg: #F8FAFC;      /* Neutral Background: Slate clean shopping background */
 
-  /* Neutral palette (Forest-tinted slate, WCAG AA >= 4.5:1 contrast on #f4f7f5 & #ffffff) */
-  --ink: #12261e;
-  --ink-soft: #253d32;
-  --muted: #435b4f;
-  --muted-light: #4e675a;
-  --line: #d8e5dd;
-  --line-soft: #e6efe9;
+  /* Legacy & Semantic Mapping */
+  --forest: var(--emerald-primary);
+  --forest-dark: var(--emerald-deep);
+  --forest-light: var(--mint-surface);
+  --forest-soft: var(--mint-surface);
+  --gold: var(--emerald-primary);
+
+  /* Neutral palette (Charcoal-tinted slate, WCAG AAA >= 7:1 contrast) */
+  --ink: var(--charcoal);
+  --ink-soft: #1E293B;
+  --muted: #475569;
+  --muted-light: #64748B;
+  --line: #E2E8F0;
+  --line-soft: #F1F5F9;
 
   /* Surfaces */
-  --page: #f4f8f5;
-  --surface: #ffffff;
-  --surface-soft: #eef5f1;
-  --surface-raised: #ffffff;
-  --surface-hover: #edf5f0;
+  --page: var(--neutral-bg);
+  --surface: var(--white);
+  --surface-soft: #F1F5F9;
+  --surface-raised: var(--white);
+  --surface-hover: #F8FAFC;
 
-  /* Semantic — Harmonized within the green spectrum */
-  --accent: var(--forest);
-  --accent-dark: var(--forest-dark);
-  --accent-text: #ffffff;
-  --focus-ring: #6ea98c;
-  --danger: #b42318;
-  --danger-soft: #fef3f2;
-  --warning: #9a6700;
-  --warning-soft: #fff8e6;
-  --success: #1f5b45;
-  --success-soft: #e8f2ec;
-  --info: #245b8f;
-  --info-soft: #eef6ff;
+  /* Semantic */
+  --accent: var(--emerald-primary);
+  --accent-dark: var(--emerald-deep);
+  --accent-text: #FFFFFF;
+  --focus-ring: rgba(4, 120, 87, 0.28);
+  --danger: #DC2626;
+  --danger-soft: #FEF2F2;
+  --warning: #D97706;
+  --warning-soft: #FFFBEB;
+  --success: var(--emerald-primary);
+  --success-soft: var(--mint-surface);
+  --info: #0284C7;
+  --info-soft: #F0F9FF;
 
-  /* Legacy aliases mapped to Forest Green */
-  --orange: var(--forest);
-  --orange-dark: var(--forest-dark);
-  --green: var(--forest);
+  /* Legacy aliases mapped to Emerald Brand */
+  --orange: var(--emerald-primary);
+  --orange-dark: var(--emerald-deep);
+  --green: var(--emerald-primary);
   --marchy-ink: var(--ink);
   --marchy-muted: var(--muted);
   --marchy-line: var(--line);
   --marchy-surface: var(--surface);
   --marchy-page: var(--page);
-  --marchy-orange: var(--forest);
+  --marchy-orange: var(--emerald-primary);
   --marchy-orange-deep: var(--forest-dark);
   --marchy-green: var(--forest);
   --marchy-accent-soft: var(--forest-light);

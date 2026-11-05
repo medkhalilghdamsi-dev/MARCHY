@@ -4,6 +4,7 @@ import { sellers, sellerForProduct } from '../../data/sellers'
 import { money } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { MarketplaceService } from '../../services/marketplaceService'
 import { ArrowRight, Check, ShoppingCart, X } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
@@ -16,7 +17,8 @@ export function CartPage() {
   const toast = useToast()
   const [couponCode, setCouponCode] = useState('')
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
-  const discountAmount = appliedCoupon === 'MARCHY10' ? subtotal * 0.1 : appliedCoupon === 'BIENVENUE' ? Math.min(5, subtotal) : 0
+  const couponValidation = appliedCoupon ? MarketplaceService.validateCoupon(appliedCoupon, subtotal) : null
+  const discountAmount = couponValidation?.valid ? couponValidation.discount : 0
   const finalTotal = Math.max(0, subtotal - discountAmount)
   const freeDeliveryThreshold = 120
   const freeDeliveryRemaining = Math.max(0, freeDeliveryThreshold - subtotal)
@@ -25,16 +27,13 @@ export function CartPage() {
   const applyCoupon = (e) => {
     e.preventDefault()
     const clean = couponCode.trim().toUpperCase()
-    if (clean === 'MARCHY10') {
-      setAppliedCoupon(clean)
-      toast('10% discount applied with code MARCHY10!', { type: 'success' })
-      setCouponCode('')
-    } else if (clean === 'BIENVENUE') {
-      setAppliedCoupon(clean)
-      toast('5.000 TND welcome discount applied!', { type: 'success' })
+    const result = MarketplaceService.validateCoupon(clean, subtotal)
+    if (result.valid) {
+      setAppliedCoupon(result.code)
+      toast(`${result.label} applied successfully!`, { type: 'success' })
       setCouponCode('')
     } else {
-      toast('Invalid coupon. Try "MARCHY10" (10% off) or "BIENVENUE" (5 TND off)', { type: 'error' })
+      toast(result.message, { type: 'error' })
     }
   }
   const removeCoupon = () => {

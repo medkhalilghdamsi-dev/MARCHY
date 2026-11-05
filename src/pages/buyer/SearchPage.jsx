@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { categories, products } from '../../data/products'
+import { categories } from '../../data/products'
+import { MarketplaceService } from '../../services/marketplaceService'
 import { sellerForProduct } from '../../data/sellers'
 import { money, normalizeSearchText, searchTextMatches, readText, readJson, writeJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
@@ -12,6 +13,7 @@ export function SearchPage() {
   const { addToCart, wishlist, toggleWish, language } = useMarketplace()
   const [params, setParams] = useSearchParams()
   const navigate = useNavigate()
+  const products = useMemo(() => MarketplaceService.getProducts(), [])
   const initial = params.get('q') || ''
   const { category: routeCategory } = useParams()
   const initialCategory = categories.find(c => c.toLowerCase() === (routeCategory || params.get('category') || '').toLowerCase()) || 'All'

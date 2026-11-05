@@ -6,6 +6,7 @@ import { money, searchTextMatches, readJson, writeJson } from '../../utils/marke
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { ArrowRight, ArrowUpRight, Clock3, Heart, LayoutGrid, Menu, Moon, Search, ShoppingCart, Sun, UserRound, X } from 'lucide-react'
+import { NotificationsPopover } from '../marketplace/NotificationsPopover'
 
 export function Header({ cartCount }) {
   const { language, setLanguage, theme, setTheme } = useMarketplace()
@@ -137,6 +138,7 @@ export function Header({ cartCount }) {
         </div>}
       </form>
       <div className="header-actions">
+        <NotificationsPopover />
         <button type="button" className="theme-toggle" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} aria-pressed={theme === 'dark'} title={theme === 'dark' ? 'Light mode' : 'Dark mode'}>
           <span aria-hidden="true">{theme === 'dark' ? <Sun size={17}/> : <Moon size={17}/>}</span><small>{theme === 'dark' ? 'Light' : 'Dark'}</small>
         </button>

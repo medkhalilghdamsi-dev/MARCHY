@@ -5,6 +5,7 @@ import { money, readJson, writeJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { MarketplaceService } from '../../services/marketplaceService'
 import { ArrowLeft, ArrowRight, Check, Info, ShoppingBag, Store, Truck, ShieldCheck, MapPin } from 'lucide-react'
 
 export function CheckoutPage() {
@@ -28,7 +29,8 @@ export function CheckoutPage() {
   })
   const navigate = useNavigate()
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
-  const discountAmount = appliedCoupon === 'MARCHY10' ? subtotal * 0.1 : appliedCoupon === 'BIENVENUE' ? Math.min(5, subtotal) : 0
+  const couponValidation = appliedCoupon ? MarketplaceService.validateCoupon(appliedCoupon, subtotal) : null
+  const discountAmount = couponValidation?.valid ? couponValidation.discount : 0
   const finalTotal = Math.max(0, subtotal - discountAmount)
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const groups = [...new Set(cart.map(item => sellerForProduct(item).slug))].map(slug => {
@@ -91,6 +93,18 @@ export function CheckoutPage() {
       payment: details.paymentMethod || 'Cash on delivery · Pay upon inspection',
       deliveryMethod: details.deliveryMethod || 'Standard courier (seller confirmed)',
     })))
+
+    // Decrement live inventory across all ordered vendor items
+    MarketplaceService.decrementInventory(cart)
+
+    // Trigger instant system notification
+    MarketplaceService.addNotification({
+      title: 'Order Confirmed',
+      message: `Order #${created[0]?.id || 'NEW'} placed with Cash on Delivery protection. Merchant notified for dispatch.`,
+      type: 'order',
+      link: '/orders'
+    })
+
     clearCart?.()
     navigate(created.length === 1 ? '/orders/' + created[0].id : '/orders', { state: { justCreatedOrderIds: created.map(order => order.id) } })
   }

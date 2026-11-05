@@ -8,6 +8,7 @@ import { ErrorBoundary } from './ErrorBoundary'
 import { Header } from '../components/layout/Header'
 import { Footer } from '../components/layout/Footer'
 import { MobileTabBar } from '../components/layout/MobileTabBar'
+import { GlobalCompareDrawer } from '../components/marketplace/GlobalCompareDrawer'
 import { Home } from '../pages/buyer/HomePage'
 import { SearchPage } from '../pages/buyer/SearchPage'
 import { ProductPage } from '../pages/buyer/ProductPage'
@@ -149,6 +150,7 @@ export default function App() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
+      <GlobalCompareDrawer />
       {!isAuthPage && <Footer />}
       {!isAuthPage && <MobileTabBar cartCount={cartCount} wishlistCount={wishlist.length} />}
     </div>
