@@ -8,7 +8,7 @@ Runtime entry:
 1. `index.html` provides the browser document and root mount.
 2. `src/main.jsx` mounts React, BrowserRouter and the global stylesheet entry.
 3. `src/App.jsx` is a stable re-export boundary.
-4. `src/app/MarketplaceApp.jsx` composes the app shell, global buyer state, shared chrome and route table.
+4. `src/app/MarketplaceApp.jsx` composes the app shell, global buyer state, shared chrome and route table. `src/components/AppErrorBoundary.jsx` provides a recoverable UI fallback for render failures.
 5. `src/app/MarketplaceRoutes.jsx` maps stable URLs to page components.
 6. `src/app/usePageMetadata.js` owns route-derived document titles.
 
@@ -48,6 +48,7 @@ Keep route URLs stable. If a route must change, retain a redirect or compatibili
 | State | Owner | Persistence | Notes |
 |---|---|---|---|
 | Language | `useMarketplaceState` | `marchy-language` | en, fr, ar; Arabic controls RTL |
+| Theme | `useMarketplaceState` | `marchy-theme` | light/dark semantic theme; shared header toggle |
 | Cart | `useMarketplaceState` | `marchy-cart` | Browser-local demo cart |
 | Wishlist | `useMarketplaceState` | `marchy-wishlist` | Browser-local product IDs |
 | Compare tray | Search page | `marchy-compare` | Browser-local comparison selection |
@@ -64,16 +65,13 @@ See [CSS_ARCHITECTURE.md](./CSS_ARCHITECTURE.md) for selector inventory, stylesh
 
 Global styles enter through `src/styles.css`. Import order is intentional; later layers can refine or override earlier layers:
 
-1. `base.css` — font faces, tokens, reset and base components.
-2. `discovery.css` — category and seller discovery.
-3. `shopping.css` — buyer shopping, product and cart foundations.
-4. `design-foundation.css` — shared visual-system refinements.
-5. `seller-experience.css` and `seller-workspace.css` — seller journeys.
-6. `quality-refinements.css` — accessibility and responsive corrections.
-7. `multi-seller-basket.css` and `checkout.css` — basket and checkout details.
-8. `result-controls.css` — search and listing controls.
-9. `experience-upgrade.css` — final cross-page experience overrides.
-10. `auth.css` and `operations.css` — account and operations-specific surfaces.
+1. `base-foundation.css`, `base-discovery.css`, `base-shopping.css`, `base-mobile-navigation.css` — reset, shared foundations and base layout groups.
+2. `discovery.css`, `shopping.css` — original discovery and buyer shopping rules.
+3. `design-foundation.css`, `seller-experience.css`, `seller-workspace.css` — shared design and seller journeys.
+4. `quality-refinements.css`, `multi-seller-basket.css`, `checkout.css`, `result-controls.css` — responsive/accessibility refinements, basket, checkout and search controls.
+5. `experience-foundation.css`, `product-experience.css`, `discovery-experience.css`, `buyer-experience.css` — page-family experience layers.
+6. `auth.css`, `operations.css` — account and operations-specific surfaces.
+7. `theme.css`, `final-quality.css` — semantic light/dark tokens and final cross-marketplace brand corrections.
 
 When adding CSS:
 - Prefer existing design tokens; forest green `#1f5b45` is the primary brand accent.
