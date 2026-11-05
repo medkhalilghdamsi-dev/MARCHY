@@ -61,8 +61,27 @@ export function SearchPage() {
     }
   }, [filtersOpen])
   const [searchFocused, setSearchFocused] = useState(false)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(() => Math.max(1, Number(params.get('page')) || 1))
   const [compareIds, setCompareIds] = useState(() => readJson('marchy-compare', []))
+
+  // URL is the source of truth for shareable/searchable result state. This also
+  // makes browser Back/Forward restore every visible control instead of only
+  // restoring the pathname and query text.
+  useEffect(() => {
+    const nextSort = params.get('sort')
+    setSort(validSorts.includes(nextSort) ? nextSort : 'featured')
+    setCity(params.get('city') || 'All')
+
+    const nextMin = Math.max(0, Number(params.get('min')) || 0)
+    const requestedMax = Number(params.get('max')) || 0
+    setMinPrice(Math.min(nextMin, catalogueMaxPrice))
+    setMaxPrice(Math.max(
+      Math.min(nextMin, catalogueMaxPrice),
+      requestedMax > 0 ? Math.min(catalogueMaxPrice, requestedMax) : catalogueMaxPrice,
+    ))
+
+    setPage(Math.max(1, Number(params.get('page')) || 1))
+  }, [params, catalogueMaxPrice])
   const [compareOpen, setCompareOpen] = useState(false)
   const pageSize = 12
   const cities = ['All', ...new Set(products.map(p => sellerForProduct(p).city))].sort((a,b) => a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b))
@@ -131,6 +150,8 @@ export function SearchPage() {
     else next.delete('min')
     if (maxPrice < catalogueMaxPrice) next.set('max', String(maxPrice))
     else next.delete('max')
+    if (page > 1) next.set('page', String(page))
+    else next.delete('page')
     if (next.toString() !== params.toString()) setParams(next, { replace: true })
   }, [term, sort, category, routeCategory, city, minPrice, maxPrice, catalogueMaxPrice, params, setParams])
   const updateTerm = value => {
@@ -148,7 +169,7 @@ export function SearchPage() {
     setCity('All')
     setSort('featured')
     setPage(1)
-    setParams({}, { replace: true })
+    setParams(routeCategory ? {} : {}, { replace: true })
   }
   const removeDealFilter = () => {
     const next = new URLSearchParams(params)
