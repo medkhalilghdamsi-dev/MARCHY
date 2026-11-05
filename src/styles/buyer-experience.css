@@ -1,19 +1,19 @@
 /* Buyer experience completion — merchandising, filters, product confidence and mobile ergonomics */
-.home-budget-discovery{display:grid;grid-template-columns:minmax(220px,.8fr) 1.4fr;gap:28px;align-items:center;margin:28px 0;padding:24px 26px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(115deg,#fff 0%,#fff8f4 100%)}
+.home-budget-discovery{display:grid;grid-template-columns:minmax(220px,.8fr) 1.4fr;gap:28px;align-items:center;margin:28px 0;padding:24px 26px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(115deg,#fff 0%,#edf5f0 100%)}
 .home-budget-discovery h2{margin:5px 0 6px;font-size:clamp(20px,2.4vw,27px);letter-spacing:-.035em}
 .home-budget-discovery p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
 .home-budget-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .home-budget-links a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 15px;border:1px solid #ece5e1;border-radius:10px;background:#fff;color:var(--ink);font-size:12px;font-weight:750;text-decoration:none;transition:border-color .18s,transform .18s,background .18s}
-.home-budget-links a:hover{border-color:#f2b39b;background:#fffaf7;transform:translateY(-2px)}
+.home-budget-links a:hover{border-color:#f4f8f6;background:#edf5f0;transform:translateY(-2px)}
 .home-budget-links a span{color:var(--orange)}
 .filter-budget-presets{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
 .filter-budget-presets>b{display:block;margin-bottom:9px;font-size:11px}
 .filter-budget-presets>div{display:flex;flex-wrap:wrap;gap:6px}
 .filter-budget-presets button{padding:7px 9px;border:1px solid #dfe4e8;border-radius:20px;background:#fff;color:#53606b;font-size:10px;font-weight:700;cursor:pointer}
-.filter-budget-presets button:hover,.filter-budget-presets button.is-active{border-color:#f0a486;background:#fff3ed;color:#a74724}
+.filter-budget-presets button:hover,.filter-budget-presets button.is-active{border-color:#f4f8f6;background:#edf5f0;color:#1f5b45}
 .product-buyer-highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0}
 .product-buyer-highlights>div{display:grid;grid-template-columns:28px 1fr;column-gap:10px;align-items:start;padding:17px;border:1px solid var(--line);border-radius:12px;background:#fff}
-.product-buyer-highlights>div>span{grid-row:span 2;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#fff0e9;color:#bd4e27;font-size:10px;font-weight:800}
+.product-buyer-highlights>div>span{grid-row:span 2;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#edf5f0;color:#1f5b45;font-size:10px;font-weight:800}
 .product-buyer-highlights b{font-size:12px;line-height:1.4}
 .product-buyer-highlights small{margin-top:4px;color:var(--muted);font-size:11px;line-height:1.55}
 .listing-search{position:relative}
@@ -63,14 +63,14 @@
 
 
 /* WCAG AA contrast pass — supporting text on product detail pages */
-.product-image-discount{background:#a94421;color:#fff}
+.product-image-discount{background:#1f5b45;color:#fff}
 .product-price-block>del,.product-price-caption{color:#59656f}
 .product-listing-status small{color:#536057}
 .product-quantity-summary>span{color:#59656f}
 .product-seller-copy small,.product-seller-copy>span{color:#59656f}
 .product-delivery-card p{color:#59656f}
 .product-demo-disclaimer{color:#59656f}
-.product-buyer-highlights>div>span{color:#a94421}
+.product-buyer-highlights>div>span{color:#1f5b45}
 .product-attribute-list dt{color:#59656f}
 
 /* Checkout seller subtotals retain readable contrast on white summary cards. */
@@ -88,18 +88,18 @@
 @media(max-width:760px){
   .mobile-filter-toggle{align-items:center;margin:2px 0 14px;padding:0 1px;font-size:12px}
   .mobile-filter-toggle>span{font-size:12px;color:var(--muted,#68727d)}
-  .mobile-filter-toggle>span b{color:var(--ink,#17212b);font-weight:800}
-  .mobile-filter-trigger{display:inline-flex;align-items:center;gap:8px;min-height:42px!important;padding:0 14px!important;border:1px solid var(--marchy-line,#e5e9eb)!important;background:#fff!important;color:var(--ink,#17212b)!important;font-size:12px!important;font-weight:750}
-  .mobile-filter-count{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--marchy-green,#1f5b45);color:#fff;font-size:10px;font-weight:800}
-  .mobile-filter-backdrop{display:block;position:fixed;inset:0;z-index:79;border:0;background:rgba(13,22,19,.48);backdrop-filter:blur(2px);animation:filter-backdrop-in .18s ease-out}
+  .mobile-filter-toggle>span b{color:var(--ink,#174735);font-weight:800}
+  .mobile-filter-trigger{display:inline-flex;align-items:center;gap:8px;min-height:42px!important;padding:0 14px!important;border:1px solid var(--marchy-line,#e5e9eb)!important;background:#fff!important;color:var(--ink,#174735)!important;font-size:12px!important;font-weight:750}
+  .mobile-filter-count{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--marchy-green,#174735);color:#fff;font-size:10px;font-weight:800}
+  .mobile-filter-backdrop{display:block;position:fixed;inset:0;z-index:79;border:0;background:rgba(23,71,53,.48);backdrop-filter:blur(2px);animation:filter-backdrop-in .18s ease-out}
   .listing-layout .filters,
-  .listing-layout .filters.filters-open{display:block;position:fixed;z-index:80;left:0;right:0;top:auto;bottom:0;max-height:min(84dvh,760px);overflow-y:auto;overscroll-behavior:contain;padding:0 18px calc(22px + env(safe-area-inset-bottom));border:1px solid var(--marchy-line,#e5e9eb);border-bottom:0;border-radius:22px 22px 0 0;background:#fff;box-shadow:0 -18px 55px rgba(15,25,20,.18);transform:translateY(105%);visibility:hidden;transition:transform .26s cubic-bezier(.2,.75,.25,1),visibility .26s}
+  .listing-layout .filters.filters-open{display:block;position:fixed;z-index:80;left:0;right:0;top:auto;bottom:0;max-height:min(84dvh,760px);overflow-y:auto;overscroll-behavior:contain;padding:0 18px calc(22px + env(safe-area-inset-bottom));border:1px solid var(--marchy-line,#e5e9eb);border-bottom:0;border-radius:22px 22px 0 0;background:#fff;box-shadow:0 -18px 55px rgba(23,71,53,.18);transform:translateY(105%);visibility:hidden;transition:transform .26s cubic-bezier(.2,.75,.25,1),visibility .26s}
   .listing-layout .filters.filters-open{transform:translateY(0);visibility:visible}
   .mobile-filter-sheet-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:20px 0 16px;border-bottom:1px solid var(--marchy-line,#e5e9eb);margin-bottom:16px}
-  .mobile-filter-sheet-heading .eyebrow{font-size:9px;letter-spacing:1.1px;color:var(--marchy-green,#1f5b45);font-weight:800}
-  .mobile-filter-sheet-heading h2{margin:5px 0 2px;font-size:23px;letter-spacing:-.7px;color:var(--ink,#17212b)}
+  .mobile-filter-sheet-heading .eyebrow{font-size:9px;letter-spacing:1.1px;color:var(--marchy-green,#174735);font-weight:800}
+  .mobile-filter-sheet-heading h2{margin:5px 0 2px;font-size:23px;letter-spacing:-.7px;color:var(--ink,#174735)}
   .mobile-filter-sheet-heading p{margin:0;color:var(--muted,#68727d);font-size:12px}
-  .mobile-filter-sheet-heading>button{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border:1px solid var(--marchy-line,#e5e9eb);border-radius:50%;background:#fff;color:var(--ink,#17212b);font-size:25px;line-height:1}
+  .mobile-filter-sheet-heading>button{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border:1px solid var(--marchy-line,#e5e9eb);border-radius:50%;background:#fff;color:var(--ink,#174735);font-size:25px;line-height:1}
   .desktop-filter-heading{display:none}
   .listing-layout .filters .filter-group{padding:16px 0;border-bottom:1px solid #edf0f1}
   .listing-layout .filters .filter-group>b,.listing-layout .filters .filter-budget-presets>b{font-size:13px}
@@ -108,7 +108,7 @@
   .listing-layout .filters .price-inputs input{min-height:42px;font-size:14px}
   .listing-layout .filters .filter-budget-presets{padding:16px 0}
   .listing-layout .filters .filter-budget-presets button{min-height:37px;padding:0 12px;font-size:11px}
-  .listing-layout .filters .filter-apply{position:sticky;bottom:0;width:100%;min-height:48px;margin-top:14px;border-radius:9px;font-size:13px;box-shadow:0 4px 14px rgba(20,45,34,.16)}
+  .listing-layout .filters .filter-apply{position:sticky;bottom:0;width:100%;min-height:48px;margin-top:14px;border-radius:9px;font-size:13px;box-shadow:0 4px 14px rgba(23,71,53,.16)}
 }
 @keyframes filter-backdrop-in{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){
@@ -117,15 +117,15 @@
 
 
 /* Product page upgrade — gallery, transparent seller trust, fulfilment clarity */
-.product-gallery-count{position:absolute;right:22px;bottom:22px;padding:7px 10px;border:1px solid #17212b12;border-radius:20px;background:#ffffffdf;color:#56616b;font-size:9px;font-weight:800;backdrop-filter:blur(8px)}
+.product-gallery-count{position:absolute;right:22px;bottom:22px;padding:7px 10px;border:1px solid #17473512;border-radius:20px;background:#ffffffdf;color:#56616b;font-size:9px;font-weight:800;backdrop-filter:blur(8px)}
 .product-image-stage .product-image-zoom-button{bottom:20px;right:20px}
 .product-gallery-thumbnails{display:flex;gap:10px;margin-top:13px;overflow-x:auto;padding:2px 1px 5px;scrollbar-width:thin}
 .product-gallery-thumbnails button{width:76px;height:76px;flex:0 0 76px;padding:5px;border:1px solid #e3e7e9;border-radius:9px;background:#fff;cursor:pointer;transition:border-color .18s,box-shadow .18s,transform .18s}
-.product-gallery-thumbnails button:hover{transform:translateY(-2px);border-color:#d9a28b}
-.product-gallery-thumbnails button.is-active{border:2px solid var(--marchy-orange-deep);padding:4px;box-shadow:0 0 0 3px #f36b3515}
+.product-gallery-thumbnails button:hover{transform:translateY(-2px);border-color:#1f5b45}
+.product-gallery-thumbnails button.is-active{border:2px solid var(--marchy-orange-deep);padding:4px;box-shadow:0 0 0 3px #1f5b4515}
 .product-gallery-thumbnails img{width:100%;height:100%;object-fit:cover;border-radius:5px}
 .product-seller-card{grid-template-columns:44px minmax(0,1fr) auto}
-.product-seller-copy .seller-profile-status{color:#9b654b;font-size:8px}
+.product-seller-copy .seller-profile-status{color:#1f5b45;font-size:8px}
 .product-trust-panel{margin-top:11px;padding:14px;border:1px solid #e8ecee;border-radius:9px;background:#fff}
 .product-trust-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .product-trust-heading>b{font-size:10px;color:#28343e}
@@ -133,7 +133,7 @@
 .product-trust-panel>div:not(.product-trust-heading){display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-top:1px solid #f0f2f3}
 .product-trust-panel>div>span{display:grid;place-items:center;width:19px;height:19px;flex:0 0 19px;border-radius:50%;font-size:10px;font-weight:900}
 .trust-check{background:#edf4ef;color:#477252}
-.trust-pending{background:#fff3e9;color:#a65a2d}
+.trust-pending{background:#edf5f0;color:#1f5b45}
 .product-trust-panel p{display:flex;flex-direction:column;gap:3px;margin:0}
 .product-trust-panel p b{font-size:9px;color:#394650}
 .product-trust-panel p small{font-size:8px;line-height:1.5;color:#77828b}
@@ -155,7 +155,7 @@
  .product-gallery-thumbnails button{width:64px;height:64px;flex-basis:64px}
  .product-image-caption{font-size:8px}
  .product-trust-panel{padding:12px}
- .product-mobile-buybar{left:0;right:0;bottom:calc(70px + env(safe-area-inset-bottom));width:100%;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #e8ecef;border-width:1px 0 0;background:#fffffff2;box-shadow:0 -8px 28px #17212b12;backdrop-filter:blur(14px)}
+ .product-mobile-buybar{left:0;right:0;bottom:calc(70px + env(safe-area-inset-bottom));width:100%;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #e8ecef;border-width:1px 0 0;background:#fffffff2;box-shadow:0 -8px 28px #17473512;backdrop-filter:blur(14px)}
  .mobile-buybar-actions{gap:6px}
  .mobile-buybar-quantity{height:40px}
  .mobile-buybar-quantity button{width:25px;min-height:38px}
@@ -175,27 +175,27 @@
 
 /* MARCHY brand alignment — forest green is the single marketplace accent. */
 :root{
-  --orange:#1f5b45;
+  --orange:#174735;
   --orange-dark:#174735;
-  --green:#1f5b45;
-  --forest:#1f5b45;
-  --marchy-orange:#1f5b45;
+  --green:#174735;
+  --forest:#174735;
+  --marchy-orange:#174735;
   --marchy-orange-deep:#174735;
-  --marchy-green:#1f5b45;
+  --marchy-green:#174735;
   --marchy-accent-soft:#edf5f0;
   --marchy-accent-border:#c9ded1;
 }
-::selection{background:#1f5b4530;color:var(--marchy-ink)}
+::selection{background:#17473530;color:var(--marchy-ink)}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
   outline:3px solid #78a58c;
   outline-offset:3px;
 }
-.searchbar:focus-within{border-color:#78a58c;box-shadow:0 0 0 4px #1f5b4515}
+.searchbar:focus-within{border-color:#78a58c;box-shadow:0 0 0 4px #17473515}
 .searchbar button,.primary-btn,.add-btn,.cart-checkout-button,.checkout-form-actions button{
   background:var(--marchy-orange-deep);
 }
 .searchbar button:hover,.primary-btn:hover,.add-btn:hover,.cart-checkout-button:hover,.checkout-form-actions button:hover{
-  background:#123c2d;
+  background:#174735;
 }
 .header-actions .action-link:hover,.nav-inner a:hover,.text-link:hover,.hero-trending button:hover{
   color:var(--marchy-orange-deep);
@@ -220,9 +220,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   color:var(--marchy-green);
 }
 .add-btn.added{background:#edf5f0;border-color:#c9ded1;color:#174735}
-.product-gallery-thumbnails button.is-active{box-shadow:0 0 0 3px #1f5b4515}
+.product-gallery-thumbnails button.is-active{box-shadow:0 0 0 3px #17473515}
 .product-trust-panel .trust-check{background:#edf5f0;color:#174735}
-.compare-tray{border-color:#c9ded1;background:#f7fbf8}
+.compare-tray{border-color:#c9ded1;background:#edf5f0}
 .compare-show{background:#174735}
 .filter-budget-presets button:hover,.filter-budget-presets button.is-active{
   border-color:#8bb49b;background:#edf5f0;color:#174735;
@@ -235,9 +235,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Legacy component reconciliation: remove the old orange accent from buyer and seller UI. */
 :root{
-  --orange:#1f5b45;
+  --orange:#174735;
   --orange-dark:#174735;
-  --green:#1f5b45;
+  --green:#174735;
 }
 .market-hero-copy h1 em,
 .hero-floating-icon,.home-category-card small span,
@@ -250,7 +250,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   color:var(--marchy-green)!important;
 }
 /* Keep the dark seller invitation's accent readable against its navy surface. */
-.home-seller-banner h2 em{color:#a9d6b8!important}
+.home-seller-banner h2 em{color:#f4f8f6!important}
 .hero-floating-icon,.category-context-icon,.product-category-pill,
 .wishlist-empty-icon,.account-guest-avatar,.help-topic-panel>a>span,
 .guide-checklist-item>span,.seller-step-card>span,
@@ -274,7 +274,7 @@ select:focus-visible,textarea:focus-visible{
 .seller-planner-form select:focus,.seller-planner-form textarea:focus,
 .seller-directory-tools input:focus,.seller-directory-tools select:focus{
   border-color:#78a58c!important;
-  box-shadow:0 0 0 3px #1f5b4518!important;
+  box-shadow:0 0 0 3px #17473518!important;
 }
 .product-save-button.is-saved{
   border-color:var(--marchy-accent-border)!important;
@@ -283,7 +283,7 @@ select:focus-visible,textarea:focus-visible{
 }
 .compare-tray{
   border-color:var(--marchy-accent-border)!important;
-  background:#f7fbf8!important;
+  background:#edf5f0!important;
 }
 .seller-preview-dot{
   color:var(--marchy-green)!important;
@@ -302,7 +302,7 @@ select:focus-visible,textarea:focus-visible{
   background:var(--marchy-accent-soft)!important;
 }
 @media(prefers-contrast:more){
-  :root{--marchy-green:#123c2d;--marchy-accent-border:#6f9d82}
+  :root{--marchy-green:#174735;--marchy-accent-border:#6f9d82}
   .product-name,.seller-name,.muted{color:#26323d}
 }
 
@@ -313,4 +313,4 @@ select:focus-visible,textarea:focus-visible{
 
 
 /* Large accent text on the dark seller banner needs a lighter accessible tint. */
-.home-seller-banner h2 em{color:#8fc2a4}
+.home-seller-banner h2 em{color:#1f5b45}
