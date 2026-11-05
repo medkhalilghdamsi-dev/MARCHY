@@ -49,6 +49,16 @@ for (const viewport of viewports) {
       const dimensions = await page.evaluate(() => ({
         viewport: document.documentElement.clientWidth,
         document: document.documentElement.scrollWidth,
+        offenders: Array.from(document.querySelectorAll('body *')).map(element => {
+          const rect = element.getBoundingClientRect()
+          return {
+            tag: element.tagName.toLowerCase(),
+            className: typeof element.className === 'string' ? element.className : '',
+            left: Math.round(rect.left),
+            right: Math.round(rect.right),
+            width: Math.round(rect.width),
+          }
+        }).filter(element => element.width > 0 && (element.left < -1 || element.right > window.innerWidth + 1)).slice(0, 12),
       }))
       expect(
         dimensions.document,
