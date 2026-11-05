@@ -76,7 +76,7 @@ export function ProductPage() {
     const previous = readJson('marchy-recently-viewed', [])
     writeJson('marchy-recently-viewed', [product.id, ...previous.filter(item => item !== product.id)].slice(0, 8))
   }, [product?.id])
-  if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span><Search size={22}/></span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
+  if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span><Search size={22}/></span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace <ArrowRight size={15}/></Link></main>, language)
   const seller = sellerForProduct(product)
   const galleryImages = [...new Set([...(Array.isArray(product.images) ? product.images : []), product.image].filter(Boolean))]
   const displayedImage = galleryImages.includes(activeImage) ? activeImage : galleryImages[0]
@@ -180,7 +180,7 @@ export function ProductPage() {
         <section className="product-trust-panel" aria-label="Buyer confidence information">
           <div className="product-trust-heading"><b>Shop with clarity</b><span>Preview information</span></div>
           <div><span className="trust-check"><Check size={15}/></span><p><b>Payment options</b><small>Payment methods shown here are previews and are not connected to a live payment provider.</small></p></div>
-          <div><span className="trust-check">✓</span><p><b>Seller contact</b><small>Messaging and seller contact are not connected in this frontend preview.</small></p></div>
+          <div><span className="trust-check"><Check size={15}/></span><p><b>Seller contact</b><small>Messaging and seller contact are not connected in this frontend preview.</small></p></div>
           <div><span className="trust-check">✓</span><p><b>Returns and exchanges</b><small>Confirm the return window, eligibility and process with the seller before ordering.</small></p></div>
         </section>
         <section className="product-delivery-card" aria-label="Delivery information">
