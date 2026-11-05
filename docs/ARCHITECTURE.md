@@ -95,10 +95,10 @@ When adding CSS:
 
 ## Known modularisation targets
 
-The buyer journey and shared marketplace chrome have already been extracted into focused modules. `HomePage.jsx`, `SearchPage.jsx`, `ProductPage.jsx`, `CartPages.jsx`, `WishlistPage.jsx`, `SellersPage.jsx`, `SellerPage.jsx`, `CategoriesPage.jsx`, `AccountPage.jsx` and `AuthPage.jsx` own their respective routes. `DiscoveryPages.jsx` and the remaining `SupportPages.jsx` are compatibility/page-group modules. `DiscoveryPages.jsx` is a compatibility export barrel. The legacy `ShoppingPages.jsx` and `MarketplaceChrome.jsx` files remain as small compatibility barrels; new code should import focused modules directly.
+The buyer journey and shared marketplace chrome have already been extracted into focused modules. `HomePage.jsx`, `SearchPage.jsx`, `ProductPage.jsx`, `CartPages.jsx`, `WishlistPage.jsx`, `SellersPage.jsx`, `SellerPage.jsx`, `CategoriesPage.jsx`, `AccountPage.jsx`, `AuthPage.jsx`, `SellerLaunchPage.jsx`, `SellerDashboardPage.jsx` and `SellerPreparationPage.jsx` own their respective routes. `DiscoveryPages.jsx` and `SellerPages.jsx` are compatibility barrels; `SupportPages.jsx` retains the shared help and guide pages. `DiscoveryPages.jsx` is a compatibility export barrel. The legacy `ShoppingPages.jsx` and `MarketplaceChrome.jsx` files remain as small compatibility barrels; new code should import focused modules directly.
 
 Remaining deliberate refactors:
-1. Split the seller and operations page groups where each extraction has a clear dependency boundary. Discovery, account and authentication routes now have focused modules.
+1. Split the operations page group where each extraction has a clear dependency boundary. Discovery, seller, account and authentication routes now have focused modules.
 2. Split `experience-upgrade.css` into component-owned layers after duplicate-selector and cascade analysis.
 3. Move browser-local demo order operations behind an explicit demo service interface before backend adapter work.
 4. Add a route smoke-test table that stays aligned with `MarketplaceRoutes.jsx`.
