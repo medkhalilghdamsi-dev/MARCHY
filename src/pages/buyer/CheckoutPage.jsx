@@ -5,6 +5,7 @@ import { money, readJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { ArrowLeft, ArrowRight, Check, Info, MapPin, ShieldCheck, ShoppingBag, Store, Truck } from 'lucide-react'
 
 export function CheckoutPage() {
   const { cart, language, clearCart, appliedCoupon } = useMarketplace()
@@ -50,10 +51,10 @@ export function CheckoutPage() {
   if(!cart.length)return translateTree(<main id="main-content" className="shell page checkout-page"><div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span>Checkout</span></div><div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">NOTHING TO CHECK OUT</span><h1>Your cart is empty</h1><p>Add products before starting checkout.</p><Link to="/search" className="primary-btn">Explore products →</Link></div></main>,language)
   return translateTree(<main id="main-content" className="shell page checkout-page">
     <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span aria-current="page">Checkout preview</span></div>
-    <div className="checkout-heading"><div><span className="eyebrow">A CLEARER WAY TO CHECK OUT</span><h1>Review your order</h1><p>Confirm the details a real marketplace would need before any order is placed.</p></div><Link to="/cart" className="cart-continue-link">← Back to cart</Link></div>
+    <div className="checkout-heading"><div><span className="eyebrow">A CLEARER WAY TO CHECK OUT</span><h1>Review your order</h1><p>Confirm the details a real marketplace would need before any order is placed.</p></div><Link to="/cart" className="cart-continue-link"><ArrowLeft size={15}/> Back to cart</Link></div>
     <ol className="checkout-steps" aria-label="Checkout progress">
-      <li className={step>1?'is-complete':step===1?'is-current':''} aria-current={step===1?'step':undefined}><span>{step>1?'✓':'1'}</span><div><b>Delivery details</b><small>Your contact and address</small></div></li>
-      <li className={step>2?'is-complete':step===2?'is-current':''} aria-current={step===2?'step':undefined}><span>{step>2?'✓':'2'}</span><div><b>Order review</b><small>Products and sellers</small></div></li>
+      <li className={step>1?'is-complete':step===1?'is-current':''} aria-current={step===1?'step':undefined}><span>{step>1?<Check size={15}/>: '1'}</span><div><b>Delivery details</b><small>Your contact and address</small></div></li>
+      <li className={step>2?'is-complete':step===2?'is-current':''} aria-current={step===2?'step':undefined}><span>{step>2?<Check size={15}/>: '2'}</span><div><b>Order review</b><small>Products and sellers</small></div></li>
       <li><span>3</span><div><b>Demo order</b><small>Saved on this device</small></div></li>
     </ol>
     <div className="checkout-layout">
@@ -100,16 +101,16 @@ export function CheckoutPage() {
             </label>
             <label className="checkout-field-wide">Delivery notes <span className="checkout-optional">Optional</span><textarea value={details.notes} onChange={e=>update('notes',e.target.value)} rows="3" placeholder="Landmark or useful delivery instructions"/></label>
           </div>
-          <div className="checkout-form-actions"><span>Required fields are marked by the browser.</span><button type="submit" className="primary-btn">Review order <span>→</span></button></div>
+          <div className="checkout-form-actions"><span>Required fields are marked by the browser.</span><button type="submit" className="primary-btn">Review order <ArrowRight size={15}/></button></div>
         </form>}
         {step===2&&<section className="checkout-review">
           <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2>Review before proceeding</h2><p>Each seller handles their own availability and delivery confirmation.</p></div>
           <div className="checkout-contact-review"><div><b>Delivery contact</b><button type="button" className="text-link" onClick={()=>setStep(1)}>Edit details</button></div><p>{details.name} · {details.phone}</p><p>{details.address}, {details.city}</p><p><small>Delivery: {details.deliveryMethod} · Payment: {details.paymentMethod}</small></p>{details.notes&&<small>{details.notes}</small>}</div>
-          {groups.map(group=><article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={`${item.id}-${item.selectedVariant || 'default'}`}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}{item.selectedVariant && <small className="checkout-item-variant">Option: {item.selectedVariant}</small>}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-status"><span>Delivery and stock</span><b>To be confirmed by seller</b></div></article>)}
-          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" onClick={submitDemoOrder}>Place demo order <span>→</span></button></div>
+          {groups.map(group=><article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={`${item.id}-${item.selectedVariant || 'default'}`}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}{item.selectedVariant && <small className="checkout-item-variant">Option: {item.selectedVariant}</small>}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-status"><span><Truck size={14}/> Delivery and stock</span><b>To be confirmed by seller</b></div></article>)}
+          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}><ArrowLeft size={14}/> Edit delivery details</button><button type="button" className="primary-btn" onClick={submitDemoOrder}>Place demo order <ArrowRight size={15}/></button></div>
         </section>}
       </section>
-      <aside className="summary-card checkout-summary"><span className="eyebrow">YOUR BASKET</span><h2>Order summary</h2><div className="cart-summary-row"><span>{itemCount} items · {cart.length} products</span><b>{money(subtotal)}</b></div>
+      <aside className="summary-card checkout-summary"><span className="eyebrow"><ShoppingBag size={13}/> YOUR BASKET</span><h2>Order summary</h2><div className="cart-summary-row"><span>{itemCount} items · {cart.length} products</span><b>{money(subtotal)}</b></div>
       {groups.map(group=><div className="cart-summary-row seller-summary-row" key={group.seller.slug}><span>{group.seller.name}</span><b>{money(group.subtotal)}</b></div>)}<div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div>
 {appliedCoupon && (
   <div className="cart-summary-row applied-coupon-row">
@@ -117,7 +118,7 @@ export function CheckoutPage() {
     <b style={{ color: 'var(--forest)' }}>-{money(discountAmount)}</b>
   </div>
 )}
-<div className="summary-total"><span>Estimated product total</span><strong>{money(finalTotal)}</strong></div><p className="cart-summary-note">Delivery is not included. Each seller must confirm their own delivery fees and availability.</p><div className="checkout-seller-count"><b>{groups.length}</b><span>sample seller{groups.length===1?'':'s'} in this basket</span></div><div className="cart-trust-note"><span>ⓘ</span><p>Demo only. Confirmation creates a sample order on this device; no real order or payment is submitted.</p></div></aside>
+<div className="summary-total"><span>Estimated product total</span><strong>{money(finalTotal)}</strong></div><p className="cart-summary-note">Delivery is not included. Each seller must confirm their own delivery fees and availability.</p><div className="checkout-seller-count"><Store size={16}/><b>{groups.length}</b><span>sample seller{groups.length===1?'':'s'} in this basket</span></div><div className="cart-trust-note"><span><Info size={16}/></span><p>Demo only. Confirmation creates a sample order on this device; no real order or payment is submitted.</p></div></aside>
     </div>
   </main>,language)
 }
