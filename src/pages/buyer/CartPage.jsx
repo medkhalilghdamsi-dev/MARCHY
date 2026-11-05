@@ -58,7 +58,7 @@ export function CartPage() {
       <section className="cart-items-panel" aria-label="Cart items">
         <div className="cart-free-delivery-meter" role="region" aria-label="Free delivery progress">
           <div className="cart-free-delivery-copy">
-            <span>{freeDeliveryRemaining > 0 ? `Add ${money(freeDeliveryRemaining)} more for illustrative free standard delivery` : <Check size={14}/> Illustrative free standard delivery threshold reached (120.000 TND)}</span>
+            <span>{freeDeliveryRemaining > 0 ? `Add ${money(freeDeliveryRemaining)} more for illustrative free standard delivery` : <><Check size={14}/> Illustrative free standard delivery threshold reached (120.000 TND)</>}</span>
             <b>{freeDeliveryProgress}%</b>
           </div>
           <div className="cart-free-delivery-bar" aria-hidden="true"><span style={{ width: `${freeDeliveryProgress}%` }} /></div>
