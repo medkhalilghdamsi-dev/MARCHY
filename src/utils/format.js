@@ -1,15 +1,20 @@
-// Locale-aware formatting. Digits stay Latin in every language (the convention in Tunisia),
-// prices keep three decimals (millimes) and the TND code, as the existing product does.
+// Locale-aware formatting. Digits stay Latin in every language (the convention in Tunisia).
+// Marketplace prices may arrive either as TND (e.g. 50) or millimes (e.g. 50000).
+// Normalize millimes at the presentation boundary so buyers see normal DT prices.
 const LOCALES = { en: 'en-GB', fr: 'fr-TN-u-nu-latn', ar: 'ar-TN-u-nu-latn' }
+const normalizeTnd = value => {
+  const n = Number(value) || 0
+  return Math.abs(n) >= 1000 ? n / 1000 : n
+}
 const loc = lang => LOCALES[lang] || LOCALES.en
 
 export function formatMoney(value, lang = 'en', { compact = false } = {}) {
-  const n = Number(value) || 0
-  const unit = lang === 'ar' ? 'د.ت' : 'TND'
+  const n = normalizeTnd(value)
+  const unit = lang === 'ar' ? 'د.ت' : 'DT'
   if (compact && Math.abs(n) >= 10000) {
     return `${new Intl.NumberFormat(loc(lang), { notation: 'compact', maximumFractionDigits: 1 }).format(n)} ${unit}`
   }
-  const num = new Intl.NumberFormat(loc(lang), { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(n)
+  const num = new Intl.NumberFormat(loc(lang), { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(n)
   return `${num} ${unit}`
 }
 // Backwards compatible English formatter used where no language is available.
