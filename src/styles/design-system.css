@@ -44,9 +44,14 @@ ul, ol { list-style: none; padding: 0; }
   --accent-dark: var(--forest-dark);
   --accent-text: #ffffff;
   --focus-ring: #6ea98c;
-  --danger: #143d2d;
-  --warning: #1b523d;
+  --danger: #b42318;
+  --danger-soft: #fef3f2;
+  --warning: #9a6700;
+  --warning-soft: #fff8e6;
   --success: #1f5b45;
+  --success-soft: #e8f2ec;
+  --info: #245b8f;
+  --info-soft: #eef6ff;
 
   /* Legacy aliases mapped to Forest Green */
   --orange: var(--forest);
@@ -74,6 +79,18 @@ ul, ol { list-style: none; padding: 0; }
   --text-3xl: 28px;
   --text-4xl: clamp(32px, 4vw, 48px);
   --text-hero: clamp(42px, 5.5vw, 68px);
+
+  /* Product UI type and control tokens */
+  --font-body: 15px;
+  --font-body-compact: 14px;
+  --font-label: 13px;
+  --font-caption: 12px;
+  --font-micro: 11px;
+  --control-height: 44px;
+  --control-height-compact: 40px;
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-panel: 16px;
 
   /* Spacing */
   --space-1: 4px;
@@ -137,9 +154,14 @@ ul, ol { list-style: none; padding: 0; }
   --accent: var(--forest);
   --accent-text: #0f1a14;
   --focus-ring: #a3d4ba;
-  --danger: #83b99d;
-  --warning: #83b99d;
-  --success: #68c997;
+  --danger: #ff8a80;
+  --danger-soft: #3b211f;
+  --warning: #f2c66d;
+  --warning-soft: #392f1b;
+  --success: #83c9a2;
+  --success-soft: #1a3326;
+  --info: #8bbdf0;
+  --info-soft: #1c2d40;
 
   --shadow-xs: 0 1px 4px rgba(0,0,0,.18);
   --shadow-sm: 0 3px 10px rgba(0,0,0,.24);
