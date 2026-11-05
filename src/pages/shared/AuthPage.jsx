@@ -38,8 +38,8 @@ export function AuthPage() {
 
     toast(
       signup
-        ? `Welcome to MARCHY, ${displayName}! Your account has been created.`
-        : `Welcome back, ${displayName}! You are signed in.`,
+        ? `Preview profile created for ${displayName}. No real account was created.`
+        : `Local preview session started for ${displayName}. Credentials were not verified.`,
       { type: 'success' }
     )
 
@@ -88,7 +88,8 @@ export function AuthPage() {
 
           <div className="auth-form-heading">
             <h2>{signup ? 'Create an account' : 'Sign in to MARCHY'}</h2>
-            <p>{signup ? 'Join to keep your favorite finds and orders in one place.' : 'Enter your email and password to access your profile.'}</p>
+            <p>{signup ? 'Preview the profile experience and keep sample preferences on this device.' : 'Preview the sign-in experience using a local-only profile.'}</p>
+            <p className="auth-preview-disclaimer">Preview only: credentials are not verified or sent to a server. No real account is created.</p>
           </div>
 
           <form className="auth-form" onSubmit={submit}>
