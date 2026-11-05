@@ -482,3 +482,20 @@ test('buyer order history respects French and Arabic interface language', async 
   await expect(page.getByRole('heading', { name: 'طلباتك' })).toBeVisible()
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
 })
+
+
+test('mobile product purchase bar stays clear of the persistent navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/product/1')
+  const buybar = page.locator('.product-mobile-buybar')
+  const tabbar = page.locator('.mobile-tabbar')
+  await expect(buybar).toBeVisible()
+  await expect(tabbar).toBeVisible()
+  const buybarBox = await buybar.boundingBox()
+  const tabbarBox = await tabbar.boundingBox()
+  expect(buybarBox).not.toBeNull()
+  expect(tabbarBox).not.toBeNull()
+  expect(buybarBox.y + buybarBox.height).toBeLessThan(tabbarBox.y)
+  await buybar.getByRole('button', { name: /Add to cart/ }).click()
+  await expect(page.locator('.product-added-feedback')).toBeVisible()
+})
