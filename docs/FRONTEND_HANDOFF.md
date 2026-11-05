@@ -173,7 +173,7 @@ The existing stylesheet set has not been aggressively purged. Selector-level rem
 
 ## Automated quality workflow
 
-.github/workflows/frontend-quality.yml runs on pushes to main and frontend/** branches and on pull requests targeting main. It installs the locked dependencies, runs the production build, installs Chromium and executes the Playwright suite. A green workflow is required evidence before merging or deploying.
+The existing .github/workflows/buyer-frontend-qa.yml and .github/workflows/frontend-build.yml validate pull requests targeting main. Buyer QA also runs on frontend/** branches and uses Node 22.12 to satisfy the installed accessibility tooling. They build the production app and run Chromium browser checks. A green workflow is required evidence before merging or deploying.
 
 
 ## Route CSS loading and interaction feedback
