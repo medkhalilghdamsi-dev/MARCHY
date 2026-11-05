@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useMarketplaceState } from '../hooks/useMarketplaceState'
-import { Header, Footer, MobileTabBar } from '../components/MarketplaceChrome'
+import { Header } from '../components/Header'
+import { Footer } from '../components/Footer'
+import { MobileTabBar } from '../components/MobileTabBar'
 import { MarketplaceRoutes } from './MarketplaceRoutes'
 import { usePageMetadata } from './usePageMetadata'
 
