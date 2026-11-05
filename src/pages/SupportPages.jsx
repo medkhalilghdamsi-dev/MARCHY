@@ -1,3 +1,4 @@
+import { connectMarketplacePage } from '../context/connectMarketplacePage'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { categories, products } from '../data/products'
@@ -129,4 +130,9 @@ function NotFoundPage({language}) {
 function SimplePage({ title, eyebrow, text, language }) { return translateTree(<main id="main-content" className="shell page simple-page"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p className="muted">{text}</p><Link to="/search" className="primary-btn">Explore the marketplace →</Link></main>,language) }
 
 
+export const AccountPageConnected = connectMarketplacePage(AccountPage)
+export const AuthPageConnected = connectMarketplacePage(AuthPage)
+export const MarketplaceGuidePageConnected = connectMarketplacePage(MarketplaceGuidePage)
+export const HelpCenterPageConnected = connectMarketplacePage(HelpCenterPage)
+export const NotFoundPageConnected = connectMarketplacePage(NotFoundPage)
 export { AccountPage, AuthPage, MarketplaceGuidePage, HelpCenterPage, NotFoundPage, SimplePage }
