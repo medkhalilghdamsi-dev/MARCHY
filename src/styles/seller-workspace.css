@@ -260,3 +260,29 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .breadcrumbs>[aria-current="page"]{color:#5f6b76!important}
 
 
+
+
+/* WCAG AA contrast refinements for seller workspace */
+.seller-dashboard-page .seller-dashboard-demo,
+.seller-dashboard-page .seller-dashboard-shop small,
+.seller-dashboard-page .seller-dashboard-select,
+.seller-dashboard-page .seller-dashboard-sidebar-note>span,
+.seller-dashboard-page .seller-dashboard-stats article>span,
+.seller-dashboard-page .seller-dashboard-stats article>small,
+.seller-dashboard-page .seller-dashboard-mini-row small,
+.seller-dashboard-page .seller-dashboard-status,
+.seller-dashboard-page .seller-dashboard-checklist>p,
+.seller-dashboard-page .seller-dashboard-filters label,
+.seller-dashboard-page .seller-dashboard-note,
+.seller-dashboard-page .seller-dashboard-product-cell small,
+.seller-dashboard-page .seller-dashboard-empty p,
+.seller-dashboard-page .seller-dashboard-profile-body p {
+  color:#4f5b66;
+}
+.seller-dashboard-page .seller-dashboard-sidebar nav button.active,
+.seller-dashboard-page .seller-dashboard-sidebar nav button.active>span {
+  color:#a13b18;
+}
+.seller-dashboard-page .seller-dashboard-mini-row .seller-dashboard-status {
+  color:#4f5b66;
+}
