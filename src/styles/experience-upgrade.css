@@ -919,3 +919,5 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .mobile-buybar-actions>.primary-btn{padding:0 9px}
  .mobile-buybar-total b{font-size:13px}
 }
+
+@media(max-width:680px){.product-mobile-buybar>.mobile-buybar-actions{flex-direction:row;align-items:center;justify-content:flex-end}}
