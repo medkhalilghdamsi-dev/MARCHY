@@ -1358,3 +1358,38 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
   .product-page .mobile-buybar-actions > .primary-btn { font-size: 10px; }
 }
 
+
+
+/* Header density correction: give search room and keep utility actions compact. */
+@media (min-width: 761px) {
+  .header-main {
+    gap: clamp(14px, 1.8vw, 24px);
+  }
+  .header .searchbar {
+    flex: 1 1 360px;
+    min-width: 260px;
+    max-width: none;
+  }
+  .header-actions {
+    flex: 0 0 auto;
+    gap: clamp(9px, 1vw, 14px);
+  }
+  .header-actions .wishlist-link > span:last-child,
+  .header-actions .header-signin > span:last-child,
+  .header-actions .cart-link > span:last-child small {
+    display: none;
+  }
+  .header-actions .wishlist-link,
+  .header-actions .header-signin {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    justify-content: center;
+    padding: 0;
+  }
+  .header-actions .action-icon,
+  .header-actions .cart-icon {
+    display: grid;
+    place-items: center;
+  }
+}
