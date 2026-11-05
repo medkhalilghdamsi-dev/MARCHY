@@ -174,3 +174,10 @@ The existing stylesheet set has not been aggressively purged. Selector-level rem
 ## Automated quality workflow
 
 .github/workflows/frontend-quality.yml runs on pushes to main and frontend/** branches and on pull requests targeting main. It installs the locked dependencies, runs the production build, installs Chromium and executes the Playwright suite. A green workflow is required evidence before merging or deploying.
+
+
+## Route CSS loading and interaction feedback
+
+Seller workspace styles, support/auth styles and operations styles are now imported by their corresponding lazy-loaded page modules instead of the global stylesheet entry. This allows those stylesheets to load only when their route group is visited. Buyer discovery and shopping styles remain global for now because the homepage and search/product journeys share those page modules and selectors.
+
+The MarketplaceProvider also exposes a small notification API. Adding a product to the cart or toggling a wishlist item displays a dismissible, automatically-clearing accessible toast. This is local interaction feedback only; it does not represent a server response.
