@@ -3,27 +3,36 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { categories, products } from '../data/products'
 import { sellers } from '../data/sellers'
 import { readJson, writeJson } from '../utils/marketplace'
-import { useMarketplace } from './MarketplaceContext'
+import { useMarketplace } from '../providers/MarketplaceContext'
 import { ErrorBoundary } from './ErrorBoundary'
-import { Header, Footer, MobileTabBar } from '../components/MarketplaceChrome'
-import { Home, SearchPage, ProductPage, CartPage, CheckoutPage, WishlistPage } from '../pages/ShoppingPages'
-import { SellersPage, SellerPage, CategoriesPage } from '../pages/DiscoveryPages'
+import { Header } from '../components/layout/Header'
+import { Footer } from '../components/layout/Footer'
+import { MobileTabBar } from '../components/layout/MobileTabBar'
+import { Home } from '../pages/buyer/HomePage'
+import { SearchPage } from '../pages/buyer/SearchPage'
+import { ProductPage } from '../pages/buyer/ProductPage'
+import { CartPage } from '../pages/buyer/CartPage'
+import { CheckoutPage } from '../pages/buyer/CheckoutPage'
+import { WishlistPage } from '../pages/buyer/WishlistPage'
+import { SellersPage } from '../pages/buyer/SellersPage'
+import { SellerPage } from '../pages/buyer/SellerStorefrontPage'
+import { CategoriesPage } from '../pages/buyer/CategoriesPage'
 
 // Lazy loaded secondary workspace and support pages for code splitting
-const SellerLaunchPage = lazy(() => import('../pages/SellerPages').then(m => ({ default: m.SellerLaunchPage })))
-const SellerDashboardPage = lazy(() => import('../pages/SellerPages').then(m => ({ default: m.SellerDashboardPage })))
-const SellerPreparationPage = lazy(() => import('../pages/SellerPages').then(m => ({ default: m.SellerPreparationPage })))
+const SellerLaunchPage = lazy(() => import('../pages/seller/SellerLaunchPage').then(m => ({ default: m.SellerLaunchPage })))
+const SellerDashboardPage = lazy(() => import('../pages/seller/SellerDashboardPage').then(m => ({ default: m.SellerDashboardPage })))
+const SellerPreparationPage = lazy(() => import('../pages/seller/SellerPreparationPage').then(m => ({ default: m.SellerPreparationPage })))
 
-const AccountPage = lazy(() => import('../pages/SupportPages').then(m => ({ default: m.AccountPage })))
-const AuthPage = lazy(() => import('../pages/SupportPages').then(m => ({ default: m.AuthPage })))
-const MarketplaceGuidePage = lazy(() => import('../pages/SupportPages').then(m => ({ default: m.MarketplaceGuidePage })))
-const HelpCenterPage = lazy(() => import('../pages/SupportPages').then(m => ({ default: m.HelpCenterPage })))
-const NotFoundPage = lazy(() => import('../pages/SupportPages').then(m => ({ default: m.NotFoundPage })))
+const AccountPage = lazy(() => import('../pages/buyer/AccountPage').then(m => ({ default: m.AccountPage })))
+const BuyerOrderTrackingPage = lazy(() => import('../pages/buyer/BuyerOrderTrackingPage').then(m => ({ default: m.BuyerOrderTrackingPage })))
+const BuyerOrdersPage = lazy(() => import('../pages/buyer/BuyerOrdersPage').then(m => ({ default: m.BuyerOrdersPage })))
 
-const DeliveryOperationsPage = lazy(() => import('../pages/OperationsPages').then(m => ({ default: m.DeliveryOperationsPage })))
-const AdminOperationsPage = lazy(() => import('../pages/OperationsPages').then(m => ({ default: m.AdminOperationsPage })))
-const BuyerOrderTrackingPage = lazy(() => import('../pages/OperationsPages').then(m => ({ default: m.BuyerOrderTrackingPage })))
-const BuyerOrdersPage = lazy(() => import('../pages/OperationsPages').then(m => ({ default: m.BuyerOrdersPage })))
+const AuthPage = lazy(() => import('../pages/shared/AuthPage').then(m => ({ default: m.AuthPage })))
+const MarketplaceGuidePage = lazy(() => import('../pages/shared/MarketplaceGuidePage').then(m => ({ default: m.MarketplaceGuidePage })))
+const HelpCenterPage = lazy(() => import('../pages/shared/HelpCenterPage').then(m => ({ default: m.HelpCenterPage })))
+const NotFoundPage = lazy(() => import('../pages/shared/NotFoundPage').then(m => ({ default: m.NotFoundPage })))
+const DeliveryOperationsPage = lazy(() => import('../pages/shared/DeliveryOperationsPage').then(m => ({ default: m.DeliveryOperationsPage })))
+const AdminOperationsPage = lazy(() => import('../pages/shared/AdminOperationsPage').then(m => ({ default: m.AdminOperationsPage })))
 
 function PageLoadingFallback() {
   return (

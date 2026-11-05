@@ -25,6 +25,12 @@ A modern, responsive, accessible multi-vendor marketplace frontend built for Tun
 
 ```text
 MARCHY/
+├── docs/
+│   ├── ANTIGRAVITY_AUDIT.md      # Phase 0 baseline audit & technical findings
+│   ├── ARCHITECTURE.md           # Project organization & module ownership guide
+│   ├── BUYER_FRONTEND_ROADMAP.md # Buyer UX roadmap
+│   ├── FRONTEND_IMPROVEMENTS_SUMMARY.md
+│   └── QA_AUDIT_REPORT.md        # End-to-end Playwright & accessibility report
 ├── public/
 │   ├── favicon.svg               # SVG brand favicon
 │   ├── manifest.json             # Web App PWA Manifest
@@ -33,48 +39,42 @@ MARCHY/
 ├── src/
 │   ├── app/
 │   │   ├── ErrorBoundary.jsx     # Graceful error boundary fallback
-│   │   ├── MarketplaceApp.jsx    # Core app router & lazy page loader
+│   │   └── MarketplaceApp.jsx    # Core app router & lazy page loader
+│   ├── providers/
 │   │   ├── MarketplaceContext.jsx# React Context provider for global state
 │   │   └── ToastProvider.jsx     # Non-intrusive toast notifications
 │   ├── components/
-│   │   ├── MarketplaceChrome.jsx # Header, ProductCard, Footer, MobileTabBar
-│   │   ├── ProductReviews.jsx    # Ratings summary, review cards & write review
-│   │   ├── ProductSpecs.jsx      # Technical specifications table
-│   │   ├── SellerAnalytics.jsx   # Interactive SVG charts, KPIs, regional data
-│   │   └── SellerSettings.jsx    # Merchant profile, delivery & bank payout form
+│   │   ├── layout/               # Header, Footer, MobileTabBar
+│   │   ├── marketplace/          # ProductCard, ProductReviews, ProductSpecs
+│   │   ├── seller/               # SellerAnalytics, SellerSettings
+│   │   └── ui/                   # Reusable accessible UI primitives
+│   ├── pages/
+│   │   ├── buyer/                # HomePage, SearchPage, ProductPage, CartPage, CheckoutPage, WishlistPage, CategoriesPage, SellersPage, SellerStorefrontPage, AccountPage, BuyerOrdersPage, BuyerOrderTrackingPage
+│   │   ├── seller/               # SellerLaunchPage, SellerDashboardPage, SellerPreparationPage
+│   │   └── shared/               # AuthPage, HelpCenterPage, MarketplaceGuidePage, NotFoundPage, DeliveryOperationsPage, AdminOperationsPage
 │   ├── data/
-│   │   ├── products.js           # 30 mock products across 14 categories with specs
+│   │   ├── products.js           # 40 mock products across 13 categories with specs & reviews
 │   │   └── sellers.js            # 10 merchant storefronts across Tunisian cities
 │   ├── hooks/
 │   │   ├── useDemoOrders.js      # Synced localStorage order lifecycle
-│   │   └── useMarketplaceState.js# Theme, language, cart & wishlist primitives
+│   │   └── useMarketplaceState.js# Theme, language, cart, wishlist & coupon primitives
 │   ├── i18n/
-│   │   ├── translations.js       # EN / FR / AR UI dictionary
-│   │   └── translate.js          # Shared translation tree processor
-│   ├── pages/
-│   │   ├── ShoppingPages.jsx     # Home, Search, Product, Cart, Checkout, Wishlist
-│   │   ├── DiscoveryPages.jsx    # Categories, Sellers directory, Storefront
-│   │   ├── SellerPages.jsx       # Seller launch, Workspace, Preparation guide
-│   │   ├── SupportPages.jsx      # Account, Auth, Help Center, Guides, 404
-│   │   └── OperationsPages.jsx   # Delivery queue, Platform admin, Order tracking
+│   │   └── translate.js          # Shared English / RTL Arabic translation tree processor
 │   ├── styles/
 │   │   ├── design-system.css     # CSS custom property tokens, reset & components
-│   │   ├── theme.css             # Light / Dark mode surface tokens
-│   │   ├── seller-analytics-settings.css # Seller analytics & settings styles
-│   │   ├── product-reviews-specs.css     # Reviews & specifications styling
-│   │   ├── base.css              # Core typography and legacy layouts
-│   │   ├── discovery.css         # Category and seller listing styles
-│   │   ├── shopping.css          # Cart, product detail and gallery styles
-│   │   └── ...                   # Component-specific styles
+│   │   ├── base.css              # Core typography, header, footer & layout
+│   │   ├── marketplace.css       # Buyer discovery, search, product, cart & checkout styles
+│   │   ├── workspaces.css        # Seller workspace, analytics, settings & operations styles
+│   │   └── rtl.css               # RTL Arabic overrides
 │   ├── utils/
-│   │   └── marketplace.js        # Normalised search scoring, money format (TND)
+│   │   └── marketplace.js        # Normalised search scoring, money format (TND), JSON helpers
 │   ├── App.jsx                   # Application root export
 │   ├── main.jsx                  # React 18 bootstrap with nested providers
 │   └── styles.css                # Central style sheet entry point
 ├── scripts/
-│   └── create-route-fallbacks.mjs# Post-build SPA directory generator
+│   └── postbuild-spa-routes.mjs  # Post-build SPA directory generator (72 routes)
 ├── tests/
-│   └── marketplace.spec.js       # Playwright E2E and responsive viewports
+│   └── marketplace.spec.js       # Playwright E2E, accessibility & responsive viewports
 ├── index.html                    # HTML5 shell with PWA & font preconnects
 ├── package.json
 ├── playwright.config.js
