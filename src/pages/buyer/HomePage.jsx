@@ -211,34 +211,65 @@ export function Home() {
         </div>
       </section>
 
-      <section className="market-benefits home-benefits-strip" aria-label="MARCHY shopping highlights">
-        <div><span><Check size={16} /></span><b>One place to explore</b><small>Everyday categories in one catalogue</small></div>
-        <div><span><Check size={16} /></span><b>Prices in dinars</b><small>Browse prices in Tunisian dinars</small></div>
-        <div><span><Check size={16} /></span><b>Keep your favourites</b><small>Save products for another time</small></div>
+      {/* 3-Step Trust & Purchase Flow */}
+      <section className="landing-section" aria-label="How MARCHY works">
+        <div className="landing-section-header">
+          <div>
+            <span className="eyebrow">HOW SHOPPING WITH MARCHY WORKS</span>
+            <h2>Simple, transparent and risk-free</h2>
+            <p className="muted">Experience the convenience of modern local e-commerce with zero upfront payment risk.</p>
+          </div>
+          <Link to="/guide" className="text-link">Full marketplace guide <ArrowRight size={15} /></Link>
+        </div>
+
+        <div className="landing-steps-grid">
+          <div className="landing-step-card">
+            <span className="step-badge-num">1</span>
+            <h3>Explore & Compare</h3>
+            <p>Browse verified artisan goods, everyday tech, and fashion. View clear prices in Tunisian Dinars (TND) with exact governorate delivery estimates.</p>
+          </div>
+          <div className="landing-step-card">
+            <span className="step-badge-num">2</span>
+            <h3>Order Without Advance Payment</h3>
+            <p>Confirm your basket using Cash on Delivery. No bank card details or upfront payment required to dispatch your order.</p>
+          </div>
+          <div className="landing-step-card">
+            <span className="step-badge-num">3</span>
+            <h3>Inspect Before Paying</h3>
+            <p>Open and check your package when the courier arrives at your door. You only hand over payment once you verify item quality.</p>
+          </div>
+        </div>
       </section>
 
-      <section className="section home-category-section">
-        <div className="section-heading">
-          <div><span className="eyebrow">A GOOD PLACE TO START</span><h2>Explore categories</h2><p className="muted">Find your way to the things you’re looking for.</p></div>
+      {/* Category Discovery */}
+      <section className="landing-section home-category-section">
+        <div className="landing-section-header">
+          <div>
+            <span className="eyebrow">EXPLORE BY SPECIALTY</span>
+            <h2>Browse categories</h2>
+            <p className="muted">Find authentic Tunisian workshops, electronics, and lifestyle goods.</p>
+          </div>
           <Link to="/categories" className="text-link">All categories <ArrowRight size={15} /></Link>
         </div>
-        <div className="home-category-grid home-category-grid-premium">
+
+        <div className="upwork-category-grid">
           {popular.slice(0, 8).map(item => (
-            <div key={item.name} className="home-category-tile">
-              <Link to={`/category/${encodeURIComponent(item.name.toLowerCase())}`} className={`home-category-card home-category-image-card ${item.tone}`}>
-                {item.image && <img src={item.image} alt="" loading="lazy" decoding="async" />}
-                <span className="home-category-icon" aria-hidden="true"><item.Icon size={23} strokeWidth={1.7} /></span>
+            <Link
+              key={item.name}
+              to={`/category/${encodeURIComponent(item.name.toLowerCase())}`}
+              className="upwork-cat-card"
+            >
+              <span className="upwork-cat-icon">
+                <item.Icon size={22} strokeWidth={1.8} />
+              </span>
+              <div className="upwork-cat-text">
                 <b>{item.name}</b>
-                <small>{item.count} sample {item.count === 1 ? 'listing' : 'listings'} <ArrowUpRight size={13} /></small>
-              </Link>
-              {item.picks.length > 0 && <div className="home-category-picks" aria-label={`${item.name} sample product picks`}>
-                {item.picks.map(product => <Link key={product.id} to={`/product/${product.id}`} title={product.name}>
-                  <img src={product.image} alt="" loading="lazy" decoding="async" />
-                  <span>{product.name}</span>
-                  <b>{product.price} TND</b>
-                </Link>)}
-              </div>}
-            </div>
+                <small>{item.count} verified listing{item.count === 1 ? '' : 's'}</small>
+              </div>
+              <span className="upwork-cat-arrow">
+                <ArrowRight size={16} />
+              </span>
+            </Link>
           ))}
         </div>
       </section>
@@ -273,8 +304,8 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section home-featured-section">
-        <div className="section-heading">
+      <section className="landing-section home-featured-section">
+        <div className="landing-section-header">
           <div><span className="eyebrow">PICK YOUR NEXT DISCOVERY</span><h2>Popular in the catalogue</h2><p className="muted">Explore a selection of illustrative catalogue listings.</p></div>
           <Link to="/search" className="text-link">Browse all products <ArrowRight size={15} /></Link>
         </div>
@@ -289,8 +320,8 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section upwork-seller-showcase" aria-label="Featured Tunisian Storefronts">
-        <div className="section-heading">
+      <section className="landing-section upwork-seller-showcase" aria-label="Featured Tunisian Storefronts">
+        <div className="landing-section-header">
           <div>
             <span className="eyebrow">AUTHENTIC LOCAL MAKERS</span>
             <h2>Top Rated Storefronts</h2>
@@ -350,8 +381,8 @@ export function Home() {
         </section>
       )}
 
-      <section className="section home-new-arrivals">
-        <div className="section-heading">
+      <section className="landing-section home-new-arrivals">
+        <div className="landing-section-header">
           <div><span className="eyebrow">FRESH FROM THE CATALOGUE</span><h2>Recently added</h2><p className="muted">A look at the latest sample listings in this prototype.</p></div>
           <Link to="/search?sort=newest" className="text-link">Explore catalogue <ArrowRight size={15} /></Link>
         </div>
@@ -360,8 +391,8 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section home-deals-section">
-        <div className="section-heading">
+      <section className="landing-section home-deals-section">
+        <div className="landing-section-header">
           <div><span className="eyebrow">PRICE COMPARISON</span><h2>Listings with sample discounts</h2><p className="muted">Previous prices are illustrative and must be confirmed with the seller.</p></div>
           <Link to="/search?deal=true" className="text-link">See all deals <ArrowRight size={15} /></Link>
         </div>
