@@ -5,7 +5,7 @@ import { useDemoOrders } from '../hooks/useDemoOrders'
 import { translateText } from '../i18n/translate'
 import { OpsShell, OrderTable, statuses } from './OperationsShared'
 
-export function AdminOperationsPage({ language }) {
+function AdminOperationsPage({ language }) {
   const { orders, updateOrder, reset } = useDemoOrders()
   const [query,setQuery] = useState('')
   const [filter,setFilter] = useState('All')
