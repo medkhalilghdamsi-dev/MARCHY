@@ -759,7 +759,7 @@ html[data-theme="dark"] .product-gallery-thumbnails button.is-active { backgroun
 }
 
 @media (max-width: 640px) {
-  .product-page { padding-bottom: 112px; }
+  .product-page { padding-bottom: 184px; }
   .product-page .breadcrumbs { gap: 6px; margin-bottom: 15px; font-size: 10px; }
   .product-detail-layout { gap: 15px; }
   .product-image-stage { aspect-ratio: 1 / 1; border-radius: 12px; }
