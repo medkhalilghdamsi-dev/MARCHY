@@ -53,7 +53,7 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
         <span className="product-tag">SAMPLE</span>
         {product.badge && <span className={`product-badge ${badgeColors[product.badge] || ''}`}>{product.badge}</span>}
         {discount > 0 && <span className="discount-tag">-{discount}%</span>}
-        <button type="button" className={`wish-btn ${wished ? 'wished' : ''}`} onClick={() => toggleWish(product.id)} aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'} aria-pressed={wished}>{wished ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/ >}</button>
+        <button type="button" className={`wish-btn ${wished ? 'wished' : ''}`} onClick={() => toggleWish(product.id)} aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'} aria-pressed={wished}>{wished ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/>}</button>
         <button type="button" className="product-quick-view" onClick={() => setQuickViewOpen(true)} aria-label={`Quick view ${product.name}`}>Quick view <span><ArrowUpRight size={14}/></span></button>
       </div>
       <div className="product-info">
