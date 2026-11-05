@@ -10,7 +10,7 @@ export function BuyerOrderTrackingPage(props) {
   const { id } = useParams()
   const { orders } = useDemoOrders()
   const order = orders.find(item => item.id === id)
-  if (!order) return <OpsShell title="Order not found" eyebrow="ORDER TRACKING" language={language}><section className="ops-panel"><p>This sample order could not be found in this browser.</p><Link to="/account">Return to your account</Link></section></OpsShell>
+  if (!order) return <OpsShell title="Order not found" eyebrow="ORDER TRACKING" language={language}><section className="ops-panel"><p>This sample order could not be found in this browser.</p><Link to="/account">Return to your orders</Link></section></OpsShell>
   const steps = ['Processing', 'Ready for pickup', 'In transit', 'Delivered']
   const current = steps.indexOf(order.status)
   const cancelled = order.status === 'Cancelled'
@@ -20,7 +20,7 @@ export function BuyerOrderTrackingPage(props) {
       <div className="buyer-tracking-meta"><div><small>PRODUCT TOTAL</small><b>{money(order.total)}</b></div><div><small>ITEMS</small><b>{order.items}</b></div><div><small>PAYMENT</small><b>{order.payment}</b></div><div><small>DELIVERY PARTNER</small><b>{order.courier}</b></div></div>
       {cancelled?<div className="buyer-tracking-cancelled"><b>This sample order is cancelled.</b><p>No delivery is expected.</p></div>:<ol className="buyer-tracking-steps">{steps.map((step,index)=><li className={current>=index?'complete':''} key={step}><span className="buyer-tracking-step-dot">{current>=index?'✓':index+1}</span><div><b>{step}</b><small>{index===0?'The merchant has received the sample order.':index===1?'The sample parcel is ready for courier collection.':index===2?'The sample parcel is with the delivery partner.':'The sample parcel has reached its destination.'}</small></div></li>)}</ol>}
       <p className="ops-disclaimer">Tracking events are illustrative and update when a merchant, delivery operator or administrator changes the shared demo order status. No live courier feed is connected.</p>
-      <Link to="/account" className="text-link">← Back to account activity</Link>
+      <Link to="/orders" className="text-link">← Back to orders</Link>
     </section>
   </OpsShell>
 }
