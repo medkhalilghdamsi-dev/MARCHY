@@ -344,3 +344,58 @@ html[data-theme="dark"] .seller-settings-fields textarea { color:var(--ink); bac
 .cart-coupon-form p[role="status"] { margin:0; color:var(--forest); font-size:10px; line-height:1.5; }
 .cart-coupon-remove { justify-self:start; padding:0; border:0; color:var(--muted); background:transparent; font-size:10px; text-decoration:underline; }
 html[data-theme="dark"] .cart-coupon-form { border-color:var(--line); background:var(--surface-soft); }
+
+
+/* Product review preview: clearly distinguished from verified reviews */
+.product-reviews {
+  margin: 34px 0 58px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.product-reviews-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--line);
+}
+.product-reviews-heading h2 { margin:4px 0 7px; color:var(--ink); font:800 25px Manrope,sans-serif; letter-spacing:-.8px; }
+.product-reviews-heading p { margin:0; color:var(--muted); font-size:11px; line-height:1.6; }
+.product-review-summary { display:flex; align-items:center; gap:12px; padding:12px 15px; border-radius:8px; background:var(--surface-soft); }
+.product-review-summary>strong { color:var(--ink); font:800 31px Manrope,sans-serif; }
+.product-review-summary>div { display:grid; gap:4px; }
+.product-review-summary span { color:#d69b36; font-size:13px; letter-spacing:1px; }
+.product-review-summary small { color:var(--muted); font-size:9px; }
+.product-review-layout { display:grid; grid-template-columns:minmax(190px,.65fr) minmax(0,1.6fr); gap:26px; padding-top:22px; }
+.product-review-distribution { display:grid; align-content:start; gap:12px; }
+.product-review-rating-row { display:grid; grid-template-columns:48px minmax(0,1fr) 20px; align-items:center; gap:8px; color:var(--muted); font-size:10px; }
+.product-review-rating-row>div { height:7px; overflow:hidden; border-radius:8px; background:var(--surface-soft); }
+.product-review-rating-row i { display:block; height:100%; border-radius:inherit; background:var(--forest); }
+.product-review-rating-row b { color:var(--ink); text-align:right; font-variant-numeric:tabular-nums; }
+.product-review-distribution>small { margin-top:5px; color:var(--muted); font-size:9px; }
+.product-review-list { display:grid; gap:12px; }
+.product-review-card { padding:16px; border:1px solid var(--line); border-radius:9px; background:var(--surface); }
+.product-review-author { display:flex; align-items:center; gap:10px; }
+.product-review-author>span { display:grid; width:34px; height:34px; place-items:center; border-radius:50%; color:var(--forest); background:var(--surface-soft); font-size:13px; font-weight:800; }
+.product-review-author>div { display:grid; gap:3px; }
+.product-review-author b { color:var(--ink); font-size:11px; }
+.product-review-author small { color:var(--muted); font-size:9px; }
+.product-review-author>strong { margin-left:auto; color:#d69b36; font-size:11px; letter-spacing:1px; white-space:nowrap; }
+.product-review-card h3 { margin:13px 0 5px; color:var(--ink); font:700 13px Manrope,sans-serif; }
+.product-review-card p { margin:0; color:var(--muted); font-size:11px; line-height:1.65; }
+.product-review-sample-label { display:inline-block; margin-top:12px; color:var(--forest); font-size:8px; font-weight:800; letter-spacing:.8px; }
+html[data-theme="dark"] .product-reviews,
+html[data-theme="dark"] .product-review-card { color:var(--ink); background:var(--surface); border-color:var(--line); }
+@media(max-width:700px) {
+  .product-reviews { padding:17px; }
+  .product-reviews-heading { flex-direction:column; }
+  .product-review-layout { grid-template-columns:1fr; gap:20px; }
+  .product-review-distribution { grid-template-columns:repeat(5,minmax(0,1fr)); gap:7px; }
+  .product-review-rating-row { grid-template-columns:1fr; gap:5px; text-align:center; }
+  .product-review-rating-row>div { grid-row:2; }
+  .product-review-rating-row b { text-align:center; }
+  .product-review-distribution>small { grid-column:1/-1; }
+}
