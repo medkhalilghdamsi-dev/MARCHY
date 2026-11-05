@@ -117,7 +117,15 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
         const name = normalizeSearchText(product.name)
         const categoryName = normalizeSearchText(product.category)
         const sellerName = normalizeSearchText(sellerForProduct(product).name)
-        return (name === q ? 100 : name.startsWith(q) ? 60 : name.includes(q) ? 40 : 0) + (categoryName.includes(q) ? 18 : 0) + (sellerName.includes(q) ? 8 : 0)
+        const description = normalizeSearchText(product.description || '')
+        const nameMatch = searchTextMatches(product.name, term)
+        const categoryMatch = searchTextMatches(product.category, term)
+        const sellerMatch = searchTextMatches(sellerForProduct(product).name, term)
+        const descriptionMatch = searchTextMatches(product.description || '', term)
+        return (name === q ? 140 : name.startsWith(q) ? 110 : name.includes(q) ? 90 : nameMatch ? 72 : 0)
+          + (categoryName === q ? 55 : categoryMatch ? 38 : 0)
+          + (sellerName === q ? 28 : sellerMatch ? 20 : 0)
+          + (descriptionMatch ? 12 : description.includes(q) ? 8 : 0)
       }
       return score(b) - score(a)
     }
