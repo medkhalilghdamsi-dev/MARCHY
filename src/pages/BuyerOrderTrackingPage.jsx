@@ -3,7 +3,7 @@ import { money } from '../utils/marketplace'
 import { useDemoOrders } from '../hooks/useDemoOrders'
 import { OpsShell, Status } from './OperationsShared'
 
-export function BuyerOrderTrackingPage({ language }) {
+function BuyerOrderTrackingPage({ language }) {
   const { id } = useParams()
   const { orders } = useDemoOrders()
   const order = orders.find(item => item.id === id)
