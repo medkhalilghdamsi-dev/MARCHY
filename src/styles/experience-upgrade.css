@@ -822,3 +822,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .product-demo-disclaimer{color:#59656f}
 .product-buyer-highlights>div>span{color:#a94421}
 .product-attribute-list dt{color:#59656f}
+
+/* Checkout seller subtotals retain readable contrast on white summary cards. */
+.seller-summary-row span{color:#59656f!important}
