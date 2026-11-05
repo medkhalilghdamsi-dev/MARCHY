@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { readText, readJson, writeJson } from '../utils/marketplace'
 
 export function useMarketplaceState() {
@@ -12,6 +12,9 @@ export function useMarketplaceState() {
   })
   const [cart, setCart] = useState(() => readJson('marchy-cart', []))
   const [wishlist, setWishlist] = useState(() => readJson('marchy-wishlist', []))
+  const [savedForLater, setSavedForLater] = useState(() => readJson('marchy-saved-for-later', []))
+  const [appliedCoupon, setAppliedCoupon] = useState(() => readText('marchy-applied-coupon', ''))
+  const [followedSellers, setFollowedSellers] = useState(() => readJson('marchy-followed-sellers', []))
 
   useEffect(() => {
     try { localStorage.setItem('marchy-language', language) } catch {}
@@ -29,35 +32,117 @@ export function useMarketplaceState() {
 
   useEffect(() => { writeJson('marchy-cart', cart) }, [cart])
   useEffect(() => { writeJson('marchy-wishlist', wishlist) }, [wishlist])
+  useEffect(() => { writeJson('marchy-saved-for-later', savedForLater) }, [savedForLater])
+  useEffect(() => { writeJson('marchy-followed-sellers', followedSellers) }, [followedSellers])
+  useEffect(() => {
+    try {
+      if (appliedCoupon) localStorage.setItem('marchy-applied-coupon', appliedCoupon)
+      else localStorage.removeItem('marchy-applied-coupon')
+    } catch {}
+  }, [appliedCoupon])
 
-  function addToCart(product, qty = 1) {
+  const addToCart = useCallback((product, qty = 1, variant = null) => {
     setCart(previous => {
       const found = previous.find(item => item.id === product.id)
-      return found
-        ? previous.map(item => item.id === product.id ? { ...item, qty: item.qty + qty } : item)
-        : [...previous, { ...product, qty }]
+      const next = found
+        ? previous.map(item => item.id === product.id ? { ...item, qty: item.qty + qty, ...(variant ? { selectedVariant: variant } : {}) } : item)
+        : [...previous, { ...product, qty, ...(variant ? { selectedVariant: variant } : {}) }]
+      writeJson('marchy-cart', next)
+      return next
     })
-  }
+  }, [])
 
-  function updateQty(id, qty) {
+  const updateQty = useCallback((id, qty) => {
     if (qty < 1) return
-    setCart(previous => previous.map(item => item.id === id ? { ...item, qty } : item))
-  }
+    setCart(previous => {
+      const next = previous.map(item => item.id === id ? { ...item, qty } : item)
+      writeJson('marchy-cart', next)
+      return next
+    })
+  }, [])
 
-  function removeItem(id) {
-    setCart(previous => previous.filter(item => item.id !== id))
-  }
+  const removeItem = useCallback((id) => {
+    setCart(previous => {
+      const next = previous.filter(item => item.id !== id)
+      writeJson('marchy-cart', next)
+      return next
+    })
+  }, [])
 
-  function clearCart() { setCart([]) }
+  const clearCart = useCallback(() => {
+    writeJson('marchy-cart', [])
+    setCart([])
+  }, [])
 
-  function toggleWish(id) {
-    setWishlist(previous => previous.includes(id)
-      ? previous.filter(item => item !== id)
-      : [...previous, id])
-  }
+  const toggleWish = useCallback((id) => {
+    setWishlist(previous => {
+      const next = previous.includes(id)
+        ? previous.filter(item => item !== id)
+        : [...previous, id]
+      writeJson('marchy-wishlist', next)
+      return next
+    })
+  }, [])
 
-  return {
-    language, setLanguage, theme, setTheme, cart, wishlist,
+  const saveForLater = useCallback((item) => {
+    setCart(previous => {
+      const next = previous.filter(entry => entry.id !== item.id)
+      writeJson('marchy-cart', next)
+      return next
+    })
+    setSavedForLater(previous => {
+      const next = previous.some(entry => entry.id === item.id)
+        ? previous
+        : [...previous, { ...item, qty: item.qty || 1 }]
+      writeJson('marchy-saved-for-later', next)
+      return next
+    })
+  }, [])
+
+  const moveToCart = useCallback((item) => {
+    setSavedForLater(previous => {
+      const next = previous.filter(entry => entry.id !== item.id)
+      writeJson('marchy-saved-for-later', next)
+      return next
+    })
+    setCart(previous => {
+      const found = previous.find(entry => entry.id === item.id)
+      const next = found
+        ? previous.map(entry => entry.id === item.id ? { ...entry, qty: entry.qty + (item.qty || 1) } : entry)
+        : [...previous, { ...item, qty: item.qty || 1 }]
+      writeJson('marchy-cart', next)
+      return next
+    })
+  }, [])
+
+  const removeSavedItem = useCallback((id) => {
+    setSavedForLater(previous => {
+      const next = previous.filter(entry => entry.id !== id)
+      writeJson('marchy-saved-for-later', next)
+      return next
+    })
+  }, [])
+
+  const toggleFollowSeller = useCallback((slug) => {
+    setFollowedSellers(previous => {
+      const next = previous.includes(slug)
+        ? previous.filter(entry => entry !== slug)
+        : [...previous, slug]
+      writeJson('marchy-followed-sellers', next)
+      return next
+    })
+  }, [])
+
+  return useMemo(() => ({
+    language, setLanguage, theme, setTheme,
+    cart, wishlist, savedForLater,
+    appliedCoupon, setAppliedCoupon,
+    followedSellers, toggleFollowSeller,
     addToCart, updateQty, removeItem, clearCart, toggleWish,
-  }
+    saveForLater, moveToCart, removeSavedItem,
+  }), [
+    language, theme, cart, wishlist, savedForLater, appliedCoupon, followedSellers,
+    addToCart, updateQty, removeItem, clearCart, toggleWish,
+    saveForLater, moveToCart, removeSavedItem, toggleFollowSeller,
+  ])
 }

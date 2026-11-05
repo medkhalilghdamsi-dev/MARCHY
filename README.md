@@ -1,78 +1,164 @@
-# MARCHY Marketplace
+# MARCHY Marketplace — Production-Ready Frontend
 
-MARCHY is a Tunisia-first, multi-page marketplace **frontend prototype** built with React 18, React Router and Vite. The repository focuses on the buyer shopping experience while also containing seller, support and connected operations-preview workspaces.
+A modern, responsive, accessible multi-vendor marketplace frontend built for Tunisia with **React 18**, **Vite 6**, and **React Router v7**. Follows the **Forest Green Premium Minimal** design system with complete light and dark themes, Arabic RTL support, code splitting, and an isolated mock data layer ready for seamless backend integration.
 
-## Start here
+---
 
-```bash
-npm ci
-npm run dev
-```
+## Key Highlights & Architectural Features
 
-Validate changes before committing:
+- **Tunisia-First Commerce Experience**: Prices in Tunisian Dinars (TND, with 3 decimal precision), local governorates and cities, Cash on Delivery + local digital payment demos (ClicToPay, Flouci/Konnect).
+- **Connected Multi-Vendor Ecosystem**:
+  - **Buyer Marketplace**: Home merchandising, instant autocomplete search, multi-faceted filtering (category, price range, city, discounts), product comparison (up to 3 items), multi-image gallery with zoom lightbox, customer ratings & reviews, coupon code engine, multi-seller cart grouping, and multi-step checkout preview.
+  - **Seller Portal**: Merchant workspace with 6 dedicated tabs: Overview, Orders Fulfilment, Product Drafts Manager, Storefront Profile Preview, Performance Analytics (interactive pure-SVG sales charts, regional distribution), and Business Settings (payout RIB, delivery fees, alerts).
+  - **Operations Workspaces**: Shared demo delivery courier assignments (`/operations/delivery`) and platform admin overview (`/admin`).
+- **Modern State & Architecture**:
+  - Centralized `MarketplaceContext` eliminating prop drilling.
+  - Global `ToastProvider` for accessible, animated notifications across all actions.
+  - `ErrorBoundary` at the application root for graceful error handling.
+  - Route-level code splitting using `React.lazy()` and Rollup manual chunking.
+  - PWA Web App Manifest (`manifest.json`) and rich Open Graph / Twitter Card SEO metadata.
+  - Pre-rendered SPA directory fallbacks (72 routes) for zero-configuration static deployment (Render, Vercel, Netlify).
 
-```bash
-npm run build
-npm run test:e2e
-```
+---
 
-Node.js 22 is used in CI. Playwright starts the Vite server automatically and runs the browser suite against Chromium.
-
-## Repository map
+## Project Structure
 
 ```text
 MARCHY/
-├── .github/workflows/       # Single frontend CI workflow
-├── docs/
-│   ├── ARCHITECTURE.md      # Route, state, CSS and module ownership
-│   └── FRONTEND_HANDOFF.md  # Backend integration boundaries and proposals
-├── public/                 # Static assets and route fallback support
-├── scripts/                # Build-time route fallback generation
+├── public/
+│   ├── favicon.svg               # SVG brand favicon
+│   ├── manifest.json             # Web App PWA Manifest
+│   ├── product-placeholder.svg   # Fallback product image
+│   └── _redirects                # SPA redirect configuration
 ├── src/
-│   ├── app/                # App shell, route table and page metadata
-│   ├── components/         # Shared marketplace chrome and product cards
-│   ├── data/               # Illustrative product and seller fixtures
-│   ├── hooks/              # Shared browser state and demo order behavior
-│   ├── i18n/               # English, French and Arabic translations
-│   ├── pages/              # Focused buyer pages + discovery, seller, support and operations groups
-│   ├── styles/             # Ordered design-system and page style layers
-│   └── utils/              # Search, formatting and guarded storage helpers
-├── tests/                  # Playwright route, journey and accessibility tests
-├── index.html
+│   ├── app/
+│   │   ├── ErrorBoundary.jsx     # Graceful error boundary fallback
+│   │   ├── MarketplaceApp.jsx    # Core app router & lazy page loader
+│   │   ├── MarketplaceContext.jsx# React Context provider for global state
+│   │   └── ToastProvider.jsx     # Non-intrusive toast notifications
+│   ├── components/
+│   │   ├── MarketplaceChrome.jsx # Header, ProductCard, Footer, MobileTabBar
+│   │   ├── ProductReviews.jsx    # Ratings summary, review cards & write review
+│   │   ├── ProductSpecs.jsx      # Technical specifications table
+│   │   ├── SellerAnalytics.jsx   # Interactive SVG charts, KPIs, regional data
+│   │   └── SellerSettings.jsx    # Merchant profile, delivery & bank payout form
+│   ├── data/
+│   │   ├── products.js           # 30 mock products across 14 categories with specs
+│   │   └── sellers.js            # 10 merchant storefronts across Tunisian cities
+│   ├── hooks/
+│   │   ├── useDemoOrders.js      # Synced localStorage order lifecycle
+│   │   └── useMarketplaceState.js# Theme, language, cart & wishlist primitives
+│   ├── i18n/
+│   │   ├── translations.js       # EN / FR / AR UI dictionary
+│   │   └── translate.js          # Shared translation tree processor
+│   ├── pages/
+│   │   ├── ShoppingPages.jsx     # Home, Search, Product, Cart, Checkout, Wishlist
+│   │   ├── DiscoveryPages.jsx    # Categories, Sellers directory, Storefront
+│   │   ├── SellerPages.jsx       # Seller launch, Workspace, Preparation guide
+│   │   ├── SupportPages.jsx      # Account, Auth, Help Center, Guides, 404
+│   │   └── OperationsPages.jsx   # Delivery queue, Platform admin, Order tracking
+│   ├── styles/
+│   │   ├── design-system.css     # CSS custom property tokens, reset & components
+│   │   ├── theme.css             # Light / Dark mode surface tokens
+│   │   ├── seller-analytics-settings.css # Seller analytics & settings styles
+│   │   ├── product-reviews-specs.css     # Reviews & specifications styling
+│   │   ├── base.css              # Core typography and legacy layouts
+│   │   ├── discovery.css         # Category and seller listing styles
+│   │   ├── shopping.css          # Cart, product detail and gallery styles
+│   │   └── ...                   # Component-specific styles
+│   ├── utils/
+│   │   └── marketplace.js        # Normalised search scoring, money format (TND)
+│   ├── App.jsx                   # Application root export
+│   ├── main.jsx                  # React 18 bootstrap with nested providers
+│   └── styles.css                # Central style sheet entry point
+├── scripts/
+│   └── create-route-fallbacks.mjs# Post-build SPA directory generator
+├── tests/
+│   └── marketplace.spec.js       # Playwright E2E and responsive viewports
+├── index.html                    # HTML5 shell with PWA & font preconnects
 ├── package.json
 ├── playwright.config.js
-└── vite.config.js
+└── vite.config.js                # Vite build & chunk configuration
 ```
 
-See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for the full module map, route ownership, browser-state keys, CSS cascade order and safe modularisation plan. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the working and validation rules.
+---
 
-## Frontend capabilities
+## Getting Started
 
-- Buyer homepage, category discovery, search suggestions, URL-persistent filters and sorting.
-- Product detail, seller storefront previews, product comparison and recently viewed products.
-- Wishlist, multi-seller cart and multi-step demo checkout.
-- Buyer order history and tracking preview.
-- Seller onboarding, local product-draft workspace and preparation guide.
-- Delivery operations and platform admin preview sharing a browser-local demo order store.
-- English, French and Arabic interface support, including RTL layout.
-- Responsive navigation, keyboard interactions and accessibility checks.
+### Prerequisites
 
-## Route groups
+- Node.js 18+ (tested on Node 20 / 22)
+- npm or pnpm
 
-| Group | Routes |
-|---|---|
-| Buyer shopping | `/`, `/search`, `/category/:category`, `/product/:id`, `/cart`, `/checkout`, `/wishlist` |
-| Discovery | `/categories`, `/sellers`, `/seller/:slug` |
-| Account and support | `/account`, `/login`, `/signup`, `/help`, `/delivery`, `/returns` |
-| Seller preview | `/sell`, `/seller-dashboard`, `/seller-help` |
-| Demo operations | `/orders`, `/orders/:id`, `/operations/delivery`, `/admin` |
+### Installation
 
-## Important limitations
+```bash
+# Clone the repository
+git clone https://github.com/your-org/MARCHY.git
+cd MARCHY
 
-This is not a live marketplace backend. Product and seller records, prices, discounts, stock, reviews and delivery details are illustrative. Cart, wishlist, comparison, seller drafts and demo orders are stored in the browser. Checkout does not create a real order, authenticate a buyer, process a payment, notify a seller or book a courier. Never present prototype state as verified or multi-user data.
+# Install dependencies
+npm install
+```
 
-The senior backend developer's integration boundary is documented in [docs/FRONTEND_HANDOFF.md](./docs/FRONTEND_HANDOFF.md). This frontend organisation pass does not implement backend services.
+### Development Server
 
-## Quality checks
+```bash
+npm run dev
+```
 
-One GitHub Actions workflow runs the production build and Playwright browser regression suite for pushes and pull requests targeting `main`. CI uses `npm ci` and Node.js 22 for reproducible installs.
+Opens the local development server at `http://localhost:5173`.
+
+### Production Build
+
+```bash
+npm run build
+```
+
+Builds the optimized production assets in `dist/` and runs the route fallback generator:
+- **Vendor Chunk**: Separated React and router bundles for optimal HTTP caching.
+- **Lazy Loaded Route Chunks**: Shopping, Seller, Operations, Support, and Discovery views load on demand.
+- **SPA Route Fallbacks**: 72 pre-generated directory entry points ensuring direct URL reloads work on static hosts without server rewrites.
+
+### Preview Build Locally
+
+```bash
+npm run preview
+```
+
+---
+
+## Design System — Forest Green Premium Minimal
+
+- **Signature Accent**: Forest Green (`#1f5b45` light / `#83b99d` dark), paired with warm gold (`#b58b4b`).
+- **Surfaces**: High-contrast, clean elevation scale with controlled shadows.
+- **Themes**: Instant toggle between Light Mode (`[data-theme="light"]`) and Dark Mode (`[data-theme="dark"]`).
+- **Typography**: Inter/DM Sans for readable metadata, Manrope for bold editorial headers.
+- **Accessibility**: Full WCAG AA contrast compliance, keyboard navigation focus rings, visible skip links, and ARIA modal dialog traps.
+- **Internationalization**: 3-language selector (English, French, Arabic), with proper HTML `dir="rtl"` and mirrored grid alignment.
+
+---
+
+## Testing & Quality Assurance
+
+Playwright E2E test suites cover:
+1. Route availability across all public views (`/`, `/search`, `/product/1`, `/cart`, `/checkout`, `/seller-dashboard`, etc.).
+2. Responsive layout validation across 5 standard viewport widths:
+   - 360px (Small Mobile)
+   - 390px (iPhone standard)
+   - 768px (Tablet portrait)
+   - 1024px (Tablet landscape / Laptop)
+   - 1440px (Desktop)
+3. Arabic RTL layout validation without horizontal scroll overflow.
+4. Mobile navigation drawer and bottom navigation tab interactions.
+
+Run tests:
+```bash
+npm run test:e2e
+```
+
+---
+
+## Backend Integration Handoff
+
+Detailed API contracts, data schemas, and backend integration requirements are documented in [FRONTEND_HANDOFF.md](docs/FRONTEND_HANDOFF.md).

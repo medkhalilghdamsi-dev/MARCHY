@@ -1,21 +1,20 @@
-@import './styles/base-foundation.css';
-@import './styles/base-discovery.css';
-@import './styles/base-shopping.css';
-@import './styles/base-mobile-navigation.css';
+@import './styles/design-system.css';
+@import './styles/base.css';
 @import './styles/discovery.css';
 @import './styles/shopping.css';
 @import './styles/design-foundation.css';
 @import './styles/seller-experience.css';
 @import './styles/seller-workspace.css';
+@import './styles/seller-analytics-settings.css';
+@import './styles/product-reviews-specs.css';
 @import './styles/quality-refinements.css';
 @import './styles/multi-seller-basket.css';
 @import './styles/checkout.css';
 @import './styles/result-controls.css';
-@import './styles/experience-foundation.css';
-@import './styles/product-experience.css';
-@import './styles/discovery-experience.css';
-@import './styles/buyer-experience.css';
+@import './styles/experience-upgrade.css';
+
 @import './styles/auth.css';
+
 @import './styles/operations.css';
 @import './styles/theme.css';
 @import './styles/final-quality.css';

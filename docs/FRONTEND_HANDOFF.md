@@ -1,144 +1,221 @@
-# MARCHY frontend handoff
+# MARCHY Frontend to Backend Integration Handoff
 
-## Scope
+## 1. Executive Summary & Architecture
 
-This repository is the MARCHY frontend. It is a React 18 + Vite application using React Router. This handoff deliberately excludes backend implementation.
+This repository is the complete frontend for **MARCHY**, a multi-vendor marketplace tailored for the Tunisian market. The application is built with **React 18**, **Vite 6**, and **React Router v7**, with modular code-splitting and full support for English, French, and Arabic (RTL).
 
-## Connected frontend workspaces
+This document serves as the formal handoff contract for the Senior Backend Engineering team. The frontend is structured such that connecting backend APIs requires zero rewriting of UI views—only replacing or configuring client service adapters.
 
-| Workspace | Route | Responsibility |
+---
+
+## 2. Connected Workspaces & Route Registry
+
+| Space | Routes | Primary Responsibility |
 |---|---|---|
-| Buyer marketplace | `/`, `/search`, `/product/:id`, `/cart`, `/checkout`, etc. | Discovery and shopping journey |
-| Merchant | `/sell`, `/seller-dashboard`, `/seller/:slug` | Storefront planning and merchant workspace preview |
-| Delivery operations | `/operations/delivery` | Fulfilment queue, courier assignment UI and status progression |
-| Platform admin | `/admin` | Cross-marketplace order overview and operational status controls |
-| Buyer order history | `/orders` | Searchable/filterable sample order list with links to tracking |
-| Buyer order tracking | `/orders/:id` | Sample buyer-facing order progress using the same shared demo order state |
+| **Buyer Marketplace** | `/`<br>`/search`<br>`/category/:category`<br>`/product/:id`<br>`/cart`<br>`/checkout`<br>`/wishlist`<br>`/categories`<br>`/sellers`<br>`/seller/:slug` | Catalogue browsing, multi-criteria filtering, product comparison, image galleries, reviews, coupons, cart grouping, multi-step checkout preview |
+| **Buyer Account** | `/account`<br>`/login`<br>`/signup`<br>`/orders`<br>`/orders/:id` | Guest and authenticated buyer profiles, order history list, timeline tracking |
+| **Merchant Portal** | `/sell`<br>`/seller-help`<br>`/seller-dashboard`<br>`/seller/:slug` | Onboarding guide, storefront preview, draft product creation, local order fulfilment, performance analytics (charts, KPIs), store settings (RIB, delivery policies) |
+| **Delivery Operations** | `/operations/delivery` | Cross-merchant fulfilment queue, courier assignment, status updates |
+| **Platform Admin** | `/admin` | Marketplace overview, store verification queues, operational controls |
+| **Support & Policies** | `/help`<br>`/delivery`<br>`/returns` | Information centers, returns guidelines, customer support links |
 
-The operations workspaces use one shared browser-local demo order store (`marchy-demo-operations-v1`). Delivery and admin changes are reflected in both workspaces, including across open tabs. This is a frontend demonstration, not a source of truth.
+---
 
-## Existing browser-local state
+## 3. Client State & LocalStorage Registry
 
-- `marchy-language`: selected interface language
-- `marchy-cart`: buyer cart
-- `marchy-wishlist`: buyer wishlist
-- `marchy-seller-drafts`: merchant product drafts
-- `marchy-demo-operations-v1`: shared illustrative operations orders used by buyer checkout, merchant, buyer tracking, delivery and admin views
+Currently, mock and prototype state is isolated in `src/utils/marketplace.js`, `src/hooks/useMarketplaceState.js`, and `src/hooks/useDemoOrders.js`.
 
-Buyer checkout creates one local demo order per seller in the basket, clears the local cart after confirmation and opens the first order's tracking page. The buyer account and `/orders` history page read the same browser-local demo order collection; they are not authenticated or tied to an individual guest identity. Only a display name, city, seller, item count, total and demo payment label are placed in the local demo order; phone, street address and delivery notes are not persisted. No real order, notification or payment is created.
+| Storage Key | Type | Description | Production Replacement Target |
+|---|---|---|---|
+| `marchy-language` | `'en' \| 'fr' \| 'ar'` | Current user locale | User profile preference + Cookie |
+| `marchy-theme` | `'light' \| 'dark'` | Active design theme | User profile preference + Cookie |
+| `marchy-cart` | `Array<CartItem>` | Shopping cart items | Persistent Server Cart (`/cart`) |
+| `marchy-wishlist` | `Array<number>` | Saved product IDs | User Wishlist Service (`/wishlist`) |
+| `marchy-recently-viewed` | `Array<number>` | Recent product IDs | Browsing history / recommendation service |
+| `marchy-compare` | `Array<number>` | Up to 3 product IDs for comparison | Session / In-memory state |
+| `marchy-applied-coupon` | `string` | Active coupon code | Server validated checkout session |
+| `marchy-product-reviews-${id}` | `Array<Review>` | User submitted product reviews | Product Reviews Service (`/reviews`) |
+| `marchy-seller-settings-${slug}` | `SellerSettings` | Merchant profile, delivery & bank info | Merchant Profile API (`/merchant/settings`) |
+| `marchy-seller-drafts` | `Array<Draft>` | Uncommitted merchant product listings | Merchant Drafts API (`/merchant/drafts`) |
+| `marchy-demo-operations-v1` | `Array<Order>` | Shared order queue across buyer & operations | Authoritative Order Management System |
 
-Do not treat local storage as secure, authoritative or multi-user persistence. It is only for prototype continuity.
+---
 
-## Backend integration boundaries
+## 4. Target API Contracts & Schemas
 
-The senior backend developer should provide authenticated APIs and replace the local demo services for:
+### 4.1 Product Resource
+```typescript
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number; // e.g. 189.000 in TND
+  oldPrice: number | null; // For illustrative or reference discounts
+  tag?: string;
+  image: string; // Primary image URL
+  images?: string[]; // Multi-image gallery URLs
+  description: string;
+  seller: string; // "Store Name · City"
+  delivery?: string;
+  specs?: Record<string, string>; // Technical specs (e.g. { Material: 'Linen', Dimensions: '45x45cm' })
+  rating?: number; // e.g. 4.6
+  reviewCount?: number; // e.g. 42
+  stock?: 'In stock' | 'Low stock' | 'Out of stock';
+  badge?: 'Best seller' | 'New arrival' | 'Deal' | 'Handmade' | null;
+}
+```
 
-1. Identity and access: buyer, merchant, courier, operations administrator; role-based permissions and session lifecycle.
-2. Catalogue: products, variants, media, categories, stock, merchant ownership and moderation.
-3. Basket and checkout: authoritative pricing, delivery fee calculation, address validation, order review and idempotent order creation.
-4. Orders: order lifecycle, seller fulfilment, cancellation, returns, refunds and audit history.
-5. Delivery: provider assignment, shipment events, tracking, proof of delivery and failed-delivery handling.
-6. Payments: cash on delivery and supported online payment methods, payment intents, reconciliation and refunds.
-7. Trust and support: verified reviews, merchant verification, reports, disputes and support cases.
-8. Platform administration: moderation queues, merchant approvals, operational controls and audit logs.
+### 4.2 Product Reviews
+```typescript
+// GET /api/v1/products/:id/reviews
+// POST /api/v1/products/:id/reviews
+interface Review {
+  id: string;
+  productId: number;
+  author: string;
+  rating: number; // 1 to 5
+  comment: string;
+  date: string; // ISO format: YYYY-MM-DD
+  verified: boolean; // Verified buyer flag
+}
+```
 
-## Suggested API resource shapes
+### 4.3 Coupon & Promotion Validation
+```typescript
+// POST /api/v1/coupons/validate
+interface CouponValidationRequest {
+  code: string;
+  cartSubtotal: number;
+  items: Array<{ productId: number; category: string; price: number; qty: number }>;
+}
 
-These are integration contracts to agree on, not implemented endpoints.
+interface CouponValidationResponse {
+  valid: boolean;
+  code: string;
+  discountType: 'percentage' | 'fixed';
+  discountValue: number; // e.g. 10 for 10%, or 5.000 for 5 TND
+  calculatedDiscount: number;
+  message?: string;
+}
+```
 
-- `Product`: id, merchantId, title, description, categoryId, priceTnd, compareAtPriceTnd, currency, media[], variants[], stock, status.
-- `Merchant`: id, displayName, slug, city, description, verificationStatus, categories[], status.
-- `CartLine`: productId, variantId, merchantId, quantity, unitPriceTnd.
-- `Order`: id, buyerId, lines[], subtotalTnd, deliveryFeeTnd, totalTnd, paymentMethod, paymentStatus, fulfilmentStatus, address, createdAt.
-- `Shipment`: id, orderId, providerId, trackingCode, status, events[].
-- `Review`: id, productId, buyerId, orderId, rating, body, verifiedPurchase, createdAt.
+### 4.4 Checkout & Multi-Seller Orders
+```typescript
+// POST /api/v1/checkouts
+interface CheckoutRequest {
+  idempotencyKey: string;
+  deliveryDetails: {
+    fullName: string;
+    phone: string;
+    city: string;
+    address: string;
+    deliveryNotes?: string;
+  };
+  paymentMethod: 'cash_on_delivery' | 'card' | 'wallet';
+  appliedCoupon?: string;
+  items: Array<{
+    productId: number;
+    quantity: number;
+    sellerSlug: string;
+  }>;
+}
 
-All monetary values must be validated server-side and stored in a consistent minor-unit or decimal representation. The UI's TND formatting is presentation only.
+interface CheckoutResponse {
+  checkoutGroupId: string;
+  orders: Array<{
+    orderId: string; // e.g. "MC-1049"
+    sellerName: string;
+    sellerSlug: string;
+    itemsCount: number;
+    subtotal: number;
+    deliveryFee: number;
+    discount: number;
+    total: number;
+    status: 'Processing' | 'Ready for pickup' | 'In transit' | 'Delivered' | 'Cancelled';
+  }>;
+}
+```
 
-## Frontend integration principles
+### 4.5 Merchant Analytics
+```typescript
+// GET /api/v1/merchant/analytics?period=7d|30d|90d|1y
+interface MerchantAnalyticsResponse {
+  period: '7d' | '30d' | '90d' | '1y';
+  grossRevenue: number;
+  previousPeriodRevenue: number;
+  totalOrders: number;
+  previousPeriodOrders: number;
+  storefrontVisits: number;
+  conversionRate: number;
+  revenueTrend: Array<{
+    label: string; // e.g. 'Mon' or 'Week 1'
+    value: number;
+    orders: number;
+  }>;
+  topProducts: Array<{
+    id: number;
+    name: string;
+    unitsSold: number;
+    revenue: number;
+    inStock: boolean;
+  }>;
+  regionalDistribution: Array<{
+    city: string;
+    percentage: number;
+    amount: number;
+  }>;
+}
+```
 
-- Keep page components independent of transport details. Introduce typed API/service modules and inject them into the app.
-- Keep demo fixtures separate from production API adapters.
-- Model loading, empty, error, permission-denied and success states explicitly.
-- Never infer authorization from hidden navigation; enforce every permission on the server.
-- Never trust prices, stock, totals, courier assignment or status transitions sent by the browser.
-- Preserve existing route URLs where possible. Add guarded route wrappers when authentication is introduced.
-- Keep Arabic RTL, French and English support; test currency, address and phone formats for Tunisia.
-- Mark sample data and non-live capabilities clearly until real services are connected.
+### 4.6 Merchant Settings
+```typescript
+// GET /api/v1/merchant/settings
+// PUT /api/v1/merchant/settings
+interface MerchantSettings {
+  storeName: string;
+  tagline: string;
+  description: string;
+  city: string;
+  contactEmail: string;
+  phone: string;
+  handlingTime: 'Same day' | '24h' | '48h' | '3-5 days';
+  deliveryFee: number;
+  freeDeliveryThreshold: number;
+  deliveryAreas: string[];
+  notifyNewOrder: boolean;
+  notifyLowStock: boolean;
+  notifyWeeklyDigest: boolean;
+  bankName: string;
+  accountHolder: string;
+  rib: string; // 20 digits Tunisian bank identifier
+  payoutFrequency: 'Weekly' | 'Bi-weekly' | 'Monthly';
+}
+```
 
-## Validation
+---
 
-Run:
+## 5. Security & Authentication Integration Points
+
+1. **Tokens & Cookies**:
+   - Prefer HTTP-only `Secure` SameSite cookies for access and refresh tokens.
+   - When user authenticates at `/login` or `/signup`, the API response should set the session cookie and return user profile details.
+2. **Guarded Routes**:
+   - The frontend routes `/seller-dashboard`, `/account`, and `/admin` should be wrapped in authentication guard adapters.
+   - Never trust frontend role assertions; the server must validate authorization on every REST/GraphQL endpoint.
+3. **Price Validation & Payment**:
+   - Prices, discounts, and delivery fees sent from the client must be re-calculated and verified server-side before persisting orders.
+   - Cash on delivery requires SMS or phone verification (OTP) in production for fraud prevention in Tunisia.
+   - Online payments require redirect integration with local payment switches (SMT / ClicToPay) or FinTech APIs (Flouci, Konnect).
+
+---
+
+## 6. Verification & Build Commands
 
 ```bash
-npm install
+# Verify build and bundle output
 npm run build
-npm run test:e2e
+
+# Preview build locally
+npm run preview
 ```
-
-The tests are authored in `tests/marketplace.spec.js`. A passing CI run is required before release; source changes alone are not evidence that the tests passed.
-
-## End-to-end order workflow contract
-
-The buyer demo checkout groups cart lines by merchant and creates one order per merchant. Production should expose this as a single checkout operation so a multi-merchant basket cannot be partially submitted.
-
-Suggested request:
-
-```ts
-type CheckoutRequest = {
-  lines: Array<{ productId: string; variantId?: string; quantity: number }>;
-  deliveryAddressId: string;
-  paymentMethod: 'cash_on_delivery' | 'online';
-  idempotencyKey: string;
-};
-```
-
-Suggested response:
-
-```ts
-type CheckoutResponse = {
-  checkoutId: string;
-  orders: Array<{
-    id: string;
-    merchantId: string;
-    status: 'pending_payment' | 'processing';
-    subtotalTnd: number;
-    deliveryFeeTnd: number;
-    totalTnd: number;
-    currency: 'TND';
-  }>;
-};
-```
-
-Recommended service boundaries (route names are proposals, not existing endpoints):
-
-| Operation | Suggested API | Required server behavior |
-|---|---|---|
-| Submit basket | `POST /checkouts` | Reprice every line, validate stock/address/payment, group by merchant, create all orders atomically, enforce idempotency |
-| Buyer order history | `GET /me/orders` | Return only orders belonging to the authenticated buyer |
-| Order detail/tracking | `GET /orders/:id` | Check buyer/merchant/courier/admin access; return status and shipment events |
-| Merchant order queue | `GET /merchant/orders` | Scope to authenticated merchant; never accept arbitrary merchant ownership from the client |
-| Merchant status update | `PATCH /merchant/orders/:id/status` | Validate allowed state transitions and write an audit event |
-| Courier assignment | `PATCH /operations/orders/:id/courier` | Require operations permission; validate provider and assignment eligibility |
-| Shipment events | `GET /orders/:id/shipments` | Return provider events and timestamps; distinguish estimated from confirmed events |
-
-### Shared order lifecycle
-
-Use one canonical server-side order status vocabulary and return allowed actions for the current actor. A practical baseline is:
-
-`processing → ready_for_pickup → in_transit → delivered`
-
-Cancellation, failed delivery, return and refund should be explicit states or separate workflows with documented transition rules. The frontend demo status selector is intentionally permissive; it is not a business-rules implementation.
-
-### Role ownership
-
-- Buyer: create checkout, view own orders, request cancellation/return where eligible.
-- Merchant: view orders containing that merchant's lines, prepare/hand over those lines, update merchant-owned fulfilment status.
-- Courier/operations: view assigned shipments, record pickup/delivery events, manage eligible courier assignments.
-- Platform admin: cross-marketplace moderation and operations according to explicit permissions, with audit history.
-
-A multi-merchant checkout may produce several merchant orders under one checkout reference. The buyer should see one grouped purchase in order history with access to each merchant shipment. Delivery charges and final totals must come from the server, not the current demo subtotal.
-
-### Frontend adapter boundary
-
-Keep the current `useDemoOrders` implementation as a demo adapter. Introduce a production `orderService` with equivalent methods (list, get, create checkout, update merchant status, assign courier) and select the adapter at the app/service composition layer. Do not let page components read or write local storage directly. Add explicit loading, empty, validation, conflict, permission and network-error states when the API is connected.
+All production builds generate directory-level `index.html` fallback entry points for 72 unique marketplace routes, ensuring seamless refreshes on static hosts.
