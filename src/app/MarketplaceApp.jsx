@@ -109,14 +109,16 @@ function PageTitleManager() {
 
 export default function App() {
   const { language, cart, wishlist } = useMarketplace()
+  const location = useLocation()
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
   const cartCount = cart.reduce((s, x) => s + x.qty, 0)
 
   return (
     <div className={language === 'ar' ? 'app-root is-rtl' : 'app-root'} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       <ScrollToTop />
       <PageTitleManager />
-      <a className="skip-to-content" href="#main-content">Skip to main content</a>
-      <Header cartCount={cartCount} />
+      {!isAuthPage && <a className="skip-to-content" href="#main-content">Skip to main content</a>}
+      {!isAuthPage && <Header cartCount={cartCount} />}
       <ErrorBoundary>
         <Suspense fallback={<PageLoadingFallback />}>
           <Routes>
@@ -147,8 +149,8 @@ export default function App() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
-      <Footer />
-      <MobileTabBar cartCount={cartCount} wishlistCount={wishlist.length} />
+      {!isAuthPage && <Footer />}
+      {!isAuthPage && <MobileTabBar cartCount={cartCount} wishlistCount={wishlist.length} />}
     </div>
   )
 }

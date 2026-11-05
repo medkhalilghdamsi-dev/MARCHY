@@ -632,3 +632,29 @@ test('light and dark themes toggle accessibly and persist across reloads', async
   await page.reload()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
 })
+
+test('auth page is a unique standalone page with logo beside login and sign in form', async ({ page }) => {
+  await page.goto('/login')
+  // No marketplace header, nav, or footer on the unique auth page
+  await expect(page.locator('header.header')).toHaveCount(0)
+  await expect(page.locator('footer.footer')).toHaveCount(0)
+  await expect(page.locator('.mobile-tabbar')).toHaveCount(0)
+
+  // Standalone layout with logo side beside form card
+  await expect(page.locator('.auth-unique-page')).toBeVisible()
+  await expect(page.locator('.auth-logo-side .auth-brand-logo')).toBeVisible()
+  await expect(page.locator('.auth-logo-side .auth-brand-wordmark')).toContainText('MARCHY')
+  await expect(page.locator('.auth-form-card')).toBeVisible()
+  await expect(page.locator('.auth-form-heading h2')).toContainText('Sign in to MARCHY')
+
+  // Switch between Sign in and Sign up
+  await page.locator('.auth-mode-switch a', { hasText: 'Sign up' }).click()
+  await expect(page).toHaveURL(/.*\/signup/)
+  await expect(page.locator('.auth-form-heading h2')).toContainText('Create an account')
+  await expect(page.locator('input[placeholder="Your full name"]')).toBeVisible()
+
+  // Return to marketplace link works
+  await page.locator('.auth-back-link').click()
+  await expect(page).toHaveURL(/.*\/$/)
+  await expect(page.locator('header.header')).toBeVisible()
+})
