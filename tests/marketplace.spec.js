@@ -308,7 +308,7 @@ test('seller directory search matches accented French category terms', async ({ 
 
 test('core shopping pages have no serious or critical accessibility violations', async ({ page }) => {
   const { default: AxeBuilder } = await import('@axe-core/playwright')
-  const routesToAudit = ['/', '/search', '/product/1', '/cart', '/checkout', '/wishlist', '/categories', '/seller/atlas-tech-tunis', '/sell']
+  const routesToAudit = ['/', '/search', '/product/1', '/cart', '/checkout', '/wishlist', '/categories', '/seller/atlas-tech-tunis', '/sell', '/seller-dashboard', '/operations/delivery', '/admin', '/orders/MC-1048']
   for (const route of routesToAudit) {
     if (route === '/checkout') await page.addInitScript(() => localStorage.setItem('marchy-cart', JSON.stringify([{ id: 1, name: 'Wireless noise-cancelling headphones', category: 'Electronics', price: 189, qty: 1, image: '/product-placeholder.svg' }])))
     await page.goto(route)
