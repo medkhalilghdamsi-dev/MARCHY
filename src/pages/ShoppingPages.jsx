@@ -138,6 +138,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   // Keep result controls in the URL so a buyer can bookmark or share this exact view.
   useEffect(() => {
     const next = new URLSearchParams(params)
+    if (term.trim()) next.set('q', term.trim())
+    else next.delete('q')
     if (sort === 'featured') next.delete('sort')
     else next.set('sort', sort)
     if (routeCategory || category === 'All') next.delete('category')
@@ -149,7 +151,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     if (maxPrice < catalogueMaxPrice) next.set('max', String(maxPrice))
     else next.delete('max')
     if (next.toString() !== params.toString()) setParams(next, { replace: true })
-  }, [sort, category, routeCategory, city, minPrice, maxPrice, catalogueMaxPrice, params, setParams])
+  }, [term, sort, category, routeCategory, city, minPrice, maxPrice, catalogueMaxPrice, params, setParams])
   const updateTerm = value => {
     setTerm(value)
     const next = new URLSearchParams(params)
