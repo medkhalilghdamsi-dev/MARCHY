@@ -323,3 +323,30 @@ test('core shopping pages have no serious or critical accessibility violations',
     ).toEqual([])
   }
 })
+
+
+test('delivery operations and platform admin share order status and courier changes', async ({ page }) => {
+  await page.goto('/operations/delivery')
+  await expect(page.getByRole('heading', { name: 'Delivery operations' })).toBeVisible()
+  const orderRow = page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })
+  await expect(orderRow).toContainText('Atlas Tech')
+  await orderRow.getByLabel('Courier for MC-1048').selectOption('Partner courier')
+  await orderRow.getByLabel('Status for MC-1048').selectOption('In transit')
+  await page.getByRole('link', { name: 'Platform admin' }).click()
+  const adminRow = page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })
+  await expect(adminRow).toContainText('In transit')
+  await adminRow.getByLabel('Status for MC-1048').selectOption('Delivered')
+  await page.getByRole('link', { name: 'Delivery operations' }).click()
+  await expect(page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })).toContainText('Delivered')
+})
+
+test('merchant order workspace shares order updates with delivery operations', async ({ page }) => {
+  await page.goto('/seller-dashboard')
+  await page.getByRole('button', { name: 'Orders' }).click()
+  const order = page.locator('.seller-order-row').filter({ hasText: 'MC-1048' })
+  await expect(order).toContainText('Amira Ben Salem')
+  await order.getByLabel('Update status for MC-1048').selectOption('Processing')
+  await page.getByRole('link', { name: '↗ Delivery operations' }).click()
+  const deliveryRow = page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })
+  await expect(deliveryRow).toContainText('Processing')
+})
