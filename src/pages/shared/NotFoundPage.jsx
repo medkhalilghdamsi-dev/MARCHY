@@ -10,3 +10,4 @@ export function NotFoundPage() {
 export function SimplePage({ title, eyebrow, text, language }) {
  return translateTree(<main id="main-content" className="shell page simple-page"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p className="muted">{text}</p><Link to="/search" className="primary-btn">Explore the marketplace →</Link></main>,language)
 }
+

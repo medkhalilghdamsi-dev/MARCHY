@@ -33,3 +33,4 @@ export function BuyerOrdersPage(props) {
     <Link to="/account" className="text-link">← Back to account</Link>
   </main>, language)
 }
+

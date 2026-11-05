@@ -111,13 +111,13 @@ html[data-theme="dark"] .period-pills button.is-active {
 }
 
 .kpi-badge.is-up {
-  background: #e6f7ee;
-  color: #177344;
+  background: #e6f0eb;
+  color: #164033;
 }
 
 .kpi-badge.is-down {
-  background: #fde8e8;
-  color: #c0392b;
+  background: #dcebe3;
+  color: #143d2d;
 }
 
 .kpi-badge.is-neutral {
@@ -127,12 +127,12 @@ html[data-theme="dark"] .period-pills button.is-active {
 
 html[data-theme="dark"] .kpi-badge.is-up {
   background: #173d28;
-  color: #68d99d;
+  color: #83b99d;
 }
 
 html[data-theme="dark"] .kpi-badge.is-down {
-  background: #3e1b1b;
-  color: #f18a8a;
+  background: #1c3326;
+  color: #a3d4ba;
 }
 
 .kpi-value {

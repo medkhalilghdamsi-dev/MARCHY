@@ -88,3 +88,4 @@ MARCHY/
 └── tests/                                 # Playwright E2E, responsive & axe-core accessibility test suite
     └── marketplace.spec.js
 ```
+

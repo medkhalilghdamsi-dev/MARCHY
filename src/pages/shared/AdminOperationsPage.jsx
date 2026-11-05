@@ -20,3 +20,4 @@ export function AdminOperationsPage(props) {
     <section className="ops-shortcuts"><Link to="/seller-dashboard"><b>Merchant workspace</b><span>Product catalogue and storefront preview →</span></Link><Link to="/operations/delivery"><b>Delivery operations</b><span>Courier assignment and fulfilment stages →</span></Link><Link to="/"><b>Buyer marketplace</b><span>Browse the customer shopping experience →</span></Link></section>
   </OpsShell>
 }
+

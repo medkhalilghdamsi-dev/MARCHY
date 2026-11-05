@@ -15,3 +15,4 @@ export function MobileTabBar({ cartCount, wishlistCount }) {
     <Link to="/cart" className={active('/cart') ? 'is-active' : ''} aria-current={active('/cart') ? 'page' : undefined}><span>🛒<i>{cartCount || null}</i></span><small>Cart</small></Link>
   </nav>, language)
 }
+

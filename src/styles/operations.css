@@ -30,7 +30,7 @@
 .ops-table td small{display:block;margin-top:4px;color:var(--muted);font-size:9px}
 .ops-table select{font-size:10px;max-width:150px}
 .ops-status{display:inline-flex;padding:5px 8px;border-radius:999px;background:var(--surface-soft,#f5f6f5);font-size:9px;font-weight:800}
-.ops-status-delivered{background:#e8f5ec;color:#247443}.ops-status-in-transit{background:#eaf1fb;color:#315f9a}.ops-status-cancelled{background:#fbeaea;color:#a43d3d}.ops-status-ready-for-pickup{background:#fff3df;color:#916018}.ops-status-processing{background:#f0eefb;color:#6550a0}
+.ops-status-delivered{background:#e6f0eb;color:#164033}.ops-status-in-transit{background:#dcebe3;color:#143d2d}.ops-status-cancelled{background:#d4e6dc;color:#123528}.ops-status-ready-for-pickup{background:#eef5f1;color:#1f5b45}.ops-status-processing{background:#e1eee7;color:#1a4f3b}
 .ops-empty{padding:30px;text-align:center;color:var(--muted)}
 .ops-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
 .ops-shortcuts a{display:flex;flex-direction:column;gap:7px;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--surface,#fff);color:var(--ink);text-decoration:none}
@@ -66,7 +66,7 @@
 .buyer-tracking-step-dot{z-index:1;display:grid;place-items:center;width:29px;height:29px;border:1px solid var(--line);border-radius:50%;background:var(--surface,#fff);color:var(--muted);font-size:10px;font-weight:800}
 .buyer-tracking-steps li.complete .buyer-tracking-step-dot{border-color:var(--accent,#245b42);background:var(--accent,#245b42);color:#fff}
 .buyer-tracking-steps li div{padding:4px 0 16px}.buyer-tracking-steps li b{display:block;font-size:12px}.buyer-tracking-steps li small{display:block;margin-top:5px;color:var(--muted);font-size:10px}
-.buyer-tracking-cancelled{margin:20px 0;padding:15px;border:1px solid #e7b9b9;border-radius:8px;background:#fff7f7;color:#853d3d}.buyer-tracking-cancelled p{margin:5px 0 0;font-size:11px}
+.buyer-tracking-cancelled{margin:20px 0;padding:15px;border:1px solid #b8d4c5;border-radius:8px;background:#eef5f1;color:#164033}.buyer-tracking-cancelled p{margin:5px 0 0;font-size:11px}
 @media(max-width:600px){.buyer-tracking-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.account-demo-order{grid-template-columns:1fr}.account-demo-order strong{grid-column:auto}}
 
 
@@ -78,15 +78,15 @@
 
 
 /* Marketplace accessibility and tablet-width refinements verified by axe/Playwright. */
-.page .muted{color:#56616c}
-.filters .filter-group>label small{color:#56616c}
-.filters .price-inputs label{color:#56616c}
-.filters .price-range-labels{color:#56616c}
-.filters .filter-note{color:#56616c}
-.results-toolbar{color:#56616c}
-.results-toolbar-actions>label{color:#56616c}
-.listing-view-toggle button,.listing-view-toggle button span{color:#56616c}
-.pagination span{color:#56616c}
+.page .muted{color:#435b4f}
+.filters .filter-group>label small{color:#435b4f}
+.filters .price-inputs label{color:#435b4f}
+.filters .price-range-labels{color:#435b4f}
+.filters .filter-note{color:#435b4f}
+.results-toolbar{color:#435b4f}
+.results-toolbar-actions>label{color:#435b4f}
+.listing-view-toggle button,.listing-view-toggle button span{color:#435b4f}
+.pagination span{color:#435b4f}
 @media(min-width:641px) and (max-width:900px){
  .listing-head{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
  .listing-head>div:first-child{min-width:0}
@@ -96,11 +96,11 @@ html[dir="rtl"] .page{overflow-x:clip}
 
 
 /* Product-detail supporting copy: meet WCAG AA on light surfaces. */
-.product-image-discount{background:#a94421!important;color:#fff}
+.product-image-discount{background:#164033!important;color:#fff}
 .product-price-block>del,.product-price-caption,.product-listing-status small,
 .product-quantity-summary>span,.product-seller-copy small,.product-seller-copy>span,
 .product-delivery-card p,.product-demo-disclaimer,.product-buyer-highlights>div>span,
-.product-attribute-list dt{color:#56616c}
+.product-attribute-list dt{color:#435b4f}
 
 
 .account-orders-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px}

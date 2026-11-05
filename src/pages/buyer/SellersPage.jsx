@@ -20,3 +20,4 @@ export function SellersPage() {
  {visible.length?<div className="seller-directory-grid">{visible.map(s=><article className="seller-directory-card" key={s.slug}><div className="seller-card-top"><span className="seller-avatar large">{s.name.slice(0,1)}</span><span className="demo-label">DEMO STOREFRONT</span></div><h2>{s.name}</h2><p className="seller-location">⌖ {s.city}, Tunisia</p><p>{s.tagline}</p><div className="seller-category-tags">{s.categories.map(c=><span key={c}>{c}</span>)}</div><Link to={`/seller/${s.slug}`} className="seller-visit-link">View storefront <span>→</span></Link></article>)}</div>:<div className="empty-state seller-directory-empty"><span>⌕</span><h2>No matching storefronts</h2><p>Try another shop name, city or category.</p><button type="button" className="outline-btn" onClick={()=>{setTerm('');setCity('All');setCategory('All')}}>Clear seller filters</button></div>}
  </main>,language)
 }
+

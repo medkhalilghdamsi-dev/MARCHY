@@ -231,3 +231,4 @@ export function SearchPage() {
     </div>
   </main>, language)
 }
+

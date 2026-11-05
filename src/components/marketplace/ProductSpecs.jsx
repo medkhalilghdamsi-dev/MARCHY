@@ -35,3 +35,4 @@ export function ProductSpecs({ product, seller }) {
     </article>
   )
 }
+

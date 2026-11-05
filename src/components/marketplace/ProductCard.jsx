@@ -93,3 +93,4 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
     </div>}
   </>, language)
 }
+

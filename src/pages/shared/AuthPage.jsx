@@ -43,3 +43,4 @@ export function AuthPage() {
   </div>
  </main>,language)
 }
+

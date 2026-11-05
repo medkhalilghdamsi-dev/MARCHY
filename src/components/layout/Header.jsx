@@ -132,3 +132,4 @@ export function Header({ cartCount }) {
     </header>
   </>, language)
 }
+

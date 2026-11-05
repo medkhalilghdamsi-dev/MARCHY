@@ -2,13 +2,13 @@
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
-  --ink:#17212b;
+  --ink:#12261e;
   --forest:#1f5b45;
-  --muted:#5f6b76;
-  --line:#e3e8e5;
-  --page:#f5f7f6;
+  --muted:#435b4f;
+  --line:#d8e5dd;
+  --page:#f4f8f5;
   --surface:#ffffff;
-  --surface-soft:#f8faf9;
+  --surface-soft:#eef5f1;
   --surface-raised:#ffffff;
   --text-on-accent:#ffffff;
   --focus-ring:#83b7a0;
@@ -160,7 +160,7 @@ html[data-theme="dark"] .wish-btn {
   background:#27362d;
 }
 html[data-theme="dark"] .theme-toggle {
-  color:#f0d38a;
+  color:#a3d4ba;
   background:#27362d;
   border-color:#42554a;
 }

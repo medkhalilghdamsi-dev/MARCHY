@@ -40,3 +40,4 @@ export function Footer() {
     </div>
   </div><div className="shell footer-bottom"><span>© 2026 MARCHY. All rights reserved.</span><span>Built for Tunisia.</span></div></footer>, language)
 }
+

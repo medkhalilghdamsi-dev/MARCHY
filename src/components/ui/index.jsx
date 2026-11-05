@@ -103,3 +103,4 @@ export function Tabs({ items = [], activeId, onChange, ariaLabel = 'Section tabs
 export function Skeleton({ height = '1.25rem', width = '100%', className = '' }) {
   return <div className={`ui-skeleton ${className}`.trim()} style={{ height, width }} aria-hidden="true" />
 }
+

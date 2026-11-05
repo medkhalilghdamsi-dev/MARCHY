@@ -18,35 +18,50 @@ ul, ol { list-style: none; padding: 0; }
 
 /* ---- Design tokens: Light mode (default) ------------------ */
 :root {
-  /* Brand */
+  /* Brand — Unified Forest Green Palette */
   --forest: #1f5b45;
   --forest-dark: #164033;
-  --forest-light: #e8f0ec;
-  --gold: #b58b4b;
+  --forest-light: #e6f0eb;
+  --gold: #1f5b45;
 
-  /* Neutral palette (WCAG AA >= 4.5:1 contrast on #f4f7f5 & #ffffff) */
-  --ink: #17212b;
-  --ink-soft: #344155;
-  --muted: #4f5b66;
-  --muted-light: #566370;
-  --line: #e3e8ed;
-  --line-soft: #edf1f4;
+  /* Neutral palette (Forest-tinted slate, WCAG AA >= 4.5:1 contrast on #f4f7f5 & #ffffff) */
+  --ink: #12261e;
+  --ink-soft: #253d32;
+  --muted: #435b4f;
+  --muted-light: #4e675a;
+  --line: #d8e5dd;
+  --line-soft: #e6efe9;
 
   /* Surfaces */
-  --page: #f4f7f5;
+  --page: #f4f8f5;
   --surface: #ffffff;
-  --surface-soft: #f8fafa;
+  --surface-soft: #eef5f1;
   --surface-raised: #ffffff;
-  --surface-hover: #f5f8f6;
+  --surface-hover: #edf5f0;
 
-  /* Semantic */
+  /* Semantic — Harmonized within the green spectrum */
   --accent: var(--forest);
   --accent-dark: var(--forest-dark);
   --accent-text: #ffffff;
-  --focus-ring: #7bb99a;
-  --danger: #d63031;
-  --warning: #e67e22;
-  --success: #27ae60;
+  --focus-ring: #6ea98c;
+  --danger: #143d2d;
+  --warning: #1b523d;
+  --success: #1f5b45;
+
+  /* Legacy aliases mapped to Forest Green */
+  --orange: var(--forest);
+  --orange-dark: var(--forest-dark);
+  --green: var(--forest);
+  --marchy-ink: var(--ink);
+  --marchy-muted: var(--muted);
+  --marchy-line: var(--line);
+  --marchy-surface: var(--surface);
+  --marchy-page: var(--page);
+  --marchy-orange: var(--forest);
+  --marchy-orange-deep: var(--forest-dark);
+  --marchy-green: var(--forest);
+  --marchy-accent-soft: var(--forest-light);
+  --marchy-accent-border: #b8d4c5;
 
   /* Typography scale */
   --text-xs: 10px;
@@ -83,11 +98,11 @@ ul, ol { list-style: none; padding: 0; }
   --radius-pill: 999px;
 
   /* Shadows */
-  --shadow-xs: 0 1px 4px rgba(23,33,43,.06);
-  --shadow-sm: 0 3px 10px rgba(23,33,43,.07);
-  --shadow-md: 0 6px 22px rgba(23,33,43,.09);
-  --shadow-lg: 0 14px 36px rgba(23,33,43,.12);
-  --shadow-xl: 0 24px 56px rgba(23,33,43,.16);
+  --shadow-xs: 0 1px 4px rgba(18,38,30,.06);
+  --shadow-sm: 0 3px 10px rgba(18,38,30,.07);
+  --shadow-md: 0 6px 22px rgba(18,38,30,.09);
+  --shadow-lg: 0 14px 36px rgba(18,38,30,.12);
+  --shadow-xl: 0 24px 56px rgba(18,38,30,.16);
 
   /* Layout */
   --content-width: 1320px;
@@ -104,7 +119,7 @@ ul, ol { list-style: none; padding: 0; }
   --forest: #83b99d;
   --forest-dark: #a3d4ba;
   --forest-light: #1a2f24;
-  --gold: #c9a660;
+  --gold: #83b99d;
 
   --ink: #edf3ef;
   --ink-soft: #c8d8ce;
@@ -122,8 +137,8 @@ ul, ol { list-style: none; padding: 0; }
   --accent: var(--forest);
   --accent-text: #0f1a14;
   --focus-ring: #a3d4ba;
-  --danger: #e17070;
-  --warning: #e9a84a;
+  --danger: #83b99d;
+  --warning: #83b99d;
   --success: #68c997;
 
   --shadow-xs: 0 1px 4px rgba(0,0,0,.18);
@@ -209,12 +224,12 @@ html { scroll-behavior: smooth; }
   font-size: var(--text-xs);
   font-weight: 800;
   letter-spacing: .8px;
-  color: #8a5b45;
-  background: #fff2eb;
+  color: #164033;
+  background: #e6f0eb;
   border-radius: var(--radius-pill);
   padding: 5px 9px;
 }
-html[data-theme="dark"] .demo-label { color: #d4a070; background: #2e1f14; }
+html[data-theme="dark"] .demo-label { color: #a3d4ba; background: #1e3328; }
 
 /* ---- Buttons ---------------------------------------------- */
 .primary-btn {
@@ -298,10 +313,10 @@ html[data-theme="dark"] .demo-label { color: #d4a070; background: #2e1f14; }
   border-radius: var(--radius-pill);
   pointer-events: none;
 }
-.badge-gold { background: #fff3d6; color: #8a6300; }
-.badge-green { background: #d6f0e3; color: #17633a; }
-.badge-red { background: #fde8e8; color: #c0392b; }
-.badge-earth { background: #f0e8d8; color: #6b4c26; }
+.badge-gold { background: #e6f0eb; color: #164033; }
+.badge-green { background: #d6ebe1; color: #143d2d; }
+.badge-red { background: #1f5b45; color: #ffffff; }
+.badge-earth { background: #dcebe3; color: #164033; }
 
 /* ---- Product rating stars --------------------------------- */
 .product-rating {

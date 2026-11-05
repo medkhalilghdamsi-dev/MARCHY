@@ -24,3 +24,4 @@ export function BuyerOrderTrackingPage(props) {
     </section>
   </OpsShell>
 }
+

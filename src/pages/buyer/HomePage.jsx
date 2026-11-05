@@ -61,3 +61,4 @@ export function Home() {
     <p className="catalogue-note">MARCHY is a frontend prototype. Product listings, storefronts, prices, discounts and availability shown here are illustrative — not verified live offers.</p>
   </main>,language)
 }
+

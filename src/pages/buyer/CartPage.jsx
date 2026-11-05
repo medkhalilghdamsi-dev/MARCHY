@@ -161,3 +161,4 @@ export function CartPage() {
     </div>}
   </main>, language)
 }
+

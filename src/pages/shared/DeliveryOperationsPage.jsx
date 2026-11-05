@@ -15,3 +15,4 @@ export function DeliveryOperationsPage(props) {
     <section className="ops-panel"><div className="ops-panel-head"><div><span className="eyebrow">FULFILMENT QUEUE</span><h2>Order handover and tracking</h2><p>Assign a demo courier and move an order through its fulfilment stages.</p></div><button className="ops-reset" type="button" onClick={reset}>Reset demo data</button></div><div className="ops-filters">{['Active','All',...statuses].map(item=><button type="button" key={item} className={filter===item?'active':''} onClick={()=>setFilter(item)}>{item}</button>)}</div><OrderTable orders={visible} updateOrder={updateOrder} delivery language={language}/></section>
   </OpsShell>
 }
+

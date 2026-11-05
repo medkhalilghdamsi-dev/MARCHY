@@ -59,3 +59,4 @@ export function SellerDashboardPage() {
   <p className="catalogue-note">Frontend demonstration only. No seller login, private data, live inventory, analytics, product publishing or account settings are connected.</p>
  </main>,language)
 }
+

@@ -35,3 +35,4 @@ export function AccountPage() {
   <p className="catalogue-note">This is a guest-mode frontend preview. No account, personal profile, order history or authentication is created or stored.</p>
  </main>,language)
 }
+

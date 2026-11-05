@@ -44,3 +44,4 @@ export function SellerLaunchPage() {
     <p className="catalogue-note">Seller onboarding is not open through this prototype. This planner does not create an account, verify a business, publish products or accept applications.</p>
   </main>,language)
 }
+

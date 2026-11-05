@@ -24,3 +24,4 @@ export function WishlistPage() {
     </div>}
   </main>,language)
 }
+
