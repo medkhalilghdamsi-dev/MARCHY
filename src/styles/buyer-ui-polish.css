@@ -1393,3 +1393,24 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
     place-items: center;
   }
 }
+
+
+/* Regression fixes verified from the mobile Playwright trace. */
+@media (max-width: 760px) {
+  /* The older experience-upgrade rule had higher specificity and put the sheet
+     underneath its own backdrop, making every control impossible to click. */
+  .listing-layout > .filters.filters-open {
+    z-index: 100;
+  }
+}
+.page .results-toolbar > span,
+.page .results-toolbar-actions > label,
+.page .pagination > span {
+  color: #435b4f;
+}
+.header .searchbar button {
+  background: #174735;
+}
+.header .searchbar button:hover {
+  background: #123528;
+}
