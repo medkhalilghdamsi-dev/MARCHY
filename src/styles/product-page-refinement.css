@@ -793,7 +793,7 @@ html[data-theme="dark"] .product-gallery-thumbnails button.is-active { backgroun
     z-index: 60;
     left: 0;
     right: 0;
-    bottom: calc(0px + env(safe-area-inset-bottom));
+    bottom: calc(62px + env(safe-area-inset-bottom));
     display: flex;
     align-items: center;
     justify-content: space-between;
