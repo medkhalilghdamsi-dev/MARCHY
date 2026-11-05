@@ -1,6 +1,30 @@
-node_modules
-dist
-.env
-.env.*
-!.env.example
-.DS_Store
+#back
+
+/xsupply/target/
+/xsupply/.idea/
+/xsupply/uploads/
+
+
+#front (Marchi Front - React/Vite)
+
+/Marchi Front/dist/
+/Marchi Front/node_modules/
+/Marchi Front/.env
+
+#front (legacy - ignored)
+
+/xsupply-front/
+/xsupply-front/node_modules/
+/xsupply-front/.angular/
+/xsupply-front/.idea/
+/xsupply-front/.vscode/
+/xsupply-test-front/
+
+#landing-page
+/xsupply-landing/dist/
+/xsupply-landing/node_modules/
+/xsupply-landing/.angular/
+/xsupply-landing/.idea/
+/xsupply-landing/.vscode/
+
+

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>CONTRAT DE SERVICES DE TRANSPORT</title>
+    <style>
+
+        @page { size: A4; margin: 15mm; }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 11px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 1px solid #2c3e50;
+            padding-bottom: 5px;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        h5 {
+            color: #34495e;
+            margin: 6px 0;
+            font-size: 12px;
+        }
+
+        p {
+            margin: 4px 0;
+            font-size: inherit;
+        }
+
+        .section {
+            margin-bottom: 12px;
+        }
+
+        /*.signature-container {*/
+        /*    display: flex;*/
+        /*    justify-content: space-between;*/
+        /*    margin-top: 20px;*/
+        /*}*/
+
+        /*.signature-block {*/
+        /*    width: 45%;*/
+        /*}*/
+
+        /*.signature-block img {*/
+        /*    width: 120px !important;*/
+        /*    height: 40px !important;*/
+        /*    margin-top: 5px;*/
+        /*}*/
+        .signature-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .signature-block {
+            width: 45%;
+            text-align: center; /* Centre tout le contenu horizontalement */
+        }
+
+        .signature-block img {
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .compact p {
+            margin-bottom: 8px;
+        }
+
+        .right-align {
+            text-align: right;
+        }
+        .signature-block.left { float: left; }
+        .signature-block.right { float: right; }
+
+        * {
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+    </style>
+
+</head>
+<body>
+<h2>CONTRAT DE SERVICES DE TRANSPORT</h2>
+
+<!-- Client Section -->
+<div class="section">
+    <p><strong><u>ENTRE :</u></strong></p>
+    <p th:if="${!clientIsCompany}">
+        <span th:text="${clientName}">Client Name</span>,
+        <span th:if="${clientCin != null}"> ayant le numéro de la cartle d'itentité nationale <span th:text="${clientCin}"></span></span>
+
+    </p>
+
+    <p th:if="${clientIsCompany}">
+        <span th:text="${clientRepresentative}">Representative Name</span>,
+
+        <span th:if="${clientCompany != null}"> <span th:text="${clientCompany}"></span></span>
+        <span th:if="${clientCompany != null}"> <span th:text="${clientCompanyType}"></span> <span th:text="${clientCompany}"></span></span>
+        <span th:if="${clientCapital != null}"> au capital de <span th:text="${clientCapital}"></span></span>
+        <span th:if="${clientAddress != null}">, dont le siège social est situé à <span th:text="${clientAddress}"></span></span>
+        <span th:if="${clientId != null}">, ayant l'identifiant unique <span th:text="${clientId}"></span></span>
+        <span th:if="${clientRepresentative != null}">, représentée par son Directeur Général <span th:text="${shipperCivility}"></span> <span th:text="${clientRepresentative}"></span> dûment habilité aux fins de la présente</span>
+
+    </p>
+    <p class="right-align">- dénommée ci-dessous <strong>« Le Client »</strong></p>
+</div>
+
+<!-- Provider Section -->
+<div class="section">
+    <p><strong><u>ET :</u></strong></p>
+    <p th:if="${!providerIsCompany}">
+        <span th:text="${providerName}">Provider Name</span>,
+        <span th:if="${providerCin != null}"> ayant le numéro de la cartle d'itentité nationale <span th:text="${providerCin}"></span></span>
+
+    </p>
+
+    <p th:if="${providerIsCompany}">
+        <span th:text="${providerRepresentativeName}">Representative Name</span>,
+        <span th:if="${providerCompany != null}"> <span th:text="${providerCompany}"></span></span>
+        <span th:if="${providerCompany != null}"> <span th:text="${providerCompanyType}"></span> <span th:text="${providerCompany}"></span></span>
+        <span th:if="${providerCapital != null}"> au capital de <span th:text="${providerCapital}"></span></span>
+        <span th:if="${providerAddress != null}">, dont le siège social est situé à <span th:text="${providerAddress}"></span></span>
+        <span th:if="${providerId != null}">, ayant l'identifiant unique <span th:text="${providerId}"></span></span>
+        <span th:if="${providerRepresentativeName != null}">, représentée par son Directeur Général <span th:text="${carrierCivility}"></span> <span th:text="${providerRepresentativeName}"></span> dûment habilité aux fins de la présente</span>
+
+    </p>
+    <p class="right-align">- dénommée ci-dessous <strong>« Le Prestataire »</strong></p>
+</div>
+
+<div class="section">
+    <h5>PRÉAMBULE :</h5>
+    <p>- Attendu que le Prestataire dispose des moyens nécessaires pour exécution du service demandé</p>
+    <p>- Attendu que le Client a manifesté sa volonté à sous-traiter le service demandé</p>
+    <p>- Attendu que les deux parties se sont rapprochés et que les conditions ont été définies sur la plateforme XsuppIY</p>
+</div>
+<div class="section">
+    <h4><strong>IL A ETE CONVENU ET ARRETE CE QUI SUIT</strong></h4>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 1 : OBJET DU PRESENT CONTRAT</h5>
+    <p>Le présent contrat a pour objet l’opération de transport convenu entre le client et le prestataire sur la plateforme XsupplY.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 2 : ENGAGEMENTS</h5>
+    <p><strong>Engagement du propriétaire du moyen de transport :</strong></p>
+    <p>Le propriétaire du moyen de transport déclare avoir parfaite connaissance de la réglementation en vigueur applicable au transport et à la manutention des produits.</p>
+    <p>Le propriétaire du moyen de transport reconnait expressément avoir toutes les autorisations requises pour exercer son activité et veillera à les renouveler régulièrement.</p>
+    <p>En cas de non-renouvellement de son agrément ou d’arrêt d’activité pour quelques raisons que se soient, il en informera immédiatement son client.</p>
+    <p><strong>Engagement du client :</strong></p>
+    <p>Le client s’engage à utiliser en priorité le moyen de transport, objet du contrat, pour exécuter l’opération de transport demandé et à garantir au prestataire les conditions nécessaires pour exécution du service objet du présent contrat.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 3 : DATE D’EFFET / DURÉE / RÉSILIATION</h5>
+    <p>Le présent accord prend effet à compter de la date de sa signature par les deux contractants.</p>
+    <p>Il est établi pour une durée limitée au temps d’exécution convenu de l’opération.</p>
+    <p>Il est résilié automatiquement à la fin de l’opération et après paiement des frais liés à son exécution.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 4 : RÉMUNÉRATION</h5>
+    <p>Le présent accord est consenti et accepté moyennent une rémunération forfaitaire de <span th:text="${remuneration}">564.0</span> dinars tunisiens hors taxe.</p>
+    <p>Il est entendu que les prix de transport sont fixés en commun accord entre le prestataire et le client.</p>
+    <p>Le paiement doit se faire, au plus tard, 10 jours suivants l’exécution de l’opération sauf accord contraire conjoint et par écrit entre les deux parties.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 5 : CONFIDENTIALITÉ</h5>
+    <p>Les deux parties s‘engagent par le présent contrat de prendre toutes les dispositions nécessaires pour que les informations commerciales et techniques demeurent confidentielles.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 6 : LITIGE</h5>
+    <p>Tout litige qui intervient dans les relations entre l’une des deux parties sera réglé à l’amiable. A défaut de trouver une solution, les tribunaux de Tunis 1 seront les seuls compétents.</p>
+</div>
+
+
+<div class="section">
+    <p><strong>Fait à Tunis, by XsupplY, le </strong> <span th:text="${contractDate}"></span></p>
+</div>
+
+<div class="signature-container">
+    <div class="signature-block left">
+        <p th:if="${clientIsCompany}"><strong>Le Client</strong> <span th:text="${clientCompany}"></span></p>
+        <p th:if="${!clientIsCompany}"><strong>Le Client</strong> personne physique <span th:text="${shipperCivility}"></span> <span th:text="${clientName}"></span></p>
+        <p th:if="${clientIsCompany}">Représentée par <span th:text="${shipperCivility}"></span> <span th:text="${clientRepresentative}"></span></p>
+
+        <img th:if="${clientSignature != null}" th:src="${clientSignature}" alt="Client Signature" style="width: 150px; height: 50px;"/>
+    </div>
+
+    <div class="signature-block right">
+        <p th:if="${providerIsCompany}"><strong>Le Prestataire</strong> <span th:text="${providerCompany}"></span></p>
+        <p th:if="${!providerIsCompany}"><strong>Le Prestataire</strong> personne physique <span th:text="${carrierCivility}"></span> <span th:text="${providerName}"></span></p>
+        <p th:if="${providerIsCompany}">Représentée par <span th:text="${carrierCivility}"></span> <span th:text="${providerRepresentativeName}"></span></p>
+
+        <img th:if="${providerSignature != null}" th:src="${providerSignature}" alt="Provider Signature" style="width: 150px; height: 50px;"/>
+    </div>
+</div>
+<div style="position: fixed; bottom: 0mm; left: 0; right: 0; text-align: center;">
+    <img
+            th:src="${logoBase64}"
+            alt="XSupply Logo"
+            style="width: 100px; height: auto; display: inline-block;"
+    />
+</div>
+</body>
+</html>

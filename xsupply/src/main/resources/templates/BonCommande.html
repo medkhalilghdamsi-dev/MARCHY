@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="fr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Confirmation de Commande de Service de Transport</title>
+        <style type="text/css">
+            @page {
+                size: A4;
+                margin: 10mm 15mm;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                font-size: 11px;
+                line-height: 1.2;
+            }
+
+            h2 {
+                color: #2c3e50;
+                border-bottom: 1px solid #2c3e50;
+                padding-bottom: 5px;
+                font-size: 16px;
+                margin: 8px 0;
+                text-align: center;
+            }
+
+            .section {
+                margin-bottom: 12px;
+            }
+
+            .section-title {
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #34495e;
+                font-size: 12px;
+            }
+
+            p {
+                margin: 4px 0;
+            }
+
+            .contact-info {
+                margin-top: 30px;
+            }
+        </style>
+    </head>
+    <body>
+    <h2>CONFIRMATION DE COMMANDE DE SERVICE DE TRANSPORT</h2>
+
+    <div class="section">
+        <p th:text="${introCarrier}"></p>
+        <br/>
+        <p> Félicitations ! </p>
+        <p th:text="${introShipper}">
+        </p>
+    </div>
+    <p><strong>Transport Request #<span th:text="${requestId}"></span> details:</strong></p>
+
+    <div class="section">
+        <div class="section-title">Description de la Demande : </div>
+        <p><span th:text="${requestDescription}"></span></p>
+    </div>
+    <div class="section">
+        <div class="section-title">Mode de Transport et Détails du Fret : </div>
+        <p>Mode de Transport : <span th:text="${transportMode}"></span></p>
+        <p>Provient d'un entrepôt sous douane ? : <span th:text="${fromBondedWarehouseStatus}"></span></p>
+        <p th:if="${transportMode == 'LAND'}">Type de camion souhaité : <span th:text="${truckType}"></span></p>
+        <p th:if="${transportMode == 'SEA'}">Type de Conteneur : <span th:text="${containerType}"></span></p>
+        <p th:if="${transportMode == 'SEA'}">Dédouanement requis ? : <span th:text="${customClearance}"></span></p>
+        <p th:if="${transportMode == 'AIR'}">Dédouanement requis ? : <span th:text="${customClearance}"></span></p>
+
+    </div>
+
+    <div class="section">
+        <div class="section-title">Lieux de Chargement et de Déchargement : </div>
+        <p>Point de Départ / de Chargement : <span th:text="${startingPoint}"></span></p>
+        <p>Point de Destination / de Déchargement : <span th:text="${destinationPoint}"></span></p>
+    </div>
+    <div class="section">
+        <div class="section-title">Fréquence et Occurrences : </div>
+        <p> <span th:text="${frequencyIntro}"></span></p>
+        <p th:if="${!isFrequent}">Date de Départ : <span th:text="${departureDate}"></span></p>
+        <p th:if="${isFrequent}">Type de fréquence : <span th:text="${frequencyType}"></span></p>
+
+        <div th:if="${isFrequent}">
+            <p><strong>Liste des Dates de Transport :</strong></p>
+            <ul>
+                <li th:each="date : ${occurrenceDates}" th:text="${date}"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Détails du Produit : </div>
+        <p>Description du Produit : <span th:text="${productDescription}"></span></p>
+        <p>Type de Produit : <span th:text="${productType}"></span></p>
+        <p>Fiche de Données de Sécurité (FDS) : <span th:text="${fds}"></span></p>
+
+        <p>Fiche Technique : <span th:text="${ficheTechnique}"></span></p>
+        <p>Gerbable : <span th:text="${stackable}"></span></p>
+        <p>Le produit nécessite-t-il une température stable ou contrôlée ? : <span th:text="${controlledTemperatureString}"></span></p>
+        <p th:if="${controlledTemperatureBoolean}">
+            Température Minimale et Maximale :
+            <span th:text="'Min: ' + ${minTemp} + '°C, Max: ' + ${maxTemp} + '°C'"></span>
+        </p>
+        <p>Type d'Emballage : <span th:text="${packagingType}"></span></p>
+        <p>Dimensions du Produit (par emballage) :
+            <span th:text="'Hauteur : ' + ${height} + ' cm, Largeur : ' + ${width} + ' cm, Longueur : ' + ${length} + ' cm'"></span>
+        </p>
+        <p>Poids (par emballage) : <span th:text="${weight}"></span></p>
+        <p>Quantité : <span th:text="${quantity}"></span></p>
+        <p>Poids Brut Total : <span th:text="${grossWeight}"></span></p>
+        <p>Poids Net Total : <span th:text="${netWeight}"></span></p>
+        <p>Prix : <span th:text="${price}"></span></p>
+
+
+    </div>
+
+
+    <div class="section contact-info">
+        <div class="section-title">Vous pouvez joindre le client :</div>
+        <p>Par téléphone ou whatsapp sur le numéro : <span th:text="${shipperPhone}"></span></p>
+        <p>Par email sur : <span th:text="${shipperEmail}"></span></p>
+        <p>Votre contact principal s’appelle : <span th:text="${shipperName}"></span></p>
+    </div>
+
+    <div style="position: fixed; bottom: 0mm; left: 0; right: 0; text-align: center;">
+        <img
+                th:src="${logoBase64}"
+                alt="XSupply Logo"
+                style="width: 100px; height: auto; display: inline-block;"
+        />
+    </div>
+
+
+
+    </body>
+    </html>

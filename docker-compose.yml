@@ -1,0 +1,109 @@
+# Docker Compose 
+version: '3.3'
+
+# Define servicesss
+services:
+  # Backend service (xsupply - Spring Boot)
+  xsupply2-back:
+    build: ./xsupply
+    image: xsupply2_back
+    ports:
+      - "10004:10004" 
+    container_name: xsupply2_back_cont
+    restart: always
+    depends_on:
+      - xsupplydb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://xsupplydb:3306/marchi_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: xsupp2
+      SPRING_DATASOURCE_PASSWORD: XsuPmlN19HJL
+    volumes:
+      - xsupply2_uploads:/app/uploads
+    networks:
+      - xsupply2_network
+
+     
+
+  # Frontend Service (Marchi Front - React/Vite)
+  marchi-front:
+    build: "./Marchi Front"
+    image: marchi_front
+    container_name: marchi_front_cont
+    ports:
+      - "5173:80"
+    restart: always
+    depends_on:
+      - xsupply2-back
+    networks:
+      - xsupply2_network
+
+  # Legacy Frontend Service 
+  xsupply2-front:
+    image: xsupply2_front
+    container_name: xsupply2_front_cont
+    ports:
+      - "10005:80" 
+    restart: always
+    depends_on:
+      - xsupply2-back
+    networks:
+      - xsupply2_network
+
+
+  # landing Service 
+  xsupply2-landing:
+    image: xsupply2_landing
+    container_name: xsupply2_landing_cont
+    ports:
+      - "10007:80" 
+    restart: always
+    depends_on:
+      - xsupply2-back
+      - xsupply2-front
+    networks:
+      - xsupply2_network
+
+
+  # Database Service (Mysql)
+  xsupplydb:
+    image: mysql:latest
+    container_name: xsupply2_bd_cont
+    volumes:
+      - xsupply2_data:/var/lib/mysql 
+    restart: always
+    environment:
+      MYSQL_DATABASE: xsupply2-db
+      MYSQL_USER: xsupp2
+      MYSQL_PASSWORD: XsuPmlN19HJL
+      MYSQL_ROOT_PASSWORD: Root125Xsupp
+    networks:
+      - xsupply2_network
+
+
+  # Database Service (Mysql)
+  phpmyadmin2:
+    image: phpmyadmin
+    container_name: xsupply2_pmadmin_cont
+    restart: always
+    depends_on:
+      - xsupplydb
+    ports:
+      - 10006:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - xsupply2_network
+
+
+# Volumes to be created to persist data  
+volumes:
+  #bd
+  xsupply2_data:
+  #uploads
+  xsupply2_uploads:
+# Networks to be created to facilitate communication between containers
+networks:
+  xsupply2_network:
+  
+
+
