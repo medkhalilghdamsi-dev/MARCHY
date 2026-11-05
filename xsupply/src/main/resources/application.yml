@@ -1,0 +1,48 @@
+spring:
+  profiles:
+    active: dev
+#    active: @spring.profiles.active@
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+
+
+
+  mail:
+    host: ssl0.ovh.net
+    port: 587
+    username: support2@smart-it-partner.com
+    password: SIzFmGvMgADxt1THVDzF
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enabled: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+
+springdoc:
+  default-produces-media-type: application/json
+  
+
+server:
+  servlet:
+    context-path: /api/v1/
+  tomcat:
+    max-swallow-size: 50MB
+    max-http-form-post-size: 50MB

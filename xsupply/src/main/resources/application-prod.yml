@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/marchi_db?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+  backend:
+    base-url: http://xsupply2.smart-it-partner.com:10004
+  mailing:
+    backend:
+      base-url: http://xsupply2.smart-it-partner.com:10004/api/v1/
+  file:
+    uploads:
+      photos-output-path: ./uploads
+  frontend:
+    url: http://xsupply2.smart-it-partner.com:10005
+    url2: http://xsupply2.smart-it-partner.com:10007
+
+    login:
+      url: http://xsupply2.smart-it-partner.com:10005/login
+    new-password:
+      url: http://xsupply2.smart-it-partner.com:10005/login
+    signup:
+      url: http://xsupply2.smart-it-partner.com:10005/signup
+
+server:
+  port: 10004

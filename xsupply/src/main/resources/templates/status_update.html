@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Status Update | XsupplY</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f8fafc;">
+    <tr>
+        <td align="center" style="padding: 20px 0;">
+            <!-- Main Container -->
+            <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; border-radius: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); max-width: 600px; margin: 0 auto;">
+                <tr>
+                    <td style="padding: 40px;">
+                        <!-- Header with Logo -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td align="center" style="padding-bottom: 32px; border-bottom: 1px solid #e2e8f0;">
+                                    <img src="cid:xsupplyLogo" alt="XsupplY Logo" style="max-width: 180px; height: auto;">
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Status Header -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td style="padding: 32px 0 24px 0;">
+                                    <h1 style="margin: 0; font-size: 24px; color: #1e293b; font-weight: 600;">Booking Status Update</h1>
+                                    <p style="margin: 8px 0 0 0; color: #475569; font-size: 16px;">
+                                        Booking ID: <span th:text="${bookingNumber}">[BookingNumber]</span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Status Card -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f8fafc; border-radius: 16px; padding: 24px; margin-bottom: 32px;">
+                            <tr>
+                                <td align="center">
+                                    <h2 style="margin: 0 0 16px 0; font-size: 20px; color: #1e293b;" th:text="${emailSubject}">[Subject]</h2>
+                                    <p style="margin: 0; color: #475569; line-height: 24px;" th:text="${emailContent}">[Content]</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Booking Details -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 32px;">
+                            <tr>
+                                <td>
+                                    <h3 style="margin: 0 0 16px 0; font-size: 18px; color: #1e293b;">Booking Details</h3>
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                        <tr>
+                                            <td width="120" style="color: #64748b; padding: 8px 0;">Shipper:</td>
+                                            <td style="padding: 8px 0;" th:text="${shipperName}">[ShipperName]</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: #64748b; padding: 8px 0;">Carrier:</td>
+                                            <td style="padding: 8px 0;" th:text="${carrierName}">[CarrierName]</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: #64748b; padding: 8px 0;">From:</td>
+                                            <td style="padding: 8px 0;" th:text="${startingPoint}">[StartingPoint]</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: #64748b; padding: 8px 0;">To:</td>
+                                            <td style="padding: 8px 0;" th:text="${destinationPoint}">[DestinationPoint]</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: #64748b; padding: 8px 0;">Current Status:</td>
+                                            <td style="padding: 8px 0; font-weight: 500; color: #1966FF;" th:text="${currentStatus}">[CurrentStatus]</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Action Button -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td align="center" style="padding: 16px 0 32px 0;">
+                                    <table border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center" style="border-radius: 32px;" bgcolor="#1966FF">
+                                                <a th:href="${url}" style="padding: 16px 32px; color: #ffffff; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-block; border-radius: 32px; background-color: #1966FF;">
+                                                    View Booking Details →
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Footer -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top: 1px solid #e2e8f0;">
+                            <tr>
+                                <td align="center" style="padding-top: 32px;">
+                                    <p style="margin: 0; color: #64748b; font-size: 14px;">Need help with your booking?</p>
+                                    <p style="margin: 16px 0 0 0; color: #64748b; font-size: 14px;">Contact our support team at <a href="mailto:support@xsupply.com" style="color: #1966FF; text-decoration: none;">support@xsupply.com</a></p>
+                                    <p style="margin: 24px 0 0 0; color: #64748b; font-size: 14px;">© 2024 XsupplY. All rights reserved.</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

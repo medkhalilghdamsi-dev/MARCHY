@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>TRANSPORT SERVICE CONTRACT</title>
+    <style>
+        @page { size: A4; margin: 15mm; }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 11px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 1px solid #2c3e50;
+            padding-bottom: 5px;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        h5 {
+            color: #34495e;
+            margin: 6px 0;
+            font-size: 12px;
+        }
+
+        p {
+            margin: 4px 0;
+            font-size: inherit;
+        }
+
+        .section {
+            margin-bottom: 12px;
+        }
+
+        .signature-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .signature-block {
+            width: 45%;
+            text-align: center;
+        }
+
+        .signature-block img {
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .compact p {
+            margin-bottom: 8px;
+        }
+
+        .right-align {
+            text-align: right;
+        }
+
+        .signature-block.left { float: left; }
+        .signature-block.right { float: right; }
+
+        * {
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h2>TRANSPORT SERVICE CONTRACT</h2>
+
+<!-- Client Section -->
+<div class="section">
+    <p><strong><u>BETWEEN:</u></strong></p>
+    <p th:if="${!clientIsCompany}">
+        <span th:text="${clientName}">Client Name</span>,
+        <span th:if="${clientCin != null}"> holding the national ID card number <span th:text="${clientCin}"></span></span>
+    </p>
+
+    <p th:if="${clientIsCompany}">
+        <span th:text="${clientRepresentative}">Representative Name</span>,
+        <span th:if="${clientCompany != null}"> from the company <span th:text="${clientCompany}"></span></span>
+        <span th:if="${clientCapital != null}"> with a capital of <span th:text="${clientCapital}"></span></span>
+        <span th:if="${clientAddress != null}">, headquartered at <span th:text="${clientAddress}"></span></span>
+        <span th:if="${clientId != null}">, having the unique identifier <span th:text="${clientId}"></span></span>
+        <span th:if="${clientRepresentative != null}">, represented by its CEO <span th:text="${shipperCivility}"></span> <span th:text="${clientRepresentative}"></span> duly authorized for the purposes hereof</span>
+    </p>
+    <p class="right-align">- hereinafter referred to as <strong>“The Client”</strong></p>
+</div>
+
+<!-- Provider Section -->
+<div class="section">
+    <p><strong><u>AND:</u></strong></p>
+    <p th:if="${!providerIsCompany}">
+        <span th:text="${providerName}">Provider Name</span>,
+        <span th:if="${providerCin != null}"> holding the national ID card number <span th:text="${providerCin}"></span></span>
+    </p>
+
+    <p th:if="${providerIsCompany}">
+        <span th:text="${providerRepresentativeName}">Representative Name</span>,
+        <span th:if="${providerCompany != null}"> from the company <span th:text="${providerCompany}"></span></span>
+        <span th:if="${providerCapital != null}"> with a capital of <span th:text="${providerCapital}"></span></span>
+        <span th:if="${providerAddress != null}">, headquartered at <span th:text="${providerAddress}"></span></span>
+        <span th:if="${providerId != null}">, having the unique identifier <span th:text="${providerId}"></span></span>
+        <span th:if="${providerRepresentativeName != null}">, represented by its CEO <span th:text="${carrierCivility}"></span> <span th:text="${providerRepresentativeName}"></span> duly authorized for the purposes hereof</span>
+    </p>
+    <p class="right-align">- hereinafter referred to as <strong>“The Provider”</strong></p>
+</div>
+
+<div class="section">
+    <h5>PREAMBLE:</h5>
+    <p>- Whereas the Provider has the necessary means to perform the requested service</p>
+    <p>- Whereas the Client has expressed their intention to outsource the requested service</p>
+    <p>- Whereas both parties have reached an agreement and the terms have been defined on the XsupplY platform</p>
+</div>
+
+<div class="section">
+    <h4><strong>IT HAS BEEN AGREED AND DECIDED AS FOLLOWS</strong></h4>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 1: PURPOSE OF THIS CONTRACT</h5>
+    <p>This contract concerns the transportation operation agreed between the Client and the Provider on the XsupplY platform.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 2: COMMITMENTS</h5>
+    <p><strong>Commitment of the owner of the transport means:</strong></p>
+    <p>The transport owner declares full knowledge of the current regulations applicable to the transportation and handling of goods.</p>
+    <p>The transport owner expressly acknowledges having all the required authorizations to carry out their activity and agrees to renew them regularly.</p>
+    <p>In the event of failure to renew their license or ceasing activity for any reason, they will immediately inform their client.</p>
+    <p><strong>Client’s commitment:</strong></p>
+    <p>The Client agrees to give priority to the transportation means covered by this contract for executing the requested transport operation and to ensure the necessary conditions for its execution.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 3: EFFECTIVE DATE / DURATION / TERMINATION</h5>
+    <p>This agreement takes effect from the date of signature by both parties.</p>
+    <p>It is valid for the period required to complete the agreed transport operation.</p>
+    <p>It automatically terminates upon completion of the operation and after payment of the related fees.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 4: COMPENSATION</h5>
+    <p>This agreement is granted and accepted in return for a flat-rate compensation of <span th:text="${remuneration}">564.0</span> Tunisian dinars excluding tax.</p>
+    <p>It is understood that transportation prices are set by mutual agreement between the Provider and the Client.</p>
+    <p>Payment must be made no later than 10 days following completion of the operation, unless otherwise agreed in writing by both parties.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 5: CONFIDENTIALITY</h5>
+    <p>Both parties agree under this contract to take all necessary steps to ensure that commercial and technical information remains confidential.</p>
+</div>
+
+<div class="section">
+    <h5>ARTICLE 6: DISPUTE</h5>
+    <p>Any dispute arising between the parties shall be settled amicably. Failing that, the courts of Tunis 1 shall have exclusive jurisdiction.</p>
+</div>
+
+<div class="section">
+    <p><strong>Signed in Tunis, by XsupplY, on </strong> <span th:text="${contractDate}"></span></p>
+</div>
+
+<div class="signature-container">
+    <div class="signature-block left">
+        <p th:if="${clientIsCompany}"><strong>The Client</strong> <span th:text="${clientCompany}"></span></p>
+        <p th:if="${!clientIsCompany}"><strong>The Client</strong>, natural person <span th:text="${shipperCivility}"></span> <span th:text="${clientName}"></span></p>
+        <p th:if="${clientIsCompany}">Represented by <span th:text="${shipperCivility}"></span> <span th:text="${clientRepresentative}"></span></p>
+        <img th:if="${clientSignature != null}" th:src="${clientSignature}" alt="Client Signature" style="width: 150px; height: 50px;"/>
+    </div>
+
+    <div class="signature-block right">
+        <p th:if="${providerIsCompany}"><strong>The Provider</strong> <span th:text="${providerCompany}"></span></p>
+        <p th:if="${!providerIsCompany}"><strong>The Provider</strong>, natural person <span th:text="${carrierCivility}"></span> <span th:text="${providerName}"></span></p>
+        <p th:if="${providerIsCompany}">Represented by <span th:text="${carrierCivility}"></span> <span th:text="${providerRepresentativeName}"></span></p>
+        <img th:if="${providerSignature != null}" th:src="${providerSignature}" alt="Provider Signature" style="width: 150px; height: 50px;"/>
+    </div>
+</div>
+
+<div style="position: fixed; bottom: 0mm; left: 0; right: 0; text-align: center;">
+    <img
+            th:src="${logoBase64}"
+            alt="XSupply Logo"
+            style="width: 100px; height: auto; display: inline-block;"
+    />
+</div>
+</body>
+</html>

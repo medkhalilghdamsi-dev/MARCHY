@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Activation Result Page for XsupplY">
+    <title>Activation Result | XsupplY</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, h1, h2, p, a {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Global Styles */
+        body {
+            background-color: #f9fafb;
+            color: #111827;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 40px;
+            margin: 20px;
+        }
+
+        .icon {
+            margin-bottom: 24px;
+        }
+
+        .icon img {
+            width: 200px; /* Taille du logo augmentée */
+            height: auto; /* Conserve les proportions */
+            display: block;
+            margin: 0 auto;
+        }
+
+        .content h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #111827;
+        }
+
+        .content h2 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: #4b5563;
+        }
+
+        .content p {
+            color: #4b5563;
+            margin-bottom: 24px;
+            font-size: 16px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1966FF;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #1456cc;
+        }
+
+        .footer {
+            margin-top: 32px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #1966FF;
+            text-decoration: none;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        .success {
+            color: #16a34a;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            .icon img {
+                width: 150px; /* Taille du logo réduite pour les petits écrans */
+            }
+
+            .content h1 {
+                font-size: 24px;
+            }
+
+            .content h2 {
+                font-size: 18px;
+            }
+
+            .content p {
+                font-size: 14px;
+            }
+
+            .button {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            .footer {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Container principal -->
+<div class="container">
+    <!-- Icon -->
+    <div class="icon">
+        <img th:src="@{/xsupply.png}" alt="XsupplY Logo">
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <h1>Activation Result</h1>
+        <h2>Smart Routes For Your Goods</h2>
+        <div th:if="${success}" class="success">
+            <p>Your email has been successfully verified.</p>
+            <p>You can now <a th:href="${frontendLoginUrl}" class="button">Log in</a> to your account.</p>        </div>
+        <div th:unless="${success}" class="error">
+            <p>Activation token has expired. A new token has been sent to the same email address.</p>
+            <p>Please try again or contact our support team at <a href="mailto:support@xsupply.com">support@xsupply.com</a>.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Need help? Contact our support team at <a href="mailto:support@xsupply.com">support@xsupply.com</a>.</p>
+    </div>
+</div>
+</body>
+</html>

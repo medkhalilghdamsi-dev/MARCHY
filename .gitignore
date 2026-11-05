@@ -1,9 +1,16 @@
-node_modules
-dist
-.env
-.env.*
-!.env.example
-.DS_Store
-test-results
-playwright-report
-*.log
+#root
+/node_modules/
+/package-lock.json
+
+#back
+/xsupply/target/
+/xsupply/.idea/
+/xsupply/uploads/
+
+#front (Marchi Front - React/Vite)
+/Marchi Front/dist/
+/Marchi Front/node_modules/
+/Marchi Front/.env
+
+#front (legacy - ignored)
+/xsupply-front/
