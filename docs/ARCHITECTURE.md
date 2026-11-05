@@ -60,6 +60,8 @@ Pages should use hooks/services for state. Do not introduce new direct localStor
 
 ## CSS architecture and cascade
 
+See [CSS_ARCHITECTURE.md](./CSS_ARCHITECTURE.md) for selector inventory, stylesheet ownership and the safe extraction process. Run `npm run audit:css` before changing cross-layer rules.
+
 Global styles enter through `src/styles.css`. Import order is intentional; later layers can refine or override earlier layers:
 
 1. `base.css` — font faces, tokens, reset and base components.
