@@ -75,6 +75,8 @@ export function Header({ cartCount }) {
       return updated
     })
   }
+  function navIsActive(path) { return location.pathname === path || (path !== '/' && location.pathname.startsWith(`${path}/`)) }
+
   function submit(e) {
     e.preventDefault()
     rememberSearch(query)
@@ -96,6 +98,9 @@ export function Header({ cartCount }) {
           onChange={e => { setQuery(e.target.value); setSearchOpen(true) }}
           placeholder="Search products, brands and local finds…"
           aria-label="Search products"
+          aria-expanded={searchOpen}
+          aria-controls="global-search-suggestions"
+          aria-autocomplete="list"
         />
         <button type="submit">Search</button>
         {searchOpen && <div className="global-search-suggestions" id="global-search-suggestions">
@@ -149,10 +154,10 @@ export function Header({ cartCount }) {
     </div>
     <nav id="primary-navigation" aria-label="Primary navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}>
       <div className="shell nav-inner" onClick={() => setMenuOpen(false)}>
-        <Link to="/categories"><LayoutGrid size={16}/><b>Shop by category</b></Link>
-        {categories.slice(1, 5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`}>{c}</Link>)}
-        <Link to="/sellers">Sellers</Link>
-        <Link className="nav-deal" to="/search?deal=true">Deals of the day <ArrowRight size={15}/></Link>
+        <Link to="/categories" aria-current={navIsActive("/categories") ? "page" : undefined}><LayoutGrid size={16}/><b>Shop by category</b></Link>
+        {categories.slice(1, 5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`} aria-current={navIsActive(`/category/${c.toLowerCase()}`) ? "page" : undefined}>{c}</Link>)}
+        <Link to="/sellers" aria-current={navIsActive("/sellers") ? "page" : undefined}>Sellers</Link>
+        <Link className="nav-deal" to="/search?deal=true" aria-current={location.search.includes("deal=true") ? "page" : undefined}>Deals of the day <ArrowRight size={15}/></Link>
       </div>
     </nav>
     </header>
