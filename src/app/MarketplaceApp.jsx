@@ -40,7 +40,7 @@ function App(){
       const seller=sellers.find(item=>item.slug===slug)
       title=seller?seller.name:'Seller storefront'
     }else{
-      const titles={'/cart':'Shopping cart','/checkout':'Checkout preview','/wishlist':'Saved products','/categories':'Browse categories','/sellers':'Discover sellers','/account':'Your account','/login':'Sign in','/signup':'Create account','/help':'Help centre','/delivery':'Delivery guide','/returns':'Returns guide','/seller-help':'Seller preparation guide','/sell':'Sell on MARCHY','/seller-dashboard':'Seller workspace','/operations/delivery':'Delivery operations','/admin':'Platform overview'}
+      const titles={'/cart':'Shopping cart','/checkout':'Checkout preview','/wishlist':'Saved products','/categories':'Browse categories','/sellers':'Discover sellers','/account':'Your account','/login':'Sign in','/signup':'Create account','/help':'Help centre','/delivery':'Delivery guide','/returns':'Returns guide','/seller-help':'Seller preparation guide','/sell':'Sell on MARCHY','/seller-dashboard':'Seller workspace','/operations/delivery':'Delivery operations','/admin':'Platform overview','/orders':'Your orders'}
       title=titles[path]||'Page not found'
     }
     document.title=title+' | MARCHY'
