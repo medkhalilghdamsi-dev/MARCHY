@@ -375,7 +375,7 @@ test('buyer account can follow shared demo order status changes', async ({ page 
   await page.getByRole('link', { name: /MC-1048/ }).click()
   await expect(page.getByRole('heading', { name: 'Track MC-1048' })).toBeVisible()
   await expect(page.locator('.buyer-tracking-panel')).toContainText('Ready for pickup')
-  await page.getByRole('link', { name: 'Delivery operations' }).click()
+  await page.getByRole('link', { name: 'Delivery operations', exact: true }).click()
   const deliveryRow = page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })
   await deliveryRow.getByLabel('Status for MC-1048').selectOption('In transit')
   await page.getByRole('link', { name: 'Buyer marketplace' }).click()
