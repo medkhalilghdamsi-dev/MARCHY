@@ -281,3 +281,12 @@ button:disabled{cursor:not-allowed}
 }
 
 
+
+
+/* Prevent RTL tablet filter controls from expanding the document beyond the viewport. */
+@media(min-width:641px) and (max-width:980px){
+ .is-rtl .listing-layout{min-width:0;max-width:100%;overflow-x:clip}
+ .is-rtl .listing-layout>.filters,.is-rtl .listing-layout>.listing-results{min-width:0;max-width:100%}
+ .is-rtl .listing-layout .filters{width:100%;min-width:0}
+ .is-rtl .listing-results .product-grid{min-width:0}
+}
