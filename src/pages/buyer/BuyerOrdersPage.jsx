@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { money } from '../../utils/marketplace'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { useMarketplace } from '../../providers/MarketplaceContext'
@@ -10,6 +10,9 @@ export function BuyerOrdersPage(props) {
   const { language: ctxLanguage } = useMarketplace()
   const language = props?.language || ctxLanguage
   const { orders } = useDemoOrders()
+  const location = useLocation()
+  const createdOrderIds = Array.isArray(location.state?.justCreatedOrderIds) ? location.state.justCreatedOrderIds : []
+  const createdOrders = orders.filter(order => createdOrderIds.includes(order.id))
   const [filter, setFilter] = useState('All')
   const [query, setQuery] = useState('')
   const visible = orders.filter(order =>
@@ -19,6 +22,7 @@ export function BuyerOrdersPage(props) {
   return translateTree(<main id="main-content" className="shell page buyer-orders-page">
     <div className="breadcrumbs"><Link to="/">Home</Link> / <Link to="/account">Account</Link> / <span>Orders</span></div>
     <header className="buyer-orders-heading"><div><span className="eyebrow">YOUR MARCHY ACTIVITY</span><h1>Your orders</h1><p>Review sample purchases and follow each merchant order through delivery.</p></div><span className="ops-demo-label">DEMO DATA · NOT LIVE</span></header>
+    {createdOrders.length > 0 && <section className="buyer-order-success" role="status" aria-live="polite"><div><span className="buyer-order-success-icon">✓</span><div><b>{createdOrders.length === 1 ? 'Your demo order is ready to track' : `${createdOrders.length} demo orders are ready to track`}</b><p>{createdOrders.length === 1 ? 'Your basket was converted into a sample order on this device.' : 'Because your basket used multiple sellers, MARCHY created one sample order for each seller.'}</p></div></div><div>{createdOrders.map(order => <Link key={order.id} to={'/orders/' + order.id} className="outline-btn">Track {order.id} →</Link>)}</div></section>}
     <div className="buyer-orders-toolbar">
       <label>Search orders<input value={query} onChange={event => setQuery(event.target.value)} placeholder="Order ID, seller or city"/></label>
       <label>Order status<select value={filter} onChange={event => setFilter(event.target.value)}><option value="All">All</option>{statuses.map(status=><option key={status} value={status}>{translateText(status, language)}</option>)}</select></label>
