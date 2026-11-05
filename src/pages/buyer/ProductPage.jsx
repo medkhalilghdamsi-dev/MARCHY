@@ -8,6 +8,7 @@ import { ProductCard } from '../../components/marketplace/ProductCard'
 import { ProductReviews } from '../../components/marketplace/ProductReviews'
 import { ProductSpecs } from '../../components/marketplace/ProductSpecs'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { ArrowRight, ArrowUpRight, Check, Heart, MapPin, Plus, Share2, Search, ShoppingCart } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
 export function ProductPage() {
@@ -75,7 +76,7 @@ export function ProductPage() {
     const previous = readJson('marchy-recently-viewed', [])
     writeJson('marchy-recently-viewed', [product.id, ...previous.filter(item => item !== product.id)].slice(0, 8))
   }, [product?.id])
-  if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span>⌕</span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
+  if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span><Search size={22}/></span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace →</Link></main>, language)
   const seller = sellerForProduct(product)
   const galleryImages = [...new Set([...(Array.isArray(product.images) ? product.images : []), product.image].filter(Boolean))]
   const displayedImage = galleryImages.includes(activeImage) ? activeImage : galleryImages[0]
@@ -126,7 +127,7 @@ export function ProductPage() {
         <div className="product-visual-note"><span>ⓘ</span><p>Images and listing information are provided as demonstration content. Confirm the exact item with the seller before ordering.</p></div>
       </section>
       <section className="product-buy-panel">
-        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare}>{isCompared?'✓ Compared':'＋ Compare'}</button><button type="button" className="product-share-button" onClick={handleShare}>↗ Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/search">Open comparison</Link></p>}
+        <div className="product-buy-topline"><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`} className="product-category-pill">{product.category}</Link><div className="product-topline-actions"><span className="sample-status">Sample listing</span><button type="button" className={`product-compare-button ${isCompared?'is-compared':''}`} aria-pressed={isCompared} onClick={toggleProductCompare} >{isCompared?<><Check size={14}/> Compared</>:<><Plus size={14}/> Compare</>}</button><button type="button" className="product-share-button" onClick={handleShare}><Share2 size={15}/> Share</button></div></div>{shareFeedback&&<p className="product-share-feedback" role="status">{shareFeedback}</p>}{compareFeedback&&<p className="product-compare-feedback" role="status">{compareFeedback} · <Link to="/search">Open comparison</Link></p>}
         <h1>{product.name}</h1>
         <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
         <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
@@ -162,8 +163,8 @@ export function ProductPage() {
               <output id="product-quantity" aria-label="Selected quantity" aria-live="polite">{qty}</output>
               <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => setQty(v => Math.min(99, v + 1))}>＋</button>
             </div>
-            <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
-            <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={handleToggleWish}>{saved ? '♥' : '♡'}</button>
+            <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? <><Check size={16}/> Added to cart</> : <><ShoppingCart size={16}/> Add to cart</>}</button>
+            <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={handleToggleWish}>{saved ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/ >}</button>
           </div>
           <div className="product-quantity-summary" aria-live="polite">
             <span>{qty} {qty === 1 ? 'item' : 'items'} selected{selectedVariant ? ` (${selectedVariant})` : ''}</span>
@@ -174,16 +175,16 @@ export function ProductPage() {
         <section className="product-seller-card" aria-label="Seller information">
           <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
           <div className="product-seller-copy"><small>Local seller · {seller.city}</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Sample storefront</span></div>
-          <Link to={`/seller/${seller.slug}`}>Visit shop <span>→</span></Link>
+          <Link to={`/seller/${seller.slug}`}>Visit shop <span><ArrowRight size={15}/></span></Link>
         </section>
         <section className="product-trust-panel" aria-label="Buyer confidence information">
           <div className="product-trust-heading"><b>Shop with clarity</b><span>Preview information</span></div>
-          <div><span className="trust-check">✓</span><p><b>Payment options</b><small>Payment methods shown here are previews and are not connected to a live payment provider.</small></p></div>
+          <div><span className="trust-check"><Check size={15}/></span><p><b>Payment options</b><small>Payment methods shown here are previews and are not connected to a live payment provider.</small></p></div>
           <div><span className="trust-check">✓</span><p><b>Seller contact</b><small>Messaging and seller contact are not connected in this frontend preview.</small></p></div>
           <div><span className="trust-check">✓</span><p><b>Returns and exchanges</b><small>Confirm the return window, eligibility and process with the seller before ordering.</small></p></div>
         </section>
         <section className="product-delivery-card" aria-label="Delivery information">
-          <span className="delivery-symbol">⌖</span>
+          <span className="delivery-symbol"><MapPin size={18}/></span>
           <div>
             <b>Delivery confirmed before ordering</b>
             <p>Delivery coverage, courier fees and arrival estimates are not connected to live seller or courier services in this frontend preview. The seller must confirm the available service and final cost before an order is placed.</p>
@@ -202,13 +203,13 @@ export function ProductPage() {
       <article className="product-information-card product-order-checklist">
         <span className="eyebrow">BEFORE YOU ORDER</span><h2>Confirm these details with the seller</h2>
         <ul>{sellerQuestions.map(question=><li key={question}>{question}</li>)}</ul>
-        <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront →</Link>
+        <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront <ArrowRight size={15}/></Link>
       </article>
     </section>
     <ProductReviews product={product} />
-    {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>Discover more products</h2><p className="muted">More from this category and other corners of the marketplace.</p></div><Link to="/search" className="text-link">Explore marketplace →</Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language} returnTo={location.pathname}/>)}</div></section>}
+    {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>Discover more products</h2><p className="muted">More from this category and other corners of the marketplace.</p></div><Link to="/search" className="text-link">Explore marketplace <ArrowRight size={15}/></Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language} returnTo={location.pathname}/>)}</div></section>}
     {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={displayedImage} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
-    <div className="product-mobile-buybar"><div className="mobile-buybar-total"><small>Subtotal · {qty} {qty === 1 ? 'item' : 'items'}</small><b>{money(product.price * qty)}</b></div><div className="mobile-buybar-actions"><div className="quantity mobile-buybar-quantity" role="group" aria-label="Mobile quantity"><button type="button" aria-label="Decrease quantity" disabled={qty<=1} onClick={()=>setQty(value=>Math.max(1,value-1))}>−</button><output aria-label="Mobile selected quantity">{qty}</output><button type="button" aria-label="Increase quantity" disabled={qty>=99} onClick={()=>setQty(value=>Math.min(99,value+1))}>＋</button></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? 'Added ✓' : 'Add to cart'}</button></div></div>
+    <div className="product-mobile-buybar"><div className="mobile-buybar-total"><small>Subtotal · {qty} {qty === 1 ? 'item' : 'items'}</small><b>{money(product.price * qty)}</b></div><div className="mobile-buybar-actions"><div className="quantity mobile-buybar-quantity" role="group" aria-label="Mobile quantity"><button type="button" aria-label="Decrease quantity" disabled={qty<=1} onClick={()=>setQty(value=>Math.max(1,value-1))}>−</button><output aria-label="Mobile selected quantity">{qty}</output><button type="button" aria-label="Increase quantity" disabled={qty>=99} onClick={()=>setQty(value=>Math.min(99,value+1))}>＋</button></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? <><Check size={15}/> Added</> : <><ShoppingCart size={15}/> Add to cart</>}</button></div></div>
   </main>, language)
 }
 
