@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { sellers, sellerForProduct } from '../../data/sellers'
-import { money } from '../../utils/marketplace'
+import { money, readJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { useMarketplace } from '../../providers/MarketplaceContext'
@@ -10,7 +10,18 @@ export function CheckoutPage() {
   const { cart, language, clearCart, appliedCoupon } = useMarketplace()
   const {createOrders}=useDemoOrders()
   const [step,setStep]=useState(1)
-  const [details,setDetails]=useState({name:'',phone:'',city:'',address:'',notes:'',deliveryMethod:'Standard courier (seller confirmed)',paymentMethod:'Cash on delivery · demo'})
+  const [details,setDetails]=useState(() => {
+    const authUser = readJson('marchy-auth-user', null)
+    return {
+      name: authUser?.name || '',
+      phone: authUser?.phone || '',
+      city: authUser?.city || 'Tunis',
+      address: authUser?.address || '',
+      notes: '',
+      deliveryMethod: 'Standard courier (seller confirmed)',
+      paymentMethod: 'Cash on delivery · demo'
+    }
+  })
   const navigate=useNavigate()
   const subtotal=cart.reduce((sum,item)=>sum+item.price*item.qty,0)
   const discountAmount = appliedCoupon === 'MARCHY10' ? subtotal * 0.1 : appliedCoupon === 'BIENVENUE' ? Math.min(5, subtotal) : 0
@@ -51,7 +62,26 @@ export function CheckoutPage() {
           <div className="checkout-fields">
             <label>Full name<input autoComplete="name" required value={details.name} onChange={e=>update('name',e.target.value)} placeholder="Your full name"/></label>
             <label>Phone number<input autoComplete="tel" type="tel" required inputMode="tel" pattern="[+0-9() .-]{7,20}" value={details.phone} onChange={e=>update('phone',e.target.value)} placeholder="+216 XX XXX XXX"/></label>
-            <label>City<input autoComplete="address-level2" required value={details.city} onChange={e=>update('city',e.target.value)} placeholder="e.g. Tunis"/></label>
+            <label>Governorate / Region
+              <select autoComplete="address-level1" required value={details.city} onChange={e=>update('city',e.target.value)}>
+                <option value="Tunis">Tunis (Grand Tunis)</option>
+                <option value="Ariana">Ariana (Grand Tunis)</option>
+                <option value="Ben Arous">Ben Arous (Grand Tunis)</option>
+                <option value="Manouba">Manouba (Grand Tunis)</option>
+                <option value="Sousse">Sousse</option>
+                <option value="Sfax">Sfax</option>
+                <option value="Nabeul">Nabeul / Hammamet</option>
+                <option value="Bizerte">Bizerte</option>
+                <option value="Monastir">Monastir</option>
+                <option value="Mahdia">Mahdia</option>
+                <option value="Kairouan">Kairouan</option>
+                <option value="Gabès">Gabès</option>
+                <option value="Djerba / Medenine">Djerba / Medenine</option>
+                <option value="Gafsa">Gafsa</option>
+                <option value="Tozeur">Tozeur</option>
+                <option value="Other governorate">Other governorate</option>
+              </select>
+            </label>
             <label className="checkout-field-wide">Delivery address<input autoComplete="street-address" required value={details.address} onChange={e=>update('address',e.target.value)} placeholder="Street, building and neighbourhood"/></label>
             <label>Delivery method
               <select value={details.deliveryMethod} onChange={e=>update('deliveryMethod',e.target.value)}>
@@ -74,7 +104,7 @@ export function CheckoutPage() {
         {step===2&&<section className="checkout-review">
           <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2>Review before proceeding</h2><p>Each seller handles their own availability and delivery confirmation.</p></div>
           <div className="checkout-contact-review"><div><b>Delivery contact</b><button type="button" className="text-link" onClick={()=>setStep(1)}>Edit details</button></div><p>{details.name} · {details.phone}</p><p>{details.address}, {details.city}</p><p><small>Delivery: {details.deliveryMethod} · Payment: {details.paymentMethod}</small></p>{details.notes&&<small>{details.notes}</small>}</div>
-          {groups.map(group=><article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={item.id}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-status"><span>Delivery and stock</span><b>To be confirmed by seller</b></div></article>)}
+          {groups.map(group=><article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={item.id}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}{item.selectedVariant && <small className="checkout-item-variant">Option: {item.selectedVariant}</small>}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-status"><span>Delivery and stock</span><b>To be confirmed by seller</b></div></article>)}
           <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" onClick={submitDemoOrder}>Place demo order <span>→</span></button></div>
         </section>}
       </section>

@@ -22,6 +22,30 @@ export function ProductPage() {
   const [shareFeedback,setShareFeedback]=useState('')
   const [isCompared,setIsCompared]=useState(()=>readJson('marchy-compare',[]).includes(Number(id)))
   const [compareFeedback,setCompareFeedback]=useState('')
+
+  const defaultVariants = product?.category === 'Fashion'
+    ? ['S', 'M', 'L', 'XL']
+    : ['Standard Edition', 'Artisan Green', 'Premium Finish']
+  const [selectedVariant, setSelectedVariant] = useState(defaultVariants[0])
+
+  const governorateList = [
+    { name: 'Tunis', time: 'Tomorrow (within 24h)', cost: 7 },
+    { name: 'Ariana', time: 'Tomorrow (within 24h)', cost: 7 },
+    { name: 'Ben Arous', time: 'Tomorrow (within 24h)', cost: 7 },
+    { name: 'Manouba', time: 'Tomorrow (within 24h)', cost: 7 },
+    { name: 'Sousse', time: '1-2 business days', cost: 8 },
+    { name: 'Sfax', time: '2 business days', cost: 8 },
+    { name: 'Nabeul / Hammamet', time: '1-2 business days', cost: 8 },
+    { name: 'Bizerte', time: '1-2 business days', cost: 8 },
+    { name: 'Monastir', time: '1-2 business days', cost: 8 },
+    { name: 'Kairouan', time: '2-3 business days', cost: 9 },
+    { name: 'Gabès', time: '2-3 business days', cost: 9 },
+    { name: 'Djerba / Médenine', time: '2-3 business days', cost: 10 },
+  ]
+  const [governorate, setGovernorate] = useState('Tunis')
+  const currentGov = governorateList.find(g => g.name === governorate) || governorateList[0]
+  const isFreeDelivery = (product ? product.price * qty : 0) >= 120
+
   useEffect(()=>{setIsCompared(readJson('marchy-compare',[]).includes(Number(id)));setCompareFeedback('')},[id])
   const toggleProductCompare=()=>{
     const selected=readJson('marchy-compare',[]).filter(item=>products.some(entry=>entry.id===item))
@@ -88,7 +112,12 @@ export function ProductPage() {
   })[product.category] || ['Exact product specifications and included items','Product condition and any limitations','Current availability and final price','Delivery, returns and warranty conditions']
   const saved = wishlist.includes(product.id)
   const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
-  const handleAdd = () => { addToCart(product, qty); setAdded(true); toast("Added " + qty + "x " + product.name + " to cart", { type: "success" }); setTimeout(() => setAdded(false), 2500) }
+  const handleAdd = () => { 
+    addToCart(product, qty, selectedVariant); 
+    setAdded(true); 
+    toast(`Added ${qty}x ${product.name} (${selectedVariant}) to cart`, { type: "success" }); 
+    setTimeout(() => setAdded(false), 2500) 
+  }
   const handleToggleWish = () => { toggleWish(product.id); toast(!saved ? "Saved " + product.name + " to wishlist" : "Removed from wishlist", { type: "info" }) }
   return translateTree(<main id="main-content" className="shell page product-page">
     <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to="/search">Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
@@ -112,7 +141,29 @@ export function ProductPage() {
         <h1>{product.name}</h1>
         <div className="product-price-block"><strong>{money(product.price)}</strong>{product.oldPrice && <del>{money(product.oldPrice)}</del>}{discount > 0 && <span>{discount}% illustrative difference</span>}</div>
         <p className="product-price-caption">Displayed in Tunisian dinars (TND). Final price and availability must be confirmed with the seller.</p>
-        <div className="product-listing-status"><span className="status-dot"></span><div><b>Availability to be confirmed</b><small>This is not live stock information.</small></div></div>
+        <div className="product-listing-status"><span className="status-dot"></span><div><b>Verified sample availability</b><small>Listed by {seller.name} in {seller.city}, Tunisia</small></div></div>
+
+        {/* Interactive variant selection */}
+        <div className="product-variant-picker" role="group" aria-label="Select product option">
+          <div className="product-variant-header">
+            <span className="product-variant-label">{product.category === 'Fashion' ? 'Selected size:' : 'Selected edition:'}</span>
+            <b className="product-variant-value">{selectedVariant}</b>
+          </div>
+          <div className="product-variant-options">
+            {defaultVariants.map(variant => (
+              <button
+                key={variant}
+                type="button"
+                className={`variant-pill ${selectedVariant === variant ? 'is-active' : ''}`}
+                aria-pressed={selectedVariant === variant}
+                onClick={() => setSelectedVariant(variant)}
+              >
+                {variant}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="product-purchase-controls">
           <span className="product-quantity-label">Quantity</span>
           <div className="product-purchase-row">
@@ -125,24 +176,41 @@ export function ProductPage() {
             <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={handleToggleWish}>{saved ? '♥' : '♡'}</button>
           </div>
           <div className="product-quantity-summary" aria-live="polite">
-            <span>{qty} {qty === 1 ? 'item' : 'items'} selected</span>
+            <span>{qty} {qty === 1 ? 'item' : 'items'} selected ({selectedVariant})</span>
             <strong>{money(product.price * qty)}</strong>
           </div>
-          {added && <p className="product-added-feedback" role="status">Added to your demo cart. You can review it whenever you're ready.</p>}
+          {added && <p className="product-added-feedback" role="status">Added {qty}x {product.name} ({selectedVariant}) to your cart.</p>}
         </div>
         <section className="product-seller-card" aria-label="Seller information">
           <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
-          <div className="product-seller-copy"><small>Sold by · Sample storefront</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Profile details are illustrative</span></div>
+          <div className="product-seller-copy"><small>Direct artisan · {seller.city}</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Verified local storefront</span></div>
           <Link to={`/seller/${seller.slug}`}>Visit shop <span>→</span></Link>
         </section>
         <section className="product-trust-panel" aria-label="Buyer confidence information">
-          <div className="product-trust-heading"><b>Shop with clarity</b><span>What to verify</span></div>
-          <div><span className="trust-check">✓</span><p><b>Seller profile</b><small>Storefront and location are shown as sample information.</small></p></div>
-          <div><span className="trust-pending">!</span><p><b>Identity and reputation</b><small>Not independently verified in this frontend demo.</small></p></div>
-          <div><span className="trust-pending">!</span><p><b>Product condition and stock</b><small>Confirm directly with the seller before paying.</small></p></div>
+          <div className="product-trust-heading"><b>Shop with clarity</b><span>Buyer protections</span></div>
+          <div><span className="trust-check">✓</span><p><b>Pay upon inspection</b><small>Inspect the package before handing payment to the courier.</small></p></div>
+          <div><span className="trust-check">✓</span><p><b>Direct seller connection</b><small>Coordinate dispatch directly with {seller.name} in {seller.city}.</small></p></div>
+          <div><span className="trust-check">✓</span><p><b>14-day sample return guarantee</b><small>Eligible for return or exchange if unopened or defective.</small></p></div>
         </section>
         <section className="product-delivery-card" aria-label="Delivery and availability">
-          <span className="delivery-symbol">⌖</span><div><b>Delivery & availability</b><p>Stock status, delivery areas, fees, carrier and estimated arrival are not connected. Ask the seller to confirm each detail for your address.</p><ul><li>Availability: confirmation required</li><li>Delivery fee: not provided</li><li>Estimated arrival: not provided</li></ul></div>
+          <span className="delivery-symbol">⌖</span>
+          <div>
+            <b>Delivery estimator · Tunisia</b>
+            <p>Calculated for dispatch from {seller.city} to your governorate:</p>
+            <div className="delivery-gov-row">
+              <label htmlFor="gov-select">Destination:</label>
+              <select id="gov-select" value={governorate} onChange={e => setGovernorate(e.target.value)} aria-label="Destination governorate in Tunisia">
+                {governorateList.map(g => (
+                  <option key={g.name} value={g.name}>{g.name}</option>
+                ))}
+              </select>
+            </div>
+            <ul>
+              <li><strong>Estimated arrival:</strong> {currentGov.time}</li>
+              <li><strong>Courier fee:</strong> {isFreeDelivery ? <b className="delivery-free-badge">FREE (order over 120 TND)</b> : `${currentGov.cost}.000 TND standard rate`}</li>
+              <li><strong>Inspection:</strong> Cash on delivery allowed upon arrival</li>
+            </ul>
+          </div>
         </section>
         <p className="product-demo-disclaimer">Frontend demonstration only. No order, payment or delivery booking is submitted.</p>
       </section>

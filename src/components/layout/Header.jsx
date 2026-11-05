@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { categories, products } from '../../data/products'
 import { sellerForProduct } from '../../data/sellers'
-import { money, searchTextMatches } from '../../utils/marketplace'
+import { money, searchTextMatches, readJson, writeJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 
@@ -14,9 +14,20 @@ export function Header({ cartCount }) {
   const [recentSearches, setRecentSearches] = useState(() => {
     try { return JSON.parse(localStorage.getItem('marchy-recent-searches') || '[]').filter(v => typeof v === 'string').slice(0, 5) } catch { return [] }
   })
+  const [authUser, setAuthUser] = useState(() => readJson('marchy-auth-user', null))
   const headerRef = useRef(null)
   const navigate = useNavigate()
   const location = useLocation()
+
+  useEffect(() => {
+    setAuthUser(readJson('marchy-auth-user', null))
+  }, [location.pathname])
+
+  const handleLogout = () => {
+    writeJson('marchy-auth-user', null)
+    setAuthUser(null)
+    navigate('/')
+  }
 
   useEffect(() => {
     setMenuOpen(false)
@@ -116,8 +127,22 @@ export function Header({ cartCount }) {
           </select>
         </label>
         <Link to="/wishlist" className="action-link wishlist-link"><span className="action-icon">♡</span><span><small>Saved</small><b>Wishlist</b></span></Link>
-        <Link to="/login" className="action-link header-signin"><span className="action-icon">♙</span><span><small>Welcome to MARCHY</small><b>Sign in</b></span></Link>
-        <Link to="/signup" className="header-join-link">Join free <span>→</span></Link>
+        {authUser?.isLoggedIn ? (
+          <div className="header-user-status">
+            <Link to="/account" className="action-link header-user-link">
+              <span className="action-icon user-avatar-pill">{authUser.name?.slice(0, 1).toUpperCase() || 'U'}</span>
+              <span><small>Active buyer</small><b>{authUser.name}</b></span>
+            </Link>
+            <button type="button" className="header-signout-btn" onClick={handleLogout} title="Sign out of MARCHY">
+              Sign out
+            </button>
+          </div>
+        ) : (
+          <>
+            <Link to="/login" className="action-link header-signin"><span className="action-icon">♙</span><span><small>Welcome to MARCHY</small><b>Sign in</b></span></Link>
+            <Link to="/signup" className="header-join-link">Join free <span>→</span></Link>
+          </>
+        )}
         <Link to="/cart" className="action-link cart-link"><span className="cart-icon">🛒<i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link>
       </div>
     </div>

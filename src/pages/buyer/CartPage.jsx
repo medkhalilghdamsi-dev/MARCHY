@@ -69,6 +69,9 @@ export function CartPage() {
             <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
             <div className="cart-item-info">
               <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
+              {item.selectedVariant && (
+                <span className="cart-item-variant-tag">Option: {item.selectedVariant}</span>
+              )}
               <small>{group.seller.name} · {group.seller.city}, Tunisia</small>
               <b className="cart-item-unit-price">{money(item.price)} <span>each</span></b>
               <div className="cart-item-actions-row">
@@ -120,6 +123,28 @@ export function CartPage() {
         ) : (
           <div className="cart-summary-row"><span>Discounts</span><b>—</b></div>
         )}
+        <div className="cart-coupon-chips" role="group" aria-label="Available discount coupons">
+          <button
+            type="button"
+            className={`coupon-chip ${appliedCoupon === 'MARCHY10' ? 'is-active' : ''}`}
+            onClick={() => {
+              setAppliedCoupon('MARCHY10')
+              toast('10% discount applied with code MARCHY10!', { type: 'success' })
+            }}
+          >
+            🏷️ MARCHY10 (-10%)
+          </button>
+          <button
+            type="button"
+            className={`coupon-chip ${appliedCoupon === 'BIENVENUE' ? 'is-active' : ''}`}
+            onClick={() => {
+              setAppliedCoupon('BIENVENUE')
+              toast('5.000 TND welcome discount applied!', { type: 'success' })
+            }}
+          >
+            ✨ BIENVENUE (-5 TND)
+          </button>
+        </div>
         <form className="cart-coupon-form" onSubmit={applyCoupon} aria-label="Promo code">
           <label htmlFor="cart-coupon-input" className="sr-only">Promo code</label>
           <input

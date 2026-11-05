@@ -12,13 +12,55 @@ export function AccountPage() {
  const {orders}=useDemoOrders()
  const cartItems=cart.reduce((sum,item)=>sum+item.qty,0)
  const savedProducts=products.filter(p=>wishlist.includes(p.id)).slice(0,3)
+ const [authUser, setAuthUser] = useState(() => readJson('marchy-auth-user', null))
  const [recentIds,setRecentIds]=useState(()=>readJson('marchy-recently-viewed',[]))
  const recentProducts=recentIds.map(id=>products.find(p=>p.id===id)).filter(Boolean).slice(0,4)
  const clearRecentlyViewed=()=>{writeJson('marchy-recently-viewed',[]);setRecentIds([])}
+ const handleLogout = () => {
+   writeJson('marchy-auth-user', null)
+   setAuthUser(null)
+ }
  return translateTree(<main id="main-content" className="shell page account-page">
   <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link> / <span>Account</span></div>
-  <section className="account-welcome"><div><span className="eyebrow">YOUR MARCHY</span><h1>Your shopping space.</h1><p>Keep track of the products you're considering and pick up where you left off.</p></div><div className="account-guest-status"><span className="account-guest-avatar">G</span><div><b>Guest browsing</b><small>You're exploring without signing in</small><span className="demo-label">PREVIEW MODE</span></div></div></section>
-  <section className="account-auth-prompt"><div><span className="eyebrow">YOUR MARCHY PROFILE</span><h2>Make your next visit feel familiar.</h2><p>Sign in or create an account to prepare for a more personal shopping experience.</p></div><div><Link to="/login" className="outline-btn">Sign in</Link><Link to="/signup" className="primary-btn">Create account →</Link></div></section>
+  <section className="account-welcome">
+    <div>
+      <span className="eyebrow">{authUser?.isLoggedIn ? 'ACTIVE BUYER PROFILE' : 'YOUR MARCHY'}</span>
+      <h1>{authUser?.isLoggedIn ? `Welcome back, ${authUser.name}.` : 'Your shopping space.'}</h1>
+      <p>{authUser?.isLoggedIn ? 'Manage your saved local items, track incoming sample deliveries and customize your preferences.' : "Keep track of the products you're considering and pick up where you left off."}</p>
+    </div>
+    <div className="account-guest-status">
+      <span className="account-guest-avatar">{authUser?.isLoggedIn ? authUser.name.slice(0, 1).toUpperCase() : 'G'}</span>
+      <div>
+        <b>{authUser?.isLoggedIn ? authUser.name : 'Guest browsing'}</b>
+        <small>{authUser?.isLoggedIn ? authUser.email : "You're exploring without signing in"}</small>
+        <span className="demo-label">{authUser?.isLoggedIn ? 'ACTIVE MEMBER' : 'PREVIEW MODE'}</span>
+      </div>
+    </div>
+  </section>
+  {authUser?.isLoggedIn ? (
+    <section className="account-auth-prompt account-signedin-banner">
+      <div>
+        <span className="eyebrow">YOUR CONNECTED SESSION</span>
+        <h2>Signed in as {authUser.name}</h2>
+        <p>You can browse with your saved preferences, create test orders, and manage your wishlist.</p>
+      </div>
+      <div>
+        <button type="button" className="outline-btn" onClick={handleLogout}>Sign out</button>
+      </div>
+    </section>
+  ) : (
+    <section className="account-auth-prompt">
+      <div>
+        <span className="eyebrow">YOUR MARCHY PROFILE</span>
+        <h2>Make your next visit feel familiar.</h2>
+        <p>Sign in or create an account to prepare for a more personal shopping experience.</p>
+      </div>
+      <div>
+        <Link to="/login" className="outline-btn">Sign in</Link>
+        <Link to="/signup" className="primary-btn">Create account →</Link>
+      </div>
+    </section>
+  )}
   <div className="account-overview-grid">
    <Link to="/cart" className="account-overview-card"><span className="account-overview-icon">🛒</span><span><small>YOUR BASKET</small><b>{cartItems}</b><em>Items in cart</em></span><i>→</i></Link>
    <Link to="/wishlist" className="account-overview-card"><span className="account-overview-icon">♡</span><span><small>SAVED COLLECTION</small><b>{wishlist.length}</b><em>Saved products</em></span><i>→</i></Link>
