@@ -19,12 +19,10 @@ import {
 } from '../pages/SupportPages'
 import { AccountPage } from '../pages/AccountPage'
 import { AuthPage } from '../pages/AuthPage'
-import {
-  DeliveryOperationsPage,
-  AdminOperationsPage,
-  BuyerOrderTrackingPage,
-  BuyerOrdersPage,
-} from '../pages/OperationsPages'
+import { DeliveryOperationsPage } from '../pages/DeliveryOperationsPage'
+import { AdminOperationsPage } from '../pages/AdminOperationsPage'
+import { BuyerOrderTrackingPage } from '../pages/BuyerOrderTrackingPage'
+import { BuyerOrdersPage } from '../pages/BuyerOrdersPage'
 
 /**
  * Central route table for every frontend workspace.
