@@ -236,3 +236,10 @@ html[dir="rtl"] .hero-art-index{right:auto;left:24px}
 .listing-view-toggle button{color:#4f5b66}
 .results-toolbar-actions>label{color:#59656f}
 .pagination>span{color:#59656f}
+
+
+/* Keep the RTL tablet application canvas inside the viewport while preserving inner layouts. */
+@media(min-width:641px) and (max-width:980px){
+ .app-root.is-rtl{width:100%;max-width:100%;overflow-x:clip}
+ .app-root.is-rtl>.shell,.app-root.is-rtl main{min-width:0;max-width:100%}
+}
