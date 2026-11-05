@@ -13,3 +13,59 @@
 @media(max-width:760px) {
   .header-join-link { display:none!important; }
 }
+
+/* One accent system across the complete experience */
+:root {
+  --orange:#1f5b45;
+  --orange-dark:#174735;
+  --green:#1f5b45;
+  --marchy-orange:#1f5b45;
+  --marchy-orange-deep:#174735;
+  --marchy-green:#1f5b45;
+  --marchy-accent-soft:#edf5f0;
+  --marchy-accent-border:#c9ded1;
+}
+.hero-search-form button {
+  background:var(--marchy-orange-deep)!important;
+  color:var(--text-on-accent,#fff)!important;
+}
+.hero-search-form button:hover { filter:brightness(.94); }
+.discount-tag,
+.product-image-discount {
+  background:var(--marchy-orange-deep)!important;
+  color:var(--text-on-accent,#fff)!important;
+}
+.product-category-pill,
+.product-price-block>span,
+.product-seller-card>a,
+.product-visual-note>span,
+.category-total b,
+.seller-visit-link,
+.seller-link:hover,
+.home-category-card small span {
+  color:var(--marchy-green)!important;
+}
+.hero-floating-icon,
+.product-buyer-highlights>div>span {
+  background:var(--marchy-accent-soft)!important;
+  color:var(--marchy-green)!important;
+}
+.home-category-card:hover,
+.home-budget-links a:hover,
+.product-gallery-thumbnails button.is-active,
+.product-save-button.is-saved {
+  border-color:var(--marchy-accent-border)!important;
+}
+.home-budget-links a:hover,
+.product-save-button.is-saved {
+  background:var(--marchy-accent-soft)!important;
+}
+.product-trust-heading>span {
+  flex-shrink:0;
+  white-space:nowrap;
+  font-size:8px;
+  letter-spacing:.08em;
+}
+.product-seller-copy .seller-profile-status {
+  color:var(--muted)!important;
+}

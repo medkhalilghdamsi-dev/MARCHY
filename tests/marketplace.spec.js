@@ -91,7 +91,7 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/product/1')
   await page.getByRole('group', { name: 'Quantity', exact: true }).getByRole('button', { name: 'Increase quantity' }).click()
-  await expect(page.getByLabel('Selected quantity')).toHaveText('2')
+  await expect(page.getByRole('group', { name: 'Quantity', exact: true }).getByLabel('Selected quantity')).toHaveText('2')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
   await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
   await page.locator('.mobile-tabbar a[href="/cart"]').click()
@@ -169,7 +169,7 @@ test('marketplace search autocomplete offers category and no-match guidance', as
   await page.locator('.search-suggestion-group button').filter({ hasText: 'Electronics' }).click()
   await expect(page).toHaveURL(/\/category\/electronics/)
   await page.goto('/search')
-  await page.getByRole('textbox', { name: 'Search marketplace' }).fill('zzqv-no-match')
+  await page.getByRole('combobox', { name: 'Search marketplace' }).fill('zzqv-no-match')
   await expect(page.locator('.search-suggestions-empty')).toBeVisible()
 })
 
