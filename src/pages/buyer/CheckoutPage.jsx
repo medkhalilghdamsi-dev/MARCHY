@@ -5,7 +5,7 @@ import { money, readJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { useMarketplace } from '../../providers/MarketplaceContext'
-import { ArrowLeft, ArrowRight, Check, Info, MapPin, ShieldCheck, ShoppingBag, Store, Truck } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Info, ShoppingBag, Store, Truck } from 'lucide-react'
 
 export function CheckoutPage() {
   const { cart, language, clearCart, appliedCoupon } = useMarketplace()
