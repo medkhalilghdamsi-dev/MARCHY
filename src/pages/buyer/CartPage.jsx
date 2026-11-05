@@ -65,7 +65,7 @@ export function CartPage() {
         <div className="cart-panel-heading"><b>Items in your cart</b><span>{cart.length} product{cart.length === 1 ? '' : 's'}</span></div>
         {sellerGroups.map(group => <section className="cart-seller-group" key={group.seller.slug} aria-label={`Items from ${group.seller.name}`}>
           <div className="cart-seller-group-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city}, Tunisia · sample storefront</small></div></div><strong>{group.items.length} product{group.items.length===1?'':'s'}</strong></div>
-          {group.items.map(item => <article className="cart-item" key={item.id}>
+          {group.items.map(item => <article className="cart-item" key={`${item.id}-${item.selectedVariant || 'default'}`}>
             <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
             <div className="cart-item-info">
               <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
@@ -75,14 +75,14 @@ export function CartPage() {
               <small>{group.seller.name} · {group.seller.city}, Tunisia</small>
               <b className="cart-item-unit-price">{money(item.price)} <span>each</span></b>
               <div className="cart-item-actions-row">
-                <button type="button" className="remove-link" onClick={() => removeItem(item.id)}>Remove item</button>
+                <button type="button" className="remove-link" onClick={() => removeItem(item.id, item.selectedVariant)}>Remove item</button>
                 {saveForLater && <button type="button" className="save-later-link" onClick={() => { saveForLater(item); toast(`Saved ${item.name} for later`, { type: 'info' }) }}>Save for later</button>}
               </div>
             </div>
             <div className="cart-item-quantity"><span>Quantity</span><div className="quantity">
-              <button type="button" aria-label={`Decrease ${item.name} quantity`} disabled={item.qty <= 1} onClick={() => updateQty(item.id, item.qty - 1)}>−</button>
+              <button type="button" aria-label={`Decrease ${item.name} quantity`} disabled={item.qty <= 1} onClick={() => updateQty(item.id, item.qty - 1, item.selectedVariant)}>−</button>
               <output aria-live="polite">{item.qty}</output>
-              <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= 99} onClick={() => updateQty(item.id, Math.min(99, item.qty + 1))}>＋</button>
+              <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= 99} onClick={() => updateQty(item.id, Math.min(99, item.qty + 1), item.selectedVariant)}>＋</button>
             </div></div>
             <strong className="cart-line-total">{money(item.price * item.qty)}</strong>
           </article>)}
@@ -93,7 +93,7 @@ export function CartPage() {
             <div className="cart-panel-heading"><b>Saved for later</b><span>{savedForLater.length} item{savedForLater.length === 1 ? '' : 's'}</span></div>
             <div className="cart-saved-later-list">
               {savedForLater.map(item => (
-                <article className="cart-saved-item" key={item.id}>
+                <article className="cart-saved-item" key={`${item.id}-${item.selectedVariant || 'default'}`}>
                   <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
                   <div className="cart-item-info">
                     <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
@@ -101,7 +101,7 @@ export function CartPage() {
                   </div>
                   <div className="cart-saved-item-actions">
                     <button type="button" className="outline-btn" onClick={() => { moveToCart(item); toast(`Moved ${item.name} to cart`, { type: 'success' }) }}>Move to cart</button>
-                    <button type="button" className="remove-link" onClick={() => removeSavedItem(item.id)}>Remove</button>
+                    <button type="button" className="remove-link" onClick={() => removeSavedItem(item.id, item.selectedVariant)}>Remove</button>
                   </div>
                 </article>
               ))}
@@ -168,7 +168,7 @@ export function CartPage() {
           <div className="cart-panel-heading"><b>Saved for later</b><span>{savedForLater.length} item{savedForLater.length === 1 ? '' : 's'}</span></div>
           <div className="cart-saved-later-list">
             {savedForLater.map(item => (
-              <article className="cart-saved-item" key={item.id}>
+              <article className="cart-saved-item" key={`${item.id}-${item.selectedVariant || 'default'}`}>
                 <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
                 <div className="cart-item-info">
                   <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
@@ -176,7 +176,7 @@ export function CartPage() {
                 </div>
                 <div className="cart-saved-item-actions">
                   <button type="button" className="outline-btn" onClick={() => { moveToCart(item); toast(`Moved ${item.name} to cart`, { type: 'success' }) }}>Move to cart</button>
-                  <button type="button" className="remove-link" onClick={() => removeSavedItem(item.id)}>Remove</button>
+                  <button type="button" className="remove-link" onClick={() => removeSavedItem(item.id, item.selectedVariant)}>Remove</button>
                 </div>
               </article>
             ))}
