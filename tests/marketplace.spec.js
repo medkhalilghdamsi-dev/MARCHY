@@ -592,3 +592,21 @@ test('MARCHY uses the locked forest-green brand accent across buyer touchpoints'
   await page.locator('.searchbar input').focus()
   await expect(page.locator('.searchbar')).toHaveCSS('border-color', 'rgb(120, 165, 140)')
 })
+
+
+test('light and dark themes toggle accessibly and persist across reloads', async ({ page }) => {
+  await page.goto('/')
+  const toggle = page.getByRole('button', { name: 'Switch to dark mode' })
+  await expect(toggle).toBeVisible()
+  await toggle.click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('html')).toHaveCSS('color-scheme', 'dark')
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(17, 25, 21)')
+  await expect(page.getByRole('button', { name: 'Switch to light mode' })).toHaveAttribute('aria-pressed', 'true')
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await page.getByRole('button', { name: 'Switch to light mode' }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+})
