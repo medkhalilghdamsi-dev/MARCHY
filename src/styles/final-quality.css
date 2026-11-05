@@ -251,3 +251,59 @@ html[data-theme="dark"] .seller-settings-fields textarea { color:var(--ink); bac
 @media(prefers-reduced-motion:reduce) {
   .route-loading-mark { animation:none; }
 }
+
+
+/* Shared, dismissible feedback for client-side marketplace actions */
+.marchy-toast-viewport {
+  position: fixed;
+  z-index: 1200;
+  right: 20px;
+  bottom: 22px;
+  display: grid;
+  width: min(360px,calc(100vw - 32px));
+  gap: 9px;
+  pointer-events: none;
+}
+.marchy-toast {
+  display: grid;
+  grid-template-columns: 24px minmax(0,1fr) 26px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 12px 32px rgba(13,27,20,.18);
+  pointer-events: auto;
+  animation: marchy-toast-in .18s ease-out;
+}
+.marchy-toast>span {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--forest);
+  font-size: 12px;
+  font-weight: 800;
+}
+.marchy-toast p { margin:0; font-size:12px; line-height:1.45; }
+.marchy-toast button {
+  width:26px;
+  height:26px;
+  border:0;
+  border-radius:5px;
+  color:var(--muted);
+  background:transparent;
+  font-size:19px;
+}
+.marchy-toast button:hover { color:var(--ink); background:var(--surface-soft); }
+@keyframes marchy-toast-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@media(max-width:600px) {
+  .marchy-toast-viewport { right:12px; bottom:calc(78px + env(safe-area-inset-bottom)); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .marchy-toast { animation:none; }
+}
