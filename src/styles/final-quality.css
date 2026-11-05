@@ -6,9 +6,9 @@
   color:var(--forest)!important;
 }
 .footer .logo-word { color:#ffffff!important; }
-.footer .logo-period { color:#8fc6a7!important; }
+.footer .logo-period { color:var(--board-primary)!important; }
 .home-seller-banner h2 em {
-  color:#8fc6a7!important;
+  color:var(--board-primary)!important;
 }
 @media(max-width:760px) {
   .header-join-link { display:none!important; }
@@ -137,7 +137,7 @@
 .logo-mark,
 .hero-kicker i {
   background: var(--marchy-primary)!important;
-  box-shadow: 0 5px 13px rgba(31,91,69,.20)!important;
+  box-shadow: 0 5px 13px var(--board-primary)!important;
 }
 .logo-period,
 .logo-word,
@@ -328,17 +328,17 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--marchy-primary-border)!important;
-  box-shadow: 0 0 0 3px rgba(31,91,69,.12)!important;
+  box-shadow: 0 0 0 3px var(--board-primary)!important;
 }
 input,select,textarea {
   accent-color: var(--marchy-primary)!important;
 }
 ::selection {
-  background: rgba(31,91,69,.18)!important;
+  background: var(--board-primary)!important;
   color: var(--marchy-text)!important;
 }
 :focus-visible {
-  outline-color: rgba(31,91,69,.72)!important;
+  outline-color: var(--board-primary)!important;
 }
 
 /* Compare / saved / informational states */
@@ -527,16 +527,16 @@ textarea:focus,
 .checkout-form select:focus,
 .checkout-form textarea:focus {
   border-color:var(--board-border)!important;
-  box-shadow:0 0 0 3px rgba(31,91,69,.12)!important;
+  box-shadow:0 0 0 3px var(--board-primary)!important;
 }
 input,select,textarea {
   accent-color:var(--board-primary)!important;
 }
 :focus-visible {
-  outline-color:rgba(31,91,69,.72)!important;
+  outline-color:var(--board-primary)!important;
 }
 ::selection {
-  background:rgba(31,91,69,.18)!important;
+  background:var(--board-primary)!important;
   color:var(--board-text)!important;
 }
 
