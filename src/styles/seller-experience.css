@@ -365,3 +365,42 @@
 @media(max-width:640px){.is-rtl .quick-view-backdrop{direction:rtl}}
 
 
+
+
+/* WCAG AA contrast corrections for seller onboarding and storefront planner */
+.seller-launch-page .seller-launch-trust,
+.seller-launch-page .seller-art-top span,
+.seller-launch-page .seller-art-window>small,
+.seller-launch-page .seller-draft-label,
+.seller-launch-page .seller-planner-form label,
+.seller-launch-page .seller-planner-form label>small,
+.seller-launch-page .seller-optional,
+.seller-launch-page .seller-form-note,
+.seller-launch-page .seller-preview-top,
+.seller-launch-page .seller-preview-location,
+.seller-launch-page .seller-preview-body>p:not(.seller-preview-location),
+.seller-launch-page .seller-preview-meta span,
+.seller-launch-page .seller-preview-product-image,
+.seller-launch-page .seller-preview-product small,
+.seller-launch-page .seller-preview-product>div:last-child del,
+.seller-launch-page .seller-preview-contact,
+.seller-launch-page .seller-product-preview-details,
+.seller-launch-page .seller-product-preview-details span,
+.seller-launch-page .seller-image-upload>small,
+.seller-launch-page .seller-image-upload .seller-optional,
+.seller-launch-page .seller-step-card p,
+.seller-launch-page .seller-section-heading p,
+.seller-launch-page .seller-workspace-heading p,
+.seller-launch-page .seller-launch-bottom p,
+.seller-preparation-page .seller-guide-content section p,
+.seller-preparation-page .seller-guide-content li,
+.seller-preparation-page .seller-guide-aside>p,
+.seller-preparation-page .seller-guide-status span {
+  color:#596673;
+}
+.seller-launch-page .seller-preview-meta span,
+.seller-launch-page .seller-draft-label {
+  background:#f3f5f6;
+}
+.seller-launch-page .seller-preview-product-image {color:#596673}
+.seller-launch-page .seller-preview-contact {color:#596673}
