@@ -633,17 +633,17 @@ test('light and dark themes toggle accessibly and persist across reloads', async
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
 })
 
-test('auth page is a unique standalone page with logo beside login and sign in form', async ({ page }) => {
+test('auth page is a unique standalone page with logo on top left and centred form', async ({ page }) => {
   await page.goto('/login')
   // No marketplace header, nav, or footer on the unique auth page
   await expect(page.locator('header.header')).toHaveCount(0)
   await expect(page.locator('footer.footer')).toHaveCount(0)
   await expect(page.locator('.mobile-tabbar')).toHaveCount(0)
 
-  // Standalone layout with logo side beside form card
+  // Standalone layout with logo resting on top left and form card centered
   await expect(page.locator('.auth-unique-page')).toBeVisible()
-  await expect(page.locator('.auth-logo-side .auth-brand-logo')).toBeVisible()
-  await expect(page.locator('.auth-logo-side .auth-brand-wordmark')).toContainText('MARCHY')
+  await expect(page.locator('.auth-top-bar .auth-brand-logo')).toBeVisible()
+  await expect(page.locator('.auth-top-bar .auth-brand-wordmark')).toContainText('MARCHY')
   await expect(page.locator('.auth-form-card')).toBeVisible()
   await expect(page.locator('.auth-form-heading h2')).toContainText('Sign in to MARCHY')
 
@@ -655,6 +655,25 @@ test('auth page is a unique standalone page with logo beside login and sign in f
 
   // Return to marketplace link works
   await page.locator('.auth-back-link').click()
+  await expect(page).toHaveURL(/.*\/$/)
+  await expect(page.locator('header.header')).toBeVisible()
+
+  // Static login navigates to the landing page
+  await page.goto('/login')
+  await page.locator('input[type="email"]').fill('demo@example.com')
+  await page.locator('input[type="password"]').fill('password123')
+  await page.locator('button.auth-submit').click()
+  await expect(page).toHaveURL(/.*\/$/)
+  await expect(page.locator('header.header')).toBeVisible()
+
+  // Static create account navigates to the landing page
+  await page.goto('/signup')
+  await page.locator('input[placeholder="Your full name"]').fill('Sara Ben Ali')
+  await page.locator('input[type="email"]').fill('sara@example.com')
+  await page.locator('input[placeholder="At least 8 characters"]').fill('securepass123')
+  await page.locator('input[placeholder="Repeat your password"]').fill('securepass123')
+  await page.locator('.auth-terms input[type="checkbox"]').check()
+  await page.locator('button.auth-submit').click()
   await expect(page).toHaveURL(/.*\/$/)
   await expect(page.locator('header.header')).toBeVisible()
 })

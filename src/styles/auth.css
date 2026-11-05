@@ -1,68 +1,65 @@
-/* MARCHY standalone authentication page — unique minimalist layout */
+/* MARCHY standalone authentication page — logo on top left, form centered */
 .auth-unique-page {
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  padding: clamp(24px, 4vw, 48px) 20px;
+  align-items: center;
+  position: relative;
+  padding: clamp(72px, 10vh, 96px) 20px 40px;
   background: var(--page, #f4f8f5);
   color: var(--ink, #12261e);
   box-sizing: border-box;
 }
 
-.auth-unique-layout {
+/* Top bar with the logo resting on the top left */
+.auth-top-bar {
+  position: absolute;
+  top: clamp(20px, 3.5vw, 36px);
+  left: clamp(20px, 4vw, 48px);
+  z-index: 10;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: clamp(36px, 6vw, 84px);
-  width: min(100%, 940px);
-  margin: auto;
-}
-
-/* Logo side — beside the form */
-.auth-logo-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   gap: 16px;
-  flex: 0 0 auto;
+  flex-wrap: wrap;
 }
 
 .auth-brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   text-decoration: none;
   color: var(--ink, #12261e);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .auth-brand-logo:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  opacity: 0.92;
 }
 
 .auth-brand-icon-wrap {
-  width: 58px;
-  height: 58px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
   background: var(--surface, #ffffff);
   border: 1px solid var(--line, #d8e5dd);
   display: grid;
   place-items: center;
-  box-shadow: 0 4px 18px rgba(18, 38, 30, 0.06);
+  box-shadow: 0 4px 14px rgba(18, 38, 30, 0.06);
   flex-shrink: 0;
 }
 
 .auth-brand-icon {
-  width: 42px;
-  height: 42px;
+  width: 30px;
+  height: 30px;
 }
 
 .auth-brand-wordmark {
-  font: 900 clamp(32px, 3.8vw, 42px)/1 Manrope, -apple-system, BlinkMacSystemFont, sans-serif;
-  letter-spacing: -2px;
+  font: 900 clamp(24px, 3vw, 29px)/1 Manrope, -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -1.4px;
   color: var(--ink, #12261e);
 }
 
@@ -73,35 +70,50 @@
 .auth-back-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 6px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--muted, #435b4f);
   text-decoration: none;
-  padding: 4px 0;
-  transition: color 0.18s ease, transform 0.18s ease;
+  padding: 6px 11px;
+  border-radius: 6px;
+  background: rgba(31, 91, 69, 0.05);
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
 }
 
 .auth-back-link:hover {
   color: var(--forest, #1f5b45);
-  transform: translateX(-3px);
+  background: rgba(31, 91, 69, 0.1);
+  border-color: rgba(31, 91, 69, 0.15);
+  transform: translateX(-2px);
 }
 
 .auth-back-link:focus-visible,
 .auth-brand-logo:focus-visible {
   outline: 2px solid var(--forest, #1f5b45);
-  outline-offset: 4px;
+  outline-offset: 3px;
   border-radius: 6px;
 }
 
-/* Form card side */
-.auth-form-card {
+/* Centered form container */
+.auth-form-container {
   width: 100%;
   max-width: 440px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+.auth-form-card {
+  width: 100%;
   background: var(--surface, #ffffff);
   border: 1px solid var(--line, #d8e5dd);
   border-radius: 18px;
-  padding: clamp(26px, 4vw, 38px);
+  padding: clamp(26px, 4.5vw, 38px);
   box-shadow: 0 16px 44px rgba(18, 38, 30, 0.05);
   box-sizing: border-box;
 }
@@ -344,22 +356,19 @@
   outline-offset: 2px;
 }
 
-/* Responsive: stack neatly on tablet/mobile screens */
-@media (max-width: 767px) {
-  .auth-unique-layout {
-    flex-direction: column;
-    gap: 24px;
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .auth-unique-page {
+    justify-content: flex-start;
+    padding: 24px 16px 36px;
+  }
+
+  .auth-top-bar {
+    position: static;
     width: 100%;
     max-width: 440px;
-  }
-
-  .auth-logo-side {
-    align-items: center;
-    text-align: center;
-  }
-
-  .auth-back-link {
-    margin-top: 4px;
+    margin: 0 auto 28px;
+    justify-content: space-between;
   }
 
   .auth-form-card {
@@ -369,26 +378,35 @@
 
 @media (max-width: 390px) {
   .auth-brand-wordmark {
-    font-size: 28px;
+    font-size: 24px;
   }
   .auth-brand-icon-wrap {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
   }
   .auth-brand-icon {
-    width: 34px;
-    height: 34px;
+    width: 26px;
+    height: 26px;
+  }
+  .auth-back-link {
+    font-size: 11px;
+    padding: 5px 8px;
   }
 }
 
 /* RTL layout support */
+html[dir="rtl"] .auth-top-bar {
+  left: auto;
+  right: clamp(20px, 4vw, 48px);
+}
+
 html[dir="rtl"] .auth-back-arrow {
   display: inline-block;
   transform: scaleX(-1);
 }
 
 html[dir="rtl"] .auth-back-link:hover {
-  transform: translateX(3px);
+  transform: translateX(2px);
 }
 
 html[dir="rtl"] .auth-password-wrap input {
@@ -415,6 +433,16 @@ html[data-theme="dark"] .auth-form-card {
 
 html[data-theme="dark"] .auth-brand-wordmark {
   color: var(--ink);
+}
+
+html[data-theme="dark"] .auth-back-link {
+  background: rgba(131, 185, 157, 0.1);
+  color: var(--muted);
+}
+
+html[data-theme="dark"] .auth-back-link:hover {
+  background: rgba(131, 185, 157, 0.2);
+  color: var(--forest);
 }
 
 html[data-theme="dark"] .auth-mode-switch {

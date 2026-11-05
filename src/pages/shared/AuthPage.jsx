@@ -1,11 +1,15 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { useToast } from '../../providers/ToastProvider'
+import { writeJson } from '../../utils/marketplace'
 
 export function AuthPage() {
   const { language } = useMarketplace()
   const location = useLocation()
+  const navigate = useNavigate()
+  const toast = useToast()
   const signup = location.pathname === '/signup'
   const [showPassword, setShowPassword] = useState(false)
   const [message, setMessage] = useState('')
@@ -22,29 +26,46 @@ export function AuthPage() {
       setMessage('Your passwords do not match.')
       return
     }
-    setMessage('Authentication is currently simulated in this preview. Your credentials have not been transmitted or stored.')
+
+    // Static simulation: store active profile and navigate to landing page
+    const displayName = form.name?.trim() || form.email.split('@')[0] || 'User'
+    writeJson('marchy-auth-user', {
+      name: displayName,
+      email: form.email,
+      isLoggedIn: true,
+      createdAt: new Date().toISOString()
+    })
+
+    toast(
+      signup
+        ? `Welcome to MARCHY, ${displayName}! Your account has been created.`
+        : `Welcome back, ${displayName}! You are signed in.`,
+      { type: 'success' }
+    )
+
+    navigate('/')
   }
 
   return translateTree(
     <main id="main-content" className="auth-unique-page">
-      <div className="auth-unique-layout">
-        {/* Logo beside the form */}
-        <section className="auth-logo-side" aria-label="Brand">
-          <Link to="/" className="auth-brand-logo" aria-label="MARCHY home">
-            <span className="auth-brand-icon-wrap">
-              <img src="/favicon.svg" alt="" width="48" height="48" className="auth-brand-icon" />
-            </span>
-            <span className="auth-brand-wordmark">
-              MARCHY<span className="auth-brand-accent">.</span>
-            </span>
-          </Link>
-          <Link to="/" className="auth-back-link">
-            <span aria-hidden="true" className="auth-back-arrow">←</span>
-            <span>Back to marketplace</span>
-          </Link>
-        </section>
+      {/* Logo resting on top left */}
+      <header className="auth-top-bar" aria-label="Brand and navigation">
+        <Link to="/" className="auth-brand-logo" aria-label="MARCHY home">
+          <span className="auth-brand-icon-wrap">
+            <img src="/favicon.svg" alt="" width="30" height="30" className="auth-brand-icon" />
+          </span>
+          <span className="auth-brand-wordmark">
+            MARCHY<span className="auth-brand-accent">.</span>
+          </span>
+        </Link>
+        <Link to="/" className="auth-back-link">
+          <span aria-hidden="true" className="auth-back-arrow">←</span>
+          <span>Back to marketplace</span>
+        </Link>
+      </header>
 
-        {/* Login and sign in form */}
+      {/* Centered Login and Sign In form */}
+      <div className="auth-form-container">
         <section className="auth-form-card" aria-label={signup ? 'Create account' : 'Sign in'}>
           <div className="auth-mode-switch" role="tablist" aria-label="Account access options">
             <Link
