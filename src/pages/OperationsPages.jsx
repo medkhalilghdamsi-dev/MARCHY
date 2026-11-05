@@ -1,3 +1,4 @@
+import { connectMarketplacePage } from '../context/connectMarketplacePage'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { money } from '../utils/marketplace'
@@ -89,3 +90,8 @@ export function BuyerOrdersPage({ language }) {
     <Link to="/account" className="text-link">← Back to account</Link>
   </main>, language)
 }
+
+export const DeliveryOperationsPageConnected = connectMarketplacePage(DeliveryOperationsPage)
+export const AdminOperationsPageConnected = connectMarketplacePage(AdminOperationsPage)
+export const BuyerOrderTrackingPageConnected = connectMarketplacePage(BuyerOrderTrackingPage)
+export const BuyerOrdersPageConnected = connectMarketplacePage(BuyerOrdersPage)
