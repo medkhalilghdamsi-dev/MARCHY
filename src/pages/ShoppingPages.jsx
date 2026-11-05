@@ -1,3 +1,4 @@
+import { connectMarketplacePage } from '../context/connectMarketplacePage'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { categories, products } from '../data/products'
@@ -570,4 +571,10 @@ function WishlistPage({ products: allProducts, wishlist, toggleWish, addToCart, 
 }
 
 
+export const HomeConnected = connectMarketplacePage(Home)
+export const SearchPageConnected = connectMarketplacePage(SearchPage)
+export const ProductPageConnected = connectMarketplacePage(ProductPage)
+export const CartPageConnected = connectMarketplacePage(CartPage)
+export const CheckoutPageConnected = connectMarketplacePage(CheckoutPage)
+export const WishlistPageConnected = connectMarketplacePage(WishlistPage)
 export { Home, SearchPage, ProductPage, CartPage, CheckoutPage, WishlistPage }
