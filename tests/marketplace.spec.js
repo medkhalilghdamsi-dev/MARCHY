@@ -407,3 +407,13 @@ test('buyer order history searches, filters and opens tracking', async ({ page }
   await page.getByRole('link', { name: 'Track order' }).click()
   await expect(page.getByRole('heading', { name: 'Track MC-1046' })).toBeVisible()
 })
+
+
+test('buyer order history respects French and Arabic interface language', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-language', 'fr'))
+  await page.goto('/orders')
+  await expect(page.getByRole('heading', { name: 'Vos commandes' })).toBeVisible()
+  await page.locator('.language-picker select').selectOption('ar')
+  await expect(page.getByRole('heading', { name: 'طلباتك' })).toBeVisible()
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+})
