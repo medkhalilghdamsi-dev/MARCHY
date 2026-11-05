@@ -148,6 +148,19 @@ test('recently viewed products appear on the homepage', async ({ page }) => {
 })
 
 
+test('clearing marketplace filters also restores featured sorting', async ({ page }) => {
+  await page.goto('/search?q=headphones')
+  await page.getByLabel('Sort products').selectOption('price-low')
+  await page.getByLabel('Minimum price in TND').fill('30')
+  await page.locator('.active-filter-chips .clear-filter-chips').click()
+  await expect(page.getByLabel('Sort products')).toHaveValue('featured')
+  await expect(page.getByLabel('Minimum price in TND')).toHaveValue('0')
+  await expect(page).not.toHaveURL(/sort=/)
+  await expect(page).not.toHaveURL(/min=/)
+  await expect(page).not.toHaveURL(/q=/)
+})
+
+
 test('marketplace filters can be bookmarked and restored from the URL', async ({ page }) => {
   await page.goto('/search?q=headphones')
   await page.locator('input[name="marketplace-category"]').nth(1).check()
