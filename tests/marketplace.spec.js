@@ -350,3 +350,17 @@ test('merchant order workspace shares order updates with delivery operations', a
   const deliveryRow = page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })
   await expect(deliveryRow).toContainText('Processing')
 })
+
+
+test('buyer account can follow shared demo order status changes', async ({ page }) => {
+  await page.goto('/account')
+  await page.getByRole('link', { name: /MC-1048/ }).click()
+  await expect(page.getByRole('heading', { name: 'Track MC-1048' })).toBeVisible()
+  await expect(page.locator('.buyer-tracking-panel')).toContainText('Ready for pickup')
+  await page.getByRole('link', { name: 'Delivery operations' }).click()
+  const deliveryRow = page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })
+  await deliveryRow.getByLabel('Status for MC-1048').selectOption('In transit')
+  await page.getByRole('link', { name: 'Buyer marketplace' }).click()
+  await page.goto('/orders/MC-1048')
+  await expect(page.locator('.buyer-tracking-panel')).toContainText('In transit')
+})
