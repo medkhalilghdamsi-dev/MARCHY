@@ -23,6 +23,8 @@ export function useMarketplaceState() {
     try { localStorage.setItem('marchy-theme', theme) } catch {}
     document.documentElement.dataset.theme = theme
     document.documentElement.style.colorScheme = theme
+    const themeMeta = document.querySelector('meta[name="theme-color"]')
+    if (themeMeta) themeMeta.setAttribute('content', theme === 'dark' ? '#111915' : '#f5f7f6')
   }, [theme])
 
   useEffect(() => { writeJson('marchy-cart', cart) }, [cart])
