@@ -68,3 +68,8 @@
 .buyer-tracking-steps li div{padding:4px 0 16px}.buyer-tracking-steps li b{display:block;font-size:12px}.buyer-tracking-steps li small{display:block;margin-top:5px;color:var(--muted);font-size:10px}
 .buyer-tracking-cancelled{margin:20px 0;padding:15px;border:1px solid #e7b9b9;border-radius:8px;background:#fff7f7;color:#853d3d}.buyer-tracking-cancelled p{margin:5px 0 0;font-size:11px}
 @media(max-width:600px){.buyer-tracking-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.account-demo-order{grid-template-columns:1fr}.account-demo-order strong{grid-column:auto}}
+
+
+.ops-order-link,.seller-order-id-link{display:inline-flex;color:var(--accent,#245b42);font-weight:800;text-decoration:none}
+.ops-order-link:hover,.seller-order-id-link:hover{text-decoration:underline;text-underline-offset:3px}
+.ops-order-link:focus-visible,.seller-order-id-link:focus-visible{outline:2px solid var(--accent,#245b42);outline-offset:3px;border-radius:3px}
