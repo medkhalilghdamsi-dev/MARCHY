@@ -6,11 +6,9 @@ import { ProductPage } from '../pages/ProductPage'
 import { CartPage } from '../pages/CartPage'
 import { CheckoutPage } from '../pages/CheckoutPage'
 import { WishlistPage } from '../pages/WishlistPage'
-import {
-  SellersPage,
-  SellerPage,
-  CategoriesPage,
-} from '../pages/DiscoveryPages'
+import { SellersPage } from '../pages/SellersPage'
+import { SellerPage } from '../pages/SellerPage'
+import { CategoriesPage } from '../pages/CategoriesPage'
 import {
   SellerLaunchPage,
   SellerDashboardPage,
