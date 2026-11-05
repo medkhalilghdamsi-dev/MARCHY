@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { categories, products } from '../data/products'
 import { sellers } from '../data/sellers'
-import { useMarketplaceState } from '../hooks/useMarketplaceState'
+import { MarketplaceProvider, useMarketplace } from '../context/MarketplaceContext'
 import { Header, Footer, MobileTabBar } from '../components/MarketplaceChrome'
 import { AppErrorBoundary } from '../components/AppErrorBoundary'
 
@@ -41,10 +41,10 @@ function RouteLoading() {
   </main>
 }
 
-function App() {
+function MarketplaceAppContent() {
   const location = useLocation()
   const [query, setQuery] = useState('')
-  const { language, setLanguage, theme, setTheme, cart, wishlist, addToCart, updateQty, removeItem, clearCart, toggleWish } = useMarketplaceState()
+  const { language, setLanguage, theme, setTheme, cart, wishlist } = useMarketplace()
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -91,30 +91,30 @@ function App() {
     <AppErrorBoundary>
       <Suspense fallback={<RouteLoading />}>
         <Routes>
-          <Route path="/" element={<Home addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language} />} />
-          <Route path="/search" element={<SearchPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/category/:category" element={<SearchPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language} />} />
-          <Route path="/product/:id" element={<ProductPage addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} language={language} />} />
-          <Route path="/cart" element={<CartPage cart={cart} updateQty={updateQty} removeItem={removeItem} language={language} />} />
-          <Route path="/checkout" element={<CheckoutPage cart={cart} language={language} clearCart={clearCart} />} />
-          <Route path="/wishlist" element={<WishlistPage products={products} wishlist={wishlist} toggleWish={toggleWish} addToCart={addToCart} language={language} />} />
-          <Route path="/categories" element={<CategoriesPage language={language} />} />
-          <Route path="/sellers" element={<SellersPage language={language} />} />
-          <Route path="/seller/:slug" element={<SellerPage language={language} addToCart={addToCart} wishlist={wishlist} toggleWish={toggleWish} />} />
-          <Route path="/account" element={<AccountPage cart={cart} wishlist={wishlist} language={language} />} />
-          <Route path="/login" element={<AuthPage language={language} />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/wishlist" element={<WishlistPage products={products} />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/sellers" element={<SellersPage />} />
+          <Route path="/seller/:slug" element={<SellerPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage language={language} />} />
-          <Route path="/help" element={<HelpCenterPage language={language} />} />
-          <Route path="/delivery" element={<MarketplaceGuidePage type="delivery" language={language} />} />
-          <Route path="/returns" element={<MarketplaceGuidePage type="returns" language={language} />} />
-          <Route path="/seller-help" element={<SellerPreparationPage language={language} />} />
-          <Route path="/sell" element={<SellerLaunchPage language={language} />} />
-          <Route path="/seller-dashboard" element={<SellerDashboardPage language={language} />} />
-          <Route path="/operations/delivery" element={<DeliveryOperationsPage language={language} />} />
-          <Route path="/admin" element={<AdminOperationsPage language={language} />} />
-          <Route path="/orders" element={<BuyerOrdersPage language={language} />} />
-          <Route path="/orders/:id" element={<BuyerOrderTrackingPage language={language} />} />
-          <Route path="*" element={<NotFoundPage language={language} />} />
+          <Route path="/help" element={<HelpCenterPage />} />
+          <Route path="/delivery" element={<MarketplaceGuidePage type="delivery" />} />
+          <Route path="/returns" element={<MarketplaceGuidePage type="returns" />} />
+          <Route path="/seller-help" element={<SellerPreparationPage />} />
+          <Route path="/sell" element={<SellerLaunchPage />} />
+          <Route path="/seller-dashboard" element={<SellerDashboardPage />} />
+          <Route path="/operations/delivery" element={<DeliveryOperationsPage />} />
+          <Route path="/admin" element={<AdminOperationsPage />} />
+          <Route path="/orders" element={<BuyerOrdersPage />} />
+          <Route path="/orders/:id" element={<BuyerOrderTrackingPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </AppErrorBoundary>
@@ -123,4 +123,4 @@ function App() {
   </div>
 }
 
-export default App
+export default function MarketplaceApp() { return <MarketplaceProvider><MarketplaceAppContent /></MarketplaceProvider> }
