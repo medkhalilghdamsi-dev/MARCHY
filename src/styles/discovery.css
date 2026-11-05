@@ -290,3 +290,10 @@ button:disabled{cursor:not-allowed}
  .is-rtl .listing-layout .filters{width:100%;min-width:0}
  .is-rtl .listing-results .product-grid{min-width:0}
 }
+
+
+/* RTL tablet: clip intrinsic-width children at the document boundary, not just the listing grid. */
+@media(min-width:641px) and (max-width:980px){
+ html:has(.app-root.is-rtl),body:has(.app-root.is-rtl){max-width:100%;overflow-x:hidden}
+ #root,.app-root.is-rtl{width:100%;max-width:100%;min-width:0;overflow-x:clip}
+}
