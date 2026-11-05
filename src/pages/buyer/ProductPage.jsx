@@ -164,7 +164,7 @@ export function ProductPage() {
               <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => setQty(v => Math.min(99, v + 1))}>＋</button>
             </div>
             <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? <><Check size={16}/> Added to cart</> : <><ShoppingCart size={16}/> Add to cart</>}</button>
-            <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={handleToggleWish}>{saved ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/ >}</button>
+            <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={handleToggleWish}>{saved ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/>}</button>
           </div>
           <div className="product-quantity-summary" aria-live="polite">
             <span>{qty} {qty === 1 ? 'item' : 'items'} selected{selectedVariant ? ` (${selectedVariant})` : ''}</span>
