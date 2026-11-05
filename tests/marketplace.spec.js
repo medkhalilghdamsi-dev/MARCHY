@@ -176,7 +176,7 @@ test('marketplace search autocomplete offers category and no-match guidance', as
 
 test('marketplace search autocomplete suggests products and opens the selected product', async ({ page }) => {
   await page.goto('/search')
-  const search = page.getByRole('textbox', { name: 'Search marketplace' })
+  const search = page.getByRole('combobox', { name: 'Search marketplace' })
   await search.fill('headphones')
   await expect(page.locator('.search-suggestions')).toBeVisible()
   await expect(page.locator('.search-suggestion-product').first()).toContainText('headphones')
