@@ -5,53 +5,57 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: frontend-quality-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
-    name: Production build
+  frontend:
+    name: Build and browser regression
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install dependencies
-        run: npm install
-      - name: Build frontend
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Build production frontend
         run: npm run build
+
       - name: Report dependency advisories
         run: |
           npm audit --json > npm-audit.json || true
           node -e "const a=require('./npm-audit.json'); for (const [name, issue] of Object.entries(a.vulnerabilities || {})) console.log(name + ': ' + issue.severity + ', fix available: ' + JSON.stringify(issue.fixAvailable))"
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser regression suite
+        run: npm run test:e2e
+
       - name: Upload dependency audit report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: marchy-dependency-audit
           path: npm-audit.json
+          if-no-files-found: ignore
 
-  browser-regression:
-    name: Responsive browser regression
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Install dependencies
-        run: npm install
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-      - name: Run browser tests
-        run: npm run test:e2e
-      - name: Upload failure screenshots and audit report
-        if: always()
+      - name: Upload browser failure artifacts
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: marchy-browser-failures
