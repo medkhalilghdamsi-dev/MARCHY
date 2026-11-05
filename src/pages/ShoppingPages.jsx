@@ -5,6 +5,7 @@ import { sellers, sellerByCategory, sellerForProduct } from '../data/sellers'
 import { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText, readJson, writeJson } from '../utils/marketplace'
 import { translateTree } from '../i18n/translate'
 import { ProductCard } from '../components/MarketplaceChrome'
+import { useDemoOrders } from '../hooks/useDemoOrders'
 
 function Home({ addToCart, wishlist, toggleWish, language }) {
   const [active,setActive]=useState('All')
@@ -392,7 +393,8 @@ function CartPage({ cart, updateQty, removeItem, language }) {
 }
 
 
-function CheckoutPage({cart,language}) {
+function CheckoutPage({cart,language,clearCart}) {
+  const {createOrders}=useDemoOrders()
   const [step,setStep]=useState(1)
   const [details,setDetails]=useState({name:'',phone:'',city:'',address:'',notes:''})
   const [reviewed,setReviewed]=useState(false)
@@ -405,6 +407,11 @@ function CheckoutPage({cart,language}) {
     return {seller,items,subtotal:items.reduce((sum,item)=>sum+item.price*item.qty,0)}
   })
   const update=(key,value)=>setDetails(current=>({...current,[key]:value}))
+  const submitDemoOrder=()=>{
+    const created=createOrders(groups.map(group=>({buyer:details.name.trim(),city:details.city.trim(),seller:group.seller.name,items:group.items.reduce((sum,item)=>sum+item.qty,0),total:group.subtotal,payment:'Cash on delivery · demo'})))
+    clearCart?.()
+    navigate('/orders/'+created[0].id)
+  }
   if(!cart.length)return translateTree(<main id="main-content" className="shell page checkout-page"><div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span>Checkout</span></div><div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">NOTHING TO CHECK OUT</span><h1>Your cart is empty</h1><p>Add products before starting checkout.</p><Link to="/search" className="primary-btn">Explore products →</Link></div></main>,language)
   return translateTree(<main id="main-content" className="shell page checkout-page">
     <div className="breadcrumbs"><Link to="/">Home</Link><span>/</span><Link to="/cart">Cart</Link><span>/</span><span aria-current="page">Checkout preview</span></div>
@@ -412,7 +419,7 @@ function CheckoutPage({cart,language}) {
     <ol className="checkout-steps" aria-label="Checkout progress">
       <li className={step>1?'is-complete':step===1?'is-current':''} aria-current={step===1?'step':undefined}><span>{step>1?'✓':'1'}</span><div><b>Delivery details</b><small>Your contact and address</small></div></li>
       <li className={step>2?'is-complete':step===2?'is-current':''} aria-current={step===2?'step':undefined}><span>{step>2?'✓':'2'}</span><div><b>Order review</b><small>Products and sellers</small></div></li>
-      <li className={step===3?'is-current':''} aria-current={step===3?'step':undefined}><span>3</span><div><b>Preview complete</b><small>No order submitted</small></div></li>
+      <li><span>3</span><div><b>Demo order</b><small>Saved on this device</small></div></li>
     </ol>
     <div className="checkout-layout">
       <section className="checkout-main-panel" aria-live="polite">
@@ -431,7 +438,7 @@ function CheckoutPage({cart,language}) {
           <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2>Review before proceeding</h2><p>Each seller handles their own availability and delivery confirmation.</p></div>
           <div className="checkout-contact-review"><div><b>Delivery contact</b><button type="button" className="text-link" onClick={()=>setStep(1)}>Edit details</button></div><p>{details.name} · {details.phone}</p><p>{details.address}, {details.city}</p>{details.notes&&<small>{details.notes}</small>}</div>
           {groups.map(group=><article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item=><div className="checkout-review-item" key={item.id}><img src={item.image} alt="" onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}}/><span>{item.name}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price*item.qty)}</b></div>)}<div className="checkout-delivery-status"><span>Delivery and stock</span><b>To be confirmed by seller</b></div></article>)}
-          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" onClick={()=>setStep(3)}>Continue to final preview <span>→</span></button></div>
+          <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={()=>setStep(1)}>← Edit delivery details</button><button type="button" className="primary-btn" onClick={submitDemoOrder}>Place demo order <span>→</span></button></div>
         </section>}
         {step===3&&<section className="checkout-complete-preview">
           <div className="checkout-preview-icon">✓</div><span className="eyebrow">FRONTEND PREVIEW COMPLETE</span><h2>Your checkout flow is ready for a live integration</h2><p>Your details and basket have been reviewed on this device. No order has been created, no seller has been contacted, and no payment has been taken.</p>
