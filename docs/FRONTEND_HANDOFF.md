@@ -22,7 +22,9 @@ The operations workspaces use one shared browser-local demo order store (`marchy
 - `marchy-cart`: buyer cart
 - `marchy-wishlist`: buyer wishlist
 - `marchy-seller-drafts`: merchant product drafts
-- `marchy-demo-operations-v1`: shared illustrative operations orders used by merchant, buyer tracking, delivery and admin views
+- `marchy-demo-operations-v1`: shared illustrative operations orders used by buyer checkout, merchant, buyer tracking, delivery and admin views
+
+Buyer checkout creates one local demo order per seller in the basket, clears the local cart after confirmation and opens the first order's tracking page. Only a display name, city, seller, item count, total and demo payment label are placed in the local demo order; phone, street address and delivery notes are not persisted. No real order, notification or payment is created.
 
 Do not treat local storage as secure, authoritative or multi-user persistence. It is only for prototype continuity.
 
