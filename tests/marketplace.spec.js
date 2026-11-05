@@ -276,7 +276,7 @@ test('product page can copy a shareable listing link', async ({ page, context })
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('/product/1')
 })
 
-test('checkout preview validates contact details and reviews each seller without submitting an order', async ({ page }) => {
+test('checkout creates shared demo seller orders and opens buyer tracking', async ({ page }) => {
   await page.goto('/product/1')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
   await page.goto('/product/2')
@@ -294,9 +294,12 @@ test('checkout preview validates contact details and reviews each seller without
   await expect(page.getByRole('heading', { name: 'Review before proceeding' })).toBeVisible()
   await expect(page.locator('.checkout-seller-review')).toHaveCount(2)
   await expect(page.locator('.checkout-summary')).toContainText('268.000 TND')
-  await page.getByRole('button', { name: 'Continue to final preview' }).click()
-  await expect(page.getByRole('heading', { name: 'Your checkout flow is ready for a live integration' })).toBeVisible()
-  await expect(page.getByText('No order has been created', { exact: false })).toBeVisible()
+  await page.getByRole('button', { name: 'Place demo order' }).click()
+  await expect(page).toHaveURL(/\\/orders\\/MC-/)
+  await expect(page.getByRole('heading', { name: /Track MC-/ })).toBeVisible()
+  await expect(page.locator('.buyer-tracking-panel')).toContainText('Demo Customer')
+  await page.goto('/cart')
+  await expect(page.locator('.cart-empty-state')).toBeVisible()
 })
 
 test('seller directory search matches accented French category terms', async ({ page }) => {
