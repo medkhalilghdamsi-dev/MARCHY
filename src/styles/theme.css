@@ -12,6 +12,11 @@
   --surface-raised:#ffffff;
   --text-on-accent:#ffffff;
   --focus-ring:#83b7a0;
+  --orange:var(--forest);
+  --orange-dark:#174735;
+  --green:var(--forest);
+  --marchy-orange:var(--forest);
+  --marchy-orange-deep:#174735;
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
