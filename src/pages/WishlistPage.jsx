@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { categories, products } from '../data/products'
 import { translateTree } from '../i18n/translate'
-import { ProductCard } from '../components/MarketplaceChrome'
+import { ProductCard } from '../components/ProductCard'
 
 function WishlistPage({ products: allProducts, wishlist, toggleWish, addToCart, language }) {
   const saved = allProducts.filter(product => wishlist.includes(product.id))
