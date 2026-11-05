@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { ArrowUpRight, Compass, CircleHelp, Store, UserRound } from 'lucide-react'
 
 export function Footer() {
   const { language } = useMarketplace()
@@ -11,7 +12,7 @@ export function Footer() {
       <div className="footer-social"><span>🇹🇳 Built for Tunisia.</span></div>
     </div>
     <div>
-      <b>Discover</b>
+      <b><Compass size={15}/> Discover</b>
       <Link to="/search">All products</Link>
       <Link to="/categories">Categories</Link>
       <Link to="/wishlist">Wishlist</Link>
@@ -19,7 +20,7 @@ export function Footer() {
       <Link to="/search?deal=true">Today's deals</Link>
     </div>
     <div>
-      <b>Your account</b>
+      <b><UserRound size={15}/> Your account</b>
       <Link to="/login">Sign in</Link>
       <Link to="/signup">Create an account</Link>
       <Link to="/account">Account overview</Link>
@@ -27,13 +28,13 @@ export function Footer() {
       <Link to="/wishlist">Saved products</Link>
     </div>
     <div>
-      <b>Sell on MARCHY</b>
+      <b><Store size={15}/> Sell on MARCHY</b>
       <Link to="/sell">Start selling</Link>
       <Link to="/seller-dashboard">Seller workspace</Link>
       <Link to="/seller-help">Seller guide</Link>
     </div>
     <div>
-      <b>Help & support</b>
+      <b><CircleHelp size={15}/> Help & support</b>
       <Link to="/help">Contact us</Link>
       <Link to="/delivery">Delivery information</Link>
       <Link to="/returns">Returns & refunds</Link>
