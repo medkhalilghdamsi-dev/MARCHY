@@ -142,3 +142,35 @@ A multi-merchant checkout may produce several merchant orders under one checkout
 ### Frontend adapter boundary
 
 Keep the current `useDemoOrders` implementation as a demo adapter. Introduce a production `orderService` with equivalent methods (list, get, create checkout, update merchant status, assign courier) and select the adapter at the app/service composition layer. Do not let page components read or write local storage directly. Add explicit loading, empty, validation, conflict, permission and network-error states when the API is connected.
+
+
+## Current frontend architecture notes
+
+The implementation branch introduces a shared React state composition layer:
+
+- src/context/MarketplaceContext.jsx owns the MarketplaceProvider and useMarketplace hook.
+- src/context/connectMarketplacePage.jsx connects page modules to shared marketplace state without passing cart, wishlist, language and theme through the route tree.
+- src/app/MarketplaceApp.jsx owns route definitions and lazy-loads page modules. The header and footer remain in the application shell.
+- src/components/AppErrorBoundary.jsx provides a recoverable route-rendering failure state.
+- A route-level Suspense fallback displays an accessible loading state while a page chunk is downloaded.
+
+The original useMarketplaceState hook remains the state implementation. Cart, wishlist, language and theme retain their existing browser-local storage keys and behavior.
+
+## Seller workspace preview
+
+The seller workspace now includes two populated demo tabs:
+
+- **Insights** derives order count, total sample order value, average sample order and category mix from the existing demo orders/catalogue. Its SVG trend is based on sample order totals only. It deliberately does not fabricate views, clicks, conversion, customer analytics or payouts.
+- **Settings** allows editing a local storefront profile, preparation-time preference, delivery/returns notes and notification toggles. Values are stored in browser local storage under a seller-specific demo key. No bank, payout, identity or other sensitive financial details are collected.
+
+These are frontend previews only. They do not publish a storefront, send notifications, verify a business or update a live seller account.
+
+## Styling and accessibility
+
+src/styles/theme.css is the canonical source for semantic light/dark colour tokens. Duplicate semantic token declarations were removed from base.css; legacy --orange and --green aliases now resolve to the forest-green theme tokens. The skip link, route loading indicator, error state and seller workspace controls are styled in final-quality.css.
+
+The existing stylesheet set has not been aggressively purged. Selector-level removal requires CSS coverage and visual regression testing across buyer, seller, operations, RTL and dark-mode routes. The safe next step is to gather coverage before deleting legacy selectors or splitting page CSS.
+
+## Automated quality workflow
+
+.github/workflows/frontend-quality.yml runs on pushes to main and frontend/** branches and on pull requests targeting main. It installs the locked dependencies, runs the production build, installs Chromium and executes the Playwright suite. A green workflow is required evidence before merging or deploying.
