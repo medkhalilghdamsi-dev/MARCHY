@@ -4,6 +4,7 @@ import { sellers, sellerForProduct } from '../../data/sellers'
 import { money } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { ArrowRight, Check, ShoppingCart, Tag, X } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
 export function CartPage() {
@@ -57,7 +58,7 @@ export function CartPage() {
       <section className="cart-items-panel" aria-label="Cart items">
         <div className="cart-free-delivery-meter" role="region" aria-label="Free delivery progress">
           <div className="cart-free-delivery-copy">
-            <span>{freeDeliveryRemaining > 0 ? `Add ${money(freeDeliveryRemaining)} more for illustrative free standard delivery` : '✓ Illustrative free standard delivery threshold reached (120.000 TND)'}</span>
+            <span>{freeDeliveryRemaining > 0 ? `Add ${money(freeDeliveryRemaining)} more for illustrative free standard delivery` : <Check size={14}/> Illustrative free standard delivery threshold reached (120.000 TND)}</span>
             <b>{freeDeliveryProgress}%</b>
           </div>
           <div className="cart-free-delivery-bar" aria-hidden="true"><span style={{ width: `${freeDeliveryProgress}%` }} /></div>
@@ -108,7 +109,7 @@ export function CartPage() {
             </div>
           </section>
         )}
-        <div className="cart-panel-footer"><span>Need something else?</span><Link to="/categories">Explore all categories →</Link></div>
+        <div className="cart-panel-footer"><span>Need something else?</span><Link to="/categories">Explore all categories <ArrowRight size={15}/></Link></div>
       </section>
       <aside className="summary-card cart-summary">
         <div className="cart-summary-title"><div><span className="eyebrow">YOUR ORDER</span><h2>Order summary</h2></div><span className="cart-summary-count">{itemCount} items</span></div>
@@ -117,7 +118,7 @@ export function CartPage() {
         <div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div>
         {appliedCoupon ? (
           <div className="cart-summary-row applied-coupon-row">
-            <span>Discount ({appliedCoupon}) <button type="button" className="coupon-remove-btn" onClick={removeCoupon} aria-label="Remove coupon">×</button></span>
+            <span>Discount ({appliedCoupon}) <button type="button" className="coupon-remove-btn" onClick={removeCoupon} aria-label="Remove coupon"><X size={14}/></button></span>
             <b style={{ color: 'var(--forest)' }}>-{money(discountAmount)}</b>
           </div>
         ) : (
@@ -159,10 +160,10 @@ export function CartPage() {
         </form>
         <div className="summary-total"><span>Estimated product total</span><strong>{money(finalTotal)}</strong></div>
         <p className="cart-summary-note">Delivery charges, availability and final prices are not yet connected to live seller systems. They are not included in this estimate.</p>
-        <Link to="/checkout" className="primary-btn full-btn cart-checkout-button">Continue to checkout <span>→</span></Link>
+        <Link to="/checkout" className="primary-btn full-btn cart-checkout-button">Continue to checkout <ArrowRight size={16}/></Link>
         <div className="cart-trust-note"><span>ⓘ</span><p>You're reviewing a sample basket. No payment is taken and no order is placed.</p></div>
       </aside>
-    </div> : <div className="cart-empty-state"><div className="cart-empty-icon">🛒</div><span className="eyebrow">A FRESH START</span><h2>Your cart is empty</h2><p>Explore the marketplace and add products you'd like to come back to.</p><div><Link to="/search" className="primary-btn">Explore products →</Link><Link to="/categories" className="cart-empty-secondary">Browse categories</Link></div>
+    </div> : <div className="cart-empty-state"><div className="cart-empty-icon"><ShoppingCart size={30}/></div><span className="eyebrow">A FRESH START</span><h2>Your cart is empty</h2><p>Explore the marketplace and add products you'd like to come back to.</p><div><Link to="/search" className="primary-btn">Explore products <ArrowRight size={15}/></Link><Link to="/categories" className="cart-empty-secondary">Browse categories</Link></div>
       {savedForLater.length > 0 && (
         <section className="cart-saved-later-section" aria-label="Saved for later" style={{ marginTop: '24px', textAlign: 'left' }}>
           <div className="cart-panel-heading"><b>Saved for later</b><span>{savedForLater.length} item{savedForLater.length === 1 ? '' : 's'}</span></div>
