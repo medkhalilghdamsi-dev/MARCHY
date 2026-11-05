@@ -42,3 +42,10 @@
 .seller-ops-links{display:grid;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 .seller-ops-links a{padding:8px 9px;border-radius:6px;background:var(--surface-soft,#f7f9f8);color:var(--ink);font-size:10px;font-weight:750;text-decoration:none}
 .seller-ops-links a:hover{color:var(--accent,#245b42);background:var(--accent-soft,#eaf2ed)}
+
+.seller-dashboard-orders{display:grid;gap:10px}
+.seller-order-row{display:grid;grid-template-columns:minmax(150px,1.5fr) minmax(90px,.7fr) minmax(120px,.8fr) minmax(150px,1fr);align-items:center;gap:12px;padding:13px;border:1px solid var(--line);border-radius:8px;background:var(--surface,#fff)}
+.seller-order-row>div{min-width:0}.seller-order-row b{display:block;font-size:11px}.seller-order-row small{display:block;margin-top:4px;color:var(--muted);font-size:9px}
+.seller-order-row>strong{font-size:11px}.seller-order-row label{display:grid;gap:5px;color:var(--muted);font-size:9px;font-weight:750}
+.seller-order-row select{width:100%;min-height:34px;padding:0 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface,#fff);color:var(--ink);font-size:10px}
+@media(max-width:760px){.seller-order-row{grid-template-columns:1fr 1fr}.seller-order-row label{grid-column:1/-1}}
