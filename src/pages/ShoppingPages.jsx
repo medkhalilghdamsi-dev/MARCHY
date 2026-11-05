@@ -67,7 +67,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
   const navigate = useNavigate()
   const initial = params.get('q') || ''
   const { category: routeCategory } = useParams()
-  const initialCategory = categories.find(c => c.toLowerCase() === (routeCategory || '').toLowerCase()) || 'All'
+  const initialCategory = categories.find(c => c.toLowerCase() === (routeCategory || params.get('category') || '').toLowerCase()) || 'All'
   const isInvalidCategory = Boolean(routeCategory) && initialCategory === 'All'
   const [term, setTerm] = useState(initial)
   const [category, setCategory] = useState(initialCategory)
@@ -132,6 +132,8 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     const next = new URLSearchParams(params)
     if (sort === 'featured') next.delete('sort')
     else next.set('sort', sort)
+    if (routeCategory || category === 'All') next.delete('category')
+    else next.set('category', category)
     if (city === 'All') next.delete('city')
     else next.set('city', city)
     if (minPrice > 0) next.set('min', String(minPrice))
@@ -139,7 +141,7 @@ function SearchPage({ addToCart, wishlist, toggleWish, language }) {
     if (maxPrice < catalogueMaxPrice) next.set('max', String(maxPrice))
     else next.delete('max')
     if (next.toString() !== params.toString()) setParams(next, { replace: true })
-  }, [sort, city, minPrice, maxPrice, catalogueMaxPrice, params, setParams])
+  }, [sort, category, routeCategory, city, minPrice, maxPrice, catalogueMaxPrice, params, setParams])
   const updateTerm = value => {
     setTerm(value)
     const next = new URLSearchParams(params)
