@@ -95,10 +95,10 @@ When adding CSS:
 
 ## Known modularisation targets
 
-The buyer journey and shared marketplace chrome have already been extracted into focused modules. `HomePage.jsx`, `SearchPage.jsx`, `ProductPage.jsx`, `CartPages.jsx` and `WishlistPage.jsx` own their respective buyer routes. The legacy `ShoppingPages.jsx` and `MarketplaceChrome.jsx` files remain as small compatibility barrels; new code should import focused modules directly.
+The buyer journey and shared marketplace chrome have already been extracted into focused modules. `HomePage.jsx`, `SearchPage.jsx`, `ProductPage.jsx`, `CartPages.jsx`, `WishlistPage.jsx`, `SellersPage.jsx`, `SellerPage.jsx` and `CategoriesPage.jsx` own their respective routes. `DiscoveryPages.jsx` is a compatibility export barrel. The legacy `ShoppingPages.jsx` and `MarketplaceChrome.jsx` files remain as small compatibility barrels; new code should import focused modules directly.
 
 Remaining deliberate refactors:
-1. Split the discovery, seller, support and operations page groups where each extraction has a clear dependency boundary.
+1. Split the seller, support and operations page groups where each extraction has a clear dependency boundary. Discovery routes now have one focused module per page.
 2. Split `experience-upgrade.css` into component-owned layers after duplicate-selector and cascade analysis.
 3. Move browser-local demo order operations behind an explicit demo service interface before backend adapter work.
 4. Add a route smoke-test table that stays aligned with `MarketplaceRoutes.jsx`.
