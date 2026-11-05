@@ -989,7 +989,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   --orange-dark:#174735;
   --green:#1f5b45;
 }
-.market-hero-copy h1 em,.home-seller-banner h2 em,
+.market-hero-copy h1 em,
 .hero-floating-icon,.home-category-card small span,
 .seller-link:hover,.category-context-icon,.category-context-strip>a,
 .category-total b,.category-directory-arrow,.product-visual-note>span,
@@ -999,6 +999,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .store-category-filters button:hover,.home-quick-links a:hover{
   color:var(--marchy-green)!important;
 }
+/* Keep the dark seller invitation's accent readable against its navy surface. */
+.home-seller-banner h2 em{color:#a9d6b8!important}
 .hero-floating-icon,.category-context-icon,.product-category-pill,
 .wishlist-empty-icon,.account-guest-avatar,.help-topic-panel>a>span,
 .guide-checklist-item>span,.seller-step-card>span,
