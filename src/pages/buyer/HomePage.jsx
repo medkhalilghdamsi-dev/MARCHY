@@ -32,12 +32,38 @@ export function Home() {
   const { addToCart, wishlist, toggleWish, language } = useMarketplace()
   const [active, setActive] = useState('All')
   const [heroSearch, setHeroSearch] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [recentSearches, setRecentSearches] = useState(() => readJson('marchy-search-history', []).slice(0, 5))
   const navigate = useNavigate()
 
   const submitHeroSearch = event => {
     event.preventDefault()
     const query = heroSearch.trim()
+    if (query) {
+      const next = [query, ...recentSearches.filter(item => item.toLowerCase() !== query.toLowerCase())].slice(0, 5)
+      setRecentSearches(next)
+      try { localStorage.setItem('marchy-search-history', JSON.stringify(next)) } catch {}
+    }
+    setSearchOpen(false)
     navigate(query ? '/search?q=' + encodeURIComponent(query) : '/search')
+  }
+
+  const searchMatches = useMemo(() => {
+    const query = heroSearch.trim().toLowerCase()
+    if (!query) return { products: [], categories: [] }
+    return {
+      products: products.filter(product => [product.name, product.category, product.description || ''].join(' ').toLowerCase().includes(query)).slice(0, 4),
+      categories: populatedCategories.filter(name => name.toLowerCase().includes(query)).slice(0, 3),
+    }
+  }, [heroSearch, populatedCategories])
+
+  const chooseSearch = value => {
+    setHeroSearch(value)
+    const next = [value, ...recentSearches.filter(item => item.toLowerCase() !== value.toLowerCase())].slice(0, 5)
+    setRecentSearches(next)
+    try { localStorage.setItem('marchy-search-history', JSON.stringify(next)) } catch {}
+    setSearchOpen(false)
+    navigate('/search?q=' + encodeURIComponent(value))
   }
 
   const populatedCategories = useMemo(
@@ -68,18 +94,36 @@ export function Home() {
           <h1 id="market-hero-title">Find what you need.<br /><em>Love what you find.</em></h1>
           <p>Discover everyday products, compare catalogue prices in Tunisian dinars, and explore storefronts — all in one place.</p>
 
-          <form className="hero-search-form" role="search" onSubmit={submitHeroSearch}>
-            <label className="sr-only" htmlFor="home-market-search">Search products and categories</label>
-            <span aria-hidden="true"><Search size={19} /></span>
-            <input
-              id="home-market-search"
-              type="search"
-              value={heroSearch}
-              onChange={event => setHeroSearch(event.target.value)}
-              placeholder="Search products, brands or categories"
-            />
-            <button type="submit">Search <ArrowRight size={16} /></button>
-          </form>
+          <div className="home-search-wrap">
+            <form id="home-search-submit" className="hero-search-form" role="search" onSubmit={submitHeroSearch}>
+              <label className="sr-only" htmlFor="home-market-search">Search products and categories</label>
+              <span aria-hidden="true"><Search size={19} /></span>
+              <input
+                id="home-market-search"
+                type="search"
+                value={heroSearch}
+                onFocus={() => setSearchOpen(true)}
+                onChange={event => setHeroSearch(event.target.value)}
+                onKeyDown={event => { if (event.key === 'Escape') setSearchOpen(false) }}
+                placeholder="Search products, brands or categories"
+                autoComplete="off"
+                aria-expanded={searchOpen}
+                aria-controls="home-search-suggestions"
+              />
+              {heroSearch && <button className="home-search-clear" type="button" aria-label="Clear search" onClick={() => setHeroSearch('')}>×</button>}
+              <button type="submit">Search <ArrowRight size={16} /></button>
+            </form>
+            {searchOpen && (heroSearch.trim() || recentSearches.length > 0) && (
+              <div className="home-search-suggestions" id="home-search-suggestions">
+                {heroSearch.trim() ? <>
+                  {searchMatches.products.length > 0 && <div className="home-search-group"><small>Matching products</small>{searchMatches.products.map(product => <button type="button" key={product.id} onMouseDown={event => event.preventDefault()} onClick={() => chooseSearch(product.name)}><img src={product.image} alt="" /><span><b>{product.name}</b><small>{product.category} · {product.price} TND</small></span><ArrowRight size={14} /></button>)}</div>}
+                  {searchMatches.categories.length > 0 && <div className="home-search-group"><small>Categories</small>{searchMatches.categories.map(name => <button type="button" key={name} onMouseDown={event => event.preventDefault()} onClick={() => { setSearchOpen(false); navigate('/category/' + encodeURIComponent(name.toLowerCase())) }}><span><b>{name}</b><small>Browse category</small></span><ArrowRight size={14} /></button>)}</div>}
+                  <button className="home-search-all" type="submit" form="home-search-submit">View all results for “{heroSearch.trim()}”</button>
+                </> : <div className="home-search-group"><small>Recent searches</small>{recentSearches.map(term => <button type="button" key={term} onMouseDown={event => event.preventDefault()} onClick={() => chooseSearch(term)}><span><b>{term}</b></span><ArrowRight size={14} /></button>)}</div>}
+                {heroSearch.trim() && searchMatches.products.length === 0 && searchMatches.categories.length === 0 && <p className="home-search-empty">No quick matches. Search the full catalogue instead.</p>}
+              </div>
+            )}
+          </div>
 
           <div className="hero-trending" aria-label="Popular searches">
             <span>Try:</span>
@@ -136,15 +180,6 @@ export function Home() {
         </div>
       </section>
 
-      <section className="home-budget-discovery home-budget-premium" aria-label="Shop by budget">
-        <div><span className="eyebrow">DISCOVER BY PRICE</span><h2>Good finds, your budget.</h2><p>Start with a price range that feels right.</p></div>
-        <div className="home-budget-links">
-          {[{ label: 'Under 50 TND', max: 50 }, { label: 'Under 100 TND', max: 100 }, { label: 'Under 200 TND', max: 200 }, { label: 'Explore all', max: 0 }].map(item => (
-            <Link key={item.label} to={item.max ? '/search?max=' + item.max : '/search'}>{item.label}<ArrowRight size={14} /></Link>
-          ))}
-        </div>
-      </section>
-
       <section className="section home-featured-section">
         <div className="section-heading">
           <div><span className="eyebrow">PICK YOUR NEXT DISCOVERY</span><h2>Popular in the catalogue</h2><p className="muted">Explore a selection of illustrative catalogue listings.</p></div>
@@ -173,13 +208,12 @@ export function Home() {
         </Link>
       </section>
 
-      <section className="section home-new-arrivals">
-        <div className="section-heading">
-          <div><span className="eyebrow">FRESH FROM THE CATALOGUE</span><h2>Recently added</h2><p className="muted">A look at the latest sample listings in this prototype.</p></div>
-          <Link to="/search?sort=newest" className="text-link">Explore catalogue <ArrowRight size={15} /></Link>
-        </div>
-        <div className="product-grid">
-          {newArrivals.map(product => <ProductCard key={product.id} product={product} addToCart={addToCart} wished={wishlist.includes(product.id)} toggleWish={toggleWish} language={language} />)}
+      <section className="home-budget-discovery home-budget-premium" aria-label="Shop by budget">
+        <div><span className="eyebrow">DISCOVER BY PRICE</span><h2>Good finds, your budget.</h2><p>Start with a price range that feels right.</p></div>
+        <div className="home-budget-links">
+          {[{ label: 'Under 50 TND', max: 50 }, { label: 'Under 100 TND', max: 100 }, { label: 'Under 200 TND', max: 200 }, { label: 'Explore all', max: 0 }].map(item => (
+            <Link key={item.label} to={item.max ? '/search?max=' + item.max : '/search'}>{item.label}<ArrowRight size={14} /></Link>
+          ))}
         </div>
       </section>
 
@@ -193,6 +227,16 @@ export function Home() {
           </div>
         </section>
       )}
+
+      <section className="section home-new-arrivals">
+        <div className="section-heading">
+          <div><span className="eyebrow">FRESH FROM THE CATALOGUE</span><h2>Recently added</h2><p className="muted">A look at the latest sample listings in this prototype.</p></div>
+          <Link to="/search?sort=newest" className="text-link">Explore catalogue <ArrowRight size={15} /></Link>
+        </div>
+        <div className="product-grid">
+          {newArrivals.map(product => <ProductCard key={product.id} product={product} addToCart={addToCart} wished={wishlist.includes(product.id)} toggleWish={toggleWish} language={language} />)}
+        </div>
+      </section>
 
       <section className="section home-deals-section">
         <div className="section-heading">
