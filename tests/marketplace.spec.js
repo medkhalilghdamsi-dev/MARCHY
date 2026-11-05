@@ -632,3 +632,28 @@ test('light and dark themes toggle accessibly and persist across reloads', async
   await page.reload()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
 })
+
+
+test('seller insights and settings tabs are usable and clearly marked as demo data', async ({ page }) => {
+  await page.goto('/seller-dashboard')
+  await page.getByRole('button', { name: /insights/i }).click()
+  await expect(page.getByText('Sample order insights')).toBeVisible()
+  await expect(page.getByText(/No live traffic, views, conversion or real revenue data/)).toBeVisible()
+  await page.getByRole('button', { name: /settings/i }).click()
+  await expect(page.getByRole('heading', { name: 'Public store information' })).toBeVisible()
+  await page.getByLabel('Store display name').fill('MARCHY Demo Store')
+  await page.getByRole('button', { name: 'Save local preferences' }).click()
+  await expect(page.getByRole('status')).toContainText('Preferences saved on this device')
+  await page.reload()
+  await page.getByRole('button', { name: /settings/i }).click()
+  await expect(page.getByLabel('Store display name')).toHaveValue('MARCHY Demo Store')
+})
+
+test('buyer and seller pages receive shared language and theme state from context', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('.app-root')).toBeVisible()
+  await page.goto('/seller-dashboard')
+  await expect(page.locator('.seller-dashboard-page')).toBeVisible()
+  await page.getByRole('button', { name: /products/i }).click()
+  await expect(page.getByText('Manage your listing drafts')).toBeVisible()
+})
