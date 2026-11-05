@@ -15,7 +15,7 @@ export function formatMoney(value, lang = 'en', { compact = false, unit = 'TND' 
     return `${new Intl.NumberFormat(loc(lang), { notation: 'compact', maximumFractionDigits: 1 }).format(n)} ${currencyLabel}`
   }
   const num = new Intl.NumberFormat(loc(lang), { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(n)
-  return `${num} ${unit}`
+  return `${num} ${currencyLabel}`
 }
 // Backwards compatible English formatter used where no language is available.
 export const money = value => formatMoney(value, 'en')
