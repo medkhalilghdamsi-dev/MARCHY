@@ -357,6 +357,7 @@ test('delivery operations and platform admin share order status and courier chan
   await expect(adminRow).toContainText('In transit')
   await adminRow.getByLabel('Status for MC-1048').selectOption('Delivered')
   await page.getByRole('link', { name: 'Delivery operations', exact: true }).click()
+  await page.getByRole('button', { name: 'All', exact: true }).click()
   await expect(page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })).toContainText('Delivered')
 })
 
