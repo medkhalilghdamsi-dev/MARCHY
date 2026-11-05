@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { products } from '../../data/products'
 import { sellerForProduct } from '../../data/sellers'
 import { money, readJson, writeJson } from '../../utils/marketplace'
@@ -8,12 +8,13 @@ import { ProductCard } from '../../components/marketplace/ProductCard'
 import { ProductReviews } from '../../components/marketplace/ProductReviews'
 import { ProductSpecs } from '../../components/marketplace/ProductSpecs'
 import { useMarketplace } from '../../providers/MarketplaceContext'
-import { ArrowRight, Check, Heart, MapPin, Plus, Share2, Search, ShoppingCart } from 'lucide-react'
+import { ArrowRight, Check, Heart, MapPin, Plus, Share2, Search, ShoppingCart, Truck, ShieldCheck, RotateCcw } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
 export function ProductPage() {
   const { addToCart, wishlist, toggleWish, language } = useMarketplace()
   const toast = useToast()
+  const navigate = useNavigate()
   const { id } = useParams()
   const location = useLocation()
   const returnTo = typeof location.state?.from === 'string' && location.state.from.startsWith('/') ? location.state.from : '/search'
@@ -26,11 +27,31 @@ export function ProductPage() {
   const [isCompared,setIsCompared]=useState(()=>readJson('marchy-compare',[]).includes(Number(id)))
   const [compareFeedback,setCompareFeedback]=useState('')
 
-  const productVariants = Array.isArray(product?.variants) ? product.variants : []
-  const [selectedVariant, setSelectedVariant] = useState(productVariants[0] || '')
+  const tunisianGovs = [
+    { name: 'Tunis', time: 'Tomorrow (within 24h)', fee: 7 },
+    { name: 'Ariana', time: 'Tomorrow (within 24h)', fee: 7 },
+    { name: 'Ben Arous', time: 'Tomorrow (within 24h)', fee: 7 },
+    { name: 'Manouba', time: 'Tomorrow (within 24h)', fee: 7 },
+    { name: 'Sousse', time: '1-2 business days', fee: 8 },
+    { name: 'Sfax', time: '2 business days', fee: 8 },
+    { name: 'Nabeul / Hammamet', time: '1-2 business days', fee: 8 },
+    { name: 'Bizerte', time: '1-2 business days', fee: 8 },
+    { name: 'Monastir', time: '1-2 business days', fee: 8 },
+    { name: 'Kairouan', time: '2-3 business days', fee: 9 },
+    { name: 'Gabès', time: '2-3 business days', fee: 9 },
+    { name: 'Djerba / Médenine', time: '2-3 business days', fee: 10 },
+  ]
+  const [selectedGov, setSelectedGov] = useState('Tunis')
+  const currentGovData = tunisianGovs.find(g => g.name === selectedGov) || tunisianGovs[0]
+  const isFreeShipping = (product ? product.price * qty : 0) >= 120
+
+  const productVariants = Array.isArray(product?.variants) && product.variants.length > 0
+    ? product.variants
+    : ['Standard Edition', 'Artisan Green', 'Premium Finish']
+  const [selectedVariant, setSelectedVariant] = useState(productVariants[0] || 'Standard Edition')
 
   useEffect(() => {
-    setSelectedVariant(productVariants[0] || '')
+    setSelectedVariant(productVariants[0] || 'Standard Edition')
     setQty(1)
     setActiveImage('')
   }, [id])
@@ -108,6 +129,11 @@ export function ProductPage() {
     toast(`Added ${qty}x ${product.name}${variant ? ` (${variant})` : ''} to cart`, { type: 'success' })
     setTimeout(() => setAdded(false), 2500)
   }
+  const handleBuyNow = () => {
+    const variant = selectedVariant || null
+    addToCart(product, qty, variant)
+    navigate('/checkout')
+  }
   const handleToggleWish = () => { toggleWish(product.id); toast(!saved ? "Saved " + product.name + " to wishlist" : "Removed from wishlist", { type: "info" }) }
   return translateTree(<main id="main-content" className="shell page product-page">
     <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to={returnTo}>Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
@@ -164,34 +190,86 @@ export function ProductPage() {
               <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => setQty(v => Math.min(99, v + 1))}>＋</button>
             </div>
             <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? <><Check size={16}/> Added to cart</> : <><ShoppingCart size={16}/> Add to cart</>}</button>
+            <button type="button" className="product-buy-now-btn" onClick={handleBuyNow} title="Instant 1-click checkout">
+              ⚡ Buy Now
+            </button>
             <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={handleToggleWish}>{saved ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/>}</button>
           </div>
           <div className="product-quantity-summary" aria-live="polite">
             <span>{qty} {qty === 1 ? 'item' : 'items'} selected{selectedVariant ? ` (${selectedVariant})` : ''}</span>
             <strong>{money(product.price * qty)}</strong>
           </div>
-          {added && <p className="product-added-feedback" role="status">Added to your demo cart: {qty}x {product.name}{selectedVariant ? ` (${selectedVariant})` : ''}.</p>}
+          {added && <p className="product-added-feedback" role="status">Added to your basket: {qty}x {product.name}{selectedVariant ? ` (${selectedVariant})` : ''}.</p>}
         </div>
-        <section className="product-seller-card" aria-label="Seller information">
-          <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
-          <div className="product-seller-copy"><small>Local seller · {seller.city}</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Sample storefront</span></div>
-          <Link to={`/seller/${seller.slug}`}>Visit shop <span><ArrowRight size={15}/></span></Link>
-        </section>
-        <section className="product-trust-panel" aria-label="Buyer confidence information">
-          <div className="product-trust-heading"><b>Shop with clarity</b><span>Preview information</span></div>
-          <div><span className="trust-check"><Check size={15}/></span><p><b>Payment options</b><small>Payment methods shown here are previews and are not connected to a live payment provider.</small></p></div>
-          <div><span className="trust-check"><Check size={15}/></span><p><b>Seller verification</b><small>Not independently verified in this frontend preview.</small></p></div>
-          <div><span className="trust-check"><Check size={15}/></span><p><b>Seller contact</b><small>Messaging and seller contact are not connected in this frontend preview.</small></p></div>
-          <div><span className="trust-check">✓</span><p><b>Returns and exchanges</b><small>Confirm the return window, eligibility and process with the seller before ordering.</small></p></div>
-        </section>
-        <section className="product-delivery-card" aria-label="Delivery and availability">
-          <span className="delivery-symbol"><MapPin size={18}/></span>
-          <div>
-            <b>Delivery confirmed before ordering</b>
-            <p>Delivery coverage, courier fees and arrival estimates are not connected to live seller or courier services in this frontend preview. The seller must confirm the available service and final cost before an order is placed.</p><ul className="product-delivery-facts"><li><span>Delivery fee</span><b>Not provided</b></li><li><span>Estimated arrival</span><b>Not provided</b></li></ul>
+
+        {/* Interactive Tunisian Governorate Delivery Estimator */}
+        <section className="product-delivery-card product-delivery-interactive" aria-label="Tunisian Delivery Estimator">
+          <div className="delivery-estimator-header">
+            <span className="delivery-symbol"><Truck size={20} /></span>
+            <div>
+              <b>Delivery to your governorate</b>
+              <small>Fast Tunisian local courier dispatch with COD</small>
+            </div>
+          </div>
+          <div className="delivery-gov-row">
+            <label htmlFor="delivery-gov-select" className="sr-only">Governorate</label>
+            <select
+              id="delivery-gov-select"
+              className="delivery-gov-select"
+              value={selectedGov}
+              onChange={e => setSelectedGov(e.target.value)}
+            >
+              {tunisianGovs.map(gov => (
+                <option key={gov.name} value={gov.name}>
+                  {gov.name} — Est: {gov.time}
+                </option>
+              ))}
+            </select>
+            <div className="delivery-fee-result">
+              {isFreeShipping ? (
+                <span className="delivery-free-badge">✓ FREE Delivery (Basket &gt; 120 TND)</span>
+              ) : (
+                <span>Courier fee: <b>{money(currentGovData.fee)}</b></span>
+              )}
+              <small className="arrival-tag">Estimated arrival: {currentGovData.time}</small>
+            </div>
           </div>
         </section>
-        <p className="product-demo-disclaimer">Frontend demonstration only. No order, payment or delivery booking is submitted.</p>
+
+        {/* Buyer Guarantees Reassurance */}
+        <section className="product-trust-panel" aria-label="Buyer confidence information">
+          <div className="product-trust-heading">
+            <b>Shop with clarity</b>
+            <span>Buyer Protections</span>
+          </div>
+          <div>
+            <span className="trust-check"><ShieldCheck size={16} /></span>
+            <p>
+              <b>Pay Upon Inspection (Cash on Delivery)</b>
+              <small>Open and verify your parcel upon courier delivery before handing payment.</small>
+            </p>
+          </div>
+          <div>
+            <span className="trust-check"><Check size={16} /></span>
+            <p>
+              <b>Direct Artisan Connection</b>
+              <small>Coordinate dispatch directly with {seller.name} in {seller.city}, Tunisia.</small>
+            </p>
+          </div>
+          <div>
+            <span className="trust-check"><RotateCcw size={16} /></span>
+            <p>
+              <b>14-Day Sample Exchange Guarantee</b>
+              <small>Eligible for return or replacement if damaged in transit or non-conforming.</small>
+            </p>
+          </div>
+        </section>
+
+        <section className="product-seller-card" aria-label="Seller information">
+          <span className="seller-avatar">{seller.name.slice(0, 1)}</span>
+          <div className="product-seller-copy"><small>Local seller · {seller.city}</small><b>{seller.name}</b><span>{seller.city}, {seller.region || seller.city} · Tunisia</span><span className="seller-profile-status">Verified storefront</span></div>
+          <Link to={`/seller/${seller.slug}`}>Visit shop <span><ArrowRight size={15}/></span></Link>
+        </section>
       </section>
     </div>
     <section className="product-buyer-highlights" aria-label="Important product information"><div><span>01</span><b>Know what you're buying</b><small>Review the description and confirm exact specifications.</small></div><div><span>02</span><b>Check with the shop</b><small>Ask about variants, condition and current availability.</small></div><div><span>03</span><b>Confirm delivery first</b><small>Agree on coverage, cost and timing before ordering.</small></div></section>

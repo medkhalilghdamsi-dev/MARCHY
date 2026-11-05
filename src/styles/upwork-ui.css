@@ -1501,3 +1501,264 @@ html[data-theme="dark"] .upwork-cta-buyers {
 }
 
 
+
+
+/* ==========================================================================
+   STREAMLINED BUYER JOURNEY STYLES
+   Buy Now · Governorate Delivery Estimator · Quick Address Selector · COD Guarantee
+   ========================================================================== */
+
+/* Buy Now 1-click button */
+.product-buy-now-btn {
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #12261e;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1px solid #12261e;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.product-buy-now-btn:hover {
+  background: var(--forest, #1f5b45);
+  border-color: var(--forest, #1f5b45);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(31, 91, 69, 0.22);
+}
+
+/* Product Delivery Estimator */
+.product-delivery-interactive {
+  margin-top: 24px;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--line, #d8e5dd);
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+
+.delivery-estimator-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.delivery-symbol {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--forest-soft, #e6f0eb);
+  color: var(--forest, #1f5b45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delivery-estimator-header b {
+  display: block;
+  font-size: 14px;
+  color: var(--ink, #12261e);
+}
+
+.delivery-estimator-header small {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted, #5f756b);
+}
+
+.delivery-gov-row {
+  margin-bottom: 12px;
+}
+
+.delivery-gov-select {
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--line, #d8e5dd);
+  background: #ffffff;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink, #12261e);
+  cursor: pointer;
+  outline: none;
+}
+
+.delivery-gov-select:focus {
+  border-color: var(--forest, #1f5b45);
+  box-shadow: 0 0 0 3px rgba(31, 91, 69, 0.12);
+}
+
+.delivery-estimator-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--surface, #f4f8f5);
+  font-size: 12.5px;
+}
+
+.delivery-fee-tag {
+  font-weight: 700;
+  color: var(--forest, #1f5b45);
+}
+
+.delivery-free-alert {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--forest, #1f5b45);
+  font-weight: 600;
+}
+
+/* Product Buyer Perks list */
+.product-buyer-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line, #d8e5dd);
+}
+
+.perk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.perk-item svg {
+  color: var(--forest, #1f5b45);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.perk-item strong {
+  display: block;
+  font-size: 13px;
+  color: var(--ink, #12261e);
+}
+
+.perk-item p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--text-muted, #5f756b);
+  line-height: 1.4;
+}
+
+/* Checkout Quick-fill Saved Addresses */
+.checkout-saved-addresses-bar {
+  margin-bottom: 22px;
+  padding: 14px 16px;
+  background: var(--surface, #f4f8f5);
+  border: 1px solid var(--line, #d8e5dd);
+  border-radius: 12px;
+}
+
+.saved-addr-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--forest, #1f5b45);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.saved-addr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.saved-addr-chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line, #d8e5dd);
+  background: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  transition: all 0.16s ease;
+}
+
+.saved-addr-chip b {
+  color: var(--ink, #12261e);
+}
+
+.saved-addr-chip span {
+  color: var(--text-muted, #5f756b);
+}
+
+.saved-addr-chip:hover {
+  border-color: var(--forest, #1f5b45);
+  background: #ffffff;
+}
+
+.saved-addr-chip.is-selected {
+  background: var(--forest-soft, #e6f0eb);
+  border-color: var(--forest, #1f5b45);
+}
+
+.saved-addr-chip.is-selected b {
+  color: var(--forest, #1f5b45);
+}
+
+.checkout-save-address-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--ink, #12261e);
+  cursor: pointer;
+}
+
+.checkout-save-address-opt input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--forest, #1f5b45);
+  cursor: pointer;
+}
+
+/* COD Guarantee Banner in Checkout Step 2 */
+.cod-guarantee-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: #f4f8f5;
+  border: 1px solid #78a58c;
+  border-radius: 12px;
+  margin-bottom: 22px;
+}
+
+.cod-badge-icon {
+  color: var(--forest, #1f5b45);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cod-guarantee-banner strong {
+  display: block;
+  font-size: 14px;
+  color: var(--forest, #1f5b45);
+}
+
+.cod-guarantee-banner p {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: var(--ink, #12261e);
+  line-height: 1.45;
+}
