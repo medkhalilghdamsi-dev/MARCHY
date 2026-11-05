@@ -243,3 +243,15 @@ html[dir="rtl"] .hero-art-index{right:auto;left:24px}
  .app-root.is-rtl{width:100%;max-width:100%;overflow-x:clip}
  .app-root.is-rtl>.shell,.app-root.is-rtl main{min-width:0;max-width:100%}
 }
+
+
+/* Product-detail supporting copy and badges meet WCAG AA contrast. */
+.product-image-discount{background:#a94421;color:#fff}
+.product-price-block>del,.product-price-caption{color:#59656f}
+.product-listing-status small{color:#536057}
+.product-quantity-summary>span{color:#59656f}
+.product-seller-copy small,.product-seller-copy>span{color:#59656f}
+.product-delivery-card p{color:#59656f}
+.product-demo-disclaimer{color:#59656f}
+.product-buyer-highlights>div>span{color:#a94421}
+.product-attribute-list dt{color:#59656f}
