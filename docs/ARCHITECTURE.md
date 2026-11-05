@@ -17,8 +17,8 @@ Runtime entry:
 | Path | Responsibility | Keep out of this layer |
 |---|---|---|
 | `src/app/` | App shell, route composition, route metadata | Page-specific business logic |
-| `src/components/` | Reusable interface components shared by routes | Route orchestration and persistent app state |
-| `src/pages/` | Page-level journeys and route-specific composition | Direct API transport or server assumptions |
+| `src/components/` | Focused header, product card, footer and mobile navigation modules; legacy barrel retained | Route orchestration and persistent app state |
+| `src/pages/` | Focused homepage, search, product, cart/checkout and wishlist modules; discovery, seller, support and operations page groups | Direct API transport or server assumptions |
 | `src/hooks/` | Reusable stateful browser behavior | Presentation markup |
 | `src/data/` | Clearly illustrative product, category and seller fixtures | Claims of verified live inventory |
 | `src/i18n/` | English, French and Arabic copy and translation helpers | Page routing |
