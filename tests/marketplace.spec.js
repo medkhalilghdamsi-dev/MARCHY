@@ -657,3 +657,10 @@ test('buyer and seller pages receive shared language and theme state from contex
   await page.getByRole('button', { name: /products/i }).click()
   await expect(page.getByText('Manage your listing drafts')).toBeVisible()
 })
+
+
+test('adding a product provides an accessible toast confirmation', async ({ page }) => {
+  await page.goto('/product/1')
+  await page.getByRole('button', { name: 'Add to cart' }).last().click()
+  await expect(page.getByRole('status').filter({ hasText: 'Added to your cart' })).toBeVisible()
+})
