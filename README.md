@@ -16,7 +16,8 @@ MARCHY/
 │   │   ├── products.js         # Illustrative product catalogue and categories
 │   │   └── sellers.js          # Illustrative seller profiles and mappings
 │   ├── hooks/
-│   │   └── useMarketplaceState.js # Persistent language, cart and wishlist state
+│   │   ├── useMarketplaceState.js # Persistent language, cart and wishlist state
+│   │   └── useDemoOrders.js        # Browser-local demo order lifecycle
 │   ├── i18n/
 │   │   ├── translations.js     # English/French/Arabic interface copy
 │   │   └── translate.js        # Shared translated React-tree helper
@@ -36,7 +37,12 @@ MARCHY/
 │   │   ├── quality-refinements.css  # Accessibility and responsive polish
 │   │   ├── multi-seller-basket.css  # Multi-seller cart details
 │   │   ├── checkout.css             # Checkout preview
-│   │   └── result-controls.css      # Search and listing controls
+│   │   ├── result-controls.css      # Search and listing controls
+│   │   ├── experience-upgrade.css   # Cross-page interaction and visual refinements
+│   │   ├── auth.css                 # Authentication screens
+│   │   ├── operations.css           # Delivery and admin demo screens
+│   │   ├── theme.css                # Theme variants
+│   │   └── final-quality.css        # Final shared design tokens and overrides
 │   ├── utils/
 │   │   └── marketplace.js     # Search, text normalisation and storage helpers
 │   ├── App.jsx                 # Stable application entry/re-export
