@@ -29,7 +29,7 @@ test('all public frontend routes render a page and a page-specific title', async
   }
 })
 
-const responsiveRoutes = ['/', '/search', '/category/electronics', '/product/1', '/cart', '/checkout', '/wishlist', '/categories', '/sellers', '/seller/atlas-tech-tunis', '/account', '/help', '/delivery', '/returns', '/seller-help', '/sell', '/seller-dashboard', '/operations/delivery', '/admin', '/orders/MC-1048']
+const responsiveRoutes = ['/', '/search', '/category/electronics', '/product/1', '/cart', '/checkout', '/wishlist', '/categories', '/sellers', '/seller/atlas-tech-tunis', '/account', '/help', '/delivery', '/returns', '/seller-help', '/sell', '/seller-dashboard', '/operations/delivery', '/admin', '/orders', '/orders/MC-1048']
 const viewports = [
   { width: 360, height: 800 },
   { width: 390, height: 844 },
@@ -391,4 +391,19 @@ test('connected operations workspaces respect French and Arabic interface langua
   await page.locator('.language-picker select').selectOption('ar')
   await expect(page.getByRole('heading', { name: 'عمليات التوصيل' })).toBeVisible()
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+})
+
+
+test('buyer order history searches, filters and opens tracking', async ({ page }) => {
+  await page.goto('/orders')
+  await expect(page.getByRole('heading', { name: 'Your orders' })).toBeVisible()
+  await expect(page.locator('.buyer-order-card')).toHaveCount(5)
+  await page.getByLabel('Search orders').fill('Amira')
+  await expect(page.locator('.buyer-order-card')).toHaveCount(1)
+  await expect(page.locator('.buyer-order-card')).toContainText('MC-1048')
+  await page.getByLabel('Search orders').fill('')
+  await page.getByLabel('Order status').selectOption('Delivered')
+  await expect(page.locator('.buyer-order-card')).toHaveCount(1)
+  await page.getByRole('link', { name: 'Track order' }).click()
+  await expect(page.getByRole('heading', { name: 'Track MC-1046' })).toBeVisible()
 })
