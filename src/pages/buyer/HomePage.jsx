@@ -77,9 +77,12 @@ export function Home() {
     image: products.find(product => product.category === name)?.image,
   }))
   const filterOptions = ['All', ...populatedCategories.slice(0, 5)]
-  const shown = (active === 'All' ? products : products.filter(product => product.category === active)).slice(0, 8)
+  // Keep the homepage collections distinct so buyers do not see the same cards repeated.
+  const newArrivals = products.filter(product => !product.oldPrice).slice(-4).reverse()
+  const newArrivalIds = new Set(newArrivals.map(product => product.id))
+  const featuredProducts = products.filter(product => !product.oldPrice && !newArrivalIds.has(product.id)).slice(0, 8)
+  const shown = (active === 'All' ? featuredProducts : featuredProducts.filter(product => product.category === active)).slice(0, 8)
   const deals = products.filter(product => product.oldPrice).slice(0, 4)
-  const newArrivals = [...products].slice(-4).reverse()
   const recentlyViewed = readJson('marchy-recently-viewed', [])
     .map(id => products.find(product => product.id === id))
     .filter(Boolean)
@@ -196,6 +199,15 @@ export function Home() {
         </div>
       </section>
 
+      <section className="home-budget-discovery home-budget-premium" aria-label="Shop by budget">
+        <div><span className="eyebrow">DISCOVER BY PRICE</span><h2>Good finds, your budget.</h2><p>Start with a price range that feels right.</p></div>
+        <div className="home-budget-links">
+          {[{ label: 'Under 50 TND', max: 50 }, { label: 'Under 100 TND', max: 100 }, { label: 'Under 200 TND', max: 200 }, { label: 'Explore all', max: 0 }].map(item => (
+            <Link key={item.label} to={item.max ? '/search?max=' + item.max : '/search'}>{item.label}<ArrowRight size={14} /></Link>
+          ))}
+        </div>
+      </section>
+
       <section className="home-editorial-discovery" aria-label="More ways to discover">
         <Link to="/category/home" className="home-editorial-card home-editorial-home">
           <span>MAKE ROOM FOR BETTER</span><b>Thoughtful picks<br />for your space.</b><small>Explore home <ArrowUpRight size={14} /></small>
@@ -206,15 +218,6 @@ export function Home() {
         <Link to="/category/electronics" className="home-editorial-card home-editorial-tech">
           <span>SMARTER EVERYDAY</span><b>Little upgrades.<br />Big difference.</b><small>Explore electronics <ArrowUpRight size={14} /></small>
         </Link>
-      </section>
-
-      <section className="home-budget-discovery home-budget-premium" aria-label="Shop by budget">
-        <div><span className="eyebrow">DISCOVER BY PRICE</span><h2>Good finds, your budget.</h2><p>Start with a price range that feels right.</p></div>
-        <div className="home-budget-links">
-          {[{ label: 'Under 50 TND', max: 50 }, { label: 'Under 100 TND', max: 100 }, { label: 'Under 200 TND', max: 200 }, { label: 'Explore all', max: 0 }].map(item => (
-            <Link key={item.label} to={item.max ? '/search?max=' + item.max : '/search'}>{item.label}<ArrowRight size={14} /></Link>
-          ))}
-        </div>
       </section>
 
       {recentlyViewed.length > 0 && (
