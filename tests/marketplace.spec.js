@@ -677,3 +677,19 @@ test('auth page is a unique standalone page with logo on top left and centred fo
   await expect(page).toHaveURL(/.*\/$/)
   await expect(page.locator('header.header')).toBeVisible()
 })
+
+
+test('mobile quick navigation prioritises five buyer destinations and keeps seller discovery in the menu', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  const tabs = page.locator('.mobile-tabbar a')
+  await expect(tabs).toHaveCount(5)
+  await expect(tabs.nth(0)).toContainText('Home')
+  await expect(tabs.nth(1)).toContainText('Explore')
+  await expect(tabs.nth(2)).toContainText('Saved')
+  await expect(tabs.nth(3)).toContainText('Cart')
+  await expect(tabs.nth(4)).toContainText('Account')
+  await expect(page.locator('.mobile-tabbar')).toHaveCSS('grid-template-columns', /\d+px/)
+  await page.getByRole('button', { name: 'Open navigation menu' }).click()
+  await expect(page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'Sellers' })).toBeVisible()
+})
