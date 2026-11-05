@@ -22,6 +22,7 @@ MARCHY/
 │   │   └── translate.js        # Shared translated React-tree helper
 │   ├── pages/
 │   │   ├── ShoppingPages.jsx   # Home, search, product, cart, checkout, wishlist
+│   │   ├── OperationsPages.jsx # Demo orders, tracking, delivery and admin
 │   │   ├── DiscoveryPages.jsx  # Categories and seller discovery/storefront
 │   │   ├── SellerPages.jsx     # Seller onboarding, workspace and preparation
 │   │   └── SupportPages.jsx    # Account, help, delivery, returns and not-found
@@ -45,6 +46,8 @@ MARCHY/
 │   └── marketplace.spec.js     # Playwright route, responsive and interaction tests
 ├── index.html
 ├── package.json
+├── scripts/
+│   └── create-route-fallbacks.mjs # Static-host deep-link fallbacks
 ├── playwright.config.js
 └── vite.config.js
 ```
@@ -66,7 +69,7 @@ The current structure separates route composition, shared marketplace chrome, pa
 ## Run locally
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
