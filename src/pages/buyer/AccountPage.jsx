@@ -25,7 +25,7 @@ export function AccountPage() {
   <section className="account-welcome">
     <div>
       <span className="eyebrow">{authUser?.isLoggedIn ? 'ACTIVE BUYER PROFILE' : 'YOUR MARCHY'}</span>
-      <h1>{authUser?.isLoggedIn ? `Welcome back, ${authUser.name}.` : 'Your shopping space.'}</h1>
+      <h1>{authUser?.isLoggedIn ? `Welcome, ${authUser.name}.` : 'Your shopping space.'}</h1>
       <p>{authUser?.isLoggedIn ? 'Manage your saved local items, track incoming sample deliveries and customize your preferences.' : "Keep track of the products you're considering and pick up where you left off."}</p>
     </div>
     <div className="account-guest-status">
@@ -33,15 +33,15 @@ export function AccountPage() {
       <div>
         <b>{authUser?.isLoggedIn ? authUser.name : 'Guest browsing'}</b>
         <small>{authUser?.isLoggedIn ? authUser.email : "You're exploring without signing in"}</small>
-        <span className="demo-label">{authUser?.isLoggedIn ? 'ACTIVE MEMBER' : 'PREVIEW MODE'}</span>
+        <span className="demo-label">{authUser?.isLoggedIn ? 'LOCAL PREVIEW SESSION' : 'PREVIEW MODE'}</span>
       </div>
     </div>
   </section>
   {authUser?.isLoggedIn ? (
     <section className="account-auth-prompt account-signedin-banner">
       <div>
-        <span className="eyebrow">YOUR CONNECTED SESSION</span>
-        <h2>Signed in as {authUser.name}</h2>
+        <span className="eyebrow">YOUR LOCAL PREVIEW SESSION</span>
+        <h2>Preview profile: {authUser.name}</h2>
         <p>You can browse with your saved preferences, create test orders, and manage your wishlist.</p>
       </div>
       <div>
