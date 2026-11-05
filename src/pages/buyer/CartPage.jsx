@@ -4,7 +4,7 @@ import { sellers, sellerForProduct } from '../../data/sellers'
 import { money } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
-import { ArrowRight, Check, ShoppingCart, Tag, X } from 'lucide-react'
+import { ArrowRight, Check, ShoppingCart, X } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
 export function CartPage() {
