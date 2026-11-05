@@ -83,6 +83,11 @@ When adding CSS:
 - Support light/dark mode, keyboard focus, reduced motion, mobile safe areas and Arabic RTL.
 - Do not use orange for primary actions; reserve semantic sale/warning colours for their actual meaning.
 
+
+## Internationalisation
+
+`src/i18n/translations.js` is the stable dictionary entry point used by `translate.js`. The base shopping dictionary lives in `translations-base.js`; page-family additions are kept in ordered modules for account/discovery, seller workspace, help/guides, buyer account, category/checkout, homepage, operations, order tracking and order history. Import order is intentional because later page-family entries may override earlier base strings. Keep translation keys as the English source copy and preserve French/Arabic values together.
+
 ## Component and page boundaries
 
 - App shell owns global language/cart/wishlist state and shared header/footer/mobile navigation.
