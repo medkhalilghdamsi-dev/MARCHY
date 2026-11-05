@@ -36,6 +36,8 @@ export function useMarketplaceState() {
     setCart(previous => previous.filter(item => item.id !== id))
   }
 
+  function clearCart() { setCart([]) }
+
   function toggleWish(id) {
     setWishlist(previous => previous.includes(id)
       ? previous.filter(item => item !== id)
@@ -44,6 +46,6 @@ export function useMarketplaceState() {
 
   return {
     language, setLanguage, cart, wishlist,
-    addToCart, updateQty, removeItem, toggleWish,
+    addToCart, updateQty, removeItem, clearCart, toggleWish,
   }
 }
