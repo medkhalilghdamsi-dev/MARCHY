@@ -93,3 +93,11 @@
  .listing-search{width:100%;max-width:420px}
 }
 html[dir="rtl"] .page{overflow-x:clip}
+
+
+/* Product-detail supporting copy: meet WCAG AA on light surfaces. */
+.product-image-discount{background:#a94421!important;color:#fff}
+.product-price-block>del,.product-price-caption,.product-listing-status small,
+.product-quantity-summary>span,.product-seller-copy small,.product-seller-copy>span,
+.product-delivery-card p,.product-demo-disclaimer,.product-buyer-highlights>div>span,
+.product-attribute-list dt{color:#56616c}
