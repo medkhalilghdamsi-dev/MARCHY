@@ -6,16 +6,9 @@
   font-synthesis:none;
   text-rendering:optimizeLegibility;
   font-weight:400;
-  --ink:#17212b;
-  --forest:#1f5b45;
-  --muted:#5f6b76;
-  --line:#e5e9ed;
   --orange:#1f5b45;
   --orange-dark:#174735;
   --green:#1f5b45;
-  --page:#f5f7f9;
-  --surface:#fff;
-  --surface-soft:#f8fafb;
   --radius-sm:8px;
   --radius-md:12px;
   --radius-lg:18px;
