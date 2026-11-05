@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useDemoOrders } from '../hooks/useDemoOrders'
 import { OpsShell, OrderTable, statuses } from './OperationsShared'
 
-export function DeliveryOperationsPage({ language }) {
+function DeliveryOperationsPage({ language }) {
   const { orders, updateOrder, reset } = useDemoOrders()
   const [filter,setFilter] = useState('Active')
   const visible = useMemo(()=>orders.filter(order=>filter==='All'||(filter==='Active'&&!['Delivered','Cancelled'].includes(order.status))||order.status===filter),[orders,filter])
