@@ -692,7 +692,8 @@ test('mobile quick navigation prioritises five buyer destinations and keeps sell
   await expect(page.locator('.mobile-tabbar')).toHaveCSS('grid-template-columns', /\d+px/)
   await page.getByRole('button', { name: 'Open navigation menu' }).click()
   await expect(page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'Sellers' })).toBeVisible()
-})\n
+})
+
 test('checkout presents two accurate steps and creates a local demo order after review', async ({ page }) => {
   await page.goto('/product/1')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
@@ -709,6 +710,6 @@ test('checkout presents two accurate steps and creates a local demo order after 
   await expect(page.getByRole('heading', { name: 'Review before proceeding' })).toBeVisible()
   await expect(page.locator('.checkout-contact-review')).toContainText('Test Buyer')
   await page.getByRole('button', { name: 'Place demo order' }).click()
-  await expect(page).toHaveURL(/\\/orders\\//)
+  await expect(page).toHaveURL(/\/orders\//)
   await expect(page.locator('main').first()).toBeVisible()
 })
