@@ -543,3 +543,31 @@ test('mobile filter sheet manages keyboard focus and returns it to its trigger',
   await page.getByRole('button', { name: /Show \d+ products/ }).click()
   await expect(trigger).toBeFocused()
 })
+
+
+test('product detail gallery exposes selected thumbnails and keeps honest single-image fallback', async ({ page }) => {
+  await page.goto('/product/1')
+  await expect(page.locator('.product-gallery-thumbnails button')).toHaveCount(1)
+  await expect(page.locator('.product-gallery-thumbnails button')).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('.product-image-caption')).toContainText('Only one catalogue image has been supplied')
+  await page.getByRole('button', { name: 'Enlarge product image' }).click()
+  await expect(page.getByRole('dialog', { name: /Image preview/ })).toBeVisible()
+  await expect(page.getByRole('dialog').locator('img')).toBeVisible()
+})
+
+test('product detail makes seller verification and delivery unknowns explicit', async ({ page }) => {
+  await page.goto('/product/1')
+  await expect(page.getByRole('region', { name: 'Seller information' })).toContainText('Atlas Tech')
+  await expect(page.getByRole('region', { name: 'Buyer confidence information' })).toContainText('Not independently verified')
+  await expect(page.getByRole('region', { name: 'Delivery and availability' })).toContainText('Delivery fee: not provided')
+  await expect(page.getByRole('region', { name: 'Delivery and availability' })).toContainText('Estimated arrival: not provided')
+})
+
+test('mobile product purchase bar quantity stays in sync with the main purchase controls', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/product/1')
+  await page.locator('.mobile-buybar-quantity').getByRole('button', { name: 'Increase quantity' }).click()
+  await expect(page.locator('.mobile-buybar-total')).toContainText('378.000 TND')
+  await page.locator('.mobile-buybar-actions').getByRole('button', { name: 'Add to cart' }).click()
+  await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
+})
