@@ -1,3 +1,5 @@
+import '../styles/seller-experience.css'
+import '../styles/seller-workspace.css'
 import { connectMarketplacePage } from '../context/connectMarketplacePage'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
