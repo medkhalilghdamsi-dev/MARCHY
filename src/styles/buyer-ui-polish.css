@@ -82,49 +82,6 @@ html[data-theme="dark"] .home-category-image-card:after{background:linear-gradie
 html[data-theme="dark"] .home-category-image-card>img{opacity:.12}
 html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);color:var(--ink)}
 
-
-/* Buyer order confirmation */
-.buyer-order-success {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 18px;
-  align-items: center;
-  margin: 24px 0;
-  padding: 18px 20px;
-  border: 1px solid color-mix(in srgb, var(--forest) 24%, var(--line));
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--forest) 7%, var(--surface));
-}
-.buyer-order-success > div:first-child {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-.buyer-order-success-icon {
-  display: grid;
-  place-items: center;
-  flex: 0 0 34px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--forest);
-  color: #fff;
-  font-weight: 800;
-}
-.buyer-order-success b { display: block; }
-.buyer-order-success p { margin: 4px 0 0; color: var(--muted); }
-.buyer-order-success > div:last-child {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: flex-end;
-}
-@media (max-width: 760px) {
-  .buyer-order-success { grid-template-columns: 1fr; }
-  .buyer-order-success > div:last-child { justify-content: flex-start; }
-}
-
-
 /* Consistent Lucide icon language across the marketplace */
 .header svg,.nav-inner svg,.mobile-tabbar svg,.footer-main svg,
 .product-card svg,.category-directory-grid svg,.home-category-grid svg,
@@ -162,7 +119,6 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
   .header .action-icon svg { width: 19px; height: 19px; }
   .nav-inner > a { justify-content: flex-start; }
 }
-
 
 /* MARCHY landing page — preserve the established forest-green identity. */
 .home-landing-v2 .market-hero-copy h1 em { color: #1f5b45; }
@@ -392,7 +348,6 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
  .home-landing-v2 .home-editorial-card,.home-landing-v2 .product-card,.home-landing-v2 .product-photo img{transition:none!important}
 }
 
-
 /* Landing-page structure and search discovery */
 .home-landing-v2 .home-search-wrap{position:relative;width:min(100%,520px);z-index:8}
 .home-landing-v2 .home-search-wrap .hero-search-form{width:100%}
@@ -421,7 +376,6 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
  .home-landing-v2 .home-search-group>button{min-height:48px}
 }
 
-
 /* Category tiles: compact product previews create real paths into each catalogue area. */
 .home-landing-v2 .home-category-grid-premium{align-items:start}
 .home-landing-v2 .home-category-tile{min-width:0;display:flex;flex-direction:column;gap:7px}
@@ -441,7 +395,6 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
  .home-landing-v2 .home-category-picks b{display:none}
  .home-landing-v2 .home-category-picks span{font-size:8px}
 }
-
 
 /* MARCHY homepage refinement — consistent product-card rhythm and touch-friendly controls. */
 .home-landing-v2 .product-grid{align-items:stretch}
@@ -488,7 +441,6 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
 @media(prefers-reduced-motion:reduce){
  .home-landing-v2 .product-card,.home-landing-v2 .wish-btn,.home-landing-v2 .product-card .add-btn{transition:none}
 }
-
 
 /* Global buyer header refinement: clearer hierarchy, states and responsive behavior. */
 .header{position:relative;z-index:auto;background:var(--surface,#fff);border-bottom:1px solid #e2ebe5;box-shadow:0 7px 24px rgba(18,38,30,.045)}
@@ -574,7 +526,6 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
 @media(prefers-reduced-motion:reduce){
  .header *{scroll-behavior:auto!important;transition:none!important}
 }
-
 
 /* Search and category results refinement: clearer control hierarchy and compact responsive states. */
 .listing-head{gap:24px;align-items:flex-end;margin-bottom:22px}
@@ -713,7 +664,6 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
  .listing-layout>.filters{transition:none}
  .listing-results .product-card,.search-suggestions,.listing-search-autocomplete{transition:none}
 }
-
 
 /* Product detail page — premium buyer-first layout, gallery and purchase controls. */
 .product-page{padding-bottom:72px}
@@ -931,7 +881,6 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
     bottom: calc(86px + env(safe-area-inset-bottom));
   }
 }
-
 
 /* Shared buyer-page hierarchy — consistent, calm and task-focused. */
 .page .listing-head,
@@ -1359,8 +1308,6 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
   .product-page .mobile-buybar-actions > .primary-btn { font-size: 10px; }
 }
 
-
-
 /* Header density correction: give search room and keep utility actions compact. */
 @media (min-width: 761px) {
   .header-main {
@@ -1395,7 +1342,6 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
   }
 }
 
-
 /* Regression fixes verified from the mobile Playwright trace. */
 @media (max-width: 760px) {
   /* The older experience-upgrade rule had higher specificity and put the sheet
@@ -1415,7 +1361,6 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
 .header .searchbar button:hover {
   background: #123528;
 }
-
 
 /* Header account controls and search-result affordances used by Header.jsx. */
 .header-user-status {
@@ -1577,7 +1522,6 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
   .header-actions .header-user-link { width: 34px; min-width: 34px; padding: 0; }
   .header-actions .user-avatar-pill { width: 30px; height: 30px; flex-basis: 30px; }
 }
-
 
 /* Search scope control and keyboard affordances for the shared header. */
 .header .searchbar-scope-select {
@@ -1779,7 +1723,6 @@ html[data-theme="dark"] .header .nav-inner>a[aria-current="page"]{
 @media(prefers-reduced-motion:reduce){
   .header .nav-inner>a{transition:none}
 }
-
 
 /* Homepage section rhythm and responsive discovery layout.
    Keep this scoped to the landing page so shared feature grids are unaffected. */
@@ -2075,7 +2018,6 @@ html[data-theme="dark"] .home-landing-v2 .upwork-seller-footer {
     transition: none;
   }
 }
-
 
 /* Marketplace results: final responsive, accessible and theme-aware layer. */
 .marketplace-search-page {
@@ -2646,7 +2588,6 @@ html[data-theme="dark"] .nav-inner>a[aria-current="page"]{
 @media(prefers-reduced-motion:reduce){
   .searchbar,.header-actions .action-link,.nav-inner>a{transition:none}
 }
-
 
 /* MARCHY shared buyer shell — footer architecture + mobile tab bar */
 .footer{position:relative;isolation:isolate;border-top:1px solid rgba(218,237,226,.12)}
