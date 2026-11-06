@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 export function Badge({ children, variant = 'neutral', className = '' }) {
@@ -39,22 +39,81 @@ export function Breadcrumbs({ items = [] }) {
 }
 
 export function Modal({ open, title, onClose, children }) {
+  const titleId = useId()
+  const dialogRef = useRef(null)
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
+
   useEffect(() => {
     if (!open) return undefined
-    function handleKey(e) {
-      if (e.key === 'Escape') onClose?.()
+
+    const trigger = document.activeElement
+    const previousOverflow = document.body.style.overflow
+    const dialog = dialogRef.current
+    const getFocusable = () => dialog
+      ? Array.from(dialog.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'))
+        .filter(element => !element.hasAttribute('hidden') && element.getAttribute('aria-hidden') !== 'true')
+      : []
+
+    document.body.style.overflow = 'hidden'
+    const focusable = getFocusable()
+    ;(focusable[0] || dialog)?.focus()
+
+    function handleKey(event) {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onCloseRef.current?.()
+        return
+      }
+      if (event.key !== 'Tab' || !dialog) return
+
+      const currentFocusable = getFocusable()
+      if (!currentFocusable.length) {
+        event.preventDefault()
+        dialog.focus()
+        return
+      }
+
+      const first = currentFocusable[0]
+      const last = currentFocusable[currentFocusable.length - 1]
+      if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) {
+        event.preventDefault()
+        first.focus()
+      }
     }
+
     window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [open, onClose])
+    return () => {
+      window.removeEventListener('keydown', handleKey)
+      document.body.style.overflow = previousOverflow
+      if (trigger?.isConnected) trigger.focus?.()
+    }
+  }, [open])
 
   if (!open) return null
 
   return (
-    <div className="ui-modal-backdrop" role="dialog" aria-modal="true" aria-label={title}>
-      <div className="ui-modal-card card">
+    <div
+      className="ui-modal-backdrop"
+      role="presentation"
+      onMouseDown={event => {
+        if (event.target === event.currentTarget) onClose?.()
+      }}
+    >
+      <div
+        ref={dialogRef}
+        className="ui-modal-card card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        aria-label={!title ? 'Dialog' : undefined}
+        tabIndex={-1}
+      >
         <div className="ui-modal-header">
-          {title && <h3>{title}</h3>}
+          {title && <h3 id={titleId}>{title}</h3>}
           <button type="button" className="text-btn" onClick={onClose} aria-label="Close dialog">
             ✕
           </button>
