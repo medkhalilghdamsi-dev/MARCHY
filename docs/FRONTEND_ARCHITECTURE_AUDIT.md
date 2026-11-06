@@ -87,3 +87,19 @@ A successful result must come from an actual completed run. Do not infer test su
 - Preserve routes, buyer/seller behaviour, accessibility semantics, responsive layouts and Arabic RTL.
 - Verify imports, dynamic imports and runtime references before deleting files.
 - Do not claim tests pass unless they have actually completed successfully.
+
+
+### Byte-preserving split of the Upwork UI layer
+
+The former `src/styles/upwork-ui.css` was divided into eight focused files and the original import slot was replaced by direct imports in the same sequence. The CSS declarations and their relative order were preserved; this is an organizational change, not a selector redesign or visual refresh.
+
+- `upwork-navigation-discovery.css`
+- `upwork-orders-account.css`
+- `upwork-discovery-sections.css`
+- `upwork-product-checkout.css`
+- `upwork-marketplace-widgets.css`
+- `upwork-buyer-funnel.css`
+- `upwork-workspaces.css`
+- `upwork-shared-cascade.css`
+
+The stylesheet ownership audit scans the direct imports in `src/styles.css`, so all eight files remain visible to CI. Browser regression is required before treating the split as verified.

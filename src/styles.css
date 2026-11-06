@@ -37,5 +37,13 @@
 @import './styles/final-quality.css';
 @import './styles/buyer-ui-polish.css';
 @import './styles/product-page-refinement.css';
-@import './styles/upwork-ui.css';
+/* Split legacy UI layer — preserve original cascade sequence. */
+@import './styles/upwork-navigation-discovery.css';
+@import './styles/upwork-orders-account.css';
+@import './styles/upwork-discovery-sections.css';
+@import './styles/upwork-product-checkout.css';
+@import './styles/upwork-marketplace-widgets.css';
+@import './styles/upwork-buyer-funnel.css';
+@import './styles/upwork-workspaces.css';
+@import './styles/upwork-shared-cascade.css';
 @import './styles/seller-portal.css';
