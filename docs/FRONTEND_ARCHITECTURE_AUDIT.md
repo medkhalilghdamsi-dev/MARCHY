@@ -310,3 +310,11 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Refined reviews with clearer rating, buyer, merchant-response and reply hierarchy.
 - Refined support/dispute centre with case queue, filters, detail conversation, local status/history and mobile behavior.
 - Added token-based dark surfaces, RTL handling and focus/reduced-motion support without changing backend contracts.
+
+
+## Buyer account workspace refinement — 2026-11-06
+
+- Reworked account page hierarchy around profile, quick navigation, address book, recent orders, saved items and recently viewed products.
+- Added stronger responsive behavior for two-column/one-column transitions and compact mobile layouts.
+- Added consistent token-based surfaces, dark theme, RTL, keyboard focus and reduced-motion treatment.
+- Preserved the existing local-demo data model and did not change backend behavior.
