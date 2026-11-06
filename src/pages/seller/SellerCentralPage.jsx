@@ -1,16 +1,25 @@
-import { useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, BadgeCheck, BarChart3, Building2, ClipboardCheck, FileText, LifeBuoy, RotateCcw, ShieldCheck, Store, Truck, Wallet } from 'lucide-react'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { translateTree } from '../../i18n/translate'
-import { SellerCatalogManager } from '../../components/seller/SellerCatalogManager'
-import { SellerInventoryWorkspace } from '../../components/seller/SellerInventoryWorkspace'
-import { SellerOffersManager } from '../../components/seller/SellerOffersManager'
-import { SellerOrdersWorkspace } from '../../components/seller/SellerOrdersWorkspace'
-import { SellerReturnsWorkspace } from '../../components/seller/SellerReturnsWorkspace'
-import { SellerFinanceWorkspace } from '../../components/seller/SellerFinanceWorkspace'
-import { SellerAnalyticsWorkspace } from '../../components/seller/SellerAnalyticsWorkspace'
-import { SellerSupportWorkspace } from '../../components/seller/SellerSupportWorkspace'
+
+
+
+
+
+
+
+
+
+const SellerCatalogManager = lazy(() => import('../../components/seller/SellerCatalogManager').then(m => ({ default: m.SellerCatalogManager })))
+const SellerInventoryWorkspace = lazy(() => import('../../components/seller/SellerInventoryWorkspace').then(m => ({ default: m.SellerInventoryWorkspace })))
+const SellerOffersManager = lazy(() => import('../../components/seller/SellerOffersManager').then(m => ({ default: m.SellerOffersManager })))
+const SellerOrdersWorkspace = lazy(() => import('../../components/seller/SellerOrdersWorkspace').then(m => ({ default: m.SellerOrdersWorkspace })))
+const SellerReturnsWorkspace = lazy(() => import('../../components/seller/SellerReturnsWorkspace').then(m => ({ default: m.SellerReturnsWorkspace })))
+const SellerFinanceWorkspace = lazy(() => import('../../components/seller/SellerFinanceWorkspace').then(m => ({ default: m.SellerFinanceWorkspace })))
+const SellerAnalyticsWorkspace = lazy(() => import('../../components/seller/SellerAnalyticsWorkspace').then(m => ({ default: m.SellerAnalyticsWorkspace })))
+const SellerSupportWorkspace = lazy(() => import('../../components/seller/SellerSupportWorkspace').then(m => ({ default: m.SellerSupportWorkspace })))
 
 const STORAGE_KEY = 'marchy-seller-onboarding-draft-v1'
 const governorates = [
@@ -140,14 +149,16 @@ export function SellerCentralPage() {
             <span className="sc-status"><i/> Local preview</span>
           </div>
 
-          {activeSection === 'catalog' && <SellerCatalogManager />}
-          {activeSection === 'inventory' && <SellerInventoryWorkspace />}
-          {activeSection === 'offers' && <SellerOffersManager />}
-          {activeSection === 'orders' && <SellerOrdersWorkspace />}
-          {activeSection === 'returns' && <SellerReturnsWorkspace />}
-          {activeSection === 'finance' && <SellerFinanceWorkspace />}
-          {activeSection === 'analytics' && <SellerAnalyticsWorkspace />}
-          {activeSection === 'support' && <SellerSupportWorkspace />}
+          <Suspense fallback={<div className="sc-module-loading" role="status">Loading seller workspace…</div>}>
+            {activeSection === 'catalog' && <SellerCatalogManager />}
+            {activeSection === 'inventory' && <SellerInventoryWorkspace />}
+            {activeSection === 'offers' && <SellerOffersManager />}
+            {activeSection === 'orders' && <SellerOrdersWorkspace />}
+            {activeSection === 'returns' && <SellerReturnsWorkspace />}
+            {activeSection === 'finance' && <SellerFinanceWorkspace />}
+            {activeSection === 'analytics' && <SellerAnalyticsWorkspace />}
+            {activeSection === 'support' && <SellerSupportWorkspace />}
+          </Suspense>
           {activeSection === 'profile' && <div className="sc-form-grid">
             <label>Storefront name <span>Customer-facing shop name</span><input value={form.storeName} onChange={e => update('storeName', e.target.value)} placeholder="e.g. Maison Medina" maxLength={80}/></label>
             <label>Legal / registered name <span>Name used for business documentation</span><input value={form.legalName} onChange={e => update('legalName', e.target.value)} placeholder="Business or owner legal name" maxLength={120}/></label>

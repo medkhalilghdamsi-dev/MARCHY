@@ -114,6 +114,7 @@ The seller journey is a distinct application surface within the same React appli
 - Public seller storefronts at `/seller/:slug` remain buyer-facing marketplace pages and retain buyer chrome.
 - Seller navigation is independent: Start selling, Seller Central and Seller guide.
 - Seller Central owns seller setup and operational modules. Buyer account, cart, wishlist and checkout navigation do not appear in the seller shell.
+- Seller operational workspaces are lazy-loaded by section so the initial Seller Central view does not download every seller tool.
 - Shared providers and tokens remain shared implementation infrastructure; visual chrome and route journeys remain separated.
 
 ### Route and module rules
