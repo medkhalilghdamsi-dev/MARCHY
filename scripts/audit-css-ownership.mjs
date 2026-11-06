@@ -82,7 +82,7 @@ function scan(source, file, context = []) {
     const close = findBlockEnd(source, open)
     const header = source.slice(cursor, open).replace(/\/\*[\s\S]*?\*\//g, '').trim()
     const body = source.slice(open + 1, close)
-    const line = source.slice(0, cursor).split('\\n').length
+    const line = source.slice(0, cursor).split('\n').length
     cursor = close + 1
     if (!header) continue
 
@@ -127,11 +127,11 @@ console.log(`Selector/context entries: ${records.size}`)
 console.log(`Cross-file duplicate selector/context entries: ${crossFile.length}`)
 console.log(`Repeated selector/context entries within files: ${repeatedInFile.length}`)
 if (crossFile.length) {
-  console.log('\\nCross-file overlaps (inspect before migrating):')
-  for (const item of crossFile) console.log(`- ${item.selector}\\n  ${item.files.join(', ')}`)
+  console.log('\nCross-file overlaps (inspect before migrating):')
+  for (const item of crossFile) console.log(`- ${item.selector}\n  ${item.locations.join(', ')}`)
 }
 if (repeatedInFile.length) {
-  console.log('\\nRepeated blocks within a stylesheet (may be responsive refinements):')
-  for (const item of repeatedInFile) console.log(`- ${item.selector} (${item.occurrences} blocks)\\n  ${item.files.join(', ')}`)
+  console.log('\nRepeated blocks within a stylesheet (may be responsive refinements):')
+  for (const item of repeatedInFile) console.log(`- ${item.selector} (${item.occurrences} blocks)\n  ${item.files.join(', ')}`)
 }
-console.log('\\nThis report is a static ownership aid, not a visual-regression or computed-cascade test.')
+console.log('\nThis report is a static ownership aid, not a visual-regression or computed-cascade test.')
