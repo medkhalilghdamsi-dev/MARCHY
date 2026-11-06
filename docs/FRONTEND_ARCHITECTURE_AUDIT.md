@@ -269,3 +269,11 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Preserved seller-grouped basket review, proportional sample coupon allocation, stock revalidation at demo order submission and the existing sample-order-only flow.
 - No backend, payment, authentication, API or live fulfilment behaviour was added or changed.
 - Browser visual verification and production build remain outstanding.
+
+
+## Saved items and account workspace pass — 2026-11-06
+
+- Reworked buyer saved-items presentation into a clearer workspace: search, availability and sort controls; category navigation; bulk add-to-cart action; offer/stock/seller metadata; responsive card hierarchy; filtered-empty state; mobile stacking; RTL and reduced-motion handling.
+- Added account profile presentation/edit controls with responsive field grouping and token-based focus states.
+- Preserved existing local-demo storage, marketplace offer selection and buyer actions; this pass is presentation/responsive UX only.
+- Browser visual verification and production-build verification remain environment-dependent and should be checked on the deployed Render build.
