@@ -4,6 +4,7 @@ import { sellers, sellerForProduct } from '../../data/sellers'
 import { money, readJson, writeJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
+import { FormField } from '../../components/ui'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
 import { MarketplaceService } from '../../services/marketplaceService'
@@ -183,8 +184,8 @@ export function CheckoutPage() {
           )}
 
           <div className="checkout-fields">
-            <label htmlFor="checkout-full-name">Full name<input id="checkout-full-name" autoComplete="name" required aria-describedby="checkout-name-hint" value={details.name} onChange={e => update('name', e.target.value)} placeholder="Your full name"/><small id="checkout-name-hint" className="checkout-field-hint">Enter the name the courier can use to identify the recipient.</small></label>
-            <label htmlFor="checkout-phone">Phone number<input id="checkout-phone" autoComplete="tel" type="tel" required inputMode="tel" pattern="[+0-9() .-]{7,20}" aria-describedby="checkout-phone-hint" value={details.phone} onChange={e => update('phone', e.target.value)} placeholder="+216 XX XXX XXX"/><small id="checkout-phone-hint" className="checkout-field-hint">Use a reachable number, including the +216 country code when applicable.</small></label>
+            <FormField label="Full name" hint="Enter the name the courier can use to identify the recipient." required><input id="checkout-full-name" autoComplete="name" value={details.name} onChange={e => update('name', e.target.value)} placeholder="Your full name" /></FormField>
+            <FormField label="Phone number" hint="Use a reachable number, including the +216 country code when applicable." required><input id="checkout-phone" autoComplete="tel" type="tel" inputMode="tel" pattern="[+0-9() .-]{7,20}" value={details.phone} onChange={e => update('phone', e.target.value)} placeholder="+216 XX XXX XXX" /></FormField>
             <label htmlFor="checkout-region">Governorate / Region
               <select id="checkout-region" autoComplete="address-level1" required value={details.city} onChange={e => update('city', e.target.value)}>
                 <option value="Tunis">Tunis (Grand Tunis)</option>
@@ -205,7 +206,7 @@ export function CheckoutPage() {
                 <option value="Other governorate">Other governorate</option>
               </select>
             </label>
-            <label className="checkout-field-wide" htmlFor="checkout-address">Delivery address<input id="checkout-address" autoComplete="street-address" required aria-describedby="checkout-address-hint" value={details.address} onChange={e => update('address', e.target.value)} placeholder="Street, building and neighbourhood"/><small id="checkout-address-hint" className="checkout-field-hint">Include the building, street and neighbourhood so the courier can find you.</small></label>
+            <FormField className="checkout-field-wide" label="Delivery address" hint="Include the building, street and neighbourhood so the courier can find you." required><input id="checkout-address" autoComplete="street-address" value={details.address} onChange={e => update('address', e.target.value)} placeholder="Street, building and neighbourhood" /></FormField>
             <label htmlFor="checkout-delivery-method">Delivery method
               <select id="checkout-delivery-method" value={details.deliveryMethod} onChange={e => update('deliveryMethod', e.target.value)}>
                 <option value="Standard courier (seller confirmed)">Standard courier (seller confirmed)</option>
