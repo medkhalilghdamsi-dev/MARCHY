@@ -736,6 +736,7 @@ test('seller routes use an independent portal shell without buyer shopping chrom
   await page.goto('/seller-dashboard')
   await expect(page).toHaveURL(/\/seller-central$/)
   await expect(page.locator('.seller-portal-header')).toBeVisible()
+  await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/seller/atlas-tech-tunis')
   await expect(page.locator('.header')).toBeVisible()
   await expect(page.locator('.mobile-tabbar')).toBeVisible()
