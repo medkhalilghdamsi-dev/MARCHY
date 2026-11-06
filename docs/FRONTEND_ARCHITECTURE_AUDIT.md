@@ -437,3 +437,13 @@ Completed a final product-page commerce hierarchy pass.
 - Kept order data, courier assignment, status updates and existing workspace routes unchanged.
 - Source changes: `src/pages/shared/OperationsShared.jsx` and `src/styles/operations.css`.
 - Verification is source-level only; responsive table behavior, browser/assistive-technology checks and production build remain outstanding.
+
+
+## Shared modal system refinement — 2026-11-06
+
+- Upgraded the reusable `Modal` primitive with a labelled dialog surface, Escape dismissal, keyboard focus containment, initial focus placement, focus restoration and background scroll locking.
+- Backdrop dismissal now occurs only when the backdrop itself is pressed; clicks inside the dialog do not close it.
+- Added a consistent responsive modal foundation with dark-theme and RTL support, plus a compact bottom-sheet presentation on small screens.
+- `ConfirmDialog` inherits the improvements automatically because it composes the shared `Modal` primitive.
+- Source changes: `src/components/ui/index.jsx` and `src/styles/base.css`.
+- Verification is source-level only; confirm-dialog call-site behavior, browser keyboard testing and production build remain outstanding.
