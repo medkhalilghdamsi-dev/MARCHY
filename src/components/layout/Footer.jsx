@@ -30,7 +30,7 @@ export function Footer() {
     <div>
       <b><Store size={15}/> Sell on MARCHY</b>
       <Link to="/sell">Start selling</Link>
-      <Link to="/seller-dashboard">Seller workspace</Link>
+      <Link to="/seller-central">Seller Central</Link>
       <Link to="/seller-help">Seller guide</Link>
     </div>
     <div>
