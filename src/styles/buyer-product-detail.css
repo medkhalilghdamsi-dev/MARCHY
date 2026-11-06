@@ -214,3 +214,6 @@
     bottom: calc(86px + env(safe-area-inset-bottom));
   }
 }
+
+/* Keep the delivery-estimator supporting label above WCAG AA contrast. */
+.delivery-estimator-header > div > small { color: #52665b; }
