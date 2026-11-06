@@ -188,7 +188,7 @@ export function AccountPage() {
         <div className="profile-card-header">
           <div>
             <span className="eyebrow">YOUR PROFILE DATA</span>
-            <h2>Account Information</h2>
+            <h2 id="account-profile-title">Account Information</h2>
           </div>
           <button
             type="button"
@@ -202,8 +202,10 @@ export function AccountPage() {
         </div>
 
         {editingProfile ? (
-          <form id="account-profile-edit-form" className="profile-edit-form" onSubmit={handleSaveProfile}>
-            <div className="form-fields-grid">
+          <form id="account-profile-edit-form" className="profile-edit-form" aria-labelledby="account-profile-title" onSubmit={handleSaveProfile}>
+            <fieldset className="account-form-fieldset">
+              <legend className="sr-only">Profile details</legend>
+              <div className="form-fields-grid">
               <label>
                 Full Name
                 <input
@@ -249,7 +251,8 @@ export function AccountPage() {
                   <option value="Gabès">Gabès</option>
                 </select>
               </label>
-            </div>
+              </div>
+            </fieldset>
             <div className="form-actions-row">
               <button type="submit" className="primary-btn">Save Changes</button>
               <button type="button" className="outline-btn" onClick={() => { resetProfileForm(); setEditingProfile(false) }}>Cancel</button>
@@ -340,8 +343,10 @@ export function AccountPage() {
 
           {newAddrOpen && (
             <form id="account-add-address-form" className="add-address-form" onSubmit={handleAddAddress}>
-              <h4>Add New Delivery Location</h4>
-              <div className="address-inputs-grid">
+              <h4 id="account-address-form-title">Add New Delivery Location</h4>
+              <fieldset className="account-form-fieldset" aria-labelledby="account-address-form-title">
+                <legend className="sr-only">Delivery address details</legend>
+                <div className="address-inputs-grid">
                 <label>
                   Label (e.g. Home, Office, Beach House)
                   <input
@@ -406,7 +411,8 @@ export function AccountPage() {
                   />
                   Set as default shipping address
                 </label>
-              </div>
+                </div>
+              </fieldset>
               <button type="submit" className="primary-btn">Save Address</button>
             </form>
           )}
@@ -428,6 +434,7 @@ export function AccountPage() {
                       type="button"
                       className="text-link"
                       onClick={() => handleSetDefaultAddress(addr.id)}
+                      aria-label={`Make ${addr.title} the default delivery address`}
                     >
                       Make default
                     </button>
@@ -436,6 +443,7 @@ export function AccountPage() {
                     type="button"
                     className="text-link danger-link"
                     onClick={() => handleDeleteAddress(addr.id)}
+                    aria-label={`Delete ${addr.title} delivery address`}
                   >
                     <Trash2 size={13} /> Delete
                   </button>
