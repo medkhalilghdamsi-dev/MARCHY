@@ -93,7 +93,7 @@ export function Header({ cartCount }) {
 
   return translateTree(<>
     <div className="topline"><div className="shell topline-inner"><span>MARCHY preview · sample catalogue and illustrative prices</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span></div></div></div>
-    <header ref={headerRef} className="header"><div className="shell header-main">
+    <header ref={headerRef} className={`header${searchOpen ? ' header-search-open' : ''}${menuOpen ? ' header-menu-open' : ''}`}><div className="shell header-main">
       <button type="button" className="mobile-menu icon-btn" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? <X size={20} strokeWidth={2}/> : <Menu size={20} strokeWidth={2}/>}</button>
       <Link to="/" className="logo" aria-label="MARCHY home"><img className="logo-mark" src="/favicon.svg" alt="" width="34" height="34" /><span className="logo-word">MARCHY</span><span className="logo-period">.</span></Link>
       <form className="searchbar" onSubmit={submit} role="search">
