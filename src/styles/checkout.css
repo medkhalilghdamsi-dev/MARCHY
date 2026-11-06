@@ -479,3 +479,15 @@ html[data-theme="dark"] .checkout-saved-addresses-bar .saved-addr-chip.is-select
 }
 @media(max-width:390px){.checkout-saved-addresses-bar .saved-addr-chips{grid-template-columns:1fr}.checkout-steps li{min-height:82px}}
 @media(prefers-reduced-motion:reduce){.checkout-saved-addresses-bar .saved-addr-chip{transition:none}}
+
+
+/* Checkout form clarity, native validation and consistent keyboard states */
+.checkout-fields>label{min-width:0}
+.checkout-fields>label>input:not([type="checkbox"]),.checkout-fields>label>select,.checkout-fields>label>textarea{width:100%;min-width:0;min-height:44px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit;padding:10px 12px;transition:border-color .16s ease,box-shadow .16s ease}
+.checkout-fields>label>textarea{min-height:96px;resize:vertical}
+.checkout-fields>label>input::placeholder,.checkout-fields>label>textarea::placeholder{color:var(--muted-light);opacity:1}
+.checkout-fields>label>input:focus-visible,.checkout-fields>label>select:focus-visible,.checkout-fields>label>textarea:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;border-color:var(--accent)}
+.checkout-fields>label>input:user-invalid,.checkout-fields>label>select:user-invalid,.checkout-fields>label>textarea:user-invalid{border-color:var(--danger)}
+.checkout-field-hint{display:block;margin-top:6px;color:var(--muted);font-size:10px;font-weight:450;line-height:1.55}
+.is-rtl .checkout-field-hint{text-align:right}
+@media(prefers-reduced-motion:reduce){.checkout-fields>label>input,.checkout-fields>label>select,.checkout-fields>label>textarea{transition:none}}
