@@ -185,7 +185,7 @@ export function CheckoutPage() {
 
           <div className="checkout-fields">
             <FormField label="Full name" hint="Enter the name the courier can use to identify the recipient." required><input id="checkout-full-name" autoComplete="name" value={details.name} onChange={e => update('name', e.target.value)} placeholder="Your full name" /></FormField>
-            <FormField label="Phone number" hint="Use a reachable number, including the +216 country code when applicable." required><input id="checkout-phone" autoComplete="tel" type="tel" inputMode="tel" pattern="[+0-9() .-]{7,20}" value={details.phone} onChange={e => update('phone', e.target.value)} placeholder="+216 XX XXX XXX" /></FormField>
+            <FormField label="Phone number" hint="Use a reachable number, including the +216 country code when applicable." required><input id="checkout-phone" autoComplete="tel" type="tel" inputMode="tel" pattern="[+0-9().\\-]{7,20}" value={details.phone} onChange={e => update('phone', e.target.value)} placeholder="+216 XX XXX XXX" /></FormField>
             <label htmlFor="checkout-region">Governorate / Region
               <select id="checkout-region" autoComplete="address-level1" required value={details.city} onChange={e => update('city', e.target.value)}>
                 <option value="Tunis">Tunis (Grand Tunis)</option>
