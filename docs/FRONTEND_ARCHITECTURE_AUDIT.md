@@ -513,3 +513,13 @@ Completed a final product-page commerce hierarchy pass.
 - Preserved the anchored suggestion panel, keyboard interaction, responsive sizing and search navigation.
 - Source changes: `src/styles/buyer-ui-polish.css` and `src/styles/shopping.css`.
 - Verification is source-level only; viewport-by-viewport visual regression and browser interaction checks remain outstanding.
+
+
+## Conditional shared-header stacking refinement — 2026-11-06
+
+- Removed the shared header's permanent elevated stacking layer; it now returns to the normal page stack when all overlays are closed.
+- The header rises above page content only while global search suggestions or the mobile navigation menu are open, then returns to its normal stacking level when dismissed or after route navigation.
+- Removed the search field's permanent stacking index while preserving its focused state and the anchored autocomplete panel.
+- Added a Playwright regression covering the closed/open/closed stacking lifecycle for desktop search and mobile navigation.
+- Source changes: `src/components/layout/Header.jsx`, `src/styles/buyer-ui-polish.css`, `src/styles/shopping.css` and `tests/marketplace.spec.js`.
+- Verification is source-level only; Playwright execution, production build and visual checks remain outstanding.
