@@ -231,3 +231,11 @@ html[data-theme="dark"] .buyer-order-card,html[data-theme="dark"] .tracking-prod
 }
 @media(max-width:380px){.buyer-tracking-panel .tracking-interactive-actions{grid-template-columns:1fr}.buyer-order-thumbnails .order-prod-thumb:nth-child(n+4){display:none}}
 @media(prefers-reduced-motion:reduce){.buyer-order-card{transition:none!important}}
+
+
+/* Shared operational order table semantics and caption hierarchy */
+.ops-table-caption{padding:0 0 9px;color:var(--muted);font-size:10px;font-weight:750;letter-spacing:.02em;text-align:left;caption-side:top}
+.ops-table th{vertical-align:bottom}
+.ops-table th:focus-visible,.ops-table a:focus-visible,.ops-table select:focus-visible{outline:2px solid var(--focus-ring,var(--forest));outline-offset:2px}
+html[data-theme="dark"] .ops-table-caption{color:var(--muted)}
+.is-rtl .ops-table,.is-rtl .ops-table-caption{text-align:right}
