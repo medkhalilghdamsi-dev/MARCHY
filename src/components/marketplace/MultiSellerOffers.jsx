@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { money } from '../../utils/marketplace'
 import { Check, ShieldCheck, ShoppingCart, Store, Truck } from 'lucide-react'
@@ -7,6 +7,10 @@ import { useToast } from '../../providers/ToastProvider'
 export function MultiSellerOffers({ offers, onSelectOffer, activeOfferId }) {
   const toast = useToast()
   const [selectedId, setSelectedId] = useState(activeOfferId || offers[0]?.id)
+
+  useEffect(() => {
+    setSelectedId(activeOfferId || offers[0]?.id)
+  }, [activeOfferId, offers])
 
   if (!offers || offers.length <= 1) return null
 
