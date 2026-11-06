@@ -1,14 +1,13 @@
 import { useMemo, useState } from 'react'
 import { CheckCircle2, Clock3, Package, PackageCheck, Search, Truck, UserRound, MapPin, Phone, AlertCircle } from 'lucide-react'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
-const PROFILE_KEY='marchy-seller-onboarding-draft-v1'
-const readProfile=()=>{try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||'{}')}catch{return {}}}
+import { useSellerProfile } from '../../hooks/useSellerProfile'
 const steps=['New','Accepted','Preparing','Packed','Ready for pickup']
 const stage=o=>o.sellerFulfilmentStatus||(['Delivered','In transit'].includes(o.status)?'Ready for pickup':o.status==='Ready for pickup'?'Ready for pickup':'New')
 const money=n=>Number(n||0).toFixed(3)+' TND'
 export function SellerOrdersWorkspace(){
  const {orders,updateOrder}=useDemoOrders()
- const [profile]=useState(readProfile),[selectedId,setSelectedId]=useState(''),[query,setQuery]=useState(''),[filter,setFilter]=useState('All'),[notice,setNotice]=useState('')
+ const profile=useSellerProfile(),[selectedId,setSelectedId]=useState(''),[query,setQuery]=useState(''),[filter,setFilter]=useState('All'),[notice,setNotice]=useState('')
  const store=(profile.storeName||'').trim(), needle=store.toLocaleLowerCase()
  const assigned=useMemo(()=>orders.filter(o=>store&&(o.seller||'').trim().toLocaleLowerCase()===needle||(o.products||[]).some(p=>(p.sellerName||'').trim().toLocaleLowerCase()===needle)),[orders,store,needle])
  const visible=useMemo(()=>assigned.filter(o=>{const s=stage(o),match=filter==='All'||(filter==='Open'&&!['Delivered','Cancelled'].includes(o.status))||s===filter,hay=[o.id,o.buyer,o.phone,o.city,...(o.products||[]).map(p=>p.name)].join(' ').toLocaleLowerCase();return match&&hay.includes(query.trim().toLocaleLowerCase())}),[assigned,filter,query])

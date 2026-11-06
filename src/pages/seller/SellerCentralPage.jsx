@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, BadgeCheck, BarChart3, Building2, ClipboardCheck, FileText, LifeBuoy, RotateCcw, ShieldCheck, Store, Truck, Wallet } from 'lucide-react'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { readSellerValue, writeSellerValue, removeSellerValue, SELLER_STORAGE_KEYS } from '../../services/seller/sellerStorage'
 import { translateTree } from '../../i18n/translate'
 
 
@@ -21,7 +22,7 @@ const SellerFinanceWorkspace = lazy(() => import('../../components/seller/Seller
 const SellerAnalyticsWorkspace = lazy(() => import('../../components/seller/SellerAnalyticsWorkspace').then(m => ({ default: m.SellerAnalyticsWorkspace })))
 const SellerSupportWorkspace = lazy(() => import('../../components/seller/SellerSupportWorkspace').then(m => ({ default: m.SellerSupportWorkspace })))
 
-const STORAGE_KEY = 'marchy-seller-onboarding-draft-v1'
+const STORAGE_KEY = SELLER_STORAGE_KEYS.profile
 const governorates = [
   'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba',
   'Kairouan', 'Kasserine', 'Kébili', 'Kef', 'Mahdia', 'Manouba', 'Médenine',
@@ -36,10 +37,8 @@ const initial = {
   acceptsCod: true, acceptsOnlinePayment: false
 }
 const readDraft = () => {
-  try {
-    const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null')
-    return value && typeof value === 'object' ? { ...initial, ...value } : initial
-  } catch { return initial }
+  const value = readSellerValue(STORAGE_KEY, null)
+  return value && typeof value === 'object' && !Array.isArray(value) ? { ...initial, ...value } : initial
 }
 
 const steps = [
@@ -76,7 +75,7 @@ export function SellerCentralPage() {
   const saveDraft = () => {
     setIsSaving(true)
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...form, savedAt: new Date().toISOString() }))
+      if (!writeSellerValue(STORAGE_KEY, { ...form, savedAt: new Date().toISOString() })) throw new Error('Storage unavailable')
       setSavedAt(new Date().toLocaleString())
       setNotice('Your preparation draft is saved on this device. It has not been submitted to MARCHY.')
     } catch {
@@ -88,7 +87,7 @@ export function SellerCentralPage() {
 
   const clearDraft = () => {
     if (!window.confirm('Clear the seller preparation draft saved on this device?')) return
-    localStorage.removeItem(STORAGE_KEY)
+    if (!removeSellerValue(STORAGE_KEY)) return setNotice('This browser could not clear the seller draft.')
     setForm(initial)
     setSavedAt('')
     setNotice('Local preparation draft cleared.')

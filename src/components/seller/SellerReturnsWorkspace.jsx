@@ -1,14 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
+import { readSellerList, writeSellerValue, subscribeSellerStorage, SELLER_STORAGE_KEYS } from '../../services/seller/sellerStorage'
+import { useSellerProfile } from '../../hooks/useSellerProfile'
 import { AlertCircle, CheckCircle2, ClipboardList, PackageCheck, Search, ShieldCheck, XCircle } from 'lucide-react'
-const KEY='marchy-return-requests-v1', PROFILE='marchy-seller-onboarding-draft-v1'
-const read=k=>{try{const v=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(v)?v:[]}catch{return []}}
-const write=v=>{try{localStorage.setItem(KEY,JSON.stringify(v));return true}catch{return false}}
+const KEY=SELLER_STORAGE_KEYS.returns
+const read=()=>readSellerList(KEY)
+const write=value=>writeSellerValue(KEY,value)
 const stages=['submitted','accepted','received','inspected']
 const label=s=>({submitted:'New request',accepted:'Accepted',received:'Return received',inspected:'Inspection complete',rejected:'Declined'}[s]||s)
 export function SellerReturnsWorkspace(){
- const [profile]=useState(()=>{try{return JSON.parse(localStorage.getItem(PROFILE)||'{}')}catch{return {}}})
+ const profile=useSellerProfile()
  const [requests,setRequests]=useState(read),[selectedId,setSelectedId]=useState(''),[filter,setFilter]=useState('All'),[query,setQuery]=useState(''),[note,setNote]=useState(''),[notice,setNotice]=useState('')
- useEffect(()=>{const sync=e=>{if(e.key===KEY)setRequests(read(KEY))};window.addEventListener('storage',sync);return()=>window.removeEventListener('storage',sync)},[])
+ useEffect(()=>subscribeSellerStorage([KEY,SELLER_STORAGE_KEYS.profile],key=>{if(key===KEY)setRequests(read())}),[])
  const store=(profile.storeName||'').trim().toLocaleLowerCase()
  const mine=useMemo(()=>requests.filter(r=>store&&(r.seller||'').trim().toLocaleLowerCase()===store),[requests,store])
  const visible=useMemo(()=>mine.filter(r=>{const match=filter==='All'||(filter==='Open'&&!['rejected','inspected'].includes(r.status))||r.status===filter.toLocaleLowerCase();return match&&[r.id,r.orderId,r.buyer,r.productName,r.reason].join(' ').toLocaleLowerCase().includes(query.toLocaleLowerCase())}),[mine,filter,query])

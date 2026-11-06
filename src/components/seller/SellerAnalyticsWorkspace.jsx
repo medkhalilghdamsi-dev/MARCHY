@@ -1,14 +1,13 @@
 import { useMemo, useState } from 'react'
+import { useSellerProfile } from '../../hooks/useSellerProfile'
 import { Activity, ArrowDownRight, ArrowUpRight, BarChart3, CalendarDays, Download, Info, Package, ShoppingBag, Target, TrendingUp } from 'lucide-react'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
-const PROFILE_KEY='marchy-seller-onboarding-draft-v1'
-const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch{return fallback}}
 const money=n=>Number(n||0).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})+' TND'
 const dateOf=o=>{const d=o.createdAt||o.updatedAt;const parsed=d?new Date(d):null;return parsed&&!Number.isNaN(parsed.getTime())?parsed:null}
 const DAYS={'7 days':7,'30 days':30,'90 days':90,'All time':Infinity}
 export function SellerAnalyticsWorkspace(){
  const {orders}=useDemoOrders()
- const [profile]=useState(()=>read(PROFILE_KEY,{}))
+ const profile=useSellerProfile()
  const [range,setRange]=useState('30 days')
  const store=(profile.storeName||'').trim(),needle=store.toLocaleLowerCase()
  const assigned=useMemo(()=>orders.filter(o=>store&&((o.seller||'').trim().toLocaleLowerCase()===needle||(o.products||[]).some(p=>(p.sellerName||'').trim().toLocaleLowerCase()===needle))),[orders,store,needle])

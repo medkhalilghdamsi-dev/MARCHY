@@ -1,18 +1,16 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { readSellerList, writeSellerValue, subscribeSellerStorage, SELLER_STORAGE_KEYS } from '../../services/seller/sellerStorage'
 import { AlertCircle, Archive, CheckCircle2, ClipboardList, Edit3, PackagePlus, Search, Send, Trash2 } from 'lucide-react'
 
-const STORAGE_KEY = 'marchy-seller-catalog-v1'
+const STORAGE_KEY = SELLER_STORAGE_KEYS.catalog
 const categories = ['Electronics', 'Groceries', 'Home', 'Fashion', 'Beauty', 'Sports', 'Accessories', 'Automotive', 'Books', 'Toys & Games', 'Baby & Kids', 'Pets', 'Garden & DIY']
 const emptyForm = { name: '', sku: '', category: 'Electronics', price: '', compareAtPrice: '', stock: '0', description: '', variants: '', image: '' }
 
 function readListings() {
-  try {
-    const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-    return Array.isArray(value) ? value : []
-  } catch { return [] }
+  return readSellerList(STORAGE_KEY)
 }
 function writeListings(value) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
+  if (!writeSellerValue(STORAGE_KEY, value)) throw new Error('Seller catalogue storage is unavailable.')
 }
 function makeId() {
   return globalThis.crypto?.randomUUID?.() || 'listing-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8)
@@ -31,6 +29,8 @@ export function SellerCatalogManager() {
   const [statusFilter, setStatusFilter] = useState('all')
   const [feedback, setFeedback] = useState('')
   const [error, setError] = useState('')
+
+  useEffect(() => subscribeSellerStorage(STORAGE_KEY, () => setListings(readListings())), [])
 
   const counts = useMemo(() => ({
     all: listings.length,

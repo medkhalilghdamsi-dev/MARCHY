@@ -1,17 +1,19 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { readSellerList, writeSellerValue, subscribeSellerStorage, SELLER_STORAGE_KEYS } from '../../services/seller/sellerStorage'
 import { AlertCircle, CheckCircle2, Clock3, FileText, Filter, LifeBuoy, MessageSquare, Plus, Search, Send, ShieldAlert, Tag, X } from 'lucide-react'
-const KEY='marchy-seller-support-cases-v1'
+const KEY=SELLER_STORAGE_KEYS.supportCases
 const CATS=['Order issue','Return / refund dispute','Payment / settlement','Product listing','Account / verification','Delivery / courier','Other']
 const STATES=['Open','In review','Waiting for MARCHY','Resolved','Closed']
 const PRIORITIES=['Normal','High','Urgent']
-const read=()=>{try{const x=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(x)?x:[]}catch{return[]}}
+const read=()=>readSellerList(KEY)
 const now=()=>new Date().toISOString()
 const date=v=>{const d=new Date(v);return Number.isNaN(d.getTime())?'Unknown date':d.toLocaleString()}
 export function SellerSupportWorkspace(){
  const [cases,setCases]=useState(read),[query,setQuery]=useState(''),[status,setStatus]=useState('All'),[category,setCategory]=useState('All'),[selectedId,setSelectedId]=useState(''),[creating,setCreating]=useState(false),[notice,setNotice]=useState(''),[reply,setReply]=useState('')
  const [draft,setDraft]=useState({subject:'',category:CATS[0],priority:'Normal',orderReference:'',description:''})
+ useEffect(()=>subscribeSellerStorage(KEY,()=>setCases(read())),[])
  const selected=cases.find(x=>x.id===selectedId)||null
- const save=next=>{setCases(next);try{localStorage.setItem(KEY,JSON.stringify(next));setNotice('Saved in this browser only. No support agent has received this case.')}catch{setNotice('Browser storage could not save this change.')}}
+ const save=next=>{if(!writeSellerValue(KEY,next)){setNotice('Browser storage could not save this change.');return}setCases(next);setNotice('Saved in this browser only. No support agent has received this case.')}
  const visible=useMemo(()=>cases.filter(x=>{const text=[x.reference,x.subject,x.category,x.orderReference,x.description].join(' ').toLowerCase();return(status==='All'||x.status===status)&&(category==='All'||x.category===category)&&(!query.trim()||text.includes(query.trim().toLowerCase()))}).sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt)),[cases,status,category,query])
  const counts={open:cases.filter(x=>!['Resolved','Closed'].includes(x.status)).length,waiting:cases.filter(x=>x.status==='Waiting for MARCHY').length,resolved:cases.filter(x=>x.status==='Resolved').length}
  const create=e=>{e.preventDefault();if(!draft.subject.trim()||!draft.description.trim())return;const at=now(),id=String(Date.now())+Math.random().toString(16).slice(2),item={id,reference:'MCH-'+id.slice(-8).toUpperCase(),...draft,subject:draft.subject.trim(),orderReference:draft.orderReference.trim(),description:draft.description.trim(),status:'Open',createdAt:at,updatedAt:at,messages:[{id:id+'-1',author:'You',body:draft.description.trim(),createdAt:at}],history:[{status:'Open',note:'Case created in local demo workspace',at}]};save([item,...cases]);setSelectedId(id);setCreating(false);setDraft({subject:'',category:CATS[0],priority:'Normal',orderReference:'',description:''})}

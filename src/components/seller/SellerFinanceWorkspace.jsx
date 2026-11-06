@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
+import { useSellerProfile } from '../../hooks/useSellerProfile'
 import { ArrowDownLeft, ArrowUpRight, Banknote, CalendarDays, Download, FileText, Info, Landmark, RefreshCw, Search, ShieldCheck, Wallet } from 'lucide-react'
 
-const PROFILE_KEY = 'marchy-seller-onboarding-draft-v1'
 const FILTERS = ['All activity', 'Sales', 'Fees', 'Refunds', 'Adjustments']
 const money = value => `${Number(value || 0).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })} TND`
 const dateLabel = value => new Date(value).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })
@@ -15,7 +15,7 @@ const illustrativeRows = [
 ]
 
 export function SellerFinanceWorkspace() {
-  const [profile] = useState(() => { try { return JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}') } catch { return {} } })
+  const profile = useSellerProfile()
   const [filter, setFilter] = useState('All activity')
   const [query, setQuery] = useState('')
   const [period, setPeriod] = useState('30 days')

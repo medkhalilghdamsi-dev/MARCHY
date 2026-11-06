@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { readSellerList, writeSellerValue, subscribeSellerStorage, SELLER_STORAGE_KEYS } from '../../services/seller/sellerStorage'
 import { AlertTriangle, ArrowDownRight, ArrowUpRight, Boxes, History, Package, Search, SlidersHorizontal } from 'lucide-react'
-const LISTINGS_KEY = 'marchy-seller-catalog-v1'
-const MOVEMENTS_KEY = 'marchy-seller-inventory-movements-v1'
-const read = key => { try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value : [] } catch { return [] } }
-const write = (key, value) => localStorage.setItem(key, JSON.stringify(value))
+const LISTINGS_KEY = SELLER_STORAGE_KEYS.catalog
+const MOVEMENTS_KEY = SELLER_STORAGE_KEYS.inventoryMovements
+const read = readSellerList
+const write = writeSellerValue
 const makeId = () => globalThis.crypto?.randomUUID?.() || 'movement-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7)
 function normalise(item) {
   if (item.inventory?.variants?.length) return item
@@ -29,6 +30,10 @@ export function SellerInventoryWorkspace() {
   const [thresholdDraft, setThresholdDraft] = useState({})
   const [notice, setNotice] = useState('')
   const [error, setError] = useState('')
+  useEffect(() => subscribeSellerStorage([LISTINGS_KEY, MOVEMENTS_KEY], key => {
+    if (key === LISTINGS_KEY) setListings(read(LISTINGS_KEY).map(normalise))
+    if (key === MOVEMENTS_KEY) setMovements(read(MOVEMENTS_KEY))
+  }), [])
   const stockRows = useMemo(() => listings.flatMap(item => item.inventory.variants.map(variant => ({
     ...variant, listingId: item.id, product: item.name, category: item.category, image: item.image, threshold: item.inventory.lowStockThreshold
   }))), [listings])
@@ -45,7 +50,7 @@ export function SellerInventoryWorkspace() {
   const selectedListing = listings.find(item => item.id === selected)
   const selectedVariant = selectedListing?.inventory.variants.find(item => item.id === variantId)
   const persist = (nextListings, nextMovements = movements) => {
-    try { write(LISTINGS_KEY, nextListings); write(MOVEMENTS_KEY, nextMovements); setListings(nextListings); setMovements(nextMovements); setError(''); return true }
+    try { if (!write(LISTINGS_KEY, nextListings) || !write(MOVEMENTS_KEY, nextMovements)) throw new Error('Storage unavailable'); setListings(nextListings); setMovements(nextMovements); setError(''); return true }
     catch { setError('Could not save inventory changes in this browser. No stock change was confirmed.'); return false }
   }
   const adjust = () => {

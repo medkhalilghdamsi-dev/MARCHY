@@ -136,3 +136,10 @@ The seller journey is a distinct application surface within the same React appli
 - Establish shared form, table, empty-state, status, modal and confirmation primitives without merging buyer and seller navigation.
 - Add route-level tests proving buyer chrome never appears on seller portal paths and public seller storefronts continue to use buyer chrome.
 - Add a production build and Playwright smoke test to the branch before the next major module.
+
+### Seller browser-storage boundary
+
+- Seller-side browser persistence is accessed through `src/services/seller/sellerStorage.js`; UI modules must not call `localStorage` directly.
+- The service centralizes stable storage keys, safe JSON reads, list/profile normalization, write/remove failure handling, and same-tab plus cross-tab change notifications.
+- `src/hooks/useSellerProfile.js` provides a shared reactive view of the saved seller preparation profile.
+- This is a frontend prototype persistence boundary only. It is not authentication, tenant isolation, authoritative inventory, financial ledger storage, or a substitute for the backend API.
