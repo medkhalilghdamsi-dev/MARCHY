@@ -411,3 +411,57 @@ html[data-theme="dark"] .notif-dropdown{border-color:var(--line);background:var(
 @media(max-width:700px){.sc-catalog-head{flex-direction:column}.sc-catalog-fields{grid-template-columns:1fr}.sc-catalog-wide{grid-column:auto}.sc-catalog-item{grid-template-columns:44px minmax(0,1fr) auto;gap:9px}.sc-catalog-product-image{width:44px;height:44px}.sc-catalog-price{grid-column:2;text-align:left}.sc-catalog-status{grid-column:3;grid-row:1}.sc-catalog-item-actions{grid-column:2/4;justify-content:flex-end}.sc-catalog-stats button{flex-direction:column;align-items:flex-start}.sc-catalog-form-actions>*{flex:1}.sc-catalog-disclaimer{text-align:left}}
 
 .buyer-return-backdrop{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:18px;background:rgba(13,22,17,.58)}.buyer-return-dialog{position:relative;width:min(100%,500px);max-height:min(90vh,760px);overflow:auto;padding:25px;border-radius:12px;background:var(--surface,#fff);color:var(--ink);box-shadow:0 24px 80px rgba(0,0,0,.24)}.buyer-return-dialog h2{margin:7px 0;font-size:24px}.buyer-return-dialog>p{font-size:11px;line-height:1.6;color:var(--muted)}.buyer-return-dialog>label{display:grid;gap:6px;margin:13px 0;font-size:10px;font-weight:750}.buyer-return-dialog input,.buyer-return-dialog select,.buyer-return-dialog textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit;font-size:11px}.buyer-return-close{position:absolute;top:14px;right:14px;border:0;background:transparent;color:var(--muted);cursor:pointer}.buyer-return-actions{display:flex;justify-content:flex-end;gap:8px;margin:17px 0 10px}.buyer-return-dialog>small{font-size:9px;color:var(--muted);line-height:1.5}.buyer-return-error,.buyer-return-notice{padding:9px;border-radius:6px;background:#fff0ed;color:#9b3028;font-size:10px}.buyer-return-notice{background:#edf6ef;color:#28633e}
+
+
+/* Mobile account containment: prevent long profile values and flex children
+   from expanding the page beyond the viewport. */
+.account-page,
+.account-page > *,
+.account-page .account-welcome > *,
+.account-page .account-profile-card,
+.account-page .profile-card-header,
+.account-page .profile-view-grid,
+.account-page .profile-view-grid > *,
+.account-page .account-content-grid,
+.account-page .account-panel {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.account-page .breadcrumbs {
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.account-page .account-welcome > div:first-child,
+.account-page .account-guest-status,
+.account-page .profile-view-grid b {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.account-page .profile-card-header {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.account-page .profile-card-header > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.account-page .profile-view-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (max-width: 760px) {
+  .account-page .profile-view-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 420px) {
+  .account-page .profile-card-header {
+    align-items: flex-start;
+  }
+  .account-page .profile-card-header .outline-btn {
+    width: auto;
+    max-width: 100%;
+  }
+}
