@@ -326,6 +326,7 @@ export const MarketplaceService = {
     const numId = Number(productId)
     const stored = readJson(OFFERS_KEY, DEFAULT_OFFERS)
     const offers = stored[numId] || []
+    const inventory = readJson(INVENTORY_KEY, {})
     
     // If no explicit multi-offers, create a default offer from the product itself
     if (offers.length === 0) {
@@ -343,12 +344,11 @@ export const MarketplaceService = {
           condition: 'Brand New',
           shippingFee: 0,
           deliveryTime: '24–48h courier',
-          stock: 15,
+          stock: inventory[`atlas-tech-tunis-${numId}`] ?? 15,
           isFeatured: true
         }]
       }
     }
-    const inventory = readJson(INVENTORY_KEY, {})
     return offers.map(offer => ({
       ...offer,
       stock: inventory[`${offer.sellerSlug}-${numId}`] ?? offer.stock
