@@ -1688,3 +1688,38 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
     transition: none;
   }
 }
+
+/* Mobile tab bar: explicit interaction, active and theme states. */
+@media(max-width:640px){
+  .mobile-tabbar a{
+    position:relative;
+    transition:background-color .16s ease,color .16s ease;
+  }
+  .mobile-tabbar a.is-active{
+    color:var(--forest);
+    background:var(--surface-soft);
+  }
+  .mobile-tabbar a.is-active>span{color:var(--forest)}
+  .mobile-tabbar a.is-active small{font-weight:850}
+  .mobile-tabbar a:focus-visible{
+    outline:2px solid var(--focus-ring,var(--forest));
+    outline-offset:-2px;
+    background:var(--surface-soft);
+  }
+  .mobile-tabbar a:active{background:var(--surface-soft)}
+}
+html[data-theme="dark"] .mobile-tabbar{
+  background:var(--surface);
+  border-color:var(--line);
+  box-shadow:0 -8px 26px rgba(0,0,0,.24);
+}
+html[data-theme="dark"] .mobile-tabbar a{color:var(--muted)}
+html[data-theme="dark"] .mobile-tabbar a>span{color:var(--ink)}
+html[data-theme="dark"] .mobile-tabbar a.is-active,
+html[data-theme="dark"] .mobile-tabbar a:focus-visible{background:var(--surface-soft)}
+html[data-theme="dark"] .mobile-tabbar a.is-active,
+html[data-theme="dark"] .mobile-tabbar a.is-active>span{color:var(--forest)}
+html[data-theme="dark"] .mobile-tabbar i{border-color:var(--surface)}
+@media(prefers-reduced-motion:reduce){
+  .mobile-tabbar a{transition:none}
+}
