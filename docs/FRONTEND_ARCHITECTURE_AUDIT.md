@@ -386,3 +386,11 @@ Completed a final product-page commerce hierarchy pass.
 - Added consistent visible keyboard focus, responsive stock-warning layout, and dark/RTL treatment.
 - Preserved cart state, coupon validation, seller grouping, and checkout/demo behaviour. No backend or service code changed.
 - Verification is source-level only; production build and browser checks have not been run.
+
+
+## Buyer order-history accessibility pass — 2026-11-06
+
+- Added an accessible description to the return-request dialog and made its title programmatically focusable when the dialog is opened by assistive technology or future focus-management enhancements.
+- Marked the filtered order-results container as a named live region so status/search changes are announced more clearly.
+- Preserved the existing return-request workflow, local storage behavior, cancellation and reorder actions.
+- No backend, API or service changes. Build and browser verification remain outstanding.
