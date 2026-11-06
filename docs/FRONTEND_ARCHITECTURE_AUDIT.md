@@ -465,3 +465,13 @@ Completed a final product-page commerce hierarchy pass.
 - Existing labels, responsive form grids, local persistence, validation and address/profile actions are preserved.
 - Source changes: `src/pages/buyer/AccountPage.jsx` and `src/styles/shopping.css`.
 - Verification is source-level only; browser form submission, keyboard/screen-reader behavior and production build remain outstanding.
+
+
+## Checkout form consistency pass — 2026-11-06
+
+- Added explicit label/control associations for every checkout field, including the delivery region, delivery method, payment method and optional notes.
+- Added concise contextual guidance to the recipient name, phone and delivery-address fields, connected through `aria-describedby`.
+- Standardized checkout field dimensions, surface/border tokens, visible keyboard focus and native invalid-state styling; preserved browser-native required/pattern validation.
+- No checkout state, order creation, payment or delivery behavior changed.
+- Source changes: `src/pages/buyer/CheckoutPage.jsx` and `src/styles/checkout.css`.
+- Verification is source-level only; build and browser/form validation checks remain outstanding.
