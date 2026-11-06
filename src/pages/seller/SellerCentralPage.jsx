@@ -4,6 +4,7 @@ import { ArrowRight, BadgeCheck, Building2, ClipboardCheck, FileText, ShieldChec
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { translateTree } from '../../i18n/translate'
 import { SellerCatalogManager } from '../../components/seller/SellerCatalogManager'
+import { SellerInventoryWorkspace } from '../../components/seller/SellerInventoryWorkspace'
 
 const STORAGE_KEY = 'marchy-seller-onboarding-draft-v1'
 const governorates = [
@@ -114,19 +115,21 @@ export function SellerCentralPage() {
           <div className="sc-sidebar-heading"><span className="eyebrow">SELLER CENTRAL</span><b>Setup workspace</b></div>
           <button type="button" className={activeSection === 'profile' ? 'active' : ''} onClick={() => setActiveSection('profile')}><Building2 size={17}/> Business profile <span>01</span></button>
           <button type="button" className={activeSection === 'catalog' ? 'active' : ''} onClick={() => setActiveSection('catalog')}><Store size={17}/> Products <span>02</span></button>
-          <button type="button" className={activeSection === 'operations' ? 'active' : ''} onClick={() => setActiveSection('operations')}><Truck size={17}/> Operations <span>03</span></button>
-          <button type="button" className={activeSection === 'verification' ? 'active' : ''} onClick={() => setActiveSection('verification')}><BadgeCheck size={17}/> Verification <span>04</span></button>
+          <button type="button" className={activeSection === 'inventory' ? 'active' : ''} onClick={() => setActiveSection('inventory')}><Truck size={17}/> Inventory <span>03</span></button>
+          <button type="button" className={activeSection === 'operations' ? 'active' : ''} onClick={() => setActiveSection('operations')}><Truck size={17}/> Operations <span>04</span></button>
+          <button type="button" className={activeSection === 'verification' ? 'active' : ''} onClick={() => setActiveSection('verification')}><BadgeCheck size={17}/> Verification <span>05</span></button>
           <div className="sc-sidebar-note"><ShieldCheck size={17}/><span><b>Trust comes first</b>Seller access and payouts require approved verification and backend controls.</span></div>
           <Link to="/seller-help" className="sc-help-link">Seller preparation guide <ArrowRight size={15}/></Link>
         </aside>
 
         <section className="sc-main">
           <div className="sc-main-heading">
-            <div><span className="eyebrow">{activeSection === 'catalog' ? 'SELLER PRODUCT CATALOGUE' : 'YOUR BUSINESS PROFILE'}</span><h2>{activeSection === 'profile' ? 'Tell us about your business' : activeSection === 'catalog' ? 'Manage your product catalogue' : activeSection === 'operations' ? 'How will you fulfil orders?' : 'Verification readiness'}</h2><p>{activeSection === 'profile' ? 'These details help establish the identity and location of your future storefront.' : activeSection === 'catalog' ? 'Create listings with seller SKUs, prices, variants and stock. Customer publishing remains locked until real seller approval.' : activeSection === 'operations' ? 'Set realistic expectations for delivery and payment handling in Tunisia.' : 'Prepare accurate business information. Document collection and verification are not yet enabled in this prototype.'}</p></div>
+            <div><span className="eyebrow">{activeSection === 'catalog' ? 'SELLER PRODUCT CATALOGUE' : 'YOUR BUSINESS PROFILE'}</span><h2>{activeSection === 'profile' ? 'Tell us about your business' : activeSection === 'catalog' ? 'Manage your product catalogue' : activeSection === 'inventory' ? 'Control seller stock and variants' : activeSection === 'operations' ? 'How will you fulfil orders?' : 'Verification readiness'}</h2><p>{activeSection === 'profile' ? 'These details help establish the identity and location of your future storefront.' : activeSection === 'catalog' ? 'Create listings with seller SKUs, prices, variants and stock. Customer publishing remains locked until real seller approval.' : activeSection === 'inventory' ? 'Review SKU-level quantities, record stock movements and configure low-stock thresholds.' : activeSection === 'operations' ? 'Set realistic expectations for delivery and payment handling in Tunisia.' : 'Prepare accurate business information. Document collection and verification are not yet enabled in this prototype.'}</p></div>
             <span className="sc-status"><i/> Preparation draft</span>
           </div>
 
           {activeSection === 'catalog' && <SellerCatalogManager />}
+          {activeSection === 'inventory' && <SellerInventoryWorkspace />}
           {activeSection === 'profile' && <div className="sc-form-grid">
             <label>Storefront name <span>Customer-facing shop name</span><input value={form.storeName} onChange={e => update('storeName', e.target.value)} placeholder="e.g. Maison Medina" maxLength={80}/></label>
             <label>Legal / registered name <span>Name used for business documentation</span><input value={form.legalName} onChange={e => update('legalName', e.target.value)} placeholder="Business or owner legal name" maxLength={120}/></label>
