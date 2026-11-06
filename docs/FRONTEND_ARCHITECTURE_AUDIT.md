@@ -475,3 +475,14 @@ Completed a final product-page commerce hierarchy pass.
 - No checkout state, order creation, payment or delivery behavior changed.
 - Source changes: `src/pages/buyer/CheckoutPage.jsx` and `src/styles/checkout.css`.
 - Verification is source-level only; build and browser/form validation checks remain outstanding.
+
+
+## Seller listing form consistency pass — 2026-11-06
+
+- Added explicit label/control associations and descriptive hints for product name, category, TND price and description fields.
+- The listing-form toggle now exposes expanded state and identifies the form it controls; the form is programmatically associated with its heading.
+- Search and category filters now have explicit control IDs and labels.
+- Standardized field sizing, keyboard focus, native invalid-state feedback and RTL hint alignment.
+- Preserved existing draft/publish state, local persistence and marketplace catalogue behavior.
+- Source changes: `src/pages/seller/SellerDashboardPage.jsx` and `src/styles/seller-workspace.css`.
+- Verification is source-level only; build, form submission and browser keyboard checks remain outstanding.
