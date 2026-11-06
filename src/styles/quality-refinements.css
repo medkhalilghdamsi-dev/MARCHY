@@ -1,5 +1,5 @@
 /* MARCHY marketplace quality pass — consistent hierarchy, clarity and touch targets */
-:root{--orange:#1f5b45;--orange-dark:#164033;--ink:#12261e;--muted:#435b4f;--page:#f4f8f5;--surface:#fff;--line:#d8e5dd;--shadow-card:0 8px 28px rgba(18,38,30,.065);--shadow-raised:0 18px 48px rgba(18,38,30,.13)}
+/* Global tokens: moved to design-system.css */
 body{color:var(--ink);background:var(--page);-webkit-font-smoothing:antialiased}
 .shell{width:min(1320px,calc(100% - 56px))}
 .header{box-shadow:0 5px 22px rgba(18,38,30,.055)}
