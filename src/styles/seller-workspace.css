@@ -481,3 +481,13 @@ html[data-theme="dark"] .sc-catalog-form .sc-catalog-error,.html[data-theme="dar
 @media(prefers-reduced-motion:reduce){.sc-support-case,.seller-review-card,.promo-card{transition:none}}
 .is-rtl .settings-header,.is-rtl .seller-dashboard-products-heading,.is-rtl .sc-support-head,.is-rtl .sc-support-detail-head{direction:rtl}.is-rtl .sc-support-list{border-right:0;border-left:1px solid var(--line)}.is-rtl .sc-support-case,.is-rtl .sc-support-detail{text-align:right}
 @media(max-width:680px){.is-rtl .sc-support-list{border-left:0}}
+
+
+/* Seller listing form — shared field rhythm and guidance */
+.seller-draft-fields>label{min-width:0}
+.seller-draft-fields>label>input,.seller-draft-fields>label>select,.seller-draft-fields>label>textarea{width:100%;min-width:0;min-height:44px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit;padding:10px 12px}
+.seller-draft-fields>label>textarea{min-height:104px;resize:vertical}
+.seller-draft-fields>label>input:focus-visible,.seller-draft-fields>label>select:focus-visible,.seller-draft-fields>label>textarea:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;border-color:var(--accent)}
+.seller-draft-fields>label>input:user-invalid,.seller-draft-fields>label>select:user-invalid,.seller-draft-fields>label>textarea:user-invalid{border-color:var(--danger)}
+.seller-field-hint{display:block;margin-top:6px;color:var(--muted);font-size:10px;font-weight:450;line-height:1.55}
+.is-rtl .seller-field-hint{text-align:right}
