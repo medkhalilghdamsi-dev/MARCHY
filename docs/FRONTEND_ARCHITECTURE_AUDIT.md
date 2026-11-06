@@ -356,3 +356,13 @@ Completed a final product-page commerce hierarchy pass.
 - Standardized the five-item mobile tab bar with consistent icon/label alignment, active-route treatment, accessible focus, badge placement, and safe-area-aware padding for modern phones.
 - Added dark-theme and reduced-motion handling to the shared navigation surfaces.
 - CSS-only presentation changes; no routing, state, persistence, API, or backend behavior changed.
+
+
+## Buyer product comparison workspace — 2026-11-06
+
+- Converted the floating compare trigger into a semantic button with expanded/dialog state.
+- Added Escape-to-close, focus entry/restoration, keyboard focus containment, background scroll locking, and backdrop dismissal for the comparison dialog.
+- Improved comparison table row/column header semantics for assistive technology.
+- Reworked the dock and comparison matrix hierarchy for compact desktop layouts and mobile bottom-sheet presentation.
+- Added dark-theme, RTL, safe-area, visible-focus, and reduced-motion handling.
+- Kept comparison selection, pricing, cart actions, and marketplace data behavior unchanged.
