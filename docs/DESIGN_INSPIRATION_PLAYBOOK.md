@@ -98,7 +98,7 @@ Applied to the buyer experience on the `khalil` branch:
 - Product Q&A makes clear that questions and sample responses are local preview content, not seller messaging or verified answers.
 - Checkout explicitly says no seller receives the order, no courier is booked and no payment or buyer-protection service is activated.
 - Buyer navigation's seller entry points to the seller introduction page (`/sell`) rather than dropping merchants directly into Seller Central.
-- Global search exposes expanded/collapsed state and a labelled suggestions region.
+- Global search exposes expanded/collapsed state and a labelled suggestions dialog.
 - Added regression coverage for these trust and navigation boundaries.
 
 **Validation note:** the Vercel status check for this pass reported a build-rate-limit failure. This is not evidence of a code build failure, but it also means the latest changes have not yet been validated by a successful hosted build. Run the repository build and Playwright suite when CI capacity is available.
