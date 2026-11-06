@@ -533,3 +533,12 @@ Completed a final product-page commerce hierarchy pass.
 - The audit remains intentionally non-destructive: duplicate selectors are reported for review, not automatically removed, because repeated declarations may represent legitimate responsive or state-specific overrides.
 - Source change: `scripts/audit-css-ownership.mjs`.
 - Verification is source-level only; the audit script and production build have not yet been executed in this environment.
+
+
+## Legacy header stacking ownership cleanup — 2026-11-06
+
+- Removed the obsolete `z-index: 5` declaration from the original base header rule so the legacy foundation no longer competes with the conditional overlay state in the buyer refinement layer.
+- Header stacking is now owned by the conditional `.header.header-search-open` / `.header.header-menu-open` rule; the normal header remains in the default stacking context.
+- Existing header layout, position, background and shadow declarations are unchanged.
+- Source change: `src/styles/base.css`.
+- Verification remains source-level; the Playwright stacking regression and browser visual checks have not been executed here.
