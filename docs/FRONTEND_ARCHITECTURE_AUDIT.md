@@ -49,6 +49,14 @@ The broad refinement layers contain late overrides. Reordering or moving selecto
 
 ## Remaining CSS work
 
+### 5. Large stylesheet ownership hotspots
+
+A focused source review found two particularly large late-layer files:
+- `src/styles/buyer-ui-polish.css` — approximately 123 KB. It mixes homepage/landing-page presentation, buyer-specific polish, icon alignment primitives and some global UI rules.
+- `src/styles/upwork-ui.css` — approximately 135 KB. It mixes header/navigation, product cards, seller showcase, value-proposition sections, dual CTAs, responsive rules and dark-mode overrides.
+
+These are not safe deletion candidates: they contain active presentation rules and are loaded by the global entry point. Their size and mixed ownership make them the first candidates for staged extraction into feature-owned stylesheets. Preserve the current import order until each extracted group has been compared in browser regression.
+
 1. Run `npm run audit:css` and inspect repeated selectors with their declarations and media-query contexts.
 2. Map selector ownership to actual JSX component usage.
 3. Consolidate duplicated rules in small batches, preserving responsive and RTL behaviour.
