@@ -265,6 +265,19 @@ export function ProductPage() {
             <span className="seller-profile-status">Store details are illustrative</span>
           </div>
           <Link to={`/seller/${currentSellerSlug}`}>Visit shop <span><ArrowRight size={15}/></span></Link>
+        <section className="product-confidence-panel" aria-label="Buyer confidence information">
+          <span className="eyebrow">BUYER CONFIDENCE</span>
+          <h2>What is and isn't verified</h2>
+          <p><b>Seller verification:</b> Not independently verified. This is an illustrative storefront profile.</p>
+          <p><b>Product details:</b> Sample catalogue information. Confirm specifications, condition and availability directly with the seller.</p>
+        </section>
+        <section className="product-delivery-panel" aria-label="Delivery and availability">
+          <span className="eyebrow">DELIVERY & AVAILABILITY</span>
+          <h2>Confirm before ordering</h2>
+          <p><b>Delivery fee:</b> not provided</p>
+          <p><b>Estimated arrival:</b> not provided</p>
+          <p>Delivery coverage and stock availability must be confirmed with the seller before checkout.</p>
+        </section>
         </section>
       </section>
     </div>

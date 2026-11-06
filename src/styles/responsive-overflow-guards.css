@@ -110,3 +110,28 @@
     grid-column: 2;
   }
 }
+
+/* Honest buyer-confidence disclosures on product detail pages. */
+.product-page .product-confidence-panel,
+.product-page .product-delivery-panel {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line, #d8e5dd);
+  border-radius: 14px;
+  background: var(--surface, #fff);
+  overflow-wrap: anywhere;
+}
+
+.product-page .product-confidence-panel h2,
+.product-page .product-delivery-panel h2 {
+  margin: 6px 0 10px;
+  font-size: 16px;
+}
+
+.product-page .product-confidence-panel p,
+.product-page .product-delivery-panel p {
+  margin: 7px 0 0;
+  color: var(--muted, #435b4f);
+  font-size: 13px;
+  line-height: 1.6;
+}
