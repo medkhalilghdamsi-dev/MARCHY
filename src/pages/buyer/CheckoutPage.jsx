@@ -35,7 +35,7 @@ export function CheckoutPage() {
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const groups = [...new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug))].map(slug => {
     const seller = sellers.find(entry => entry.slug === slug)
-    const items = cart.filter(item => sellerForProduct(item).slug === slug)
+    const items = cart.filter(item => (item.sellerSlug || sellerForProduct(item).slug) === slug)
     return { seller, items, subtotal: items.reduce((sum, item) => sum + item.price * item.qty, 0) }
   })
   const update = (key, value) => setDetails(current => ({ ...current, [key]: value }))
@@ -85,7 +85,10 @@ export function CheckoutPage() {
         qty: item.qty,
         image: item.image,
         category: item.category,
-        selectedVariant: item.selectedVariant || null
+        selectedVariant: item.selectedVariant || null,
+        sellerSlug: item.sellerSlug || group.seller.slug,
+        sellerName: group.seller.name,
+        sellerCity: group.seller.city
       })),
       subtotal: group.subtotal,
       discountRatio,
@@ -210,7 +213,7 @@ export function CheckoutPage() {
           </div>
 
           <div className="checkout-contact-review"><div><b>Delivery contact</b><button type="button" className="text-link" onClick={() => setStep(1)}>Edit details</button></div><p>{details.name} · {details.phone}</p><p>{details.address}, {details.city}</p><p><small>Delivery: {details.deliveryMethod} · Payment: {details.paymentMethod}</small></p>{details.notes && <small>{details.notes}</small>}</div>
-          {groups.map(group => <article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0, 1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item => <div className="checkout-review-item" key={`${item.id}-${item.selectedVariant || 'default'}`}><img src={item.image} alt="" onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/product-placeholder.svg' }}/><span>{item.name}{item.selectedVariant && <small className="checkout-item-variant">Option: {item.selectedVariant}</small>}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price * item.qty)}</b></div>)}<div className="checkout-delivery-status"><span><Truck size={14}/> Delivery and stock</span><b>To be confirmed by seller</b></div></article>)}
+          {groups.map(group => <article className="checkout-seller-review" key={group.seller.slug}><div className="checkout-seller-heading"><div><span className="seller-avatar">{group.seller.name.slice(0, 1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city} · sample storefront</small></div></div><strong>{money(group.subtotal)}</strong></div>{group.items.map(item => <div className="checkout-review-item" key={`${item.id}-${item.sellerSlug || group.seller.slug}-${item.selectedVariant || 'default'}`}><img src={item.image} alt="" onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/product-placeholder.svg' }}/><span>{item.name}{item.selectedVariant && <small className="checkout-item-variant">Option: {item.selectedVariant}</small>}<small>Qty {item.qty} × {money(item.price)}</small></span><b>{money(item.price * item.qty)}</b></div>)}<div className="checkout-delivery-status"><span><Truck size={14}/> Delivery and stock</span><b>To be confirmed by seller</b></div></article>)}
           <div className="checkout-review-actions"><button type="button" className="outline-btn" onClick={() => setStep(1)}><ArrowLeft size={14}/> Edit delivery details</button><button type="button" className="primary-btn" onClick={submitDemoOrder}>Place demo order <ArrowRight size={15}/></button></div>
         </section>}
       </section>
