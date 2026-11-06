@@ -30,7 +30,7 @@ export function MultiSellerOffers({ offers, onSelectOffer, activeOfferId }) {
             <article
               key={offer.id}
               className={`offer-card ${isSelected ? 'is-selected' : ''}`}
-              onClick={() => setSelectedId(offer.id)}
+              onClick={() => { setSelectedId(offer.id); onSelectOffer?.(offer) }}
             >
               <div className="offer-seller-col">
                 <div className="offer-seller-identity">
@@ -61,7 +61,7 @@ export function MultiSellerOffers({ offers, onSelectOffer, activeOfferId }) {
                   </div>
                 </div>
                 <span className="offer-stock-pill">
-                  {offer.stock > 5 ? `${offer.stock} in stock` : `Only ${offer.stock} left!`}
+                  {offer.stock > 5 ? `${offer.stock} in stock` : offer.stock > 0 ? `Only ${offer.stock} left` : 'Out of stock'}
                 </span>
               </div>
 
@@ -73,6 +73,7 @@ export function MultiSellerOffers({ offers, onSelectOffer, activeOfferId }) {
                 <button
                   type="button"
                   className={`offer-select-btn ${isSelected ? 'is-active' : ''}`}
+                  disabled={offer.stock <= 0}
                   onClick={(e) => {
                     e.stopPropagation()
                     setSelectedId(offer.id)
