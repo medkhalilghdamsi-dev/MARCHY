@@ -523,3 +523,13 @@ Completed a final product-page commerce hierarchy pass.
 - Added a Playwright regression covering the closed/open/closed stacking lifecycle for desktop search and mobile navigation.
 - Source changes: `src/components/layout/Header.jsx`, `src/styles/buyer-ui-polish.css`, `src/styles/shopping.css` and `tests/marketplace.spec.js`.
 - Verification is source-level only; Playwright execution, production build and visual checks remain outstanding.
+
+
+## CSS ownership audit diagnostics refinement — 2026-11-06
+
+- The CSS ownership audit now reports exact source file and line locations for repeated selectors, making the next migration pass traceable instead of requiring manual file-wide searches.
+- Line references remain absolute inside nested media/supports/container/layer/scope blocks.
+- Corrected report formatting so section breaks and multi-file locations render as readable separate lines.
+- The audit remains intentionally non-destructive: duplicate selectors are reported for review, not automatically removed, because repeated declarations may represent legitimate responsive or state-specific overrides.
+- Source change: `scripts/audit-css-ownership.mjs`.
+- Verification is source-level only; the audit script and production build have not yet been executed in this environment.
