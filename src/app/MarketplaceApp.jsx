@@ -1,16 +1,15 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import { categories, products } from '../data/products'
-import { sellers } from '../data/sellers'
-import { readJson, writeJson } from '../utils/marketplace'
 import { useMarketplace } from '../providers/MarketplaceContext'
 import { ErrorBoundary } from './ErrorBoundary'
-import { Header } from '../components/layout/Header'
-import { Footer } from '../components/layout/Footer'
-import { MobileTabBar } from '../components/layout/MobileTabBar'
-import { SellerPortalHeader, SellerPortalFooter } from '../components/layout/SellerPortalChrome'
 import { SELLER_PORTAL_PATHS } from './routePaths'
-import { GlobalCompareDrawer } from '../components/marketplace/GlobalCompareDrawer'
+
+const Header = lazy(() => import('../components/layout/Header').then(m => ({ default: m.Header })))
+const Footer = lazy(() => import('../components/layout/Footer').then(m => ({ default: m.Footer })))
+const MobileTabBar = lazy(() => import('../components/layout/MobileTabBar').then(m => ({ default: m.MobileTabBar })))
+const SellerPortalHeader = lazy(() => import('../components/layout/SellerPortalChrome').then(m => ({ default: m.SellerPortalHeader })))
+const SellerPortalFooter = lazy(() => import('../components/layout/SellerPortalChrome').then(m => ({ default: m.SellerPortalFooter })))
+const GlobalCompareDrawer = lazy(() => import('../components/marketplace/GlobalCompareDrawer').then(m => ({ default: m.GlobalCompareDrawer })))
 const Home = lazy(() => import('../pages/buyer/HomePage').then(m => ({ default: m.Home })))
 const SearchPage = lazy(() => import('../pages/buyer/SearchPage').then(m => ({ default: m.SearchPage })))
 const ProductPage = lazy(() => import('../pages/buyer/ProductPage').then(m => ({ default: m.ProductPage })))
@@ -61,56 +60,71 @@ function ScrollToTop() {
 function PageTitleManager() {
   const location = useLocation()
   useEffect(() => {
+    let cancelled = false
     const path = location.pathname
     const params = new URLSearchParams(location.search)
     const queryTerm = params.get('q')
-    let title = 'Discover local products and stores'
-    if (path === '/') title = 'Discover more, closer to home'
-    else if (path === '/search') title = queryTerm ? 'Search results for ' + queryTerm : 'Shop the marketplace'
-    else if (path.startsWith('/category/')) {
-      const slug = decodeURIComponent(path.split('/').pop() || '')
-      const category = categories.find(item => item.toLowerCase() === slug.toLowerCase())
-      title = category ? category + ' products' : 'Category not found'
-    } else if (path.startsWith('/product/')) {
-      const product = products.find(item => item.id === Number(path.split('/').pop()))
-      title = product ? product.name : 'Product not found'
-      if (product) {
-        const previous = readJson('marchy-recently-viewed', [])
-        writeJson('marchy-recently-viewed', [product.id, ...previous.filter(item => item !== product.id)].slice(0, 8))
-      }
-    } else if (path.startsWith('/orders/')) title = 'Order tracking ' + path.split('/').pop()
-    else if (path.startsWith('/seller/')) {
-      const slug = path.split('/').pop()
-      const seller = sellers.find(item => item.slug === slug)
-      title = seller ? seller.name : 'Seller storefront'
-    } else {
-      const titles = {
-        '/cart': 'Shopping cart',
-        '/checkout': 'Checkout preview',
-        '/wishlist': 'Saved products',
-        '/categories': 'Browse categories',
-        '/sellers': 'Discover sellers',
-        '/account': 'Your account',
-        '/login': 'Sign in',
-        '/signup': 'Create account',
-        '/help': 'Help centre',
-        '/delivery': 'Delivery guide',
-        '/returns': 'Returns guide',
-        '/seller-help': 'Seller preparation guide',
-        '/sell': 'Sell on MARCHY',
-        '/seller-dashboard': 'Seller workspace',
-        '/seller-central': 'Seller Central',
-        '/operations/delivery': 'Delivery operations',
-        '/admin': 'Platform overview',
-        '/orders': 'Your orders',
-      }
-      title = titles[path] || 'Page not found'
+    const setTitle = title => {
+      if (!cancelled) document.title = title + ' | MARCHY'
     }
-    document.title = title + ' | MARCHY'
+
+    const updateTitle = async () => {
+      let title = 'Discover local products and stores'
+      if (path === '/') title = 'Discover more, closer to home'
+      else if (path === '/search') title = queryTerm ? 'Search results for ' + queryTerm : 'Shop the marketplace'
+      else if (path.startsWith('/category/')) {
+        const { categories } = await import('../data/products')
+        const slug = decodeURIComponent(path.split('/').pop() || '')
+        const category = categories.find(item => item.toLowerCase() === slug.toLowerCase())
+        title = category ? category + ' products' : 'Category not found'
+      } else if (path.startsWith('/product/')) {
+        const [{ products }, storage] = await Promise.all([
+          import('../data/products'),
+          import('../utils/marketplace')
+        ])
+        const product = products.find(item => item.id === Number(path.split('/').pop()))
+        title = product ? product.name : 'Product not found'
+        if (product) {
+          const previous = storage.readJson('marchy-recently-viewed', [])
+          storage.writeJson('marchy-recently-viewed', [product.id, ...previous.filter(item => item !== product.id)].slice(0, 8))
+        }
+      } else if (path.startsWith('/orders/')) title = 'Order tracking ' + path.split('/').pop()
+      else if (path.startsWith('/seller/')) {
+        const { sellers } = await import('../data/sellers')
+        const slug = path.split('/').pop()
+        const seller = sellers.find(item => item.slug === slug)
+        title = seller ? seller.name : 'Seller storefront'
+      } else {
+        const titles = {
+          '/cart': 'Shopping cart',
+          '/checkout': 'Checkout preview',
+          '/wishlist': 'Saved products',
+          '/categories': 'Browse categories',
+          '/sellers': 'Discover sellers',
+          '/account': 'Your account',
+          '/login': 'Sign in',
+          '/signup': 'Create account',
+          '/help': 'Help centre',
+          '/delivery': 'Delivery guide',
+          '/returns': 'Returns guide',
+          '/seller-help': 'Seller preparation guide',
+          '/sell': 'Sell on MARCHY',
+          '/seller-dashboard': 'Seller workspace',
+          '/seller-central': 'Seller Central',
+          '/operations/delivery': 'Delivery operations',
+          '/admin': 'Platform overview',
+          '/orders': 'Your orders'
+        }
+        title = titles[path] || 'Page not found'
+      }
+      setTitle(title)
+    }
+
+    updateTitle().catch(() => setTitle('MARCHY marketplace'))
+    return () => { cancelled = true }
   }, [location.pathname, location.search])
   return null
 }
-
 export default function App() {
   const { language, cart, wishlist } = useMarketplace()
   const location = useLocation()
@@ -123,8 +137,8 @@ export default function App() {
       <ScrollToTop />
       <PageTitleManager />
       {!isAuthPage && <a className="skip-to-content" href="#main-content">Skip to main content</a>}
-      {!isAuthPage && !isSellerPortal && <Header cartCount={cartCount} />}
-      {!isAuthPage && isSellerPortal && <SellerPortalHeader />}
+      {!isAuthPage && !isSellerPortal && <Suspense fallback={null}><Header cartCount={cartCount} /></Suspense>}
+      {!isAuthPage && isSellerPortal && <Suspense fallback={null}><SellerPortalHeader /></Suspense>}
       <ErrorBoundary>
         <Suspense fallback={<PageLoadingFallback />}>
           <Routes>
@@ -156,10 +170,10 @@ export default function App() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
-      {!isAuthPage && !isSellerPortal && <GlobalCompareDrawer />}
-      {!isAuthPage && !isSellerPortal && <Footer />}
-      {!isAuthPage && isSellerPortal && <SellerPortalFooter />}
-      {!isAuthPage && !isSellerPortal && <MobileTabBar cartCount={cartCount} wishlistCount={wishlist.length} />}
+      {!isAuthPage && !isSellerPortal && <Suspense fallback={null}><GlobalCompareDrawer /></Suspense>}
+      {!isAuthPage && !isSellerPortal && <Suspense fallback={null}><Footer /></Suspense>}
+      {!isAuthPage && isSellerPortal && <Suspense fallback={null}><SellerPortalFooter /></Suspense>}
+      {!isAuthPage && !isSellerPortal && <Suspense fallback={null}><MobileTabBar cartCount={cartCount} wishlistCount={wishlist.length} /></Suspense>}
     </div>
   )
 }
