@@ -4191,3 +4191,18 @@ html[data-theme="dark"] .cart-free-delivery-meter,
 html[data-theme="dark"] .checkout-seller-heading {
   background: var(--surface-soft);
 }
+
+
+/* Cart inventory state */
+.cart-stock-status {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 6px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 800;
+}
+.cart-stock-status.is-good { color: var(--forest); background: var(--mint-surface); }
+.cart-stock-status.is-low { color: var(--warning); background: var(--warning-soft); }
+.cart-stock-status.is-out { color: var(--danger); background: var(--danger-soft); }
