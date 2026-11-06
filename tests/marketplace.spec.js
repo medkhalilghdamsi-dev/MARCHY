@@ -19,6 +19,7 @@ const routes = [
   '/returns',
   '/seller-help',
   '/sell',
+  '/seller-central',
   '/seller-dashboard',
   '/this-page-does-not-exist',
 ]
@@ -31,7 +32,7 @@ test('all public frontend routes render a page and a page-specific title', async
   }
 })
 
-const responsiveRoutes = ['/', '/search', '/category/electronics', '/product/1', '/cart', '/checkout', '/wishlist', '/categories', '/sellers', '/seller/atlas-tech-tunis', '/account', '/help', '/delivery', '/returns', '/seller-help', '/sell', '/seller-dashboard', '/operations/delivery', '/admin', '/orders', '/orders/MC-1048']
+const responsiveRoutes = ['/', '/search', '/category/electronics', '/product/1', '/cart', '/checkout', '/wishlist', '/categories', '/sellers', '/seller/atlas-tech-tunis', '/account', '/help', '/delivery', '/returns', '/seller-help', '/sell', '/seller-central', '/seller-dashboard', '/operations/delivery', '/admin', '/orders', '/orders/MC-1048']
 const viewports = [
   { width: 360, height: 800 },
   { width: 390, height: 844 },
@@ -83,9 +84,10 @@ for (const viewport of viewports) {
 test('Arabic RTL layout remains within the viewport on key marketplace routes', async ({ page }) => {
   for (const width of [360, 390, 768]) {
     await page.setViewportSize({ width, height: 844 })
-    for (const route of ['/search', '/product/1', '/seller/atlas-tech-tunis', '/account', '/seller-dashboard', '/operations/delivery', '/admin', '/orders/MC-1048']) {
+    for (const route of ['/search', '/product/1', '/seller/atlas-tech-tunis', '/account', '/seller-central', '/seller-help', '/sell', '/seller-dashboard', '/operations/delivery', '/admin', '/orders/MC-1048']) {
       await page.goto(route)
-      await page.locator('.language-picker select').selectOption('ar')
+      const languagePicker = route.startsWith('/seller-') || route === '/sell' ? page.locator('.seller-portal-language select') : page.locator('.language-picker select')
+      await languagePicker.selectOption('ar')
       await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
       const dimensions = await page.evaluate(() => ({
         viewport: document.documentElement.clientWidth,
@@ -712,4 +714,30 @@ test('checkout presents two accurate steps and creates a local demo order after 
   await page.getByRole('button', { name: 'Place demo order' }).click()
   await expect(page).toHaveURL(/\/orders\//)
   await expect(page.locator('main').first()).toBeVisible()
+})
+
+test('seller routes use an independent portal shell without buyer shopping chrome', async ({ page }) => {
+  for (const route of ['/sell', '/seller-central', '/seller-help']) {
+    await page.goto(route)
+    await expect(page.locator('.seller-portal-header')).toBeVisible()
+    await expect(page.locator('.seller-portal-footer')).toBeVisible()
+    await expect(page.locator('.header')).toHaveCount(0)
+    await expect(page.locator('.footer')).toHaveCount(0)
+    await expect(page.locator('.mobile-tabbar')).toHaveCount(0)
+    await expect(page.locator('.seller-portal-nav')).toBeVisible()
+    await expect(page.getByLabel('Seller language')).toBeVisible()
+    await expect(page.getByRole('button', { name: /Switch to (light|dark) mode/ })).toBeVisible()
+  }
+  await page.goto('/seller-central')
+  await page.getByLabel('Seller language').selectOption('ar')
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+  await page.getByLabel('Seller language').selectOption('en')
+  await expect(page.locator('html')).toHaveAttribute('dir', 'ltr')
+  await page.goto('/seller-dashboard')
+  await expect(page).toHaveURL(/\/seller-central$/)
+  await expect(page.locator('.seller-portal-header')).toBeVisible()
+  await page.goto('/seller/atlas-tech-tunis')
+  await expect(page.locator('.header')).toBeVisible()
+  await expect(page.locator('.mobile-tabbar')).toBeVisible()
+  await expect(page.locator('.seller-portal-header')).toHaveCount(0)
 })
