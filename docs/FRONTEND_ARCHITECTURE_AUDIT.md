@@ -402,3 +402,10 @@ Completed a final product-page commerce hierarchy pass.
 - Existing offer selection, add-to-cart, remove, and local-storage behavior is unchanged.
 - Source change: `src/pages/buyer/WishlistPage.jsx`.
 - Verification is source-level only; production build and browser/assistive-technology checks remain outstanding.
+
+## Buyer order-tracking dialog semantics — 2026-11-06
+
+- Changed the contact modal's backdrop wrapper from a second nested `role="dialog"` to a presentation wrapper. The inner contact panel remains the single labelled modal dialog.
+- This removes duplicate dialog announcements without changing contact-preview behavior or order data.
+- Source change: `src/pages/buyer/BuyerOrderTrackingPage.jsx`.
+- Verification is source-level only; keyboard, screen-reader and browser checks remain outstanding.
