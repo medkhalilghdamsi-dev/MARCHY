@@ -47,7 +47,7 @@ export function useMarketplaceState() {
   }, [appliedCoupon])
 
   const addToCart = useCallback((product, qty = 1, variant = null) => {
-    const line = { id: product.id, selectedVariant: variant || null }
+    const line = { id: product.id, selectedVariant: variant || null, sellerSlug: product.sellerSlug || null }
     setCart(previous => {
       const found = previous.find(item => isSameCartLine(item, line))
       const next = found
