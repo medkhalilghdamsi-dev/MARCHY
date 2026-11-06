@@ -82,6 +82,7 @@ function scan(source, file, context = []) {
     const close = findBlockEnd(source, open)
     const header = source.slice(cursor, open).replace(/\/\*[\s\S]*?\*\//g, '').trim()
     const body = source.slice(open + 1, close)
+    const line = source.slice(0, cursor).split('\\n').length
     cursor = close + 1
     if (!header) continue
 
@@ -96,7 +97,7 @@ function scan(source, file, context = []) {
       if (!selector || selector.startsWith('/*')) continue
       const key = scope + ' :: ' + selector.replace(/\s+/g, ' ')
       const matches = records.get(key) || []
-      matches.push(file)
+      matches.push({ file, line })
       records.set(key, matches)
     }
   }
@@ -112,9 +113,10 @@ for (const importedPath of imports) {
 const crossFile = []
 const repeatedInFile = []
 for (const [key, owners] of records) {
-  const uniqueOwners = [...new Set(owners)]
-  if (uniqueOwners.length > 1) crossFile.push({ selector: key, files: uniqueOwners })
-  if (owners.length > uniqueOwners.length) repeatedInFile.push({ selector: key, occurrences: owners.length, files: uniqueOwners })
+  const uniqueOwners = [...new Set(owners.map((owner) => owner.file))]
+  const locations = owners.map(({ file, line }) => `${file}:${line}`)
+  if (uniqueOwners.length > 1) crossFile.push({ selector: key, files: uniqueOwners, locations })
+  if (owners.length > uniqueOwners.length) repeatedInFile.push({ selector: key, occurrences: owners.length, files: uniqueOwners, locations })
 }
 crossFile.sort((a, b) => b.files.length - a.files.length || a.selector.localeCompare(b.selector))
 repeatedInFile.sort((a, b) => b.occurrences - a.occurrences || a.selector.localeCompare(b.selector))
