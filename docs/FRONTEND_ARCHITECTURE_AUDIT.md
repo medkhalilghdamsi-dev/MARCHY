@@ -301,3 +301,12 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Refined product catalogue management into a clearer dashboard-style workflow with stronger listing states, form hierarchy, table readability and responsive behavior.
 - Refined Offers & Pricing with clearer product selection, commercial editing hierarchy, indicative-price treatment and responsive controls.
 - Added dark-theme, RTL, focus and mobile behavior without changing seller storage or backend contracts.
+
+
+## Seller configuration, trust and support pass — 2026-11-06
+
+- Refined seller profile/settings into structured configuration sections with clearer field hierarchy, policy grouping and responsive forms.
+- Refined promotions/coupons with stronger campaign cards and creation workflow.
+- Refined reviews with clearer rating, buyer, merchant-response and reply hierarchy.
+- Refined support/dispute centre with case queue, filters, detail conversation, local status/history and mobile behavior.
+- Added token-based dark surfaces, RTL handling and focus/reduced-motion support without changing backend contracts.
