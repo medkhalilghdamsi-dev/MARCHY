@@ -12,7 +12,7 @@
 - Buyer route views live under `src/pages/buyer`; seller route views live under `src/pages/seller`; cross-cutting views live under `src/pages/shared`.
 - Shared UI is split between `src/components/layout`, `src/components/marketplace`, `src/components/seller` and `src/components/ui`.
 - Shared marketplace state is provided by `src/providers/MarketplaceContext.jsx`; browser-demo order behaviour is in hooks and services.
-- `src/services/marketplaceService.js` is approximately 600 lines and currently contains seeded/demo marketplace data and operations.
+- `src/services/marketplaceService.js` is now approximately 368 lines and owns marketplace demo operations; static seeded offers, Q&A, promotions and notifications live in `src/data/marketplaceDemoData.js`.
 - The Playwright suite contains 55 test cases. The repository exposes `npm run build` and `npm run test:e2e`. This audit did not execute either command, so no passing build/test claim is made.
 
 ## Confirmed maintainability issues
@@ -49,7 +49,13 @@ These layers contain cross-page refinements and late overrides. Removing or movi
 
 **Change made:** `marketplace.js` now reuses the canonical `readText`, `readJson` and `writeJson` helpers from `storage.js`, preserving its existing exports and fallback semantics for callers.
 
-### 4. Component boundaries need targeted review
+### 4. Service mixed static seed data with domain operations
+
+The marketplace service previously carried more than 200 lines of static offer, Q&A, promotion and notification seed records alongside its operations.
+
+**Change made:** these records now live in `src/data/marketplaceDemoData.js`; the service imports them and focuses on the demo operations. Unused catalogue imports were also removed.
+
+### 5. Component boundaries need targeted review
 
 The application already has useful route and feature boundaries. The next review should focus on:
 - Buyer page composition, especially Home, Search and Product.
@@ -60,7 +66,7 @@ The application already has useful route and feature boundaries. The next review
 
 No component or route has been deleted in this pass.
 
-### 5. Stylesheet candidate requiring usage verification
+### 6. Stylesheet candidate requiring usage verification
 
 `src/styles/ui.css` exists in the stylesheet directory but is not imported by the central `src/styles.css` entry point. It is not being deleted in this pass: direct imports and class usage must be checked before deciding whether it is an unused legacy asset or a stylesheet awaiting integration.
 
