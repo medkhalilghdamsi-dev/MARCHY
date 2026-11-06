@@ -71,10 +71,10 @@ export function CartPage() {
           </div>
           <div className="cart-free-delivery-bar" aria-hidden="true"><span style={{ width: `${freeDeliveryProgress}%` }} /></div>
         </div>
-        <div className="cart-panel-heading"><b>Items in your cart</b><span>{cart.length} product{cart.length === 1 ? '' : 's'}</span></div>
+        <div className="cart-panel-heading"><h2>Items in your cart</h2><span>{cart.length} product{cart.length === 1 ? '' : 's'}</span></div>
         {sellerGroups.map(group => <section className="cart-seller-group" key={group.seller.slug} aria-label={`Items from ${group.seller.name}`}>
           <div className="cart-seller-group-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city}, Tunisia · sample storefront</small></div></div><strong>{group.items.length} product{group.items.length===1?'':'s'}</strong></div>
-          {group.items.map(item => <article className="cart-item" key={`${item.id}-${item.sellerSlug || sellerForProduct(item).slug}-${item.selectedVariant || 'default'}`}>
+          {group.items.map(item => { const stock = getLineStock(item); const stockExceeded = item.qty > stock; return <article className="cart-item" key={`${item.id}-${item.sellerSlug || sellerForProduct(item).slug}-${item.selectedVariant || 'default'}`}>
             <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
             <div className="cart-item-info">
               <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
@@ -83,9 +83,10 @@ export function CartPage() {
               )}
               <small>{group.seller.name} · {group.seller.city}, Tunisia</small>
               <b className="cart-item-unit-price">{money(item.price)} <span>each</span></b>
-              <span className={`cart-stock-status ${getLineStock(item) <= 0 ? 'is-out' : getLineStock(item) <= 5 ? 'is-low' : 'is-good'}`}>
-                {getLineStock(item) <= 0 ? 'Currently unavailable' : getLineStock(item) <= 5 ? `Only ${getLineStock(item)} left` : `${getLineStock(item)} available`}
+              <span className={`cart-stock-status ${stock <= 0 ? 'is-out' : stock <= 5 ? 'is-low' : 'is-good'}`} role="status">
+                {stock <= 0 ? 'Currently unavailable' : stock <= 5 ? `Only ${stock} left` : `${stock} available`}
               </span>
+              {stockExceeded && <span className="cart-stock-warning" role="alert">Your quantity ({item.qty}) is above the displayed stock ({stock}). Reduce it before ordering.</span>}
               <div className="cart-item-actions-row">
                 <button type="button" className="remove-link" onClick={() => removeItem(item.id, item.selectedVariant, item.sellerSlug)}>Remove item</button>
                 {saveForLater && <button type="button" className="save-later-link" onClick={() => { saveForLater(item); toast(`Saved ${item.name} for later`, { type: 'info' }) }}>Save for later</button>}
@@ -93,11 +94,11 @@ export function CartPage() {
             </div>
             <div className="cart-item-quantity"><span>Quantity</span><div className="quantity">
               <button type="button" aria-label={`Decrease ${item.name} quantity`} disabled={item.qty <= 1} onClick={() => updateQty(item.id, item.qty - 1, item.selectedVariant, item.sellerSlug)}>−</button>
-              <output aria-live="polite">{item.qty}</output>
-              <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= Math.min(99, getLineStock(item))} onClick={() => updateQty(item.id, Math.min(99, getLineStock(item), item.qty + 1), item.selectedVariant, item.sellerSlug)}>＋</button>
+              <output aria-live="polite" aria-label={`${item.name} quantity`}>{item.qty}</output>
+              <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= Math.min(99, stock)} onClick={() => updateQty(item.id, Math.min(99, stock, item.qty + 1), item.selectedVariant, item.sellerSlug)}>＋</button>
             </div></div>
-            <strong className="cart-line-total">{money(item.price * item.qty)}</strong>
-          </article>)}
+            <strong className="cart-line-total" aria-label={`Line total ${money(item.price * item.qty)}`}>{money(item.price * item.qty)}</strong>
+          </article>})}
           <div className="cart-seller-group-footer"><span>Seller subtotal</span><b>{money(group.subtotal)}</b></div>
         </section>)}
         {savedForLater.length > 0 && (
@@ -122,7 +123,7 @@ export function CartPage() {
         )}
         <div className="cart-panel-footer"><span>Need something else?</span><Link to="/categories">Explore all categories <ArrowRight size={15}/></Link></div>
       </section>
-      <aside className="summary-card cart-summary">
+      <aside className="summary-card cart-summary" aria-label="Order summary">
         <div className="cart-summary-title"><div><span className="eyebrow">YOUR ORDER</span><h2>Order summary</h2></div><span className="cart-summary-count">{itemCount} items</span></div>
         <div className="cart-summary-row"><span>Products subtotal</span><b>{money(subtotal)}</b></div>
         {sellerGroups.map(group=><div className="cart-summary-row seller-summary-row" key={group.seller.slug}><span>{group.seller.name}</span><b>{money(group.subtotal)}</b></div>)}
@@ -138,7 +139,7 @@ export function CartPage() {
         <div className="cart-coupon-chips" role="group" aria-label="Available discount coupons">
           <button
             type="button"
-            className={`coupon-chip ${appliedCoupon === 'MARCHY10' ? 'is-active' : ''}`}
+            className={`coupon-chip ${appliedCoupon === 'MARCHY10' ? 'is-active' : ''}`} aria-pressed={appliedCoupon === 'MARCHY10'}
             onClick={() => {
               setAppliedCoupon('MARCHY10')
               toast('10% discount applied with code MARCHY10!', { type: 'success' })
@@ -148,7 +149,7 @@ export function CartPage() {
           </button>
           <button
             type="button"
-            className={`coupon-chip ${appliedCoupon === 'BIENVENUE' ? 'is-active' : ''}`}
+            className={`coupon-chip ${appliedCoupon === 'BIENVENUE' ? 'is-active' : ''}`} aria-pressed={appliedCoupon === 'BIENVENUE'}
             onClick={() => {
               setAppliedCoupon('BIENVENUE')
               toast('5.000 TND welcome discount applied!', { type: 'success' })
