@@ -7,7 +7,8 @@ import { SellerCatalogManager } from '../../components/seller/SellerCatalogManag
 import { SellerInventoryWorkspace } from '../../components/seller/SellerInventoryWorkspace'
 import { SellerOffersManager } from '../../components/seller/SellerOffersManager'
 import { SellerOrdersWorkspace } from '../../components/seller/SellerOrdersWorkspace'
-import { SellerReturnsWorkspace } from '../../components/seller/SellerReturnsWorkspace'\nimport { SellerFinanceWorkspace } from '../../components/seller/SellerFinanceWorkspace'
+import { SellerReturnsWorkspace } from '../../components/seller/SellerReturnsWorkspace'
+import { SellerFinanceWorkspace } from '../../components/seller/SellerFinanceWorkspace'
 
 const STORAGE_KEY = 'marchy-seller-onboarding-draft-v1'
 const governorates = [
@@ -119,7 +120,8 @@ export function SellerCentralPage() {
           <button type="button" className={activeSection === 'profile' ? 'active' : ''} onClick={() => setActiveSection('profile')}><Building2 size={17}/> Business profile <span>01</span></button>
           <button type="button" className={activeSection === 'catalog' ? 'active' : ''} onClick={() => setActiveSection('catalog')}><Store size={17}/> Products <span>02</span></button>
           <button type="button" className={activeSection === 'inventory' ? 'active' : ''} onClick={() => setActiveSection('inventory')}><Truck size={17}/> Inventory <span>03</span></button>
-          <button type="button" className={activeSection === 'returns' ? 'active' : ''} onClick={() => setActiveSection('returns')}><RotateCcw size={17}/> Returns & refunds <span>06</span></button>\n          <button type="button" className={activeSection === 'finance' ? 'active' : ''} onClick={() => setActiveSection('finance')}><Wallet size={17}/> Finance & settlements <span>07</span></button>
+          <button type="button" className={activeSection === 'returns' ? 'active' : ''} onClick={() => setActiveSection('returns')}><RotateCcw size={17}/> Returns & refunds <span>06</span></button>
+          <button type="button" className={activeSection === 'finance' ? 'active' : ''} onClick={() => setActiveSection('finance')}><Wallet size={17}/> Finance & settlements <span>07</span></button>
           <button type="button" className={activeSection === 'orders' ? 'active' : ''} onClick={() => setActiveSection('orders')}><ClipboardCheck size={17}/> Orders & fulfilment <span>05</span></button>
           <button type="button" className={activeSection === 'offers' ? 'active' : ''} onClick={() => setActiveSection('offers')}><BadgeCheck size={17}/> Offers & pricing <span>04</span></button>
           <button type="button" className={activeSection === 'operations' ? 'active' : ''} onClick={() => setActiveSection('operations')}><Truck size={17}/> Operations <span>04</span></button>
@@ -138,7 +140,8 @@ export function SellerCentralPage() {
           {activeSection === 'inventory' && <SellerInventoryWorkspace />}
           {activeSection === 'offers' && <SellerOffersManager />}
           {activeSection === 'orders' && <SellerOrdersWorkspace />}
-          {activeSection === 'returns' && <SellerReturnsWorkspace />}\n          {activeSection === 'finance' && <SellerFinanceWorkspace />}
+          {activeSection === 'returns' && <SellerReturnsWorkspace />}
+          {activeSection === 'finance' && <SellerFinanceWorkspace />}
           {activeSection === 'profile' && <div className="sc-form-grid">
             <label>Storefront name <span>Customer-facing shop name</span><input value={form.storeName} onChange={e => update('storeName', e.target.value)} placeholder="e.g. Maison Medina" maxLength={80}/></label>
             <label>Legal / registered name <span>Name used for business documentation</span><input value={form.legalName} onChange={e => update('legalName', e.target.value)} placeholder="Business or owner legal name" maxLength={120}/></label>
