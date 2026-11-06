@@ -76,12 +76,26 @@ export function AccountPage() {
     toast('Browsing history cleared', { type: 'info' })
   }
 
+  const resetProfileForm = () => setProfileForm({
+    name: authUser?.name || '',
+    email: authUser?.email || '',
+    phone: authUser?.phone || '',
+    governorate: authUser?.governorate || 'Tunis'
+  })
+
   const handleSaveProfile = (e) => {
     e.preventDefault()
+    const cleaned = Object.fromEntries(
+      Object.entries(profileForm).map(([key, value]) => [key, value.trim()])
+    )
+    if (!cleaned.name || !cleaned.email || !cleaned.phone) {
+      toast('Complete your name, email and phone number.', { type: 'error' })
+      return
+    }
     const updated = {
-      ...authUser,
-      ...profileForm,
-      isLoggedIn: true
+      ...(authUser || {}),
+      ...cleaned,
+      isLoggedIn: Boolean(authUser?.isLoggedIn)
     }
     setAuthUser(updated)
     writeJson('marchy-auth-user', updated)
@@ -92,7 +106,9 @@ export function AccountPage() {
   const handleLogout = () => {
     writeJson('marchy-auth-user', null)
     setAuthUser(null)
-    toast('Signed out of MARCHY session', { type: 'info' })
+    setEditingProfile(false)
+    resetProfileForm()
+    toast('Local demo profile signed out.', { type: 'info' })
   }
 
   const handleAddAddress = (e) => {
@@ -115,7 +131,11 @@ export function AccountPage() {
   }
 
   const handleDeleteAddress = (addrId) => {
-    const updated = addresses.filter(a => a.id !== addrId)
+    const remaining = addresses.filter(a => a.id !== addrId)
+    const hadDefault = addresses.some(a => a.id === addrId && a.isDefault)
+    const updated = hadDefault && remaining.length > 0
+      ? remaining.map((address, index) => ({ ...address, isDefault: index === 0 }))
+      : remaining
     setAddresses(updated)
     writeJson('marchy-saved-addresses', updated)
     toast('Address removed', { type: 'info' })
@@ -145,10 +165,10 @@ export function AccountPage() {
       {/* Account Header */}
       <section className="account-welcome">
         <div>
-          <span className="eyebrow">ACTIVE BUYER PROFILE · TUNISIA</span>
+          <span className="eyebrow">BUYER ACCOUNT · TUNISIA</span>
           <h1>Welcome, {authUser?.name || 'Customer'}.</h1>
           <p>
-            Manage your personal profile, review order deliveries with Cash on Delivery protection, and organize your saved Tunisian addresses.
+            Manage your profile details, delivery addresses, orders and saved products in one place.
           </p>
         </div>
         <div className="account-guest-status">
@@ -158,7 +178,7 @@ export function AccountPage() {
           <div>
             <b>{authUser?.name || 'Guest User'}</b>
             <small>{authUser?.email || 'guest@marchy.tn'}</small>
-            <span className="demo-label">AUTHENTICATED BUYER</span>
+            <span className="demo-label">LOCAL DEMO PROFILE</span>
           </div>
         </div>
       </section>
@@ -173,7 +193,7 @@ export function AccountPage() {
           <button
             type="button"
             className="outline-btn"
-            onClick={() => setEditingProfile(v => !v)}
+            onClick={() => { if (editingProfile) resetProfileForm(); setEditingProfile(v => !v) }}
           >
             {editingProfile ? 'Cancel' : <><Edit3 size={14} /> Edit Profile</>}
           </button>
@@ -230,7 +250,7 @@ export function AccountPage() {
             </div>
             <div className="form-actions-row">
               <button type="submit" className="primary-btn">Save Changes</button>
-              <button type="button" className="outline-btn" onClick={() => setEditingProfile(false)}>Cancel</button>
+              <button type="button" className="outline-btn" onClick={() => { resetProfileForm(); setEditingProfile(false) }}>Cancel</button>
             </div>
           </form>
         ) : (
@@ -388,7 +408,9 @@ export function AccountPage() {
           )}
 
           <div className="saved-addresses-list">
-            {addresses.map(addr => (
+            {addresses.length === 0 ? (
+              <div className="account-address-empty"><MapPin size={22} /><b>No saved delivery addresses</b><p>Add an address to make future demo checkouts quicker.</p><button type="button" className="text-link" onClick={() => setNewAddrOpen(true)}>Add your first address</button></div>
+            ) : addresses.map(addr => (
               <div key={addr.id} className={`address-card ${addr.isDefault ? 'is-default' : ''}`}>
                 <div className="address-card-top">
                   <b>{addr.title}</b>
@@ -429,7 +451,9 @@ export function AccountPage() {
             <Link to="/orders" className="text-link">View all ({orders.length}) →</Link>
           </div>
           <div className="account-demo-orders">
-            {orders.slice(0, 4).map(order => (
+            {orders.length === 0 ? (
+              <div className="account-address-empty"><Package size={22} /><b>No orders yet</b><p>Your purchases will appear here after checkout.</p><Link to="/search" className="text-link">Explore products →</Link></div>
+            ) : orders.slice(0, 4).map(order => (
               <Link className="account-demo-order" to={`/orders/${order.id}`} key={order.id}>
                 <span>
                   <b>{order.id}</b>
@@ -526,6 +550,8 @@ export function AccountPage() {
           </div>
         </section>
       )}
+
+      <p className="account-demo-disclaimer">This account is a frontend prototype. Profile and address changes are saved locally in this browser; authentication, account security and server synchronization are not connected.</p>
 
       {/* Account Logout / Session Reset */}
       <section className="account-session-footer" style={{ marginTop: '32px', textAlign: 'center' }}>
