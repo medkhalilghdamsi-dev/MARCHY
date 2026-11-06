@@ -141,16 +141,39 @@ export function ConfirmDialog({ open, title, message, confirmLabel = 'Confirm', 
 }
 
 export function Tabs({ items = [], activeId, onChange, ariaLabel = 'Section tabs' }) {
+  const selectedIndex = Math.max(0, items.findIndex(item => item.id === activeId))
+
+  function handleKeyDown(event) {
+    const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End']
+    if (!keys.includes(event.key) || items.length === 0) return
+
+    const tabs = Array.from(event.currentTarget.querySelectorAll('[role="tab"]'))
+    const currentIndex = tabs.indexOf(event.target.closest('[role="tab"]'))
+    if (currentIndex < 0) return
+
+    event.preventDefault()
+    const isRtl = Boolean(event.currentTarget.closest('.is-rtl'))
+    let nextIndex = currentIndex
+    if (event.key === 'Home') nextIndex = 0
+    else if (event.key === 'End') nextIndex = items.length - 1
+    else if (event.key === 'ArrowRight') nextIndex = (currentIndex + (isRtl ? -1 : 1) + items.length) % items.length
+    else if (event.key === 'ArrowLeft') nextIndex = (currentIndex + (isRtl ? 1 : -1) + items.length) % items.length
+
+    tabs[nextIndex]?.focus()
+    onChange?.(items[nextIndex].id)
+  }
+
   return (
-    <div className="seller-workspace-tabs" role="tablist" aria-label={ariaLabel}>
-      {items.map((item) => (
+    <div className="seller-workspace-tabs" role="tablist" aria-label={ariaLabel} aria-orientation="horizontal" onKeyDown={handleKeyDown}>
+      {items.map((item, index) => (
         <button
           key={item.id}
           type="button"
           role="tab"
           aria-selected={activeId === item.id}
+          tabIndex={selectedIndex === index ? 0 : -1}
           className={activeId === item.id ? 'is-active' : ''}
-          onClick={() => onChange(item.id)}
+          onClick={() => onChange?.(item.id)}
         >
           {item.label}
         </button>
