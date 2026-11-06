@@ -786,6 +786,8 @@ test('checkout presents two accurate steps and creates a local demo order after 
   await page.getByLabel('Delivery address').fill('10 Test Street, Tunis')
   await page.getByRole('button', { name: 'Review order' }).click()
   await expect(page.getByRole('heading', { name: 'Review before proceeding' })).toBeVisible()
+  await expect(page.locator('.checkout-preview-note')).toContainText('No seller receives the order')
+  await expect(page.locator('.checkout-review')).not.toContainText('Buyer Protection & COD Guarantee')
   await expect(page.locator('.checkout-contact-review')).toContainText('Test Buyer')
   await page.getByRole('button', { name: 'Place demo order' }).click()
   await expect(page).toHaveURL(/\/orders\//)
@@ -838,7 +840,7 @@ test('product cards distinguish illustrative catalogue data from verified market
 test('buyer navigation sends merchants to the seller introduction page', async ({ page }) => {
   await page.goto('/')
   await page.locator('.nav').getByRole('link', { name: 'Sell on MARCHY' }).click()
-  await expect(page).toHaveURL(/\\/sell$/)
+  await expect(page).toHaveURL(/\/sell$/)
   await expect(page.getByRole('main')).toContainText(/seller|storefront|merchant/i)
 })
 
@@ -860,4 +862,15 @@ test('global search exposes its suggestions panel state accessibly', async ({ pa
   await expect(search).toHaveAttribute('aria-expanded', 'true')
   await expect(page.getByRole('region', { name: 'Search suggestions' })).toBeVisible()
   await expect(page.getByRole('region', { name: 'Search suggestions' })).toContainText('Wireless noise-cancelling headphones')
+})
+
+test('product Q&A makes local preview behavior clear', async ({ page }) => {
+  await page.goto('/product/1')
+  const qa = page.locator('.product-qa-section')
+  await expect(qa).toContainText('Questions stay in this browser preview')
+  await expect(qa).not.toContainText('Verified Merchant Answer')
+  await qa.getByRole('button', { name: 'Ask a Question' }).click()
+  await qa.getByLabel('Your Question').fill('Is this available in another colour?')
+  await qa.getByRole('button', { name: 'Submit Question' }).click()
+  await expect(qa).toContainText('Question saved in this browser preview')
 })
