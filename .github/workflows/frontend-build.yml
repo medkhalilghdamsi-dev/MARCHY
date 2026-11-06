@@ -35,6 +35,9 @@ jobs:
       - name: Build production frontend
         run: npm run build
 
+      - name: Audit CSS selector ownership
+        run: npm run audit:css
+
       - name: Report dependency advisories
         run: |
           npm audit --json > npm-audit.json || true
