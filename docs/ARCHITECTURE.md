@@ -203,3 +203,8 @@ The design research translation and implementation checklist live in [DESIGN_INS
 ## Current cleanup source of truth
 
 The current Phase 1 audit and its verified findings are maintained in [FRONTEND_ARCHITECTURE_AUDIT.md](./FRONTEND_ARCHITECTURE_AUDIT.md). The global CSS entry point is `src/styles.css`; its import groups are documented in place and its order is intentionally preserved until selector ownership has been verified. Global compatibility tokens are owned by `src/styles/design-system.css`, and safe browser storage helpers are owned by `src/utils/storage.js`.
+
+
+## Demo data ownership
+
+Static marketplace preview records are kept under `src/data`, including `marketplaceDemoData.js`. `src/services/marketplaceService.js` owns the local demo operations that read and update those records; keep seed fixtures out of service implementation files.
