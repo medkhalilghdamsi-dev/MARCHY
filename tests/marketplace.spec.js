@@ -281,6 +281,51 @@ test('seller central section navigation is addressable and browser-history aware
   await expect(page.getByRole('heading', { name: 'Understand order activity, product demand and business performance' })).toBeVisible()
 })
 
+test('seller inventory saves stock and movement history as one browser update', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-seller-catalog-v1', JSON.stringify([
+    { id: 'inventory-test', name: 'Inventory test product', sku: 'INV-001', category: 'Home', price: 12, stock: 4, variants: ['Default'], status: 'draft' }
+  ])))
+  await page.goto('/seller-central?section=inventory')
+  await page.getByLabel('Product', { exact: true }).selectOption('inventory-test')
+  await page.getByLabel('Variant / SKU').selectOption('inventory-test-variant-0')
+  await page.getByRole('button', { name: 'Save stock movement' }).click()
+  await expect(page.getByRole('status')).toContainText('1 unit(s) added')
+  const saved = await page.evaluate(() => ({
+    catalogue: JSON.parse(localStorage.getItem('marchy-seller-catalog-v1')),
+    movements: JSON.parse(localStorage.getItem('marchy-seller-inventory-movements-v1'))
+  }))
+  expect(saved.catalogue[0].inventory.variants[0].available).toBe(5)
+  expect(saved.catalogue[0].stock).toBe(5)
+  expect(saved.movements).toHaveLength(1)
+  expect(saved.movements[0].before).toBe(4)
+  expect(saved.movements[0].after).toBe(5)
+})
+
+test('seller inventory rolls back the catalogue when movement history cannot be saved', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('marchy-seller-catalog-v1', JSON.stringify([
+      { id: 'inventory-rollback', name: 'Rollback test product', sku: 'INV-ROLLBACK', category: 'Home', price: 12, stock: 4, variants: ['Default'], status: 'draft' }
+    ]))
+    const originalSetItem = Storage.prototype.setItem
+    Storage.prototype.setItem = function (key, value) {
+      if (key === 'marchy-seller-inventory-movements-v1') throw new DOMException('Quota exceeded', 'QuotaExceededError')
+      return originalSetItem.call(this, key, value)
+    }
+  })
+  await page.goto('/seller-central?section=inventory')
+  await page.getByLabel('Product', { exact: true }).selectOption('inventory-rollback')
+  await page.getByLabel('Variant / SKU').selectOption('inventory-rollback-variant-0')
+  await page.getByRole('button', { name: 'Save stock movement' }).click()
+  await expect(page.getByRole('alert')).toContainText('Could not save inventory changes')
+  const saved = await page.evaluate(() => ({
+    catalogue: JSON.parse(localStorage.getItem('marchy-seller-catalog-v1')),
+    movements: localStorage.getItem('marchy-seller-inventory-movements-v1')
+  }))
+  expect(saved.catalogue[0].stock).toBe(4)
+  expect(saved.catalogue[0].inventory).toBeUndefined()
+  expect(saved.movements).toBeNull()
+})
+
 test('seller central can create and delete a local catalogue draft without publishing it', async ({ page }) => {
   await page.goto('/seller-central')
   await page.getByRole('button', { name: /Product catalogue/ }).click()

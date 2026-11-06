@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { readSellerList, writeSellerValue, subscribeSellerStorage, SELLER_STORAGE_KEYS } from '../../services/seller/sellerStorage'
+import { readSellerList, writeSellerValue, writeSellerValues, subscribeSellerStorage, SELLER_STORAGE_KEYS } from '../../services/seller/sellerStorage'
 import { AlertTriangle, ArrowDownRight, ArrowUpRight, Boxes, History, Package, Search, SlidersHorizontal } from 'lucide-react'
 const LISTINGS_KEY = SELLER_STORAGE_KEYS.catalog
 const MOVEMENTS_KEY = SELLER_STORAGE_KEYS.inventoryMovements
@@ -50,7 +50,7 @@ export function SellerInventoryWorkspace() {
   const selectedListing = listings.find(item => item.id === selected)
   const selectedVariant = selectedListing?.inventory.variants.find(item => item.id === variantId)
   const persist = (nextListings, nextMovements = movements) => {
-    try { if (!write(LISTINGS_KEY, nextListings) || !write(MOVEMENTS_KEY, nextMovements)) throw new Error('Storage unavailable'); setListings(nextListings); setMovements(nextMovements); setError(''); return true }
+    try { if (!writeSellerValues([{ key: LISTINGS_KEY, value: nextListings }, { key: MOVEMENTS_KEY, value: nextMovements }])) throw new Error('Storage unavailable'); setListings(nextListings); setMovements(nextMovements); setError(''); return true }
     catch { setError('Could not save inventory changes in this browser. No stock change was confirmed.'); return false }
   }
   const adjust = () => {

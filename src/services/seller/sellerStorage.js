@@ -61,6 +61,49 @@ export function writeSellerValue(key, value) {
   }
 }
 
+// Persist related seller records together. If a write fails, restore the previous
+// values for keys already attempted so the UI never reports a partial update.
+export function writeSellerValues(entries) {
+  if (!Array.isArray(entries) || entries.length === 0) return false
+  let target
+  const prepared = []
+  const seen = new Set()
+  try {
+    target = storage()
+    if (!target) return false
+    for (const entry of entries) {
+      if (!entry || typeof entry.key !== 'string' || !entry.key.trim() || seen.has(entry.key)) return false
+      const serialized = JSON.stringify(entry.value)
+      if (typeof serialized !== 'string') return false
+      seen.add(entry.key)
+      prepared.push({ key: entry.key, serialized, previous: target.getItem(entry.key) })
+    }
+  } catch {
+    return false
+  }
+
+  const attempted = []
+  try {
+    for (const entry of prepared) {
+      attempted.push(entry)
+      target.setItem(entry.key, entry.serialized)
+    }
+  } catch {
+    for (const entry of attempted.reverse()) {
+      try {
+        if (entry.previous === null) target.removeItem(entry.key)
+        else target.setItem(entry.key, entry.previous)
+      } catch {
+        // Best-effort rollback; callers still receive failure and must not update UI state.
+      }
+    }
+    return false
+  }
+
+  prepared.forEach(entry => announceChange(entry.key))
+  return true
+}
+
 export function removeSellerValue(key) {
   try {
     const target = storage()
