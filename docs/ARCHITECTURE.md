@@ -157,3 +157,37 @@ The seller journey is a distinct application surface within the same React appli
 - The section metadata file is the single source of truth for navigation labels, icons, page headings and descriptions. Seller onboarding state is isolated in `useSellerOnboardingDraft`, while profile forms and section navigation are separate components.
 
 - This is a frontend prototype persistence boundary only. It is not authentication, tenant isolation, authoritative inventory, financial ledger storage, or a substitute for the backend API.
+
+---
+
+## Legacy seller dashboard dependency audit (2026-11-06)
+
+The legacy implementation is not part of the active route table:
+
+- `/seller-dashboard` is an explicit redirect to `/seller-central` in `src/app/MarketplaceApp.jsx`.
+- The active route table lazy-loads `SellerCentralPage`; it does not import `SellerDashboardPage`.
+- `src/pages/SellerPages.jsx` still re-exports `SellerDashboardPage`. This is a compatibility entry point and means the implementation cannot yet be classified as globally unreferenced from the route table alone.
+- `SellerDashboardPage.jsx` imports the older `SellerAnalytics`, `SellerSettings`, `SellerInventoryManager`, `SellerPromotionsManager` and `SellerReviewsManager` modules. Those modules are coupled to the legacy page and should be treated as one retirement group until a complete branch-scoped import/reference scan proves otherwise.
+- Root-level `src/components/SellerAnalytics.jsx` and `src/components/SellerSettings.jsx` are additional compatibility re-exports. Do not remove these or the legacy group based only on the absence of a route.
+
+**Decision:** keep the legacy implementation out of navigation and preserve its files for now. The available repository inspection confirms the route redirect and the local import graph, but does not prove that no external/internal consumer imports the compatibility barrel. Deletion is deferred until a complete branch-scoped reference scan can be run. This avoids breaking hidden or indirect imports while keeping the new Seller Central as the sole active seller workspace.
+
+## Buyer-side architecture audit baseline
+
+The buyer journey is already divided into route-level page modules under `src/pages/buyer`, and `MarketplaceApp.jsx` lazy-loads those pages. Product merchandising components live under `src/components/marketplace`; the buyer shell is composed from the buyer header, footer, mobile tab bar and comparison drawer.
+
+The current boundary still has three areas to address before calling the frontend well-organised:
+
+1. **Global state is broader than the buyer route.** `MarketplaceProvider` is mounted above the router in `src/main.jsx`. Its `useMarketplaceState` hook owns buyer commerce state (cart, wishlist, saved-for-later, coupon and followed sellers) together with shared preferences (language and theme). Seller routes therefore mount the buyer commerce state even though the seller shell does not expose buyer shopping controls. A safe future split is shared preferences at the application level and buyer commerce state at the buyer journey boundary; migrate consumers before changing provider ownership.
+2. **Checkout is an orchestration-heavy page.** `CheckoutPage` currently coordinates address-book persistence, seller grouping, demo order creation, stock decrement, notification creation and cart clearing. These actions belong behind a buyer checkout/use-case service, leaving the page responsible for collecting input and presenting the review flow. Preserve the explicit demo-only behavior and do not present these actions as real transactions.
+3. **Global CSS is still eagerly loaded.** `src/styles.css` imports the buyer, seller, operations, product and checkout stylesheets into one application-wide entry. The files are separated by concern, but route-level CSS delivery is not yet isolated. Any CSS splitting must preserve the current cascade order, shared design tokens, theme behavior and Arabic RTL layout.
+
+### Buyer refactor order
+
+- First map shared components and their consumers; consolidate only genuinely duplicated UI patterns.
+- Extract checkout orchestration into a buyer service with tests for multi-seller grouping, stock validation, demo order creation and cart cleanup.
+- Separate shared preference state from buyer-only commerce state without changing persisted localStorage keys or breaking seller language/theme controls.
+- Review CSS ownership and selector overlap before introducing route-level style chunks.
+- Keep the shared design system as the single source for buttons, inputs, cards, badges, tables, focus states and responsive behavior. Feature styles should compose those primitives rather than reimplement them.
+- Keep the public seller storefront buyer-facing; it remains part of the marketplace shopping journey.
+
