@@ -34,8 +34,12 @@ export function CheckoutPage() {
   const finalTotal = Math.max(0, subtotal - discountAmount)
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const groups = [...new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug))].map(slug => {
-    const seller = sellers.find(entry => entry.slug === slug)
     const items = cart.filter(item => (item.sellerSlug || sellerForProduct(item).slug) === slug)
+    const seller = sellers.find(entry => entry.slug === slug) || {
+      slug,
+      name: items[0]?.seller || items[0]?.sellerName || 'Marketplace seller',
+      city: items[0]?.sellerCity || 'Tunisia'
+    }
     return { seller, items, subtotal: items.reduce((sum, item) => sum + item.price * item.qty, 0) }
   })
   const update = (key, value) => setDetails(current => ({ ...current, [key]: value }))
