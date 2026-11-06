@@ -348,7 +348,11 @@ export const MarketplaceService = {
         }]
       }
     }
-    return offers
+    const inventory = readJson(INVENTORY_KEY, {})
+    return offers.map(offer => ({
+      ...offer,
+      stock: inventory[`${offer.sellerSlug}-${numId}`] ?? offer.stock
+    }))
   },
 
   addSellerOffer(offer) {
@@ -389,15 +393,25 @@ export const MarketplaceService = {
   },
 
   updateStock(sellerSlug, productId, newStock) {
+    const normalizedStock = Math.max(0, Number(newStock) || 0)
     const inventory = readJson(INVENTORY_KEY, {})
-    inventory[`${sellerSlug}-${productId}`] = Math.max(0, Number(newStock) || 0)
+    inventory[`${sellerSlug}-${productId}`] = normalizedStock
     writeJson(INVENTORY_KEY, inventory)
 
+    const storedOffers = readJson(OFFERS_KEY, DEFAULT_OFFERS)
+    const productOffers = storedOffers[Number(productId)] || []
+    if (productOffers.length) {
+      const updatedOffers = productOffers.map(offer =>
+        offer.sellerSlug === sellerSlug ? { ...offer, stock: normalizedStock } : offer
+      )
+      writeJson(OFFERS_KEY, { ...storedOffers, [Number(productId)]: updatedOffers })
+    }
+
     // Trigger notification if low stock
-    if (newStock <= 3) {
+    if (normalizedStock <= 3) {
       this.addNotification({
         title: '⚠️ Low Stock Alert',
-        message: `Stock for item #${productId} dropped to ${newStock} units. Consider replenishing.`,
+        message: `Stock for item #${productId} dropped to ${normalizedStock} units. Consider replenishing.`,
         type: 'inventory',
         link: '/seller-dashboard'
       })
@@ -406,13 +420,27 @@ export const MarketplaceService = {
 
   decrementInventory(orderItems) {
     const inventory = readJson(INVENTORY_KEY, {})
+    const storedOffers = readJson(OFFERS_KEY, DEFAULT_OFFERS)
+    const updatedOffers = { ...storedOffers }
+
     orderItems.forEach(item => {
       const slug = item.sellerSlug || 'atlas-tech-tunis'
-      const key = `${slug}-${item.id}`
-      const current = inventory[key] ?? 12
-      inventory[key] = Math.max(0, current - (item.qty || 1))
+      const productId = Number(item.id)
+      const key = `${slug}-${productId}`
+      const offers = updatedOffers[productId] || []
+      const offer = offers.find(entry => entry.sellerSlug === slug)
+      const current = inventory[key] ?? offer?.stock ?? 12
+      const nextStock = Math.max(0, current - (item.qty || 1))
+      inventory[key] = nextStock
+      if (offer) {
+        updatedOffers[productId] = offers.map(entry =>
+          entry.sellerSlug === slug ? { ...entry, stock: nextStock } : entry
+        )
+      }
     })
+
     writeJson(INVENTORY_KEY, inventory)
+    writeJson(OFFERS_KEY, updatedOffers)
   },
 
   // 4. Product Q&A
