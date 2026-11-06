@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MarketplaceService } from '../../services/marketplaceService'
 import { money } from '../../utils/marketplace'
@@ -11,6 +11,8 @@ export function GlobalCompareDrawer() {
   const toast = useToast()
   const [compareIds, setCompareIds] = useState(() => MarketplaceService.getCompareIds())
   const [modalOpen, setModalOpen] = useState(false)
+  const modalRef = useRef(null)
+  const triggerRef = useRef(null)
 
   // Listen for storage changes or custom compare events
   useEffect(() => {
@@ -24,6 +26,30 @@ export function GlobalCompareDrawer() {
       window.removeEventListener('marchy-compare-changed', handleStorage)
     }
   }, [])
+
+  useEffect(() => {
+    if (!modalOpen) return undefined
+    const previousOverflow = document.body.style.overflow
+    const previousFocus = document.activeElement
+    document.body.style.overflow = 'hidden'
+    const focusable = () => [...(modalRef.current?.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])') || [])]
+    focusable()[0]?.focus()
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') { event.preventDefault(); setModalOpen(false); return }
+      if (event.key !== 'Tab') return
+      const controls = focusable()
+      if (!controls.length) return
+      if (event.shiftKey && document.activeElement === controls[0]) { event.preventDefault(); controls[controls.length - 1].focus() }
+      else if (!event.shiftKey && document.activeElement === controls[controls.length - 1]) { event.preventDefault(); controls[0].focus() }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = previousOverflow
+      if (previousFocus instanceof HTMLElement) previousFocus.focus()
+      else triggerRef.current?.focus()
+    }
+  }, [modalOpen])
 
   if (!compareIds || compareIds.length === 0) return null
 
@@ -50,13 +76,13 @@ export function GlobalCompareDrawer() {
       {/* Floating Bottom Dock Pill */}
       <div className="global-compare-dock" role="region" aria-label="Product comparison dock">
         <div className="dock-content">
-          <div className="dock-pill-btn" onClick={() => setModalOpen(true)}>
+          <button type="button" className="dock-pill-btn" ref={triggerRef} onClick={() => setModalOpen(true)} aria-haspopup="dialog" aria-expanded={modalOpen}>
             <Scale size={18} className="dock-scale-icon" />
             <div className="dock-label-group">
               <b>Compare Products</b>
               <small>{comparedProducts.length} of 3 selected</small>
             </div>
-          </div>
+          </button>
 
           <div className="dock-thumbnails">
             {comparedProducts.map(p => (
@@ -97,13 +123,13 @@ export function GlobalCompareDrawer() {
 
       {/* Comparison Modal Overlay */}
       {modalOpen && (
-        <div className="compare-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title">
-          <div className="compare-modal-card">
+        <div className="compare-modal-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) setModalOpen(false) }}>
+          <div className="compare-modal-card" ref={modalRef} role="dialog" aria-modal="true" aria-labelledby="compare-modal-title" aria-describedby="compare-modal-description" tabIndex={-1}>
             <div className="compare-modal-header">
               <div>
                 <span className="eyebrow">HEAD-TO-HEAD SPECIFICATIONS</span>
                 <h2 id="compare-modal-title">Product Comparison ({comparedProducts.length} items)</h2>
-                <p>Compare prices, specifications, seller dispatch, and customer ratings side-by-side.</p>
+                <p id="compare-modal-description">Compare prices, specifications, seller dispatch, and customer ratings side-by-side.</p>
               </div>
               <div className="compare-header-actions">
                 <button type="button" className="outline-btn" onClick={handleClearAll}>
@@ -126,7 +152,7 @@ export function GlobalCompareDrawer() {
                   <tr>
                     <th className="matrix-feature-col">Feature / Detail</th>
                     {comparedProducts.map(p => (
-                      <th key={p.id} className="matrix-product-col">
+                      <th key={p.id} className="matrix-product-col" scope="col">
                         <div className="matrix-product-header">
                           <button
                             type="button"
@@ -166,31 +192,31 @@ export function GlobalCompareDrawer() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="matrix-feature-col">Rating & Feedback</td>
+                    <th className="matrix-feature-col" scope="row">Rating & Feedback</th>
                     {comparedProducts.map(p => (
                       <td key={p.id}>★ {p.rating || 4.5} ({p.reviewCount || 12} reviews)</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="matrix-feature-col">Category</td>
+                    <th className="matrix-feature-col" scope="row">Category</th>
                     {comparedProducts.map(p => (
                       <td key={p.id}>{p.category}</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="matrix-feature-col">Merchant / Location</td>
+                    <th className="matrix-feature-col" scope="row">Merchant / Location</th>
                     {comparedProducts.map(p => (
                       <td key={p.id}>{p.seller}</td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="matrix-feature-col">Availability</td>
+                    <th className="matrix-feature-col" scope="row">Availability</th>
                     {comparedProducts.map(p => (
                       <td key={p.id}><span className="matrix-instock-tag">{p.stock || 'In stock'}</span></td>
                     ))}
                   </tr>
                   <tr>
-                    <td className="matrix-feature-col">Key Specifications</td>
+                    <th className="matrix-feature-col" scope="row">Key Specifications</th>
                     {comparedProducts.map(p => (
                       <td key={p.id}>
                         {p.specs ? (
@@ -206,7 +232,7 @@ export function GlobalCompareDrawer() {
                     ))}
                   </tr>
                   <tr>
-                    <td className="matrix-feature-col">Cash on Delivery</td>
+                    <th className="matrix-feature-col" scope="row">Cash on Delivery</th>
                     {comparedProducts.map(p => (
                       <td key={p.id}>✓ Pay upon inspection</td>
                     ))}
