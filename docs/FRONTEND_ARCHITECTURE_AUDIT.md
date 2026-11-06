@@ -294,3 +294,10 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Added responsive split-view behavior, compact KPI hierarchy, clearer tables/lists, consistent controls, empty states, status treatments and mobile stacking.
 - Added token-based dark-theme treatment, RTL handling and reduced-motion support.
 - Preserved existing local-demo storage, order workflow, inventory adjustments, return review and illustrative finance boundaries.
+
+
+## Seller catalogue and commercial editor pass — 2026-11-06
+
+- Refined product catalogue management into a clearer dashboard-style workflow with stronger listing states, form hierarchy, table readability and responsive behavior.
+- Refined Offers & Pricing with clearer product selection, commercial editing hierarchy, indicative-price treatment and responsive controls.
+- Added dark-theme, RTL, focus and mobile behavior without changing seller storage or backend contracts.
