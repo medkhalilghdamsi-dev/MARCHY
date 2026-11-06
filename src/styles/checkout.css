@@ -491,3 +491,13 @@ html[data-theme="dark"] .checkout-saved-addresses-bar .saved-addr-chip.is-select
 .checkout-field-hint{display:block;margin-top:6px;color:var(--muted);font-size:10px;font-weight:450;line-height:1.55}
 .is-rtl .checkout-field-hint{text-align:right}
 @media(prefers-reduced-motion:reduce){.checkout-fields>label>input,.checkout-fields>label>select,.checkout-fields>label>textarea{transition:none}}
+
+
+/* Shared accessible form fields used by checkout and future workspace forms */
+.checkout-fields>.ui-form-field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.checkout-fields>.ui-form-field>label{display:block;font-size:11px;font-weight:700;color:var(--ink)}
+.checkout-fields>.ui-form-field>.ui-form-hint{display:block;margin-top:0;color:var(--muted);font-size:10px;font-weight:450;line-height:1.55}
+.checkout-fields>.ui-form-field>.ui-form-error{display:block;color:var(--danger,var(--orange-dark));font-size:10px;font-weight:650;line-height:1.45}
+.checkout-fields>.ui-form-field>[aria-invalid="true"]{border-color:var(--danger,var(--orange-dark));box-shadow:0 0 0 3px color-mix(in srgb,var(--danger,var(--orange-dark)) 14%,transparent)}
+.ui-form-required{color:var(--danger,var(--orange-dark))}
+html[data-theme="dark"] .checkout-fields>.ui-form-field>label{color:var(--ink)}
