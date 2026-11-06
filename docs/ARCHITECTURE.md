@@ -198,3 +198,8 @@ The current boundary still has three areas to address before calling the fronten
 ## Design reference and UI quality direction
 
 The design research translation and implementation checklist live in [DESIGN_INSPIRATION_PLAYBOOK.md](./DESIGN_INSPIRATION_PLAYBOOK.md). It maps the requested inspiration libraries to concrete MARCHY surfaces and sets evidence, accessibility, responsive, RTL, and consistency rules for future UI work.
+
+
+## Current cleanup source of truth
+
+The current Phase 1 audit and its verified findings are maintained in [FRONTEND_ARCHITECTURE_AUDIT.md](./FRONTEND_ARCHITECTURE_AUDIT.md). The global CSS entry point is `src/styles.css`; its import groups are documented in place and its order is intentionally preserved until selector ownership has been verified. Global compatibility tokens are owned by `src/styles/design-system.css`, and safe browser storage helpers are owned by `src/utils/storage.js`.
