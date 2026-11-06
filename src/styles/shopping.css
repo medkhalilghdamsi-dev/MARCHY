@@ -248,9 +248,9 @@
 }
 
 
-/* Global search autocomplete */
-.searchbar{position:relative;overflow:visible;z-index:20}
-.searchbar:focus-within{border-color:#78a58c;box-shadow:0 0 0 3px #1f5b4512}
+/* Global header search autocomplete: keep the overlay local to the header. */
+.header .searchbar{position:relative;overflow:visible;z-index:1}
+.header .searchbar:focus-within{border-color:#78a58c;box-shadow:0 0 0 3px #1f5b4512;z-index:2}
 .global-search-suggestions{position:absolute;top:calc(100% + 9px);left:0;right:0;z-index:60;overflow:hidden;border:1px solid #d8e5dd;border-radius:12px;background:#fff;box-shadow:0 18px 48px #12261e20;color:#12261e}
 .search-suggestion-heading{padding:12px 14px 7px;color:#526e60;font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
 .global-search-suggestions>a{display:flex;align-items:center;gap:11px;padding:9px 13px;border-top:1px solid #e6efe9;transition:background .15s}
