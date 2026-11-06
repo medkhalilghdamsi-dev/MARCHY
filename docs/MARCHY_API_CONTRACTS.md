@@ -285,3 +285,42 @@ Seller fulfilment state is distinct from customer order/payment state. The backe
 Return requests must reference a real delivered order line and validate policy windows, item exclusions, quantities and prior return claims on the server. Seller authorization is based on the authenticated seller's order-line ownership, not browser-supplied seller IDs. Evidence uploads use signed/private storage references and must not expose private customer data publicly. The case lifecycle (submitted, accepted/declined, received, inspected, refund review) is distinct from refund execution. Only authorized platform finance operations may approve, calculate and execute full or partial refunds, reconcile gateway/COD amounts, and record ledger entries. A seller inspection or recommendation never means a refund has been approved or paid.
 
 The current frontend prototype stores buyer return requests in browser local storage for demonstration only; it does not enforce legal eligibility windows, arrange reverse logistics, upload evidence, notify sellers, or issue refunds.
+
+
+## 13. Seller finance, COD reconciliation and settlements
+
+All finance endpoints are authenticated, seller-organization scoped and read from the platform ledger. The seller UI must never calculate authoritative payable balances from browser order data or local storage.
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | /api/v1/seller/finance/summary | Read seller-scoped gross sales, fees, refunds, holds and payable balances for a date range |
+| GET | /api/v1/seller/finance/ledger | Read immutable seller-visible ledger activity with cursor pagination and filters |
+| GET | /api/v1/seller/finance/statements | Download or retrieve finalized seller statements |
+| GET | /api/v1/seller/finance/cod/reconciliation | Read COD collection, carrier remittance batches and seller-level reconciliation |
+| GET | /api/v1/seller/finance/cod/discrepancies | Read unresolved discrepancies visible to the seller |
+| GET | /api/v1/seller/settlements | Read settlement batches and their line-item breakdown |
+| GET | /api/v1/seller/payouts | Read payout history and provider references |
+| POST | /api/v1/seller/payout-destination/verification | Begin secure payout-destination verification workflow |
+
+### Ledger and balance invariants
+
+- The platform ledger is double-entry and authoritative; each posted journal balances debits and credits.
+- Seller-visible entries are a projection of the ledger, never a client-authored financial record.
+- Order acceptance, packing, courier pickup and delivery do not by themselves create seller payout.
+- Commission, tax, shipping, refunds, chargebacks, reserves, penalties and adjustments must use explicit policy codes and effective dates.
+- Posted journal entries are immutable. Corrections use linked reversal or adjustment journals with actor, reason, timestamp and correlation ID.
+- Every monetary value uses integer minor units and an explicit currency. TND uses a documented millime convention; never use floating-point arithmetic for authoritative balances.
+- Summary totals reconcile to the ledger for the same seller, currency, filters and as-of timestamp. Pending, held, available, settled and paid amounts remain distinct.
+- Seller access is scoped server-side to the authenticated organization and membership. A browser-supplied seller ID is never authorization.
+
+### COD and carrier reconciliation
+
+COD must distinguish order amount due, courier cash collection, carrier remittance batch, platform bank receipt, reconciliation result and seller settlement. A delivered shipment is not proof of cash collection or remittance. Each carrier batch records its carrier, batch ID, shipment references, gross amount, fees, net remittance, received date and matching status. Discrepancies record amount, age, owner, evidence and resolution state. Seller UI is read-only for carrier cash and cannot mark a batch collected or reconciled.
+
+### Settlements and payout controls
+
+Settlement batches snapshot eligible ledger entries, seller deductions, holds, reserve releases, fees and net payable. Payout initiation, destination changes, approval and execution are finance-controlled server workflows with step-up verification, audit events and idempotency keys. Sellers can view statuses and submit permitted support evidence; they cannot approve or execute payouts, issue refunds, modify ledger entries or override reconciliation. Bank/provider references and sensitive payout details must be masked in seller views.
+
+### Frontend prototype boundary
+
+The current Seller Finance workspace contains a small, explicitly illustrative sample ledger for layout demonstration only. It does not represent a seller's actual balance, commission schedule, refund liability, COD status or settlement. No payout destination, bank account, carrier, payment provider or refund execution is connected. Replace sample rows with authenticated API responses before production use.
