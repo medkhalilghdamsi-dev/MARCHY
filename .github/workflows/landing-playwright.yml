@@ -1,0 +1,128 @@
+name: MARCHY landing Playwright QA
+
+on:
+  push:
+    branches: [khalil]
+    paths:
+      - 'src/pages/buyer/HomePage.jsx'
+      - 'src/styles/**'
+      - '.github/workflows/landing-playwright.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out khalil
+        uses: actions/checkout@v4
+        with:
+          ref: khalil
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build frontend
+        run: npm run build
+      - name: Run existing end-to-end suite
+        run: npm run test:e2e
+      - name: Capture and inspect deployed landing page
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          node --input-type=module <<'NODE'
+          import { chromium } from '@playwright/test';
+
+          const baseURL = 'https://marchy-khalil.onrender.com/';
+          const browser = await chromium.launch({ headless: true });
+          const viewports = [
+            ['desktop', { width: 1440, height: 1000 }],
+            ['tablet', { width: 768, height: 1024 }],
+            ['mobile', { width: 390, height: 844 }],
+          ];
+
+          let ready = false;
+          for (let attempt = 0; attempt < 60; attempt += 1) {
+            const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+            try {
+              await page.goto(baseURL, { waitUntil: 'domcontentloaded', timeout: 30000 });
+              const heading = page.locator('#market-hero-title');
+              if (await heading.count() && (await heading.innerText()).includes('Discover better.')) {
+                ready = true;
+                await page.close();
+                break;
+              }
+            } catch {}
+            await page.close();
+            await new Promise(resolve => setTimeout(resolve, 10000));
+          }
+
+          if (!ready) {
+            await browser.close();
+            throw new Error('The deployed landing page did not expose the expected latest hero copy within 10 minutes.');
+          }
+
+          for (const [name, viewport] of viewports) {
+            const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
+            const pageErrors = [];
+            page.on('pageerror', error => pageErrors.push(error.message));
+            await page.goto(baseURL, { waitUntil: 'networkidle', timeout: 60000 });
+            await page.locator('#market-hero-title').waitFor({ state: 'visible' });
+            await page.locator('.hero-search-form').waitFor({ state: 'visible' });
+
+            const layout = await page.evaluate(() => {
+              const rect = selector => {
+                const element = document.querySelector(selector);
+                if (!element) return null;
+                const box = element.getBoundingClientRect();
+                return { left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: box.width, height: box.height };
+              };
+              const hero = rect('.market-hero');
+              const heading = rect('#market-hero-title');
+              const search = rect('.hero-search-form');
+              const trust = rect('.home-trust-rail');
+              const intersects = (a, b) => Boolean(a && b && a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top);
+              return {
+                viewportWidth: document.documentElement.clientWidth,
+                documentWidth: document.documentElement.scrollWidth,
+                hero, heading, search, trust,
+                headingSearchOverlap: intersects(heading, search),
+                searchTrustOverlap: intersects(search, trust),
+                searchInsideHero: Boolean(hero && search && search.left >= hero.left - 1 && search.right <= hero.right + 1),
+              };
+            });
+
+            if (layout.documentWidth > layout.viewportWidth + 1) {
+              throw new Error(`${name}: horizontal overflow: ${JSON.stringify(layout)}`);
+            }
+            if (layout.headingSearchOverlap || layout.searchTrustOverlap || !layout.searchInsideHero) {
+              throw new Error(`${name}: landing search layout collision: ${JSON.stringify(layout)}`);
+            }
+            if (pageErrors.length) throw new Error(`${name}: browser errors: ${pageErrors.join('; ')}`);
+
+            await page.screenshot({ path: `artifacts/landing-${name}.png`, fullPage: true, animations: 'disabled' });
+            console.log(`${name} PASS ${JSON.stringify(layout)}`);
+            await page.close();
+          }
+
+          await browser.close();
+          NODE
+      - name: Upload Playwright report and landing screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: marchy-landing-playwright
+          path: |
+            playwright-report/
+            test-results/
+            artifacts/
+          if-no-files-found: warn
+          retention-days: 7
