@@ -2,7 +2,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { readText, readJson, writeJson } from '../utils/marketplace'
 
 const isSameCartLine = (entry, item) =>
-  entry.id === item.id && (entry.selectedVariant || null) === (item.selectedVariant || null)
+  entry.id === item.id &&
+  (entry.selectedVariant || null) === (item.selectedVariant || null) &&
+  (entry.sellerSlug || null) === (item.sellerSlug || null)
 
 export function useMarketplaceState() {
   const [language, setLanguage] = useState(() => {
