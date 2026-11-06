@@ -95,7 +95,7 @@ export function BuyerOrderTrackingPage(props) {
                 const isCurrent = currentStepIndex === index
                 return (
                   <li key={step} className={`${isComplete ? 'complete' : ''} ${isCurrent ? 'is-current' : ''}`}>
-                    <span className="buyer-tracking-step-dot">
+                    <span className="buyer-tracking-step-dot" aria-current={isCurrent ? 'step' : undefined}>
                       {isComplete ? '✓' : index + 1}
                     </span>
                     <div>
