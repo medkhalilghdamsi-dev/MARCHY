@@ -324,3 +324,31 @@ Settlement batches snapshot eligible ledger entries, seller deductions, holds, r
 ### Frontend prototype boundary
 
 The current Seller Finance workspace contains a small, explicitly illustrative sample ledger for layout demonstration only. It does not represent a seller's actual balance, commission schedule, refund liability, COD status or settlement. No payout destination, bank account, carrier, payment provider or refund execution is connected. Replace sample rows with authenticated API responses before production use.
+
+
+## 14. Seller analytics and business intelligence
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | /api/v1/seller/analytics/summary | Seller-scoped KPIs for a date range and comparison period |
+| GET | /api/v1/seller/analytics/orders-timeseries | Time-bucketed order counts and lifecycle outcomes |
+| GET | /api/v1/seller/analytics/sales-timeseries | Delivered sales, net sales and refunds from authoritative finance events |
+| GET | /api/v1/seller/analytics/products | Product and variant performance, units, returns and contribution |
+| GET | /api/v1/seller/analytics/fulfilment | Preparation, dispatch, delivery and cancellation performance |
+| GET | /api/v1/seller/analytics/locations | Aggregated destination geography with privacy thresholds |
+| GET | /api/v1/seller/analytics/export | Authorized report export with filters, timezone and generated-at metadata |
+
+### Analytics definitions and controls
+
+- All queries are authorized server-side against the authenticated seller organization; client-supplied seller IDs are not trusted.
+- Date filters use an explicit timezone and inclusive/exclusive boundaries. Responses include an as-of timestamp, currency, timezone, applied filters and data completeness.
+- Orders placed, accepted, dispatched, delivered and cancelled are distinct lifecycle measures. Delivered sales are sourced from confirmed delivery and finance rules; COD collected and carrier-remitted amounts remain separate measures.
+- Gross merchandise value, seller net sales, platform fees, refunds, taxes, shipping and payable balances must not be conflated. Financial KPIs reconcile to the ledger and finance summary.
+- Product ranking uses stable product/variant identifiers and defines whether ranking is by units, order lines, delivered value or net contribution.
+- Conversion, traffic, advertising ROAS, profit and customer lifetime value require their own reliable event, campaign and cost sources. Do not estimate them from order data alone.
+- Exports enforce seller scope, redact personal customer information by default, record audit metadata and use asynchronous jobs for large result sets.
+- Low-volume geographic and customer segments require privacy thresholds; analytics must not expose another seller's or an identifiable customer's information.
+
+### Frontend prototype boundary
+
+The current Seller Analytics workspace reads local demo orders and matches them to the saved storefront name. It provides illustrative order counts, delivered order value, product demand and destination city breakdowns. It does not provide audited revenue, net profit, conversion, traffic, advertising performance or live carrier outcomes. Replace local data with authenticated analytics APIs before production.
