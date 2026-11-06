@@ -193,6 +193,8 @@ export function AccountPage() {
           <button
             type="button"
             className="outline-btn"
+            aria-expanded={editingProfile}
+            aria-controls="account-profile-edit-form"
             onClick={() => { if (editingProfile) resetProfileForm(); setEditingProfile(v => !v) }}
           >
             {editingProfile ? 'Cancel' : <><Edit3 size={14} /> Edit Profile</>}
@@ -200,7 +202,7 @@ export function AccountPage() {
         </div>
 
         {editingProfile ? (
-          <form className="profile-edit-form" onSubmit={handleSaveProfile}>
+          <form id="account-profile-edit-form" className="profile-edit-form" onSubmit={handleSaveProfile}>
             <div className="form-fields-grid">
               <label>
                 Full Name
@@ -318,16 +320,18 @@ export function AccountPage() {
       {/* Main Content Grid: Saved Addresses & Recent Orders */}
       <div className="account-content-grid">
         {/* Saved Addresses Book */}
-        <section className="account-panel">
+        <section className="account-panel" aria-labelledby="account-addresses-title">
           <div className="account-panel-heading">
             <div>
               <span className="eyebrow">DELIVERY BOOK</span>
-              <h2>Saved Addresses</h2>
+              <h2 id="account-addresses-title">Saved Addresses</h2>
               <p>Pre-populates into your checkout for fast dispatch.</p>
             </div>
             <button
               type="button"
               className="outline-btn"
+              aria-expanded={newAddrOpen}
+              aria-controls="account-add-address-form"
               onClick={() => setNewAddrOpen(v => !v)}
             >
               {newAddrOpen ? 'Close' : <><Plus size={14} /> Add Address</>}
@@ -335,7 +339,7 @@ export function AccountPage() {
           </div>
 
           {newAddrOpen && (
-            <form className="add-address-form" onSubmit={handleAddAddress}>
+            <form id="account-add-address-form" className="add-address-form" onSubmit={handleAddAddress}>
               <h4>Add New Delivery Location</h4>
               <div className="address-inputs-grid">
                 <label>
@@ -407,11 +411,11 @@ export function AccountPage() {
             </form>
           )}
 
-          <div className="saved-addresses-list">
+          <div className="saved-addresses-list" role="list" aria-label="Saved delivery addresses">
             {addresses.length === 0 ? (
               <div className="account-address-empty"><MapPin size={22} /><b>No saved delivery addresses</b><p>Add an address to make future demo checkouts quicker.</p><button type="button" className="text-link" onClick={() => setNewAddrOpen(true)}>Add your first address</button></div>
             ) : addresses.map(addr => (
-              <div key={addr.id} className={`address-card ${addr.isDefault ? 'is-default' : ''}`}>
+              <article key={addr.id} className={`address-card ${addr.isDefault ? 'is-default' : ''}`} role="listitem">
                 <div className="address-card-top">
                   <b>{addr.title}</b>
                   {addr.isDefault && <span className="default-pill">Default</span>}
@@ -436,7 +440,7 @@ export function AccountPage() {
                     <Trash2 size={13} /> Delete
                   </button>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
