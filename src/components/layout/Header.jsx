@@ -115,11 +115,13 @@ export function Header({ cartCount }) {
           onChange={e => { setQuery(e.target.value); setSearchOpen(true) }}
           placeholder="Search products, brands and local finds…"
           aria-label="Search products and stores"
-           aria-expanded={searchOpen}
+          role="combobox"
+          aria-haspopup="dialog"
+          aria-expanded={searchOpen}
           aria-controls="global-search-suggestions"
         />
         <button type="submit">Search</button>
-        {searchOpen && <div className="global-search-suggestions" id="global-search-suggestions" role="region" aria-label="Search suggestions">
+        {searchOpen && <div className="global-search-suggestions" id="global-search-suggestions" role="dialog" aria-label="Search suggestions">
           {searchTerm ? <>
             <div className="search-suggestion-heading">Matching products</div>
             {searchMatches.length ? searchMatches.map(p => <Link key={p.id} to={`/product/${p.id}`} onMouseDown={() => setSearchOpen(false)}>
