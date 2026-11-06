@@ -10,7 +10,7 @@ import {
   ArrowRight, Check, Search, Smartphone, ShoppingBasket, House, Shirt,
   Sparkles, Dumbbell, CarFront, BookOpen, Gamepad2, Baby, PawPrint,
   Sprout, Package, Compass, ArrowUpRight, SlidersHorizontal,
-  ShieldCheck, Coins, Store, Truck, Star, MapPin
+  ShieldCheck, Coins, Store, Truck, MapPin
 } from 'lucide-react'
 
 const categoryIcons = {
