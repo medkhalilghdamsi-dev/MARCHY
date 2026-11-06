@@ -79,7 +79,9 @@ export function BuyerOrderTrackingPage(props) {
           <Status value={order.status} language={language} />
         </div>
 
-        {/* Live Stepper */}
+        <div className="tracking-demo-notice" role="note"><ShieldCheck size={16}/><div><b>Demo order timeline</b><span>Status changes are simulated locally. Courier scans, seller messaging and delivery estimates are not connected to live services.</span></div></div>
+
+        {/* Order Progress */}
         {isCancelled ? (
           <div className="buyer-tracking-cancelled" role="alert">
             <b>✕ Order Cancelled</b>
@@ -119,9 +121,9 @@ export function BuyerOrderTrackingPage(props) {
               type="button"
               className="primary-btn advance-step-btn"
               onClick={handleAdvanceStep}
-              title="Simulate courier update to next milestone"
+              title="Preview the next demo order status"
             >
-              <RefreshCw size={15} /> Simulate Next Delivery Step
+              <RefreshCw size={15} /> Preview Next Status
             </button>
           )}
 
@@ -416,13 +418,13 @@ export function BuyerOrderTrackingPage(props) {
             </button>
             <span className="eyebrow">DIRECT SELLER CONNECTION</span>
             <h3>Contact {order.seller}</h3>
-            <p>You can coordinate dispatch details or parcel inspection directly with the workshop.</p>
+            <p>Seller contact is a preview only. Direct messaging and verified merchant contact details will be connected with the backend.</p>
             <div className="seller-contact-methods">
               <div className="contact-method-item">
                 <Phone size={18} />
                 <div>
                   <b>Phone Support</b>
-                  <span>+216 71 890 123 (Seller dispatch desk)</span>
+                  <span>{order.phone ? order.phone : 'Seller phone details are not connected yet.'}</span>
                 </div>
               </div>
               <div className="contact-method-item">
@@ -433,12 +435,12 @@ export function BuyerOrderTrackingPage(props) {
                 </div>
               </div>
             </div>
-            <form onSubmit={e => { e.preventDefault(); toast('Message dispatched to seller!', { type: 'success' }); setContactOpen(false) }}>
+            <form onSubmit={e => { e.preventDefault(); toast('Messaging is not connected in this demo yet.', { type: 'info' }); }}>
               <label>
                 Send a quick note regarding Order #{order.id}:
                 <textarea rows="3" placeholder="e.g. Please deliver after 2 PM, or call upon arrival at building entrance..." required />
               </label>
-              <button type="submit" className="primary-btn full-btn">Send Message to Seller</button>
+              <button type="submit" className="primary-btn full-btn">Preview Message</button>
             </form>
           </div>
         </div>
