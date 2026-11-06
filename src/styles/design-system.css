@@ -116,6 +116,48 @@ ul, ol { list-style: none; padding: 0; }
   --space-16: 64px;
   --space-20: 80px;
 
+  /* Canonical legacy-compatible tokens. Feature styles consume these aliases. */
+  --forest: #1f5b45;
+  --forest-dark: #174735;
+  --forest-light: #edf5f0;
+  --forest-soft: #edf5f0;
+  --gold: #1f5b45;
+  --ink: #12261e;
+  --ink-soft: #1e352b;
+  --muted: #435b4f;
+  --muted-light: #64796e;
+  --line: #d8e5dd;
+  --line-soft: #eaf1ed;
+  --page: #f4f8f5;
+  --surface: #ffffff;
+  --surface-soft: #eef5f1;
+  --surface-raised: #ffffff;
+  --surface-hover: #f7faf8;
+  --accent: #1f5b45;
+  --accent-dark: #174735;
+  --accent-text: #ffffff;
+  --orange: #1f5b45;
+  --orange-dark: #174735;
+  --green: #1f5b45;
+  --marchy-ink: #12261e;
+  --marchy-muted: #435b4f;
+  --marchy-line: #d8e5dd;
+  --marchy-surface: #ffffff;
+  --marchy-page: #f4f8f5;
+  --marchy-orange: #1f5b45;
+  --marchy-orange-deep: #174735;
+  --marchy-green: #1f5b45;
+  --marchy-accent-soft: #edf5f0;
+  --marchy-accent-border: #c9ded1;
+  --marchy-canvas: #f4f8f5;
+  --marchy-radius: 16px;
+  --marchy-shadow: 0 12px 34px rgba(18,38,30,.065);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-card: 0 8px 28px rgba(18,38,30,.065);
+  --shadow-raised: 0 18px 48px rgba(18,38,30,.13);
+
   /* Radii */
   --radius-xs: 4px;
   --radius-sm: 7px;
