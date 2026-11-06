@@ -142,14 +142,12 @@ export function BuyerOrdersPage(props) {
           <span className="buyer-orders-local-label">LOCAL DEMO DATA</span>
         </div>
 
-        <div className="order-tabs-row" role="tablist" aria-label="Filter orders by status">
+        <div className="order-tabs-row" role="group" aria-label="Filter orders by status">
           {ORDER_TABS.map(tab => (
             <button
               key={tab}
               type="button"
-              role="tab"
-              aria-selected={activeTab === tab}
-              aria-controls="buyer-orders-results"
+              aria-pressed={activeTab === tab}
               className={`order-tab-btn ${activeTab === tab ? 'is-active' : ''}`}
               onClick={() => setActiveTab(tab)}
             >
@@ -179,7 +177,7 @@ export function BuyerOrdersPage(props) {
           </span>
         </div>
 
-        <div id="buyer-orders-results" className="buyer-orders-results" role="tabpanel">
+        <div id="buyer-orders-results" className="buyer-orders-results" aria-live="polite">
           {visible.length > 0 ? (
             <div className="buyer-orders-list">
               {visible.map(order => {
