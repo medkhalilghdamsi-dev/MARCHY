@@ -352,3 +352,72 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(prefers-reduced-motion:reduce){
  .seller-dashboard-sidebar nav button{transition:none}
 }
+
+
+/* Seller catalog + offer editor refinement */
+.seller-catalog-manager{display:grid;gap:14px;min-width:0}
+.sc-catalog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.sc-catalog-head h3{margin:5px 0;font-size:20px;letter-spacing:-.03em}
+.sc-catalog-head p{max-width:720px;margin:0;color:var(--muted);font-size:10px;line-height:1.65}
+.sc-catalog-primary{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 12px;border:0;border-radius:7px;background:var(--forest-dark);color:#fff;font-size:9px;font-weight:850;cursor:pointer;white-space:nowrap}
+.sc-catalog-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sc-catalog-stats button{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted);cursor:pointer;text-align:left}
+.sc-catalog-stats button.selected{border-color:color-mix(in srgb,var(--forest) 45%,var(--line));background:var(--surface-soft);color:var(--forest-dark)}
+.sc-catalog-stats span{font-size:8px;font-weight:800}.sc-catalog-stats b{font-size:17px;color:var(--ink)}
+.sc-catalog-form{padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:var(--shadow-card)}
+.sc-catalog-form-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.sc-catalog-form-heading h4{margin:5px 0;font-size:15px}
+.sc-catalog-form-heading button{display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);font-size:17px;cursor:pointer}
+.sc-catalog-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:15px}
+.sc-catalog-fields label{display:grid;gap:5px;min-width:0;color:var(--ink);font-size:9px;font-weight:800}
+.sc-catalog-fields label>span,.sc-catalog-fields label>small{color:var(--muted);font-size:7px;font-weight:500;line-height:1.5}
+.sc-catalog-fields .sc-catalog-wide{grid-column:1/-1}
+.sc-catalog-fields input,.sc-catalog-fields select,.sc-catalog-fields textarea{width:100%;box-sizing:border-box;min-width:0;padding:0 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit;font-size:9px;outline:0}
+.sc-catalog-fields input,.sc-catalog-fields select{height:37px}.sc-catalog-fields textarea{min-height:88px;padding:9px;resize:vertical}
+.sc-catalog-fields input:focus,.sc-catalog-fields select:focus,.sc-catalog-fields textarea:focus{border-color:var(--forest);box-shadow:0 0 0 3px color-mix(in srgb,var(--forest) 12%,transparent)}
+.sc-catalog-form .sc-catalog-error{margin:12px 0 0;padding:9px 11px;border-radius:6px;background:#f8ece9;color:#8a4e39;font-size:8px}
+.sc-catalog-form .sc-catalog-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:13px}
+.sc-catalog-form .sc-catalog-actions button{min-height:36px;padding:0 11px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font-size:8px;font-weight:800;cursor:pointer}
+.sc-catalog-form .sc-catalog-actions .primary{border-color:var(--forest-dark);background:var(--forest-dark);color:#fff}
+.sc-catalog-list{overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
+.sc-catalog-table{width:100%;min-width:780px;border-collapse:collapse}
+.sc-catalog-table th,.sc-catalog-table td{padding:10px 11px;border-bottom:1px solid var(--line);text-align:left;font-size:8px}
+.sc-catalog-table th{background:var(--surface-soft);color:var(--muted);font-size:7px;letter-spacing:.07em;text-transform:uppercase}
+.sc-catalog-table td{color:var(--muted);vertical-align:middle}
+.sc-catalog-table td b{color:var(--ink);font-size:8px}
+.sc-catalog-table tr:last-child td{border-bottom:0}
+.sc-catalog-product{display:flex;align-items:center;gap:8px;min-width:220px}
+.sc-catalog-product img,.sc-catalog-product>span{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border-radius:6px;background:var(--surface-soft);object-fit:contain;color:var(--muted)}
+.sc-catalog-product>div{display:grid;min-width:0;gap:3px}.sc-catalog-product b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sc-catalog-product small{color:var(--muted);font-size:7px}
+.sc-catalog-status{display:inline-flex;padding:4px 7px;border-radius:20px;background:var(--surface-soft);color:var(--forest-dark);font-size:7px;font-weight:850;white-space:nowrap}
+.sc-catalog-actions{display:flex;gap:5px;justify-content:flex-end}.sc-catalog-actions button{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font-size:7px;font-weight:800;cursor:pointer}.sc-catalog-actions button:hover{border-color:var(--forest)}
+.sc-catalog-empty{display:grid;place-items:center;min-height:210px;padding:25px;text-align:center;color:var(--muted)}.sc-catalog-empty b{color:var(--ink);font-size:11px}.sc-catalog-empty p{max-width:390px;margin:5px 0 12px;font-size:8px;line-height:1.6}
+.sc-offers{display:grid;gap:14px;min-width:0}
+.sc-offers>header{align-items:flex-start;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.sc-offers>header h3{font-size:20px;letter-spacing:-.03em}
+.sc-offers>header p{max-width:680px;line-height:1.65}
+.sc-offers>header>b{border:1px solid var(--line);background:var(--surface-soft);color:var(--muted)}
+.sc-offers-layout{grid-template-columns:minmax(230px,.72fr) minmax(0,1.55fr)}
+.sc-offers-layout>aside,.sc-offer-editor{box-shadow:var(--shadow-card)}
+.sc-offers-layout>aside{padding:14px}
+.sc-offers-layout>aside>button{min-height:48px;padding:10px 5px}
+.sc-offers-layout>aside>button:hover{background:var(--surface-soft)}
+.sc-offers-layout>aside>button.active{border-left:3px solid var(--forest);padding-left:2px}
+.sc-offer-editor{padding:17px}
+.sc-offer-editor h4{font-size:16px;letter-spacing:-.02em}
+.sc-offer-fields{gap:12px}
+.sc-offer-fields label{font-size:9px}
+.sc-offer-fields input,.sc-offer-fields select{height:39px;font-size:9px}
+.sc-offer-preview{margin-top:3px;border:1px solid var(--line);background:var(--surface-soft)}
+.sc-offer-preview>b{font-size:18px;color:var(--forest-dark)}
+.sc-offer-checks label{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.sc-offer-actions button{min-height:37px;padding:0 11px}
+.sc-offer-disclaimer{padding-top:10px;border-top:1px solid var(--line);line-height:1.6;color:var(--muted)}
+.sc-offer-error{border:1px solid #e8cbc4!important;background:#f8ece9!important;color:#8a4e39!important}
+.sc-offer-notice{border:1px solid #cfe3d5;background:var(--surface-soft)!important;color:var(--forest-dark)!important}
+html[data-theme="dark"] .sc-catalog-form .sc-catalog-error,.html[data-theme="dark"] .sc-offer-error{background:#382522!important;border-color:#6c3d34!important;color:#e7b8aa!important}
+@media(max-width:900px){.sc-catalog-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.sc-catalog-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.sc-catalog-head{flex-direction:column}.sc-catalog-primary{width:100%}.sc-catalog-fields{grid-template-columns:1fr}.sc-catalog-fields .sc-catalog-wide{grid-column:auto}.sc-catalog-form{padding:13px}.sc-catalog-form .sc-catalog-actions{flex-direction:column}.sc-catalog-form .sc-catalog-actions button{width:100%}.sc-offers-layout{grid-template-columns:1fr}.sc-offer-editor{padding:13px}.sc-offer-actions{display:grid;grid-template-columns:1fr}.sc-offer-actions button{width:100%}}
+@media(max-width:430px){.sc-catalog-stats{grid-template-columns:1fr}.sc-catalog-stats b{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.sc-catalog-primary,.sc-catalog-actions button{transition:none}}
+.is-rtl .sc-catalog-head,.is-rtl .sc-catalog-form-heading,.is-rtl .sc-catalog-actions,.is-rtl .sc-offers>header{direction:rtl}.is-rtl .sc-catalog-table th,.is-rtl .sc-catalog-table td{text-align:right}.is-rtl .sc-offers-layout{direction:rtl}
