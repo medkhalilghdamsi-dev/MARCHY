@@ -318,3 +318,18 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Added stronger responsive behavior for two-column/one-column transitions and compact mobile layouts.
 - Added consistent token-based surfaces, dark theme, RTL, keyboard focus and reduced-motion treatment.
 - Preserved the existing local-demo data model and did not change backend behavior.
+
+
+## Buyer order detail and tracking workspace refinement — 2026-11-06
+
+Completed a dedicated buyer transaction-detail UI pass without changing order logic, storage, APIs, or backend behavior.
+
+- Reworked order-detail/tracking presentation into a clearer transaction workspace.
+- Added a stronger local-demo notice and cancelled-order treatment.
+- Added responsive order-status stepper styling with current/completed visual states.
+- Improved action hierarchy for reorder, invoice/contact, status-demo controls, and cancellation.
+- Structured product lines, seller metadata, recipient information, totals, guarantees, and status history as distinct information blocks.
+- Added responsive invoice presentation and print-oriented invoice structure.
+- Added seller contact method cards and modal surfaces.
+- Added dark-theme, RTL, keyboard/focus, mobile, and reduced-motion coverage.
+- Kept the existing local-demo behavior intact; this pass is presentation and interaction-surface styling only.
