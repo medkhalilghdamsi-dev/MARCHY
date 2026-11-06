@@ -277,3 +277,12 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Added account profile presentation/edit controls with responsive field grouping and token-based focus states.
 - Preserved existing local-demo storage, marketplace offer selection and buyer actions; this pass is presentation/responsive UX only.
 - Browser visual verification and production-build verification remain environment-dependent and should be checked on the deployed Render build.
+
+
+## Seller workspace refinement — 2026-11-06
+
+- Refined the seller workspace shell and legacy seller dashboard visual hierarchy without changing seller data flows.
+- Unified sidebar, cards, filters, tables, empty states and profile surfaces with the canonical surface/line/muted tokens.
+- Added stronger mobile heading/action behavior and keyboard focus states.
+- Added dark-theme consistency and reduced-motion handling.
+- Preserved existing seller workspace behavior and local-demo boundaries.
