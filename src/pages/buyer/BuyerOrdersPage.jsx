@@ -30,7 +30,6 @@ export function BuyerOrdersPage(props) {
   const [query, setQuery] = useState('')
   const [returnOrder, setReturnOrder] = useState(null)
   const [returnForm, setReturnForm] = useState({ productKey: '', reason: returnReasons[0], details: '', condition: 'Unopened' })
-  const [returnRequests, setReturnRequests] = useState(readReturns)
   const [returnNotice, setReturnNotice] = useState('')
 
   const submitReturn = () => {
@@ -38,8 +37,10 @@ export function BuyerOrdersPage(props) {
     const product = (returnOrder.products || []).find((item, index) => `${item.id || item.name}-${index}` === returnForm.productKey)
     if (!product) return setReturnNotice('The selected item could not be found.')
     const request = { id: `RET-${Date.now().toString(36).toUpperCase()}`, orderId: returnOrder.id, seller: returnOrder.seller || '', sellerSlug: returnOrder.sellerSlug || '', buyer: returnOrder.buyer || 'Customer', phone: returnOrder.phone || '', productId: product.id, productName: product.name, variant: product.selectedVariant || 'Standard', quantity: product.qty || 1, unitPrice: Number(product.price || 0), reason: returnForm.reason, details: returnForm.details.trim(), condition: returnForm.condition, status: 'submitted', refundStatus: 'not_reviewed', createdAt: new Date().toISOString(), history: [{ status: 'submitted', at: new Date().toISOString(), note: 'Return request submitted by buyer (local demo)' }] }
-    const next = [request, ...readReturns()]
-    try { localStorage.setItem(RETURN_KEY, JSON.stringify(next)); setReturnRequests(next); setReturnOrder(null); setReturnNotice(`Return request ${request.id} saved locally. The seller has not been notified.`) } catch { setReturnNotice('Could not save the return request in this browser.') }
+    const existing = readReturns()
+    if (existing.some(item => item.orderId === request.orderId && item.productId === request.productId && item.status !== 'rejected')) return setReturnNotice('A return request for this item is already open.')
+    const next = [request, ...existing]
+    try { localStorage.setItem(RETURN_KEY, JSON.stringify(next)); setReturnOrder(null); setReturnNotice(`Return request ${request.id} saved locally. The seller has not been notified.`) } catch { setReturnNotice('Could not save the return request in this browser.') }
   }
 
   const counts = useMemo(() => ({

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, BadgeCheck, Building2, ClipboardCheck, FileText, ShieldCheck, Store, Truck } from 'lucide-react'
+import { ArrowRight, BadgeCheck, Building2, ClipboardCheck, FileText, RotateCcw, ShieldCheck, Store, Truck } from 'lucide-react'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { translateTree } from '../../i18n/translate'
 import { SellerCatalogManager } from '../../components/seller/SellerCatalogManager'
