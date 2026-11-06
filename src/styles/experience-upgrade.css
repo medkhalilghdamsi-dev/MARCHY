@@ -1,15 +1,5 @@
 /* MARCHY experience layer — final visual polish across the marketplace */
-:root{
-  --marchy-orange:#1f5b45;
-  --marchy-orange-deep:#174735;
-  --marchy-ink:#12261e;
-  --marchy-muted:#435b4f;
-  --marchy-line:#d8e5dd;
-  --marchy-surface:#fff;
-  --marchy-canvas:#f4f8f5;
-  --marchy-radius:16px;
-  --marchy-shadow:0 12px 34px rgba(18,38,30,.065);
-}
+/* Global tokens: moved to design-system.css */
 html{scroll-behavior:smooth;scroll-padding-top:110px}
 body{background:var(--marchy-canvas);color:var(--marchy-ink);-webkit-font-smoothing:antialiased}
 button,a,input,select,textarea{ -webkit-tap-highlight-color:transparent }
@@ -924,17 +914,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 
 /* MARCHY brand alignment — forest green is the single marketplace accent. */
-:root{
-  --orange:#1f5b45;
-  --orange-dark:#174735;
-  --green:#1f5b45;
-  --forest:#1f5b45;
-  --marchy-orange:#1f5b45;
-  --marchy-orange-deep:#174735;
-  --marchy-green:#1f5b45;
-  --marchy-accent-soft:#edf5f0;
-  --marchy-accent-border:#c9ded1;
-}
+/* Global tokens: moved to design-system.css */
 ::selection{background:#1f5b4530;color:var(--marchy-ink)}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
   outline:3px solid #78a58c;
@@ -984,11 +964,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 
 /* Legacy component reconciliation: remove the old orange accent from buyer and seller UI. */
-:root{
-  --orange:#1f5b45;
-  --orange-dark:#174735;
-  --green:#1f5b45;
-}
+/* Global tokens: moved to design-system.css */
 .market-hero-copy h1 em,.home-seller-banner h2 em,
 .hero-floating-icon,.home-category-card small span,
 .seller-link:hover,.category-context-icon,.category-context-strip>a,
