@@ -394,3 +394,11 @@ Completed a final product-page commerce hierarchy pass.
 - Marked the filtered order-results container as a named live region so status/search changes are announced more clearly.
 - Preserved the existing return-request workflow, local storage behavior, cancellation and reorder actions.
 - No backend, API or service changes. Build and browser verification remain outstanding.
+
+## Buyer saved-items accessibility pass — 2026-11-06
+
+- Added a polite, atomic screen-reader status announcement for the visible saved-product count as search, category, availability and sorting controls change.
+- The filtered-empty-state reset now restores the sort order as well as search, category and availability, so the action returns the complete control set to its default state.
+- Existing offer selection, add-to-cart, remove, and local-storage behavior is unchanged.
+- Source change: `src/pages/buyer/WishlistPage.jsx`.
+- Verification is source-level only; production build and browser/assistive-technology checks remain outstanding.
