@@ -417,3 +417,13 @@ Completed a final product-page commerce hierarchy pass.
 - Existing profile, address persistence, default-address selection and deletion logic is unchanged.
 - Source change: `src/pages/buyer/AccountPage.jsx`.
 - Verification is source-level only; production build and browser/assistive-technology checks remain outstanding.
+
+
+## Buyer tracking progress and dialog-control semantics — 2026-11-06
+
+- Exposed the delivery progress stepper as a labelled group and moved `aria-current="step"` onto the active list item, so the current milestone is announced as the current step rather than only marking its decorative dot.
+- Invoice and merchant-contact triggers now expose their expanded state and point to the corresponding dialog IDs.
+- Added a programmatic description to the merchant-contact preview dialog.
+- Preserved the existing demo order timeline, receipt printing, contact-preview and order actions; no backend or service behavior changed.
+- Source change: `src/pages/buyer/BuyerOrderTrackingPage.jsx`.
+- Verification is source-level only; modal focus containment/restoration, production build and browser/assistive-technology checks remain outstanding.
