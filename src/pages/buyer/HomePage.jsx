@@ -101,9 +101,9 @@ export function Home() {
     <main id="main-content" className="shell page home-page home-landing-v2">
       <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
         <div className="market-hero-copy">
-          <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · MARKETPLACE PREVIEW</span>
-          <h1 id="market-hero-title">How local shopping<br /><em>should work.</em></h1>
-          <p>Explore local-style products and storefronts, compare illustrative prices in Tunisian Dinars, and preview a clearer way to discover and shop across Tunisia.</p>
+          <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · DISCOVER LOCAL</span>
+          <h1 id="market-hero-title">Discover better.<br /><em>Shop local.</em></h1>
+          <p>Find products, makers and storefronts in one clear marketplace experience — with prices in TND and delivery information upfront.</p>
 
           <div className="hero-segmented-tabs" role="tablist" aria-label="Search scope">
             <button
@@ -180,19 +180,15 @@ export function Home() {
           <div className="upwork-hero-stats">
             <div className="upwork-stat-item">
               <b>TND</b>
-              <span>Prices shown clearly</span>
+              <span>Clear local pricing</span>
             </div>
             <div className="upwork-stat-item">
-              <b>Seller offers</b>
-              <span>Compare listings</span>
+              <b>Local sellers</b>
+              <span>Browse real storefront concepts</span>
             </div>
             <div className="upwork-stat-item">
-              <b>Delivery info</b>
-              <span>Governorate estimates</span>
-            </div>
-            <div className="upwork-stat-item">
-              <b>Demo checkout</b>
-              <span>Preview the order flow</span>
+              <b>Delivery</b>
+              <span>See estimates before checkout</span>
             </div>
           </div>
         </div>
@@ -271,30 +267,30 @@ export function Home() {
 
       <section className="upwork-value-section" aria-label="Why Choose MARCHY">
         <div className="upwork-value-header">
-          <span className="eyebrow">A BETTER WAY TO SHOP LOCALLY</span>
-          <h2>A whole world of Tunisian craft at your fingertips</h2>
-          <p>We built MARCHY so you never have to guess prices, chase Facebook sellers, or gamble on delivery quality again.</p>
+          <span className="eyebrow">WHY MARCHY</span>
+          <h2>Everything you need to choose with confidence.</h2>
+          <p>Less hunting. Less uncertainty. A clearer path from discovering a product to placing an order.</p>
         </div>
         <div className="upwork-value-grid">
           <div className="upwork-value-card">
             <span className="value-icon-circle"><ShieldCheck size={22} /></span>
-            <h3>Inspect before payment</h3>
-            <p>Every order is backed by Cash on Delivery with full rights to open and inspect your parcel upon courier delivery.</p>
+            <h3>Know what you are buying</h3>
+            <p>Keep product details, seller context and pricing visible while you compare your options.</p>
           </div>
           <div className="upwork-value-card">
             <span className="value-icon-circle"><Coins size={22} /></span>
-            <h3>Transparent prices in TND</h3>
-            <p>Transparent catalogue prices in Tunisian Dinars with clear governorate delivery fees. No surprise currency conversions.</p>
+            <h3>Compare in TND</h3>
+            <p>See catalogue prices in Tunisian Dinars and compare listings without converting currencies in your head.</p>
           </div>
           <div className="upwork-value-card">
             <span className="value-icon-circle"><Store size={22} /></span>
-            <h3>Direct artisan connection</h3>
-            <p>Coordinate directly with the actual local workshops, creators, and specialist retailers across Tunisia.</p>
+            <h3>Discover local sellers</h3>
+            <p>Explore storefronts, workshops and specialist retailers through one consistent shopping experience.</p>
           </div>
           <div className="upwork-value-card">
             <span className="value-icon-circle"><Truck size={22} /></span>
-            <h3>Nationwide reach</h3>
-            <p>From Tunis and Bizerte to Sfax, Gabès, and Djerba, connect with authentic makers wherever they are based.</p>
+            <h3>Delivery visibility</h3>
+            <p>See available governorate delivery estimates before you commit to the order.</p>
           </div>
         </div>
       </section>
