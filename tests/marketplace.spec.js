@@ -729,6 +729,9 @@ test('seller routes use an independent portal shell without buyer shopping chrom
     await expect(page.getByRole('button', { name: /Switch to (light|dark) mode/ })).toBeVisible()
   }
   await page.goto('/seller-central')
+  await page.getByLabel('Seller language').selectOption('fr')
+  await expect(page.locator('.seller-portal-nav')).toContainText('Espace vendeur')
+  await page.getByLabel('Seller language').selectOption('en')
   await page.getByLabel('Seller language').selectOption('ar')
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
   await page.getByLabel('Seller language').selectOption('en')
