@@ -35,6 +35,7 @@ jobs:
       - name: Run existing end-to-end suite
         run: npm run test:e2e
       - name: Capture and inspect deployed landing page
+        if: always()
         shell: bash
         run: |
           mkdir -p artifacts
