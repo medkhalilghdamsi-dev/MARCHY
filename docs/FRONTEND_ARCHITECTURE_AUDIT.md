@@ -151,3 +151,16 @@ The counts are approximate because nested at-rules and complex CSS syntax are no
 Added `scripts/audit-css-ownership.mjs` and the `npm run audit:css` package command. The script reads the stylesheets referenced by `src/styles.css`, tracks selector blocks within supported media/supports/container/layer/scope contexts, and reports cross-file and same-file selector repetitions. It intentionally reports rather than auto-fixes: selector overlap alone is not proof of a harmful conflict.
 
 **Execution is pending.** The script has been committed, but it has not yet been run in a local Node environment or CI. Run `npm run audit:css` and capture its output before using the report to drive selector migrations.
+
+## Product detail component-to-style audit
+
+The actual `src/pages/buyer/ProductPage.jsx` markup was compared with its five main styling layers. This exposed two concrete layout defects that were not visible from selector-name overlap alone:
+
+1. **Purchase controls had four children but a three-column grid.** The JSX renders quantity, Add to cart, Buy Now and Save. The previous grid declared only quantity / flexible CTA / save columns, leaving Buy Now in an implicit grid column. The canonical product-page stylesheet now explicitly defines four columns and styles Buy Now, including disabled and hover states, with responsive widths.
+2. **Delivery panel grid did not match the current markup.** The stylesheet expected a direct icon column and content column, while JSX wraps the icon and heading in `.delivery-estimator-header` and renders the explanatory paragraph as a sibling. The canonical stylesheet now uses a single-column delivery panel with a two-column header and readable supporting copy.
+
+These were corrected in `src/styles/product-page-refinement.css`. The product-page component itself and its business logic were not changed. The product page remains marked as unverified in a browser until the build and responsive visual checks can run.
+
+### Product-page migration guardrail
+
+The broad refinement files still contain product-page rules that affect sample status, compare/share feedback, seller metadata, mobile buy-bar spacing, and accessibility. They are intentionally retained for now: moving them across import layers can alter specificity and cascade order. The next safe migration requires browser snapshots at desktop, tablet and mobile widths, plus light/dark and RTL checks.
