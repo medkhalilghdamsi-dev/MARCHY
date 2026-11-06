@@ -145,3 +145,9 @@ The counts are approximate because nested at-rules and complex CSS syntax are no
 5. Shared shell and product cards: settle shared component ownership and migrate last, since these selectors affect many routes.
 
 **No duplicate selector blocks were deleted in this pass.** The inspected files contain repeated selectors with different declarations and responsive variants; deleting based on selector name alone would change the cascade and risk visual regressions.
+
+## Repeatable CSS audit tooling
+
+Added `scripts/audit-css-ownership.mjs` and the `npm run audit:css` package command. The script reads the stylesheets referenced by `src/styles.css`, tracks selector blocks within supported media/supports/container/layer/scope contexts, and reports cross-file and same-file selector repetitions. It intentionally reports rather than auto-fixes: selector overlap alone is not proof of a harmful conflict.
+
+**Execution is pending.** The script has been committed, but it has not yet been run in a local Node environment or CI. Run `npm run audit:css` and capture its output before using the report to drive selector migrations.
