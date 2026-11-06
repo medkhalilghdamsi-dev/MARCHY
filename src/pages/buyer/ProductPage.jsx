@@ -12,7 +12,7 @@ import { FrequentlyBoughtTogether } from '../../components/marketplace/Frequentl
 import { ProductQA } from '../../components/marketplace/ProductQA'
 import { MarketplaceService } from '../../services/marketplaceService'
 import { useMarketplace } from '../../providers/MarketplaceContext'
-import { ArrowRight, Check, Heart, MapPin, Plus, Share2, Search, ShoppingCart, Truck, ShieldCheck, RotateCcw } from 'lucide-react'
+import { ArrowRight, Check, Heart, Plus, Share2, Search, ShoppingCart } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
 export function ProductPage() {
@@ -41,24 +41,6 @@ export function ProductPage() {
   const currentSellerSlug = selectedOffer?.sellerSlug || defaultSeller.slug
   const availableStock = Number(selectedOffer?.stock ?? 0)
   const isOutOfStock = selectedOffer ? availableStock <= 0 : false
-
-  const tunisianGovs = [
-    { name: 'Tunis', time: 'Tomorrow (within 24h)', fee: 7 },
-    { name: 'Ariana', time: 'Tomorrow (within 24h)', fee: 7 },
-    { name: 'Ben Arous', time: 'Tomorrow (within 24h)', fee: 7 },
-    { name: 'Manouba', time: 'Tomorrow (within 24h)', fee: 7 },
-    { name: 'Sousse', time: '1-2 business days', fee: 8 },
-    { name: 'Sfax', time: '2 business days', fee: 8 },
-    { name: 'Nabeul / Hammamet', time: '1-2 business days', fee: 8 },
-    { name: 'Bizerte', time: '1-2 business days', fee: 8 },
-    { name: 'Monastir', time: '1-2 business days', fee: 8 },
-    { name: 'Kairouan', time: '2-3 business days', fee: 9 },
-    { name: 'Gabès', time: '2-3 business days', fee: 9 },
-    { name: 'Djerba / Médenine', time: '2-3 business days', fee: 10 },
-  ]
-  const [selectedGov, setSelectedGov] = useState('Tunis')
-  const currentGovData = tunisianGovs.find(g => g.name === selectedGov) || tunisianGovs[0]
-  const isFreeShipping = (currentPrice * qty) >= 120
 
   const productVariants = Array.isArray(product?.variants) ? product.variants : []
   const [selectedVariant, setSelectedVariant] = useState(productVariants[0] || null)
@@ -204,12 +186,12 @@ export function ProductPage() {
           {selectedOffer?.oldPrice ? <del>{money(selectedOffer.oldPrice)}</del> : product.oldPrice ? <del>{money(product.oldPrice)}</del> : null}
           {discount > 0 && <span>{discount}% illustrative difference</span>}
         </div>
-        <p className="product-price-caption">Displayed in Tunisian dinars (TND). Offered by <b>{currentSellerName}</b> with Cash on Delivery protection.</p>
+        <p className="product-price-caption">Displayed in Tunisian dinars (TND). This is an illustrative offer from <b>{currentSellerName}</b>; confirm the final price and terms with the seller.</p>
         <div className="product-listing-status">
           <span className="status-dot"></span>
           <div>
-            <b>{isOutOfStock ? 'Out of stock' : 'Verified merchant offer'}</b>
-            <small>{isOutOfStock ? 'This seller cannot accept the selected quantity right now.' : `Dispatched by ${currentSellerName} from ${selectedOffer?.sellerCity || seller.city}, Tunisia`}</small>
+            <b>{isOutOfStock ? 'Sample stock: unavailable' : 'Sample offer'}</b>
+            <small>Illustrative catalogue status. Confirm current availability, dispatch location and fulfilment directly with the seller.</small>
           </div>
         </div>
 
@@ -256,67 +238,15 @@ export function ProductPage() {
           {added && <p className="product-added-feedback" role="status">Added to your basket: {qty}x {product.name}{selectedVariant ? ` (${selectedVariant})` : ''}.</p>}
         </div>
 
-        {/* Interactive Tunisian Governorate Delivery Estimator */}
-        <section className="product-delivery-card product-delivery-interactive" aria-label="Tunisian Delivery Estimator">
+        <section className="product-delivery-card" aria-label="Delivery information">
           <div className="delivery-estimator-header">
-            <span className="delivery-symbol"><Truck size={20} /></span>
+            <span className="delivery-symbol">ⓘ</span>
             <div>
-              <b>Delivery to your governorate</b>
-              <small>Fast Tunisian local courier dispatch with COD</small>
+              <b>Delivery details to confirm</b>
+              <small>Coverage, delivery cost and estimated timing are not connected to live courier data.</small>
             </div>
           </div>
-          <div className="delivery-gov-row">
-            <label htmlFor="delivery-gov-select" className="sr-only">Governorate</label>
-            <select
-              id="delivery-gov-select"
-              className="delivery-gov-select"
-              value={selectedGov}
-              onChange={e => setSelectedGov(e.target.value)}
-            >
-              {tunisianGovs.map(gov => (
-                <option key={gov.name} value={gov.name}>
-                  {gov.name} — Est: {gov.time}
-                </option>
-              ))}
-            </select>
-            <div className="delivery-fee-result">
-              {isFreeShipping ? (
-                <span className="delivery-free-badge">✓ FREE Delivery (Basket &gt; 120 TND)</span>
-              ) : (
-                <span>Courier fee: <b>{money(currentGovData.fee)}</b></span>
-              )}
-              <small className="arrival-tag">Estimated arrival: {currentGovData.time}</small>
-            </div>
-          </div>
-        </section>
-
-        {/* Buyer Guarantees Reassurance */}
-        <section className="product-trust-panel" aria-label="Buyer confidence information">
-          <div className="product-trust-heading">
-            <b>Shop with clarity</b>
-            <span>Buyer Protections</span>
-          </div>
-          <div>
-            <span className="trust-check"><ShieldCheck size={16} /></span>
-            <p>
-              <b>Pay Upon Inspection (Cash on Delivery)</b>
-              <small>Open and verify your parcel upon courier delivery before handing payment.</small>
-            </p>
-          </div>
-          <div>
-            <span className="trust-check"><Check size={16} /></span>
-            <p>
-              <b>Direct Artisan Connection</b>
-              <small>Coordinate dispatch directly with {currentSellerName} in {selectedOffer?.sellerCity || seller.city}, Tunisia.</small>
-            </p>
-          </div>
-          <div>
-            <span className="trust-check"><RotateCcw size={16} /></span>
-            <p>
-              <b>14-Day Sample Exchange Guarantee</b>
-              <small>Eligible for return or replacement if damaged in transit or non-conforming.</small>
-            </p>
-          </div>
+          <p>Contact the seller before ordering to confirm availability, delivery to your governorate, the final delivery fee and the expected arrival date.</p>
         </section>
 
         {/* Other Sellers on MARCHY (Multi-Seller Offers) */}
@@ -331,8 +261,8 @@ export function ProductPage() {
           <div className="product-seller-copy">
             <small>Selected merchant · {currentSellerName}</small>
             <b>{currentSellerName}</b>
-            <span>Verified merchant · Tunisia</span>
-            <span className="seller-profile-status">Verified storefront</span>
+            <span>Sample storefront · Tunisia</span>
+            <span className="seller-profile-status">Store details are illustrative</span>
           </div>
           <Link to={`/seller/${currentSellerSlug}`}>Visit shop <span><ArrowRight size={15}/></span></Link>
         </section>
