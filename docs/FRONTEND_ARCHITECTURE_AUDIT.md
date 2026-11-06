@@ -286,3 +286,11 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Added stronger mobile heading/action behavior and keyboard focus states.
 - Added dark-theme consistency and reduced-motion handling.
 - Preserved existing seller workspace behavior and local-demo boundaries.
+
+
+## Seller central operations pass — 2026-11-06
+
+- Unified Analytics, Inventory, Orders, Returns and Finance workspace surfaces under the shared seller visual language.
+- Added responsive split-view behavior, compact KPI hierarchy, clearer tables/lists, consistent controls, empty states, status treatments and mobile stacking.
+- Added token-based dark-theme treatment, RTL handling and reduced-motion support.
+- Preserved existing local-demo storage, order workflow, inventory adjustments, return review and illustrative finance boundaries.
