@@ -184,3 +184,9 @@ A second review of `theme.css` found that the global dark theme covered the oute
 ## Shared header component-to-style audit
 
 Compared `src/components/layout/Header.jsx` with the shared header styles. The logged-in account controls (user link, avatar pill and sign-out action) and several search suggestion affordances (category rows, recent searches, empty-result text and arrow affordances) were rendered in JSX without dedicated matching styles. Added these styles to the existing buyer header refinement stylesheet, with compact mobile account treatment and token-based surfaces, borders and semantic colors. Existing search, navigation, account and local-storage logic was not changed. Header dropdown and mobile menu interactions still need browser and keyboard verification.
+
+## Shared navigation and search refinement
+
+Continued the header/search audit with the actual `Header.jsx` markup. The search-scope select had no component-specific layout treatment, making its size and separation from the search input dependent on generic browser select styling. Added explicit desktop/mobile sizing, separator treatment, search icon/input sizing, suggestion-panel scrolling and focus-visible outlines for keyboard users. Added RTL-aware scope separator, submit-button corners and suggestion-arrow direction, plus reduced-motion handling. No search routing, query matching, authentication, navigation or search-history logic was changed.
+
+The CSS remains in the late buyer refinement layer to preserve current import order. Verify search dropdown placement, focus traversal, dark mode, RTL and small-screen layout in a browser before considering this surface complete.
