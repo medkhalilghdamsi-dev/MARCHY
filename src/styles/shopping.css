@@ -591,3 +591,54 @@
   .cart-page .cart-summary-note { font-size: 11px; }
 }
 
+
+
+/* Cart surfaces inherit the active design theme instead of retaining light-only colors. */
+html[data-theme="dark"] .cart-page-heading h1,
+html[data-theme="dark"] .cart-panel-heading>b,
+html[data-theme="dark"] .cart-item-info .cart-item-name,
+html[data-theme="dark"] .cart-item-info .cart-item-unit-price,
+html[data-theme="dark"] .cart-line-total,
+html[data-theme="dark"] .cart-summary-title h2,
+html[data-theme="dark"] .cart-summary-row>b,
+html[data-theme="dark"] .cart-summary .summary-total>span,
+html[data-theme="dark"] .cart-summary .summary-total strong,
+html[data-theme="dark"] .cart-empty-state h2{color:var(--ink)}
+html[data-theme="dark"] .cart-page-heading p,
+html[data-theme="dark"] .cart-item-info>small,
+html[data-theme="dark"] .cart-item-unit-price span,
+html[data-theme="dark"] .cart-item-quantity>span,
+html[data-theme="dark"] .cart-summary-row,
+html[data-theme="dark"] .cart-summary-note,
+html[data-theme="dark"] .cart-trust-note p,
+html[data-theme="dark"] .cart-panel-footer>span,
+html[data-theme="dark"] .cart-empty-state>p{color:var(--muted)}
+html[data-theme="dark"] .cart-items-panel,
+html[data-theme="dark"] .cart-summary,
+html[data-theme="dark"] .cart-empty-state,
+html[data-theme="dark"] .cart-saved-item{background:var(--surface);border-color:var(--line)}
+html[data-theme="dark"] .cart-items-panel .cart-item-photo,
+html[data-theme="dark"] .cart-item-quantity .quantity,
+html[data-theme="dark"] .cart-saved-item .cart-item-photo{background:var(--surface-soft);border-color:var(--line)}
+html[data-theme="dark"] .cart-panel-heading,
+html[data-theme="dark"] .cart-items-panel .cart-item,
+html[data-theme="dark"] .cart-seller-group-footer,
+html[data-theme="dark"] .cart-panel-footer,
+html[data-theme="dark"] .cart-trust-note{border-color:var(--line)}
+html[data-theme="dark"] .cart-seller-group,
+html[data-theme="dark"] .cart-saved-later-section{border-color:var(--line)}
+html[data-theme="dark"] .cart-seller-group-heading,
+html[data-theme="dark"] .cart-free-delivery-meter,
+html[data-theme="dark"] .cart-coupon-chips,
+html[data-theme="dark"] .cart-coupon-form{background:var(--surface-soft);border-color:var(--line)}
+html[data-theme="dark"] .cart-seller-group-heading b,
+html[data-theme="dark"] .cart-seller-group-footer b{color:var(--ink)}
+html[data-theme="dark"] .cart-seller-group-heading small,
+html[data-theme="dark"] .cart-seller-group-footer span{color:var(--muted)}
+html[data-theme="dark"] .cart-summary-count,
+html[data-theme="dark"] .cart-empty-icon{background:var(--surface-soft);color:var(--forest)}
+html[data-theme="dark"] .cart-coupon-form input{background:var(--surface);border-color:var(--line);color:var(--ink)}
+html[data-theme="dark"] .cart-continue-link,
+html[data-theme="dark"] .cart-panel-footer>a,
+html[data-theme="dark"] .cart-saved-item-actions .remove-link{color:var(--forest)}
+html[data-theme="dark"] .cart-stock-status{background:var(--surface-soft);color:var(--muted)}
