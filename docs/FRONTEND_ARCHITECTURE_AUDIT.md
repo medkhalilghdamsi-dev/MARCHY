@@ -170,3 +170,9 @@ The broad refinement files still contain product-page rules that affect sample s
 Compared `src/pages/buyer/CheckoutPage.jsx` with `src/styles/checkout.css` and found several current JSX controls with no dedicated component styling: saved-address quick-fill, the save-address checkbox row, the demo-review notice, and selected product variant text. Added explicit styles for those elements, including keyboard-visible focus inheritance, selected/hover states, responsive wrapping and reduced-motion handling. Also corrected an over-qualified selector (`.checkout-page .checkout-page .cart-trust-note p`) so the intended trust-note typography applies.
 
 The checkout page component and its order/demo behaviour were not modified. These changes are source-level only and still require browser verification at desktop/mobile widths, in dark mode and RTL.
+
+## Cart component-to-style audit
+
+Compared `src/pages/buyer/CartPage.jsx` with the cart feature styles and later refinement layers. The stock-status element was rendered with three meaningful state classes (`is-good`, `is-low`, `is-out`) but had no matching visual treatment in the cart styles. Added compact semantic status labels for available, low-stock and unavailable inventory in `src/styles/multi-seller-basket.css`, including responsive sizing and theme-aware semantic tokens. No cart state, stock calculation, quantity logic, coupon logic or saved-item behaviour was changed.
+
+The main cart layout, seller grouping, saved-for-later, coupon controls and responsive grid already have styling across the existing buyer stylesheets. They remain distributed across legacy layers; moving them wholesale would risk changing cascade behaviour. Browser verification is still required for dark mode, RTL, narrow screens and real inventory edge cases.
