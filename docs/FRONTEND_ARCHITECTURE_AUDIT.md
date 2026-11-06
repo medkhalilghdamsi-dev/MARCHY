@@ -98,6 +98,6 @@ No component or route has been deleted in this pass.
 
 ## Verification status after the first cleanup batch
 
-- The latest `khalil` head is `7ef6ba7702f63f5d0b2c464e7c46a67a88bb840f` at the time of this audit update.
-- GitHub reports the branch as diverged from `main`: 232 commits ahead and 1 behind. This cleanup did not merge, rebase or modify `main`.
+- The last application-code cleanup commit checked was `7ef6ba7702f63f5d0b2c464e7c46a67a88bb840f`; later commits in this batch only updated audit documentation.
+- At the verification checkpoint, GitHub reported `khalil` diverged from `main`: 232 commits ahead and 1 behind. The branch has since received additional audit-documentation commits. This cleanup did not merge, rebase or modify `main`.
 - The Vercel status check on the latest cleanup commit reports `failure` with a target URL indicating `build-rate-limit`. This is a deployment/build quota status, not evidence of a source compilation error. The production build and Playwright suite remain unverified and must be run in an environment with available build capacity.
