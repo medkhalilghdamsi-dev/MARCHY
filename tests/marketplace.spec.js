@@ -885,14 +885,23 @@ test('shared header only rises above page content while an overlay is open', asy
   await expect(header).toHaveCSS('z-index', 'auto')
 })
 
-test('global search exposes its suggestions panel state accessibly', async ({ page }) => {
+test('global search suggestions stay anchored below the field on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
   const search = page.getByRole('search').getByLabel('Search products and stores')
   await expect(search).toHaveAttribute('aria-expanded', 'false')
   await search.fill('headphones')
   await expect(search).toHaveAttribute('aria-expanded', 'true')
-  await expect(page.getByRole('dialog', { name: 'Search suggestions' })).toBeVisible()
-  await expect(page.getByRole('dialog', { name: 'Search suggestions' })).toContainText('Wireless noise-cancelling headphones')
+  const panel = page.getByRole('dialog', { name: 'Search suggestions' })
+  await expect(panel).toBeVisible()
+  await expect(panel).toContainText('Wireless noise-cancelling headphones')
+  const geometry = await page.locator('.header .searchbar').evaluate(form => {
+    const field = form.getBoundingClientRect()
+    const suggestions = form.querySelector('.global-search-suggestions').getBoundingClientRect()
+    return { fieldBottom: field.bottom, suggestionsTop: suggestions.top, position: getComputedStyle(form.querySelector('.global-search-suggestions')).position }
+  })
+  expect(geometry.position).toBe('absolute')
+  expect(geometry.suggestionsTop).toBeGreaterThanOrEqual(geometry.fieldBottom)
 })
 
 test('product Q&A makes local preview behavior clear', async ({ page }) => {
