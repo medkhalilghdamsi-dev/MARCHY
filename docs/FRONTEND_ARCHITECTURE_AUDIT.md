@@ -366,3 +366,12 @@ Completed a final product-page commerce hierarchy pass.
 - Reworked the dock and comparison matrix hierarchy for compact desktop layouts and mobile bottom-sheet presentation.
 - Added dark-theme, RTL, safe-area, visible-focus, and reduced-motion handling.
 - Kept comparison selection, pricing, cart actions, and marketplace data behavior unchanged.
+
+
+## Buyer checkout journey refinement — 2026-11-06
+
+- Added focus transfer to the active step heading when moving between delivery details and order review, so keyboard and assistive-technology users retain context after the step transition.
+- Saved-address choices now expose their full address to assistive technology and no longer display a misleading hard-coded ellipsis for short addresses.
+- Refined saved-address selection cards, active/keyboard states, mobile grid behavior, review controls and seller-level summary readability.
+- Added RTL and dark-theme alignment for the updated address selection surface.
+- Preserved existing local-demo checkout, inventory validation, coupon calculation, order creation and storage behavior.
