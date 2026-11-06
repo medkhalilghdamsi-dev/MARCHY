@@ -4774,3 +4774,84 @@ html[data-theme="dark"] .buyer-orders-page .buyer-order-card-details { backgroun
   .buyer-orders-page .buyer-order-card-details > div:last-child { grid-column:auto; }
   .buyer-orders-page .buyer-order-card-top { flex-direction:column; }
 }
+
+
+/* Buyer account — consistent workspace hierarchy */
+.account-page .account-welcome {
+  align-items:center; gap:24px; padding:22px 24px; margin:8px 0 20px;
+  border:1px solid var(--line); border-radius:13px; background:var(--surface);
+}
+.account-page .account-welcome h1 { letter-spacing:-.04em; }
+.account-page .account-welcome p { max-width:650px; line-height:1.6; }
+.account-page .account-guest-status {
+  min-width:230px; padding:12px 14px; border:1px solid var(--line);
+  border-radius:10px; background:var(--surface-soft);
+}
+.account-page .account-guest-status .demo-label {
+  display:inline-flex; width:fit-content; margin-top:5px; padding:4px 6px;
+  border-radius:4px; background:var(--surface); color:var(--muted);
+  font-size:8px; font-weight:800; letter-spacing:.06em;
+}
+.account-page .account-overview-card {
+  min-width:0; border:1px solid var(--line); border-radius:10px;
+  background:var(--surface); box-shadow:none; transition:border-color .16s,transform .16s;
+}
+.account-page .account-overview-card:hover {
+  border-color:var(--forest); transform:translateY(-2px); box-shadow:none;
+}
+.account-page .account-profile-card,
+.account-page .account-panel,
+.account-page .account-recently-viewed {
+  border:1px solid var(--line); border-radius:12px; background:var(--surface); box-shadow:none;
+}
+.account-page .account-panel-heading { gap:14px; }
+.account-page .account-panel-heading p { line-height:1.5; }
+.account-page .saved-addresses-list { display:grid; gap:10px; }
+.account-page .address-card {
+  padding:14px; border:1px solid var(--line); border-radius:9px; background:var(--surface);
+}
+.account-page .address-card.is-default {
+  border-color:var(--forest); box-shadow:inset 3px 0 0 var(--forest);
+}
+.account-page .address-card p { overflow-wrap:anywhere; line-height:1.5; }
+.account-address-empty {
+  display:grid; justify-items:start; gap:7px; padding:22px 15px;
+  border:1px dashed var(--line); border-radius:9px; color:var(--muted);
+}
+.account-address-empty > svg { color:var(--forest); }
+.account-address-empty b { color:var(--ink); font-size:12px; }
+.account-address-empty p { margin:0; font-size:10px; line-height:1.5; }
+.account-page .account-demo-orders { display:grid; }
+.account-page .account-demo-order {
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:7px 12px;
+  padding:12px 0; border-bottom:1px solid var(--line-soft);
+}
+.account-page .account-demo-order > strong { grid-column:2; grid-row:2; align-self:center; }
+.account-demo-disclaimer {
+  margin:22px auto 0; max-width:760px; color:var(--muted-light);
+  font-size:10px; line-height:1.6; text-align:center;
+}
+.account-page .account-session-footer { padding-top:18px; border-top:1px solid var(--line-soft); }
+html[data-theme="dark"] .account-page .account-welcome,
+html[data-theme="dark"] .account-page .account-profile-card,
+html[data-theme="dark"] .account-page .account-panel,
+html[data-theme="dark"] .account-page .account-recently-viewed,
+html[data-theme="dark"] .account-page .account-overview-card,
+html[data-theme="dark"] .account-page .address-card { background:var(--surface); }
+@media (max-width:760px) {
+  .account-page .account-welcome { align-items:stretch; flex-direction:column; padding:17px; }
+  .account-page .account-guest-status { min-width:0; }
+  .account-page .account-overview-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .account-page .account-content-grid { grid-template-columns:1fr; }
+  .account-page .account-panel-heading { align-items:flex-start; flex-wrap:wrap; }
+  .account-page .account-panel-heading > div:last-child { max-width:100%; }
+}
+@media (max-width:420px) {
+  .account-page .account-overview-grid { gap:8px; }
+  .account-page .account-overview-card { padding:11px; }
+  .account-page .account-overview-card b { font-size:20px; }
+  .account-page .account-overview-card em { font-size:9px; }
+  .account-page .account-profile-card,
+  .account-page .account-panel,
+  .account-page .account-recently-viewed { padding:14px; }
+}
