@@ -263,7 +263,7 @@ test('customer account shows and clears recently viewed products', async ({ page
 test('seller central can create and delete a local catalogue draft without publishing it', async ({ page }) => {
   await page.goto('/seller-central')
   await page.getByRole('button', { name: /Product catalogue/ }).click()
-  await page.getByRole('button', { name: 'Add product' }).click()
+  await page.getByRole('button', { name: 'Add product', exact: true }).click()
   await page.getByLabel('Product title *').fill('Handmade test vase')
   await page.getByLabel('Seller SKU *').fill('TEST-VASE-001')
   await page.getByLabel('Category').selectOption('Home')
