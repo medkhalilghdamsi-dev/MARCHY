@@ -33,6 +33,11 @@ export function createPlatformMock() {
     },
     seller: {
       getProfile: async () => unavailable('Seller profile'),
+      listListings: async () => unavailable('Seller listings'),
+      createListing: async () => unavailable('Seller listing creation'),
+      updateListing: async () => unavailable('Seller listing updates'),
+      submitListing: async () => unavailable('Seller listing submission'),
+      adjustInventory: async () => unavailable('Seller inventory adjustment'),
       getOnboardingDraft: async () => unavailable('Seller onboarding'),
       saveOnboardingDraft: async () => unavailable('Seller onboarding'),
       submitApplication: async () => unavailable('Seller application submission'),

@@ -197,3 +197,58 @@ Application submission is not seller approval. Approval does not itself create a
 
 The final checklist, business-type eligibility, registration/tax fields, retention period and seller agreement must be confirmed by Tunisian counsel and an accountant. The frontend must not imply that a specific document is universally mandatory until MARCHY's policy has been approved.
 
+## 11. Seller catalogue, offers and inventory contract
+
+Seller catalogue data must be scoped to the authenticated seller organization. A product record describes the shared product identity; a seller listing/offer describes that seller's commercial offer. Do not let one seller overwrite another seller's price, SKU, condition or stock.
+
+### Proposed endpoints
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | /api/v1/seller/listings | Paginated seller-owned listing records |
+| POST | /api/v1/seller/listings | Create a seller listing draft |
+| PATCH | /api/v1/seller/listings/{id} | Update an editable seller listing |
+| POST | /api/v1/seller/listings/{id}/submit | Submit listing for moderation |
+| GET | /api/v1/seller/listings/{id}/moderation | Read moderation outcome and requested changes |
+| POST | /api/v1/seller/inventory/adjustments | Record an auditable stock adjustment |
+
+### Listing payload
+
+A listing draft should include:
+- product identity or a request to create a new catalogue product;
+- seller SKU, unique within the seller organization;
+- category ID and required category attributes;
+- title, factual description and media references;
+- variant definitions with stable variant IDs/SKUs where applicable;
+- offer price in integer minor units, currency and optional compare-at price;
+- fulfilment eligibility and handling time;
+- seller's declared condition and warranty details where relevant.
+
+The backend validates category-specific attributes, prohibited/restricted goods, media ownership, SKU uniqueness, price bounds, variant structure and seller eligibility. Product media must use an approved upload flow; arbitrary public image URLs are not a substitute for controlled media ownership.
+
+### Listing lifecycle
+
+\`draft → submitted → under_review → approved → active\`
+
+Additional states:
+- \`needs_changes\` (seller edits and resubmits)
+- \`rejected\` (terminal for that submission; a revised listing may be created)
+- \`paused\` (seller or authorized operations action)
+- \`archived\` (seller action subject to open-order and legal-retention checks)
+
+Only moderation services/authorized reviewers can approve or reject. Seller requests can submit, edit eligible drafts, pause or archive where policy permits. The client must never set \`approved\` or \`active\` directly.
+
+### Inventory invariants
+
+- Inventory is tracked by seller organization, offer, variant and fulfilment location.
+- Available-to-sell is derived from on-hand minus reserved, damaged, safety-stock and other unavailable quantities.
+- Order reservation/release/consumption is server-side and atomic.
+- Manual adjustments require a reason code, actor, timestamp and idempotency key.
+- A stock adjustment must not overwrite another seller's offer or variant stock.
+- Low-stock thresholds are configurable per SKU/variant.
+- Every adjustment creates an immutable inventory movement record; corrections use compensating movements.
+
+### Demo boundary
+
+The current Seller Central catalogue manager stores isolated preparation records in browser localStorage. Its “Submit for review” action changes a local demo state only. It does not create a backend listing, publish a customer offer, reserve stock, or approve/activate a product.
+

@@ -26,6 +26,20 @@ export function createPlatformApi({ client = createApiClient() } = {}) {
     },
     seller: {
       getProfile: () => client.get('/api/v1/seller/profile'),
+      listListings: params => client.get('/api/v1/seller/listings', { query: params }),
+      createListing: (payload, idempotencyKey) => {
+        assertIdempotencyKey(idempotencyKey)
+        return client.post('/api/v1/seller/listings', payload, { idempotencyKey })
+      },
+      updateListing: (id, payload) => client.patch(`/api/v1/seller/listings/${encodeURIComponent(id)}`, payload),
+      submitListing: (id, idempotencyKey) => {
+        assertIdempotencyKey(idempotencyKey)
+        return client.post(`/api/v1/seller/listings/${encodeURIComponent(id)}/submit`, {}, { idempotencyKey })
+      },
+      adjustInventory: (payload, idempotencyKey) => {
+        assertIdempotencyKey(idempotencyKey)
+        return client.post('/api/v1/seller/inventory/adjustments', payload, { idempotencyKey })
+      },
       getOnboardingDraft: () => client.get('/api/v1/seller/onboarding/draft'),
       saveOnboardingDraft: payload => client.put('/api/v1/seller/onboarding/draft', payload),
       submitApplication: (payload, idempotencyKey) => {
