@@ -324,8 +324,8 @@ export function Home() {
         <div className="landing-section-header">
           <div>
             <span className="eyebrow">AUTHENTIC LOCAL MAKERS</span>
-            <h2>Top Rated Storefronts</h2>
-            <p className="muted">Explore independently run Tunisian shops, ateliers and artisan workshops.</p>
+            <h2>Storefronts to explore</h2>
+            <p className="muted">Discover sample Tunisian shops, ateliers and artisan workshops.</p>
           </div>
           <Link to="/sellers" className="text-link">Explore all storefronts <ArrowRight size={15} /></Link>
         </div>
@@ -341,7 +341,7 @@ export function Home() {
               </div>
               <p className="upwork-seller-tagline">{seller.tagline}</p>
               <div className="upwork-seller-footer">
-                <span className="upwork-seller-rating"><Star size={13} fill="currentColor" /> 4.9 Top Rated</span>
+                <span className="upwork-seller-rating"><Store size={13} /> Sample storefront</span>
                 <Link to={`/seller/${seller.slug}`} className="upwork-seller-link">Visit shop <ArrowRight size={13} /></Link>
               </div>
             </article>
@@ -406,7 +406,7 @@ export function Home() {
           <div>
             <span className="eyebrow">FOR DISCERNING SHOPPERS</span>
             <h3>Find authentic craft<br />and everyday goods.</h3>
-            <p>Explore thousands of items from verified local Tunisian makers with 100% Cash on Delivery inspection.</p>
+            <p>Explore sample product listings and discover the kinds of local shops MARCHY is designed to bring together.</p>
           </div>
           <Link to="/search">Browse Marketplace <ArrowRight size={14} /></Link>
         </div>
@@ -414,7 +414,7 @@ export function Home() {
           <div>
             <span className="eyebrow" style={{ color: '#86efac' }}>FOR ARTISANS & MERCHANTS</span>
             <h3>Are you a maker<br />or store owner?</h3>
-            <p>Bring your products to customers across all 24 Tunisian governorates with zero upfront subscription fees.</p>
+            <p>Preview the seller journey, prepare a storefront and explore the tools planned for local merchants.</p>
           </div>
           <Link to="/sell">Open a Storefront <ArrowRight size={14} /></Link>
         </div>
