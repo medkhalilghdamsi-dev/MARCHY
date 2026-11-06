@@ -1,6 +1,0 @@
-export { Home } from './buyer/HomePage'
-export { SearchPage } from './buyer/SearchPage'
-export { ProductPage } from './buyer/ProductPage'
-export { CartPage } from './buyer/CartPage'
-export { CheckoutPage } from './buyer/CheckoutPage'
-export { WishlistPage } from './buyer/WishlistPage'
