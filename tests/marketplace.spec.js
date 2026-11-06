@@ -260,6 +260,16 @@ test('customer account shows and clears recently viewed products', async ({ page
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('marchy-recently-viewed')))).toEqual([])
 })
 
+test('seller preparation actions stay inside profile-related sections', async ({ page }) => {
+  await page.goto('/seller-central')
+  await expect(page.getByRole('button', { name: 'Save preparation draft' })).toBeVisible()
+  await page.getByRole('button', { name: /Product catalogue/ }).click()
+  await expect(page.getByRole('button', { name: 'Save preparation draft' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Clear draft' })).toHaveCount(0)
+  await page.getByRole('button', { name: /Operations preferences/ }).click()
+  await expect(page.getByRole('button', { name: 'Save preparation draft' })).toBeVisible()
+})
+
 test('seller central can create and delete a local catalogue draft without publishing it', async ({ page }) => {
   await page.goto('/seller-central')
   await page.getByRole('button', { name: /Product catalogue/ }).click()

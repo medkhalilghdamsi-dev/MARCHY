@@ -1,9 +1,10 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, BadgeCheck, BarChart3, Building2, ClipboardCheck, FileText, LifeBuoy, RotateCcw, ShieldCheck, Store, Truck, Wallet } from 'lucide-react'
+import { ArrowRight, Building2, ClipboardCheck, FileText, ShieldCheck, Store, Truck } from 'lucide-react'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { SellerProfileWorkspace } from '../../components/seller/SellerProfileWorkspace'
-import { readSellerValue, writeSellerValue, removeSellerValue, SELLER_STORAGE_KEYS } from '../../services/seller/sellerStorage'
+import { SellerCentralNavigation } from '../../components/seller/SellerCentralNavigation'
+import { useSellerOnboardingDraft } from '../../hooks/useSellerOnboardingDraft'
 import { translateTree } from '../../i18n/translate'
 
 
@@ -23,24 +24,6 @@ const SellerFinanceWorkspace = lazy(() => import('../../components/seller/Seller
 const SellerAnalyticsWorkspace = lazy(() => import('../../components/seller/SellerAnalyticsWorkspace').then(m => ({ default: m.SellerAnalyticsWorkspace })))
 const SellerSupportWorkspace = lazy(() => import('../../components/seller/SellerSupportWorkspace').then(m => ({ default: m.SellerSupportWorkspace })))
 
-const STORAGE_KEY = SELLER_STORAGE_KEYS.profile
-const governorates = [
-  'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba',
-  'Kairouan', 'Kasserine', 'Kébili', 'Kef', 'Mahdia', 'Manouba', 'Médenine',
-  'Monastir', 'Nabeul', 'Sfax', 'Sidi Bouzid', 'Siliana', 'Sousse', 'Tataouine',
-  'Tozeur', 'Tunis', 'Zaghouan'
-]
-const categories = ['Electronics', 'Fashion', 'Home & Living', 'Beauty & Personal Care', 'Sports', 'Food & Grocery', 'Handmade', 'Other']
-const initial = {
-  storeName: '', legalName: '', businessType: 'Individual business', governorate: 'Tunis',
-  city: '', phone: '', email: '', category: 'Electronics', description: '',
-  registrationReference: '', website: '', fulfilment: 'Seller handles delivery',
-  acceptsCod: true, acceptsOnlinePayment: false
-}
-const readDraft = () => {
-  const value = readSellerValue(STORAGE_KEY, null)
-  return value && typeof value === 'object' && !Array.isArray(value) ? { ...initial, ...value } : initial
-}
 
 const steps = [
   { title: 'Business profile', detail: 'Store identity, legal name and location', icon: Building2 },
@@ -51,53 +34,12 @@ const steps = [
 
 export function SellerCentralPage() {
   const { language } = useMarketplace()
-  const [form, setForm] = useState(readDraft)
-  const [savedAt, setSavedAt] = useState('')
-  const [notice, setNotice] = useState('')
-  const [activeSection, setActiveSection] = useState('profile')
-  const [isSaving, setIsSaving] = useState(false)
+  const { form, savedAt, notice, isSaving, completion, readyForReview, update, saveDraft, clearDraft } = useSellerOnboardingDraft()
 
   useEffect(() => {
     document.title = 'Seller Central | MARCHY'
   }, [])
 
-  const completion = useMemo(() => {
-    const checks = [
-      Boolean(form.storeName.trim()), Boolean(form.legalName.trim()),
-      Boolean(form.city.trim()), Boolean(form.phone.trim()),
-      Boolean(form.email.trim()), Boolean(form.description.trim()),
-      Boolean(form.category), Boolean(form.fulfilment)
-    ]
-    return Math.round(checks.filter(Boolean).length / checks.length * 100)
-  }, [form])
-
-  const update = (key, value) => setForm(current => ({ ...current, [key]: value }))
-
-  const saveDraft = () => {
-    setIsSaving(true)
-    try {
-      if (!writeSellerValue(STORAGE_KEY, { ...form, savedAt: new Date().toISOString() })) throw new Error('Storage unavailable')
-      setSavedAt(new Date().toLocaleString())
-      setNotice('Your preparation draft is saved on this device. It has not been submitted to MARCHY.')
-    } catch {
-      setNotice('This browser could not save the draft. Check available storage and try again.')
-    } finally {
-      setIsSaving(false)
-    }
-  }
-
-  const clearDraft = () => {
-    if (!window.confirm('Clear the seller preparation draft saved on this device?')) return
-    if (!removeSellerValue(STORAGE_KEY)) return setNotice('This browser could not clear the seller draft.')
-    setForm(initial)
-    setSavedAt('')
-    setNotice('Local preparation draft cleared.')
-  }
-
-  const readyForReview = Boolean(
-    form.storeName.trim() && form.legalName.trim() && form.city.trim() &&
-    form.phone.trim() && form.email.trim() && form.description.trim()
-  )
 
   return translateTree(
     <main id="main-content" className="shell page seller-central-page">
@@ -126,22 +68,7 @@ export function SellerCentralPage() {
       </section>
 
       <div className="sc-layout">
-        <aside className="sc-sidebar">
-          <div className="sc-sidebar-heading"><span className="eyebrow">SELLER CENTRAL</span><b>Business workspace</b></div>
-          <button type="button" className={activeSection === 'profile' ? 'active' : ''} onClick={() => setActiveSection('profile')}><Building2 size={17}/> Business profile <span>01</span></button>
-          <button type="button" className={activeSection === 'catalog' ? 'active' : ''} onClick={() => setActiveSection('catalog')}><Store size={17}/> Product catalogue <span>02</span></button>
-          <button type="button" className={activeSection === 'inventory' ? 'active' : ''} onClick={() => setActiveSection('inventory')}><Truck size={17}/> Inventory <span>03</span></button>
-          <button type="button" className={activeSection === 'offers' ? 'active' : ''} onClick={() => setActiveSection('offers')}><BadgeCheck size={17}/> Offers & pricing <span>04</span></button>
-          <button type="button" className={activeSection === 'orders' ? 'active' : ''} onClick={() => setActiveSection('orders')}><ClipboardCheck size={17}/> Orders & fulfilment <span>05</span></button>
-          <button type="button" className={activeSection === 'returns' ? 'active' : ''} onClick={() => setActiveSection('returns')}><RotateCcw size={17}/> Returns & refunds <span>06</span></button>
-          <button type="button" className={activeSection === 'finance' ? 'active' : ''} onClick={() => setActiveSection('finance')}><Wallet size={17}/> Finance & settlements <span>07</span></button>
-          <button type="button" className={activeSection === 'analytics' ? 'active' : ''} onClick={() => setActiveSection('analytics')}><BarChart3 size={17}/> Analytics <span>08</span></button>
-          <button type="button" className={activeSection === 'support' ? 'active' : ''} onClick={() => setActiveSection('support')}><LifeBuoy size={17}/> Support & disputes <span>09</span></button>
-          <button type="button" className={activeSection === 'operations' ? 'active' : ''} onClick={() => setActiveSection('operations')}><Truck size={17}/> Operations preferences <span>10</span></button>
-          <button type="button" className={activeSection === 'verification' ? 'active' : ''} onClick={() => setActiveSection('verification')}><ShieldCheck size={17}/> Verification readiness <span>11</span></button>
-          <div className="sc-sidebar-note"><ShieldCheck size={17}/><span><b>Trust comes first</b>Seller access and payouts require approved verification and backend controls.</span></div>
-          <Link to="/seller-help" className="sc-help-link">Seller preparation guide <ArrowRight size={15}/></Link>
-        </aside>
+        <SellerCentralNavigation activeSection={activeSection} onSectionChange={setActiveSection} />
 
         <section className="sc-main">
           <div className="sc-main-heading">
@@ -161,12 +88,16 @@ export function SellerCentralPage() {
           </Suspense>
           <SellerProfileWorkspace section={activeSection} form={form} update={update} governorates={governorates} categories={categories} steps={steps} />
 
-          <div className="sc-form-footer">
-            <div><b>{readyForReview ? 'Core business details prepared' : 'Complete the required business details'}</b><small>Draft is stored only in this browser. Saving does not submit an application.</small></div>
-            <div className="sc-actions"><button type="button" className="sc-clear" onClick={clearDraft}>Clear draft</button><button type="button" className="sc-save" onClick={saveDraft} disabled={isSaving}>{isSaving ? 'Saving…' : 'Save preparation draft'} <ArrowRight size={16}/></button></div>
-          </div>
-          {notice && <p className="sc-notice" role="status">{notice}</p>}
-          {savedAt && <p className="sc-saved-at">Last saved in this browser: {savedAt}</p>}
+          {['profile', 'operations', 'verification'].includes(activeSection) && (
+            <>
+              <div className="sc-form-footer">
+                <div><b>{readyForReview ? 'Core business details prepared' : 'Complete the required business details'}</b><small>Draft is stored only in this browser. Saving does not submit an application.</small></div>
+                <div className="sc-actions"><button type="button" className="sc-clear" onClick={clearDraft}>Clear draft</button><button type="button" className="sc-save" onClick={saveDraft} disabled={isSaving}>{isSaving ? 'Saving…' : 'Save preparation draft'} <ArrowRight size={16}/></button></div>
+              </div>
+              {notice && <p className="sc-notice" role="status">{notice}</p>}
+              {savedAt && <p className="sc-saved-at">Last saved in this browser: {savedAt}</p>}
+            </>
+          )}
         </section>
       </div>
 

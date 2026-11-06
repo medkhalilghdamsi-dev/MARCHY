@@ -37,8 +37,15 @@ MARCHY/
 │   │   │   ├── ProductReviews.jsx         # Star breakdown, verified reviews & review submission
 │   │   │   └── ProductSpecs.jsx           # Technical attributes & fulfilment specification table
 │   │   ├── seller/                        # Seller workspace feature modules
-│   │   │   ├── SellerAnalytics.jsx        # SVG revenue charts, KPI cards & regional distribution
-│   │   │   └── SellerSettings.jsx         # Store profile, shipping fees, notifications & RIB payout
+│   │   │   ├── SellerCentralNavigation.jsx # Seller Central section navigation
+│   │   │   ├── SellerProfileWorkspace.jsx  # Business profile, operations & verification forms
+│   │   │   ├── SellerCatalogManager.jsx    # Seller product listings and local draft lifecycle
+│   │   │   ├── SellerInventoryWorkspace.jsx # SKU stock, movements & low-stock thresholds
+│   │   │   ├── SellerOrdersWorkspace.jsx   # Seller order preparation workflow
+│   │   │   ├── SellerReturnsWorkspace.jsx  # Return requests and inspection workflow
+│   │   │   ├── SellerFinanceWorkspace.jsx  # Demo ledger and settlement visibility
+│   │   │   ├── SellerAnalyticsWorkspace.jsx # Seller business intelligence preview
+│   │   │   └── SellerSupportWorkspace.jsx  # Support cases and dispute preparation
 │   │   └── ui/                            # Reusable accessible UI primitives
 │   │       └── index.jsx                  # Badge, EmptyState, Breadcrumbs, Modal, ConfirmDialog, Tabs, Skeleton
 │   ├── pages/
@@ -129,19 +136,19 @@ The seller journey is a distinct application surface within the same React appli
 6. Keep the old seller dashboard implementation out of active navigation. Its route redirects to Seller Central to avoid maintaining two competing seller workspaces.
 7. Keep business logic and API contracts out of page layout components. Future migrations should move local-storage adapters behind feature services before connecting the backend.
 
-### Current organization debt to address before platform administration
+### Remaining organization work before platform administration
 
-- Retire or migrate the legacy `SellerDashboardPage` implementation after confirming no active route or imports depend on it.
-- Consolidate duplicated seller UI modules and legacy component aliases after checking every import and behavior.
-- Extract seller onboarding form state and browser storage into a seller onboarding service/hook.
-- Replace ad hoc local-storage access across seller modules with feature-scoped persistence adapters.
-- Establish shared form, table, empty-state, status, modal and confirmation primitives without merging buyer and seller navigation.
-- Add route-level tests proving buyer chrome never appears on seller portal paths and public seller storefronts continue to use buyer chrome.
-- Add a production build and Playwright smoke test to the branch before the next major module.
+- Audit and retire legacy seller dashboard modules only after confirming no active imports, redirects, tests or shared behavior still depend on them.
+- Continue migrating seller feature state from component-local browser storage to explicit feature services; preserve the current local-demo boundary until backend contracts are implemented.
+- Consolidate repeated seller tables, filters, status labels, confirmation patterns and form fields into accessible shared primitives where real duplication exists.
+- Add route-level coverage for seller-only chrome, buyer storefront chrome, direct navigation, refresh and browser history.
+- Keep production build and Playwright regression checks green after each structural refactor.
 
 ### Seller browser-storage boundary
 
 - Seller-side browser persistence is accessed through `src/services/seller/sellerStorage.js`; UI modules must not call `localStorage` directly.
 - The service centralizes stable storage keys, safe JSON reads, list/profile normalization, write/remove failure handling, and same-tab plus cross-tab change notifications.
 - `src/hooks/useSellerProfile.js` provides a shared reactive view of the saved seller preparation profile.
+- `src/hooks/useSellerOnboardingDraft.js` owns onboarding form state, completion calculation, save/clear behavior and synchronization; the page component stays focused on layout and section composition.
+- `SellerCentralNavigation` and `SellerProfileWorkspace` are separate components. Profile draft actions are rendered only for business profile, operations preferences and verification readiness—not across catalogue, orders, finance or support.
 - This is a frontend prototype persistence boundary only. It is not authentication, tenant isolation, authoritative inventory, financial ledger storage, or a substitute for the backend API.
