@@ -1414,3 +1414,165 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
 .header .searchbar button:hover {
   background: #123528;
 }
+
+
+/* Header account controls and search-result affordances used by Header.jsx. */
+.header-user-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.header-actions .header-user-link {
+  min-width: 0;
+  padding: 3px 7px;
+}
+
+.header-actions .user-avatar-pill {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--marchy-accent-border);
+  border-radius: 50%;
+  background: var(--marchy-accent-soft);
+  color: var(--forest-dark);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.header-actions .header-user-link > span:last-child {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.header-actions .header-user-link b {
+  max-width: 112px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-actions .header-signout-btn {
+  min-height: 30px;
+  padding: 0 9px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  transition: border-color .16s, color .16s, background .16s;
+}
+
+.header-actions .header-signout-btn:hover {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.header .global-search-suggestions .suggestion-arrow {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--muted);
+  transition: background .16s, color .16s, transform .16s;
+}
+
+.header .global-search-suggestions a:hover .suggestion-arrow {
+  color: var(--forest-dark);
+  background: var(--marchy-accent-soft);
+  transform: translate(2px, -1px);
+}
+
+.header .global-search-suggestions .suggestion-empty {
+  margin: 0;
+  padding: 12px 14px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.header .global-search-suggestions .category-suggestion {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 13px;
+  border-top: 1px solid var(--line-soft);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.header .global-search-suggestions .category-suggestion > span:first-child {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--surface-soft);
+  color: var(--forest);
+}
+
+.header .global-search-suggestions .category-suggestion .suggestion-arrow {
+  margin-left: auto;
+}
+
+.header .global-search-suggestions .recent-searches {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.header .global-search-suggestions .recent-searches > a {
+  min-height: 37px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 13px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.header .global-search-suggestions .recent-searches > a:hover {
+  color: var(--ink);
+  background: var(--surface-hover);
+}
+
+.header .global-search-suggestions .recent-searches > a .suggestion-arrow {
+  margin-left: auto;
+}
+
+.header .global-search-suggestions .recent-searches .search-suggestion-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.header .global-search-suggestions .recent-searches .search-suggestion-heading button {
+  border: 0;
+  background: transparent;
+  color: var(--forest);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.header .global-search-suggestions .recent-searches .search-suggestion-heading button:hover {
+  color: var(--forest-dark);
+  text-decoration: underline;
+}
+
+@media (max-width: 760px) {
+  .header-actions .header-user-status { gap: 0; }
+  .header-actions .header-user-link { width: 34px; min-width: 34px; padding: 0; }
+  .header-actions .user-avatar-pill { width: 30px; height: 30px; flex-basis: 30px; }
+}
