@@ -190,3 +190,9 @@ Compared `src/components/layout/Header.jsx` with the shared header styles. The l
 Continued the header/search audit with the actual `Header.jsx` markup. The search-scope select had no component-specific layout treatment, making its size and separation from the search input dependent on generic browser select styling. Added explicit desktop/mobile sizing, separator treatment, search icon/input sizing, suggestion-panel scrolling and focus-visible outlines for keyboard users. Added RTL-aware scope separator, submit-button corners and suggestion-arrow direction, plus reduced-motion handling. No search routing, query matching, authentication, navigation or search-history logic was changed.
 
 The CSS remains in the late buyer refinement layer to preserve current import order. Verify search dropdown placement, focus traversal, dark mode, RTL and small-screen layout in a browser before considering this surface complete.
+
+## Mobile buyer navigation refinement
+
+Compared `MobileTabBar.jsx` with its base and theme styles. The fixed tab bar already included the device safe-area inset in its own bottom padding, but `.app-root` reserved a fixed 76px regardless of that inset. On devices with a home-indicator area, the reserved page space could therefore be shorter than the actual fixed navigation height. Updated the app-root bottom padding to include the same safe-area inset, using a fallback for browsers without the environment variable.
+
+Also made the tab bar surface and text use semantic theme tokens, kept all five grid columns shrink-safe, moved badge positioning to logical inline direction for RTL, and added visible keyboard focus, active/pressed states, dark-theme styling and reduced-motion handling. Routes, active-route matching, cart/wishlist counts and navigation behaviour are unchanged. Browser checks at narrow widths, iOS safe-area devices, dark mode and RTL remain outstanding.
