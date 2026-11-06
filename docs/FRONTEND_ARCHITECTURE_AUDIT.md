@@ -33,28 +33,29 @@ The active Seller Central route and workspace modules were retained. The legacy 
 
 ### 3. CSS entry point inventory
 
-`src/styles.css` imports 29 stylesheets in a deliberate order (the count increased after splitting one 135 KB monolith into eight direct imports):
+`src/styles.css` imports 36 stylesheets in a deliberate order after splitting two large refinement layers into eight direct imports each:
 - Foundation: design system and base
 - Buyer: discovery and shopping
 - Seller: seller experience and workspace
 - Commerce: product, basket, checkout and result controls
 - Shared: auth, operations and theme
-- Late refinements: final quality, buyer polish, product refinement, eight ordered Upwork UI feature slices and seller portal
+- Late refinements: final quality, buyer polish, product refinement, eight buyer-polish slices, eight Upwork UI slices and seller portal
 
 The broad refinement layers contain late overrides. Reordering or moving selectors without visual regression checks is unsafe.
 
 ### 4. Unloaded stylesheet identified and removed
 
-`src/styles/ui.css` was not imported by `src/styles.css`; the central entry point imports 29 other stylesheets. It was an orphaned UI-kit stylesheet and has been removed rather than kept as misleading, inactive code.
+`src/styles/ui.css` was not imported by `src/styles.css`; the central entry point imports 36 other stylesheets. It was an orphaned UI-kit stylesheet and has been removed rather than kept as misleading, inactive code.
 
 ## Remaining CSS work
 
 ### 5. Large stylesheet ownership hotspots
 
-One large late-layer file remains a clear ownership hotspot:
-- `src/styles/buyer-ui-polish.css` — approximately 123 KB. It mixes homepage/landing-page presentation, search and product-page polish, shared navigation, icon alignment and global UI rules.
+Two large, broad refinement layers have now been split into feature-oriented files:
+- The former `upwork-ui.css` (approximately 135 KB) is eight slices covering navigation/discovery, orders/account, product/checkout, marketplace widgets, buyer funnel, workspaces and shared cascade.
+- The former `buyer-ui-polish.css` (approximately 123 KB) is eight slices covering homepage foundation, header/search, product detail, shared hierarchy, navigation refinements, home discovery, search results and buyer chrome.
 
-The former 135 KB `upwork-ui.css` has now been split into eight feature-oriented slices, imported directly from `src/styles.css` in the exact original sequence. The source text was checked byte-for-byte against the original blob before the old monolith was removed. No declarations or selectors were intentionally changed. The split still requires a completed browser regression run.
+Both source files were reconstructed from their new slices and compared byte-for-byte with their original Git blobs before removal. No CSS declarations or selectors were intentionally changed. The current largest broad files are `experience-upgrade.css` (approximately 59 KB) and `base.css` (approximately 42 KB); these need ownership review before any further movement. Browser regression is still required before treating either split as visually verified.
 
 1. Run `npm run audit:css` and inspect repeated selectors with their declarations and media-query contexts.
 2. Map selector ownership to actual JSX component usage.
@@ -102,3 +103,19 @@ The former `src/styles/upwork-ui.css` was divided into eight focused files and t
 - `upwork-shared-cascade.css`
 
 The stylesheet ownership audit scans the direct imports in `src/styles.css`, so all eight files remain visible to CI. Browser regression is required before treating the split as verified.
+
+
+#### Byte-preserving split of the buyer polish layer
+
+The former `src/styles/buyer-ui-polish.css` was divided into eight focused files and its original import position was replaced with direct imports in the same order:
+
+- `buyer-home-foundation.css`
+- `buyer-header-search.css`
+- `buyer-product-detail.css`
+- `buyer-shared-hierarchy.css`
+- `buyer-product-navigation.css`
+- `buyer-home-discovery.css`
+- `buyer-search-results.css`
+- `buyer-chrome.css`
+
+As with the Upwork layer, this changes file organization only. The selector ownership audit continues to scan all direct imports from `src/styles.css`.

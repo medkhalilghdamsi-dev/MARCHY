@@ -1,0 +1,320 @@
+/* Shared buyer-page hierarchy — consistent, calm and task-focused. */
+.page .listing-head,
+.page .cart-page-heading,
+.page .checkout-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 22px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--line, #d8e5dd);
+}
+.page .listing-head h1,
+.page .cart-page-heading h1,
+.page .checkout-heading h1 {
+  margin: 0 0 8px;
+  color: var(--ink, #12261e);
+  font: 750 clamp(28px, 3vw, 38px)/1.12 Manrope, sans-serif;
+  letter-spacing: -1.25px;
+}
+.page .listing-head p,
+.page .cart-page-heading p,
+.page .checkout-heading p {
+  max-width: 620px;
+  margin: 0;
+  color: var(--muted, #435b4f);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.page .listing-head .eyebrow,
+.page .cart-page-heading .eyebrow,
+.page .checkout-heading .eyebrow {
+  margin-bottom: 9px;
+  font-size: 10px;
+  letter-spacing: 1.25px;
+}
+.page .section-heading {
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+.page .section-heading h2 {
+  margin: 0;
+  color: var(--ink, #12261e);
+  font: 700 clamp(20px, 2.1vw, 26px)/1.2 Manrope, sans-serif;
+  letter-spacing: -.65px;
+}
+.page .section-heading p {
+  margin-top: 6px;
+  color: var(--muted, #435b4f);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.page .listing-layout {
+  grid-template-columns: minmax(220px, 248px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.page .listing-results { min-width: 0; }
+.page .filters,
+.page .cart-items-panel,
+.page .checkout-main-panel,
+.page .summary-card {
+  border-color: var(--line, #d8e5dd);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(18, 38, 30, .025);
+}
+.page .filters { padding: 20px; }
+.page .filter-group { padding: 18px 0; }
+.page .filter-group > b,
+.page .desktop-filter-heading {
+  color: var(--ink, #12261e);
+  font-size: 13px;
+  font-weight: 700;
+}
+.page .results-toolbar {
+  min-height: 46px;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--line, #d8e5dd);
+  font-size: 12px;
+}
+.page .results-toolbar-actions { gap: 16px; }
+.page .results-toolbar label { gap: 9px; font-size: 12px; }
+.page .results-toolbar select,
+.page .listing-search,
+.page .filters select,
+.page .price-inputs input {
+  min-height: 40px;
+  border-radius: 8px;
+  border-color: var(--line, #d8e5dd);
+  font-size: 13px;
+}
+.page .product-grid { gap: 16px; }
+.page .product-card {
+  border-radius: 10px;
+  box-shadow: none;
+}
+.page .product-card:hover {
+  box-shadow: 0 8px 22px rgba(18, 38, 30, .07);
+}
+.page .cart-page-heading,
+.page .checkout-heading { align-items: center; }
+.page .cart-continue-link {
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 650;
+}
+.page .product-detail-layout { gap: clamp(24px, 3vw, 42px); }
+.page .product-information-card,
+.page .product-buy-panel {
+  border-radius: 12px;
+}
+.page .breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+  font-size: 12px;
+}
+.page :is(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid rgba(31, 91, 69, .28);
+  outline-offset: 2px;
+}
+@media (max-width: 900px) {
+  .page .listing-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .page .listing-head,
+  .page .cart-page-heading,
+  .page .checkout-heading {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+  }
+  .page .listing-head h1,
+  .page .cart-page-heading h1,
+  .page .checkout-heading h1 {
+    font-size: clamp(25px, 7vw, 32px);
+  }
+  .page .listing-head .listing-search { width: 100%; }
+  .page .results-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 12px;
+  }
+  .page .results-toolbar-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .page .section-heading { align-items: flex-start; }
+}
+@media (max-width: 420px) {
+  .page .results-toolbar-actions { gap: 9px; }
+  .page .results-toolbar label { width: 100%; justify-content: space-between; }
+  .page .results-toolbar select { max-width: 65%; }
+}
+
+/* Readability pass: bring global navigation and controls to a consistent,
+   comfortable type scale instead of relying on tiny utility labels. */
+.topline-inner {
+  min-height: 32px;
+  font-size: 11px;
+  letter-spacing: .1px;
+}
+.header .searchbar input {
+  font-size: 14px;
+  line-height: 1.4;
+}
+.header .searchbar input::placeholder {
+  color: #64766b;
+  opacity: 1;
+}
+.header .searchbar button {
+  min-width: 92px;
+  font-size: 12px;
+}
+.header-actions .action-link small {
+  font-size: 10px;
+  line-height: 1.3;
+}
+.header-actions .action-link b {
+  font-size: 13px;
+  line-height: 1.25;
+}
+.header-actions .theme-toggle,
+.header-actions .language-picker select,
+.header-actions .header-join-link {
+  font-size: 11px;
+}
+.header .nav-inner > a {
+  font-size: 12px;
+  font-weight: 650;
+}
+.header .nav-inner > a:first-child,
+.header .nav-inner .nav-deal {
+  font-weight: 750;
+}
+.header .global-search-suggestions {
+  font-size: 13px;
+}
+.header .search-suggestion-heading {
+  font-size: 11px;
+}
+.header .suggestion-copy b,
+.header .search-suggestion-empty b {
+  font-size: 13px;
+}
+.header .suggestion-copy small {
+  font-size: 11px;
+}
+.page {
+  padding-top: 30px;
+}
+.page .breadcrumbs {
+  color: var(--muted, #435b4f);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.page .breadcrumbs a {
+  color: var(--forest, #1f5b45);
+  font-weight: 650;
+}
+.page .listing-head h1,
+.page .cart-page-heading h1,
+.page .checkout-heading h1 {
+  line-height: 1.15;
+}
+.page .listing-head p,
+.page .cart-page-heading p,
+.page .checkout-heading p {
+  font-size: 14px;
+}
+.page .filters,
+.page .cart-items-panel,
+.page .checkout-main-panel,
+.page .summary-card {
+  background: var(--surface, #fff);
+}
+.page .filter-group > b,
+.page .desktop-filter-heading {
+  font-size: 14px;
+}
+.page .filter-group label,
+.page .results-toolbar,
+.page .results-toolbar-actions > label {
+  font-size: 13px;
+}
+.page .results-toolbar select,
+.page .filters select,
+.page .price-inputs input {
+  font-size: 13px;
+}
+@media (max-width: 1050px) {
+  .header .nav-inner > a { font-size: 12px; }
+  .header-actions .action-link b { font-size: 12px; }
+}
+@media (max-width: 760px) {
+  .topline-inner { font-size: 10px; }
+  .header .searchbar input { font-size: 14px; }
+  .header .searchbar button { min-width: 76px; font-size: 12px; }
+  .header .nav-inner > a { font-size: 12px; }
+  .page { padding-top: 20px; padding-bottom: 64px; }
+  .page .listing-head p,
+  .page .cart-page-heading p,
+  .page .checkout-heading p { font-size: 13px; }
+}
+@media (max-width: 390px) {
+  .topline-inner { font-size: 9px; }
+  .header .searchbar input { font-size: 13px; }
+}
+
+/* Keep the shared header coherent when the user switches to dark mode. */
+html[data-theme="dark"] .header,
+html[data-theme="dark"] .header .nav {
+  background: var(--surface);
+  border-color: var(--line);
+}
+html[data-theme="dark"] .header .searchbar {
+  background: var(--surface-soft);
+  border-color: var(--line);
+}
+html[data-theme="dark"] .header .searchbar input,
+html[data-theme="dark"] .header .nav-inner > a,
+html[data-theme="dark"] .header-actions .action-link b,
+html[data-theme="dark"] .header-actions .theme-toggle,
+html[data-theme="dark"] .header-actions .language-picker select {
+  color: var(--ink);
+}
+html[data-theme="dark"] .header .searchbar input::placeholder,
+html[data-theme="dark"] .header .nav-inner > a {
+  color: var(--muted);
+}
+html[data-theme="dark"] .header-actions .theme-toggle,
+html[data-theme="dark"] .header-actions .language-picker select {
+  background: var(--surface-soft);
+  border-color: var(--line);
+}
+html[data-theme="dark"] .header .nav-inner > a[aria-current="page"] {
+  color: var(--forest-dark);
+}
+html[data-theme="dark"] .header .nav-inner > a[aria-current="page"]:after {
+  background: var(--forest);
+}
+html[data-theme="dark"] .header .global-search-suggestions {
+  color: var(--ink);
+  background: var(--surface-raised);
+  border-color: var(--line);
+}
+html[data-theme="dark"] .header .global-search-suggestions a:hover,
+html[data-theme="dark"] .header .search-suggestion-close:hover {
+  background: var(--surface-hover);
+}

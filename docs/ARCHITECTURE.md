@@ -64,7 +64,7 @@ All global styles are imported from `src/styles.css`. Import order is intentiona
 5. Auth, operations and theme
 6. Final quality and buyer/product refinements, followed by the eight ordered Upwork UI slices and seller portal
 
-The broad refinement files are still present because they contain late overrides. The former `upwork-ui.css` monolith is now split into `upwork-navigation-discovery.css`, `upwork-orders-account.css`, `upwork-discovery-sections.css`, `upwork-product-checkout.css`, `upwork-marketplace-widgets.css`, `upwork-buyer-funnel.css`, `upwork-workspaces.css` and `upwork-shared-cascade.css`, imported in their original order. Do not reorder imports, delete rules, or move selectors between files without checking selector ownership and running visual regression checks.
+The broad refinement files are still present because they contain late overrides. The former `upwork-ui.css` and `buyer-ui-polish.css` monoliths have each been split into eight feature-oriented slices, imported in their original cascade order. See `FRONTEND_ARCHITECTURE_AUDIT.md` for the slice inventory and verification status. Do not reorder imports, delete rules, or move selectors between files without checking selector ownership and running visual regression checks.
 
 ## Working rules
 

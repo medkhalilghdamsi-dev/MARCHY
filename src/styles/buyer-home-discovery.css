@@ -1,0 +1,294 @@
+/* Homepage section rhythm and responsive discovery layout.
+   Keep this scoped to the landing page so shared feature grids are unaffected. */
+.home-landing-v2 {
+  --home-section-space: clamp(40px, 5.2vw, 68px);
+}
+.home-landing-v2 > .landing-section,
+.home-landing-v2 > .upwork-value-section,
+.home-landing-v2 > .upwork-seller-showcase,
+.home-landing-v2 > .home-new-arrivals,
+.home-landing-v2 > .home-deals-section {
+  margin-block: var(--home-section-space);
+}
+.home-landing-v2 .landing-section-header {
+  align-items: flex-end;
+}
+.home-landing-v2 .landing-section-header > div {
+  min-width: 0;
+}
+.home-landing-v2 .landing-section-header p {
+  max-width: 620px;
+  line-height: 1.65;
+}
+.home-landing-v2 .upwork-category-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.home-landing-v2 .upwork-cat-card {
+  min-width: 0;
+  min-height: 82px;
+  padding: 14px;
+  gap: 12px;
+}
+.home-landing-v2 .upwork-cat-text {
+  min-width: 0;
+}
+.home-landing-v2 .upwork-cat-text b,
+.home-landing-v2 .upwork-cat-text small {
+  overflow-wrap: anywhere;
+}
+.home-landing-v2 .landing-steps-grid {
+  margin: 24px 0 0;
+  gap: 16px;
+}
+.home-landing-v2 .landing-step-card {
+  min-width: 0;
+  height: 100%;
+  padding: 24px;
+}
+.home-landing-v2 .upwork-value-section {
+  padding: clamp(22px, 3.5vw, 38px);
+}
+.home-landing-v2 .upwork-value-grid {
+  gap: 14px;
+}
+.home-landing-v2 .upwork-value-card {
+  min-width: 0;
+  padding: 18px;
+}
+.home-landing-v2 .upwork-seller-grid {
+  gap: 14px;
+  margin-top: 0;
+}
+.home-landing-v2 .upwork-seller-card {
+  min-width: 0;
+  padding: 20px;
+}
+.home-landing-v2 .upwork-seller-meta {
+  min-width: 0;
+}
+.home-landing-v2 .upwork-seller-meta h3,
+.home-landing-v2 .upwork-seller-tagline {
+  overflow-wrap: anywhere;
+}
+.home-landing-v2 .hero-segmented-tabs {
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+.home-landing-v2 .hero-seg-tab:focus-visible,
+.home-landing-v2 .hero-search-form button:focus-visible,
+.home-landing-v2 .home-search-clear:focus-visible,
+.home-landing-v2 .hero-trending button:focus-visible,
+.home-landing-v2 .home-filter-tabs button:focus-visible,
+.home-landing-v2 .upwork-cat-card:focus-visible,
+.home-landing-v2 .landing-section-header a:focus-visible,
+.home-landing-v2 .home-budget-links a:focus-visible,
+.home-landing-v2 .home-editorial-card:focus-visible,
+.home-landing-v2 .upwork-seller-card a:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--forest));
+  outline-offset: 3px;
+}
+.home-landing-v2 .upwork-cat-card:focus-visible {
+  border-color: var(--forest);
+}
+.home-landing-v2 .home-search-suggestions {
+  max-height: min(60vh, 440px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.home-landing-v2 .home-editorial-card {
+  min-width: 0;
+}
+.home-landing-v2 .home-budget-links {
+  min-width: 0;
+}
+
+@media (max-width: 1050px) {
+  .home-landing-v2 .upwork-value-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .home-landing-v2 .upwork-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .home-landing-v2 {
+    --home-section-space: 38px;
+  }
+  .home-landing-v2 .landing-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .home-landing-v2 .landing-section-header h2 {
+    font-size: clamp(22px, 5.5vw, 28px);
+    line-height: 1.15;
+  }
+  .home-landing-v2 .landing-section-header p {
+    font-size: 12px;
+  }
+  .home-landing-v2 .landing-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .home-landing-v2 .landing-step-card {
+    padding: 19px;
+    gap: 9px;
+  }
+  .home-landing-v2 .landing-step-card h3 {
+    font-size: 15px;
+  }
+  .home-landing-v2 .landing-step-card p {
+    font-size: 12px;
+  }
+  .home-landing-v2 .upwork-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+  .home-landing-v2 .upwork-cat-card {
+    min-height: 72px;
+    padding: 10px;
+    gap: 9px;
+    border-radius: 10px;
+  }
+  .home-landing-v2 .upwork-cat-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+  .home-landing-v2 .upwork-cat-text b {
+    font-size: 11px;
+  }
+  .home-landing-v2 .upwork-cat-text small {
+    font-size: 9px;
+  }
+  .home-landing-v2 .upwork-cat-arrow {
+    display: none;
+  }
+  .home-landing-v2 .upwork-value-section {
+    margin-block: var(--home-section-space);
+    padding: 22px 16px;
+  }
+  .home-landing-v2 .upwork-value-header {
+    margin-bottom: 20px;
+  }
+  .home-landing-v2 .upwork-value-header h2 {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  .home-landing-v2 .upwork-value-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+  .home-landing-v2 .upwork-value-card {
+    padding: 16px;
+    gap: 8px;
+  }
+  .home-landing-v2 .upwork-seller-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .home-landing-v2 .upwork-seller-card {
+    padding: 17px;
+  }
+  .home-landing-v2 .home-editorial-discovery {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: var(--home-section-space);
+  }
+  .home-landing-v2 .home-editorial-card {
+    min-height: 170px;
+    padding: 20px;
+  }
+  .home-landing-v2 .hero-segmented-tabs {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    padding: 4px;
+  }
+  .home-landing-v2 .hero-segmented-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .home-landing-v2 .hero-seg-tab {
+    flex: 0 0 auto;
+    min-height: 38px;
+    padding-inline: 12px;
+    font-size: 10px;
+  }
+  .home-landing-v2 .upwork-hero-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px 16px;
+    margin-top: 20px;
+    padding-top: 17px;
+  }
+  .home-landing-v2 .upwork-stat-item b {
+    font-size: 13px;
+  }
+  .home-landing-v2 .upwork-stat-item span {
+    font-size: 10px;
+  }
+}
+@media (max-width: 380px) {
+  .home-landing-v2 .upwork-category-grid {
+    gap: 7px;
+  }
+  .home-landing-v2 .upwork-cat-card {
+    padding: 8px;
+  }
+  .home-landing-v2 .upwork-cat-icon {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+  .home-landing-v2 .upwork-cat-text b {
+    font-size: 10px;
+  }
+  .home-landing-v2 .home-budget-premium {
+    padding: 18px 14px;
+  }
+}
+html[data-theme="dark"] .home-landing-v2 .upwork-cat-card,
+html[data-theme="dark"] .home-landing-v2 .landing-step-card,
+html[data-theme="dark"] .home-landing-v2 .upwork-value-section,
+html[data-theme="dark"] .home-landing-v2 .upwork-value-card,
+html[data-theme="dark"] .home-landing-v2 .upwork-seller-card {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+html[data-theme="dark"] .home-landing-v2 .upwork-cat-text b,
+html[data-theme="dark"] .home-landing-v2 .landing-step-card h3,
+html[data-theme="dark"] .home-landing-v2 .upwork-value-card h3,
+html[data-theme="dark"] .home-landing-v2 .upwork-seller-meta h3 {
+  color: var(--ink);
+}
+html[data-theme="dark"] .home-landing-v2 .upwork-cat-card:hover,
+html[data-theme="dark"] .home-landing-v2 .upwork-value-card:hover,
+html[data-theme="dark"] .home-landing-v2 .upwork-seller-card:hover {
+  background: var(--surface-raised);
+  border-color: var(--forest);
+}
+html[data-theme="dark"] .home-landing-v2 .upwork-value-section {
+  box-shadow: none;
+}
+html[data-theme="dark"] .home-landing-v2 .upwork-seller-footer {
+  border-color: var(--line);
+}
+:dir(rtl) .home-landing-v2 .upwork-cat-arrow {
+  transform: scaleX(-1);
+}
+:dir(rtl) .home-landing-v2 .upwork-cat-card:hover .upwork-cat-arrow {
+  transform: scaleX(-1) translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-landing-v2 .upwork-cat-card,
+  .home-landing-v2 .landing-step-card,
+  .home-landing-v2 .upwork-value-card,
+  .home-landing-v2 .upwork-seller-card {
+    transition: none;
+  }
+}

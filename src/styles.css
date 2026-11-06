@@ -35,7 +35,15 @@
  * are migrated into their owning feature stylesheets in later cleanup work.
  */
 @import './styles/final-quality.css';
-@import './styles/buyer-ui-polish.css';
+/* Buyer UI polish split — preserve original cascade sequence. */
+@import './styles/buyer-home-foundation.css';
+@import './styles/buyer-header-search.css';
+@import './styles/buyer-product-detail.css';
+@import './styles/buyer-shared-hierarchy.css';
+@import './styles/buyer-product-navigation.css';
+@import './styles/buyer-home-discovery.css';
+@import './styles/buyer-search-results.css';
+@import './styles/buyer-chrome.css';
 @import './styles/product-page-refinement.css';
 /* Split legacy UI layer — preserve original cascade sequence. */
 @import './styles/upwork-navigation-discovery.css';
