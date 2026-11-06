@@ -854,6 +854,28 @@ test('product detail keeps delivery and seller trust information explicitly unco
   await expect(page.locator('.product-buy-panel')).not.toContainText('Cash on Delivery protection')
 })
 
+test('shared header only rises above page content while an overlay is open', async ({ page }) => {
+  await page.goto('/')
+  const header = page.locator('header.header')
+  const search = page.getByRole('search').getByLabel('Search products and stores')
+
+  await expect(header).toHaveCSS('z-index', 'auto')
+  await search.fill('headphones')
+  await expect(page.getByRole('dialog', { name: 'Search suggestions' })).toBeVisible()
+  await expect(header).toHaveCSS('z-index', '50')
+  await page.getByRole('button', { name: 'Close suggestions' }).click()
+  await expect(search).toHaveAttribute('aria-expanded', 'false')
+  await expect(header).toHaveCSS('z-index', 'auto')
+
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.getByRole('button', { name: 'Open navigation menu' }).click()
+  await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible()
+  await expect(header).toHaveCSS('z-index', '50')
+  await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'Categories' }).click()
+  await expect(page).toHaveURL(/\\/categories$/)
+  await expect(header).toHaveCSS('z-index', 'auto')
+})
+
 test('global search exposes its suggestions panel state accessibly', async ({ page }) => {
   await page.goto('/')
   const search = page.getByRole('search').getByLabel('Search products and stores')
