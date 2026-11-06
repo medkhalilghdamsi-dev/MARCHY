@@ -166,7 +166,8 @@ export function ProductPage() {
     'Garden & DIY':['Exact kit contents, dimensions and materials','Compatibility with the intended project','Care, storage or installation requirements','Delivery handling and return conditions']
   })[product.category] || ['Exact product specifications and included items','Product condition and any limitations','Current availability and final price','Delivery, returns and warranty conditions']
   const saved = wishlist.includes(product.id)
-  const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
+  const currentOldPrice = selectedOffer?.oldPrice || product.oldPrice || null
+  const discount = currentOldPrice && currentPrice > 0 ? Math.max(0, Math.round((1 - currentPrice / currentOldPrice) * 100)) : 0
   const handleToggleWish = () => { toggleWish(product.id); toast(!saved ? "Saved " + product.name + " to wishlist" : "Removed from wishlist", { type: "info" }) }
   return translateTree(<main id="main-content" className="shell page product-page">
     <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to={returnTo}>Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
@@ -240,7 +241,7 @@ export function ProductPage() {
           </div>
           <div className="product-quantity-summary" aria-live="polite">
             <span>{qty} {qty === 1 ? 'item' : 'items'} selected{selectedVariant ? ` (${selectedVariant})` : ''}</span>
-            <strong>{money(product.price * qty)}</strong>
+            <strong>{money(currentPrice * qty)}</strong>
           </div>
           {added && <p className="product-added-feedback" role="status">Added to your basket: {qty}x {product.name}{selectedVariant ? ` (${selectedVariant})` : ''}.</p>}
         </div>
@@ -296,7 +297,7 @@ export function ProductPage() {
             <span className="trust-check"><Check size={16} /></span>
             <p>
               <b>Direct Artisan Connection</b>
-              <small>Coordinate dispatch directly with {seller.name} in {seller.city}, Tunisia.</small>
+              <small>Coordinate dispatch directly with {currentSellerName} in {selectedOffer?.sellerCity || seller.city}, Tunisia.</small>
             </p>
           </div>
           <div>
