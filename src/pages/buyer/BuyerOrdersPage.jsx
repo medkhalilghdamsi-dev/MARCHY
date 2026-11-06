@@ -10,6 +10,9 @@ import { ArrowLeft, Check, Package, RotateCcw, Search, X } from 'lucide-react'
 
 const ORDER_TABS = ['All', 'Processing', 'In transit', 'Delivered', 'Cancelled']
 const canCancelOrder = status => status === 'Processing' || status === 'Ready for pickup'
+const RETURN_KEY = 'marchy-return-requests-v1'
+const readReturns = () => { try { const value = JSON.parse(localStorage.getItem(RETURN_KEY) || '[]'); return Array.isArray(value) ? value : [] } catch { return [] } }
+const returnReasons = ['Damaged or defective','Wrong item received','Missing parts or accessories','Not as described','Changed my mind']
 
 export function BuyerOrdersPage(props) {
   const { language: ctxLanguage, addToCart } = useMarketplace()
@@ -25,6 +28,19 @@ export function BuyerOrdersPage(props) {
   const createdOrders = orders.filter(order => createdOrderIds.includes(order.id))
   const [activeTab, setActiveTab] = useState('All')
   const [query, setQuery] = useState('')
+  const [returnOrder, setReturnOrder] = useState(null)
+  const [returnForm, setReturnForm] = useState({ productKey: '', reason: returnReasons[0], details: '', condition: 'Unopened' })
+  const [returnRequests, setReturnRequests] = useState(readReturns)
+  const [returnNotice, setReturnNotice] = useState('')
+
+  const submitReturn = () => {
+    if (!returnOrder || !returnForm.productKey) return setReturnNotice('Choose the item you want to return.')
+    const product = (returnOrder.products || []).find((item, index) => `${item.id || item.name}-${index}` === returnForm.productKey)
+    if (!product) return setReturnNotice('The selected item could not be found.')
+    const request = { id: `RET-${Date.now().toString(36).toUpperCase()}`, orderId: returnOrder.id, seller: returnOrder.seller || '', sellerSlug: returnOrder.sellerSlug || '', buyer: returnOrder.buyer || 'Customer', phone: returnOrder.phone || '', productId: product.id, productName: product.name, variant: product.selectedVariant || 'Standard', quantity: product.qty || 1, unitPrice: Number(product.price || 0), reason: returnForm.reason, details: returnForm.details.trim(), condition: returnForm.condition, status: 'submitted', refundStatus: 'not_reviewed', createdAt: new Date().toISOString(), history: [{ status: 'submitted', at: new Date().toISOString(), note: 'Return request submitted by buyer (local demo)' }] }
+    const next = [request, ...readReturns()]
+    try { localStorage.setItem(RETURN_KEY, JSON.stringify(next)); setReturnRequests(next); setReturnOrder(null); setReturnNotice(`Return request ${request.id} saved locally. The seller has not been notified.`) } catch { setReturnNotice('Could not save the return request in this browser.') }
+  }
 
   const counts = useMemo(() => ({
     All: orders.length,
@@ -214,6 +230,11 @@ export function BuyerOrdersPage(props) {
 
                     <div className="buyer-order-card-bottom">
                       <div className="order-actions-left">
+                        {order.status === 'Delivered' && (
+                          <button type="button" className="text-link" onClick={() => { setReturnForm({ productKey: order.products?.[0] ? `${order.products[0].id || order.products[0].name}-0` : '', reason: returnReasons[0], details: '', condition: 'Unopened' }); setReturnOrder(order); setReturnNotice('') }}>
+                            <RotateCcw size={13} /> Request return
+                          </button>
+                        )}
                         {canCancelOrder(order.status) && (
                           <button type="button" className="text-link danger-link" onClick={() => handleCancel(order)}>
                             Cancel order
@@ -245,6 +266,9 @@ export function BuyerOrdersPage(props) {
           )}
         </div>
       </section>
+
+      {returnNotice && !returnOrder && <p className="buyer-return-notice" role="status">{returnNotice}</p>}
+      {returnOrder && <div className="buyer-return-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setReturnOrder(null) }}><section className="buyer-return-dialog" role="dialog" aria-modal="true" aria-labelledby="buyer-return-title"><button type="button" className="buyer-return-close" onClick={() => setReturnOrder(null)} aria-label="Close return form"><X size={18}/></button><span className="eyebrow">ORDER {returnOrder.id}</span><h2 id="buyer-return-title">Request a return</h2><p>Submit a return request for seller review. This demo does not arrange collection or issue refunds.</p>{returnNotice && <p className="buyer-return-error" role="alert">{returnNotice}</p>}<label>Item to return<select value={returnForm.productKey} onChange={event => setReturnForm(value => ({ ...value, productKey: event.target.value }))}>{(returnOrder.products || []).map((product,index)=><option key={`${product.id || product.name}-${index}`} value={`${product.id || product.name}-${index}`}>{product.name} · Qty {product.qty || 1}</option>)}</select></label><label>Reason<select value={returnForm.reason} onChange={event => setReturnForm(value => ({ ...value, reason: event.target.value }))}>{returnReasons.map(reason=><option key={reason}>{reason}</option>)}</select></label><label>Item condition<select value={returnForm.condition} onChange={event => setReturnForm(value => ({ ...value, condition: event.target.value }))}><option>Unopened</option><option>Opened, unused</option><option>Used</option><option>Damaged</option></select></label><label>Additional details (optional)<textarea rows={3} maxLength={500} value={returnForm.details} onChange={event => setReturnForm(value => ({ ...value, details: event.target.value }))} placeholder="Describe the issue or add context"/></label><div className="buyer-return-actions"><button type="button" className="outline-btn" onClick={() => setReturnOrder(null)}>Cancel</button><button type="button" className="primary-btn" onClick={submitReturn}>Submit return request</button></div><small>Return eligibility and refund amount require seller/platform policy review. No refund is initiated here.</small></section></div>}
 
       <div className="buyer-orders-footer-nav">
         <Link to="/account" className="text-link"><ArrowLeft size={14} /> Back to account</Link>

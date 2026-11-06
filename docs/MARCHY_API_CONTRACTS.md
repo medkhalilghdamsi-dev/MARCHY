@@ -268,3 +268,20 @@ The seller workspace must return only orders containing items assigned to the au
 | POST | /api/v1/seller/orders/{orderId}/ready-for-pickup | Request courier handoff and pickup slot (idempotent) |
 
 Seller fulfilment state is distinct from customer order/payment state. The backend owns the canonical state machine and validates every transition. Seller actions must be scoped to that seller's order lines, even when one checkout contains multiple sellers. Acceptance revalidates listing eligibility and reserved inventory; packing validates quantities and parcel data. Marking ready for pickup is not proof of courier collection; only a courier integration or verified operations event may advance tracking to in-transit. Never mark COD collected, payment settled, delivered or refunded from a seller preparation action. The local prototype stores a separate sellerFulfilmentStatus and does not send notifications or create courier bookings.
+
+
+## 12. Returns, inspections and refunds
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | /api/v1/seller/returns | List return cases scoped to the authenticated seller |
+| GET | /api/v1/seller/returns/{returnId} | Read an authorized return case and item-level history |
+| POST | /api/v1/returns | Buyer submits a return request against an eligible delivered order line (idempotent) |
+| POST | /api/v1/seller/returns/{returnId}/decision | Seller accepts or declines within policy and permitted reasons |
+| POST | /api/v1/seller/returns/{returnId}/received | Record physical receipt, parcel condition and evidence references |
+| POST | /api/v1/seller/returns/{returnId}/inspection | Record inspection outcome and recommend next disposition |
+| GET | /api/v1/returns/{returnId}/refund | Read refund review/execution state; no seller-side execution |
+
+Return requests must reference a real delivered order line and validate policy windows, item exclusions, quantities and prior return claims on the server. Seller authorization is based on the authenticated seller's order-line ownership, not browser-supplied seller IDs. Evidence uploads use signed/private storage references and must not expose private customer data publicly. The case lifecycle (submitted, accepted/declined, received, inspected, refund review) is distinct from refund execution. Only authorized platform finance operations may approve, calculate and execute full or partial refunds, reconcile gateway/COD amounts, and record ledger entries. A seller inspection or recommendation never means a refund has been approved or paid.
+
+The current frontend prototype stores buyer return requests in browser local storage for demonstration only; it does not enforce legal eligibility windows, arrange reverse logistics, upload evidence, notify sellers, or issue refunds.
