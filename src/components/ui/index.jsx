@@ -1,5 +1,41 @@
-import { useEffect, useId, useRef } from 'react'
+import { cloneElement, isValidElement, useEffect, useId, useRef } from 'react'
 import { Link } from 'react-router-dom'
+
+export function FormField({ label, hint, error, required = false, className = '', children }) {
+  const generatedId = useId()
+  const hintId = `${generatedId}-hint`
+  const errorId = `${generatedId}-error`
+
+  if (!isValidElement(children)) return null
+
+  const controlId = children.props.id || generatedId
+  const describedBy = [
+    children.props['aria-describedby'],
+    hint ? hintId : null,
+    error ? errorId : null,
+  ].filter(Boolean).join(' ') || undefined
+
+  const control = cloneElement(children, {
+    id: controlId,
+    required: required || children.props.required,
+    'aria-describedby': describedBy,
+    'aria-invalid': error ? true : children.props['aria-invalid'],
+  })
+
+  return (
+    <div className={`ui-form-field ${className}`.trim()}>
+      {label && (
+        <label htmlFor={controlId}>
+          {label}
+          {required && <span className="ui-form-required" aria-hidden="true"> *</span>}
+        </label>
+      )}
+      {control}
+      {hint && <small id={hintId} className="ui-form-hint">{hint}</small>}
+      {error && <small id={errorId} className="ui-form-error" role="alert">{error}</small>}
+    </div>
+  )
+}
 
 export function Badge({ children, variant = 'neutral', className = '' }) {
   return <span className={`ui-badge is-${variant} ${className}`.trim()}>{children}</span>
