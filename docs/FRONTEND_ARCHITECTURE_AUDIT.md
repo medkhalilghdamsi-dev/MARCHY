@@ -504,3 +504,12 @@ Completed a final product-page commerce hierarchy pass.
 - No preview rendering, input state or submission behavior changed.
 - Source change: `src/pages/seller/SellerLaunchPage.jsx`.
 - Verification is source-level only; screen-reader behavior and browser checks remain outstanding.
+
+
+## Global search/header stacking correction — 2026-11-06
+
+- Reduced the global header stacking layer from `z-index: 40` to `z-index: 5`, preventing the shared header/search region from sitting above higher-priority page surfaces and controls across routes.
+- Scoped autocomplete positioning and stacking to `.header .searchbar` instead of applying a high stacking index to every element using the generic `.searchbar` class.
+- Preserved the anchored suggestion panel, keyboard interaction, responsive sizing and search navigation.
+- Source changes: `src/styles/buyer-ui-polish.css` and `src/styles/shopping.css`.
+- Verification is source-level only; viewport-by-viewport visual regression and browser interaction checks remain outstanding.
