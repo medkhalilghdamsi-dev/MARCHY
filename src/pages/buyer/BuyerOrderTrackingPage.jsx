@@ -168,7 +168,7 @@ export function BuyerOrderTrackingPage(props) {
             <div className="tracking-products-list">
               {Array.isArray(order.products) && order.products.length > 0 ? (
                 order.products.map(product => (
-                  <div key={product.id} className="tracking-product-item">
+                  <div key={`${product.id}-${product.sellerSlug || order.seller}-${product.selectedVariant || 'default'}`} className="tracking-product-item">
                     <img
                       src={product.image || '/product-placeholder.svg'}
                       alt={product.name}
@@ -179,6 +179,7 @@ export function BuyerOrderTrackingPage(props) {
                       {product.selectedVariant && (
                         <span className="cart-item-variant-tag">{product.selectedVariant}</span>
                       )}
+                      {product.sellerName && <small className="tracking-product-seller">Sold by {product.sellerName}</small>}
                       <small>Quantity: {product.qty || 1} × {money(product.price)}</small>
                     </div>
                     <strong>{money((product.price || 0) * (product.qty || 1))}</strong>
@@ -253,6 +254,12 @@ export function BuyerOrderTrackingPage(props) {
                 <span className="meta-label">Merchant Workshop:</span>
                 <b>{order.seller}</b>
               </div>
+              {order.sellerCity && (
+                <div className="meta-line">
+                  <span className="meta-label">Merchant location:</span>
+                  <span>{order.sellerCity}, Tunisia</span>
+                </div>
+              )}
             </div>
 
             <div className="tracking-guarantee-note">
