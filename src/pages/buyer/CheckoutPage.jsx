@@ -7,7 +7,7 @@ import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
 import { MarketplaceService } from '../../services/marketplaceService'
-import { ArrowLeft, ArrowRight, Check, Info, ShoppingBag, Store, Truck, ShieldCheck, MapPin } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Info, ShoppingBag, Store, Truck, MapPin } from 'lucide-react'
 
 export function CheckoutPage() {
   const { cart, language, clearCart, appliedCoupon } = useMarketplace()
@@ -225,11 +225,11 @@ export function CheckoutPage() {
         {step === 2 && <section className="checkout-review">
           <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2>Review before proceeding</h2><p>Each seller handles their own availability and delivery confirmation.</p></div>
 
-          <div className="cod-guarantee-banner">
-            <ShieldCheck size={24} className="cod-badge-icon" />
+          <div className="checkout-preview-note" role="note">
+            <Info size={20} aria-hidden="true" />
             <div>
-              <strong>Tunisian Buyer Protection & COD Guarantee</strong>
-              <p>You pay zero millimes upfront. Inspect your items upon arrival with the courier before paying in cash.</p>
+              <strong>Demo checkout preview</strong>
+              <p>This flow stores a sample order in this browser only. No seller receives the order, no courier is booked and no payment or buyer-protection service is activated.</p>
             </div>
           </div>
 
