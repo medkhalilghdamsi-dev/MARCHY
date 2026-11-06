@@ -103,7 +103,7 @@ export function ProductQA({ productId, productName }) {
                         <p className="qa-answer-text">{ans.answer}</p>
                         <div className="qa-answer-meta">
                           {ans.isSeller && (
-                            <span className="qa-verified-merchant-tag">Sample seller response</span>
+                            <span className="qa-sample-answer-tag">Sample seller response</span>
                           )}
                           <span>By {ans.author} · {ans.date}</span>
                         </div>
