@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { money } from '../../utils/marketplace'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
@@ -6,10 +6,10 @@ import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
 import { translateTree } from '../../i18n/translate'
 import { Status } from '../shared/OperationsShared'
-import {
-  ArrowLeft, Check, Clock, Package, RotateCcw, Search,
-  ShieldCheck, Truck, X
-} from 'lucide-react'
+import { ArrowLeft, Check, Package, RotateCcw, Search, X } from 'lucide-react'
+
+const ORDER_TABS = ['All', 'Processing', 'In transit', 'Delivered', 'Cancelled']
+const canCancelOrder = status => status === 'Processing' || status === 'Ready for pickup'
 
 export function BuyerOrdersPage(props) {
   const { language: ctxLanguage, addToCart } = useMarketplace()
@@ -23,46 +23,60 @@ export function BuyerOrdersPage(props) {
     ? location.state.justCreatedOrderIds
     : []
   const createdOrders = orders.filter(order => createdOrderIds.includes(order.id))
-
   const [activeTab, setActiveTab] = useState('All')
   const [query, setQuery] = useState('')
 
-  const tabs = ['All', 'Processing', 'In transit', 'Delivered', 'Cancelled']
+  const counts = useMemo(() => ({
+    All: orders.length,
+    Processing: orders.filter(order => ['Processing', 'Ready for pickup'].includes(order.status)).length,
+    'In transit': orders.filter(order => order.status === 'In transit').length,
+    Delivered: orders.filter(order => order.status === 'Delivered').length,
+    Cancelled: orders.filter(order => order.status === 'Cancelled').length,
+  }), [orders])
 
-  const visible = orders.filter(order => {
-    const matchesTab = activeTab === 'All' ||
-      (activeTab === 'Processing' && (order.status === 'Processing' || order.status === 'Ready for pickup')) ||
-      order.status === activeTab
+  const visible = useMemo(() => {
+    const normalizedQuery = query.trim().toLocaleLowerCase()
+    return orders.filter(order => {
+      const matchesTab = activeTab === 'All' ||
+        (activeTab === 'Processing'
+          ? ['Processing', 'Ready for pickup'].includes(order.status)
+          : order.status === activeTab)
+      const searchable = [
+        order.id, order.buyer, order.seller, order.city, order.address,
+        order.status, ...(order.products || []).map(product => product.name)
+      ].filter(Boolean).join(' ').toLocaleLowerCase()
+      return matchesTab && (!normalizedQuery || searchable.includes(normalizedQuery))
+    })
+  }, [orders, activeTab, query])
 
-    const haystack = [
-      order.id,
-      order.buyer,
-      order.seller,
-      order.city,
-      ...(order.products || []).map(p => p.name)
-    ].join(' ').toLowerCase()
+  const handleReorder = order => {
+    if (!Array.isArray(order.products) || order.products.length === 0) {
+      toast('This order has no item details available to reorder.', { type: 'error' })
+      return
+    }
+    order.products.forEach(product => {
+      addToCart({
+        ...product,
+        sellerSlug: product.sellerSlug || order.sellerSlug || null,
+        sellerName: product.sellerName || order.seller || null,
+        sellerCity: product.sellerCity || order.sellerCity || null,
+      }, product.qty || 1, product.selectedVariant || null)
+    })
+    toast(`Re-added ${order.products.length} item line(s) to your cart`, { type: 'success' })
+    navigate('/cart')
+  }
 
-    const matchesQuery = haystack.includes(query.toLowerCase())
-    return matchesTab && matchesQuery
-  })
-
-  const handleReorder = (order) => {
-    if (Array.isArray(order.products) && order.products.length > 0) {
-      order.products.forEach(p => {
-        addToCart(p, p.qty || 1, p.selectedVariant || null)
-      })
-      toast(`Re-added ${order.products.length} item(s) to cart`, { type: 'success' })
-      navigate('/cart')
-    } else {
-      toast('No items to reorder', { type: 'error' })
+  const handleCancel = order => {
+    if (!canCancelOrder(order.status)) return
+    if (window.confirm(`Cancel order ${order.id}? This changes the local demo order only.`)) {
+      cancelOrder(order.id, 'Cancelled from buyer orders list')
+      toast('Order cancelled in this demo.', { type: 'info' })
     }
   }
 
-  const handleCancel = (orderId) => {
-    if (window.confirm('Cancel this order?')) {
-      cancelOrder(orderId, 'Cancelled from orders list')
-      toast('Order cancelled.', { type: 'info' })
-    }
+  const resetFilters = () => {
+    setActiveTab('All')
+    setQuery('')
   }
 
   return translateTree(
@@ -73,169 +87,168 @@ export function BuyerOrdersPage(props) {
 
       <header className="buyer-orders-heading">
         <div>
-          <span className="eyebrow">ORDER MANAGEMENT & TRACKING</span>
-          <h1>Your orders</h1>
-          <p>Follow your purchases across Tunisian merchant storefronts with live tracking and COD protection.</p>
+          <span className="eyebrow">YOUR PURCHASES</span>
+          <h1>Orders</h1>
+          <p>Review order details, check the current demo status and return to a previous purchase.</p>
         </div>
-        <Link to="/search" className="primary-btn">Explore new finds →</Link>
+        <Link to="/search" className="primary-btn">Explore marketplace <span aria-hidden="true">→</span></Link>
       </header>
+
+      <div className="buyer-orders-demo-note" role="note">
+        <span className="buyer-orders-demo-mark"><Package size={16} /></span>
+        <p><strong>Demo order history</strong><span>Orders and status changes are stored in this browser. Live courier tracking, payments and merchant updates are not connected.</span></p>
+      </div>
 
       {createdOrders.length > 0 && (
         <section className="buyer-order-success" role="status" aria-live="polite">
           <div>
             <span className="buyer-order-success-icon"><Check size={20} /></span>
             <div>
-              <b>{createdOrders.length === 1 ? 'Your order is confirmed & ready to track' : `${createdOrders.length} orders created across sellers`}</b>
-              <p>Your order was saved with Cash on Delivery inspection protection. You can monitor courier milestones below.</p>
+              <b>{createdOrders.length === 1 ? 'Your demo order has been created' : `${createdOrders.length} demo orders have been created`}</b>
+              <p>Your order details are saved locally. Open an order to review its status and item information.</p>
             </div>
           </div>
-          <div>
+          <div className="buyer-order-success-links">
             {createdOrders.map(order => (
-              <Link key={order.id} to={`/orders/${order.id}`} className="primary-btn">
-                Track {order.id} →
-              </Link>
+              <Link key={order.id} to={`/orders/${order.id}`} className="primary-btn">View {order.id} <span aria-hidden="true">→</span></Link>
             ))}
           </div>
         </section>
       )}
 
-      {/* Segmented Status Tabs */}
-      <div className="order-tabs-row" role="tablist" aria-label="Filter orders">
-        {tabs.map(tab => {
-          const count = tab === 'All'
-            ? orders.length
-            : tab === 'Processing'
-              ? orders.filter(o => o.status === 'Processing' || o.status === 'Ready for pickup').length
-              : orders.filter(o => o.status === tab).length
-          return (
+      <section className="buyer-orders-workspace" aria-label="Order history">
+        <div className="buyer-orders-section-heading">
+          <div>
+            <h2>Order history</h2>
+            <p>{orders.length} order{orders.length === 1 ? '' : 's'} in this browser</p>
+          </div>
+          <span className="buyer-orders-local-label">LOCAL DEMO DATA</span>
+        </div>
+
+        <div className="order-tabs-row" role="tablist" aria-label="Filter orders by status">
+          {ORDER_TABS.map(tab => (
             <button
               key={tab}
               type="button"
               role="tab"
               aria-selected={activeTab === tab}
+              aria-controls="buyer-orders-results"
               className={`order-tab-btn ${activeTab === tab ? 'is-active' : ''}`}
               onClick={() => setActiveTab(tab)}
             >
-              {tab} <span>({count})</span>
+              {tab}<span className="order-tab-count">{counts[tab]}</span>
             </button>
-          )
-        })}
-      </div>
-
-      {/* Toolbar Search */}
-      <div className="buyer-orders-toolbar">
-        <div className="order-search-input-wrap">
-          <Search size={16} />
-          <input
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Search by order #, merchant, item name or city…"
-            aria-label="Search orders"
-          />
-          {query && <button type="button" onClick={() => setQuery('')}>✕</button>}
-        </div>
-        <span className="orders-count-label">
-          Showing <b>{visible.length}</b> order{visible.length === 1 ? '' : 's'}
-        </span>
-      </div>
-
-      {/* Orders List */}
-      {visible.length > 0 ? (
-        <div className="buyer-orders-list">
-          {visible.map(order => (
-            <article className="buyer-order-card" key={order.id}>
-              <div className="buyer-order-card-top">
-                <div>
-                  <span className="eyebrow">ORDER REF</span>
-                  <Link to={`/orders/${order.id}`} className="buyer-order-reference">
-                    {order.id}
-                  </Link>
-                  <small>{order.created || 'Recently placed'} · {order.seller}</small>
-                </div>
-                <Status value={order.status} language={language} />
-              </div>
-
-              {/* Product Previews Row */}
-              <div className="buyer-order-products-row">
-                {Array.isArray(order.products) && order.products.length > 0 ? (
-                  order.products.slice(0, 4).map((p, idx) => (
-                    <div key={idx} className="order-prod-thumb" title={`${p.name} (Qty: ${p.qty || 1})`}>
-                      <img
-                        src={p.image || '/product-placeholder.svg'}
-                        alt={p.name}
-                        onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/product-placeholder.svg' }}
-                      />
-                      <span className="thumb-qty">×{p.qty || 1}</span>
-                    </div>
-                  ))
-                ) : (
-                  <div className="order-placeholder-thumb">
-                    <Package size={22} />
-                  </div>
-                )}
-                <div className="order-items-summary-text">
-                  <b>{order.items} product{order.items === 1 ? '' : 's'}</b>
-                  <small>Delivery to {order.city}, Tunisia</small>
-                </div>
-              </div>
-
-              <div className="buyer-order-card-details">
-                <div>
-                  <small>MERCHANT</small>
-                  <b>{order.seller}</b>
-                </div>
-                <div>
-                  <small>PAYMENT</small>
-                  <b>{order.payment}</b>
-                </div>
-                <div>
-                  <small>TOTAL DUE (COD)</small>
-                  <b className="order-total-price">{money(order.total)}</b>
-                </div>
-              </div>
-
-              <div className="buyer-order-card-bottom">
-                <div className="order-actions-left">
-                  {order.status !== 'Delivered' && order.status !== 'Cancelled' && (
-                    <button
-                      type="button"
-                      className="text-link danger-link"
-                      onClick={() => handleCancel(order.id)}
-                    >
-                      Cancel order
-                    </button>
-                  )}
-                  {Array.isArray(order.products) && order.products.length > 0 && (
-                    <button
-                      type="button"
-                      className="text-link"
-                      onClick={() => handleReorder(order)}
-                    >
-                      <RotateCcw size={13} /> Reorder items
-                    </button>
-                  )}
-                </div>
-                <Link to={`/orders/${order.id}`} className="primary-btn">
-                  Track order →
-                </Link>
-              </div>
-            </article>
           ))}
         </div>
-      ) : (
-        <div className="ops-empty buyer-orders-empty">
-          <Package size={36} />
-          <h3>No orders match your filter</h3>
-          <p>Try searching with another keyword or resetting the status tab.</p>
-          <button type="button" className="outline-btn" onClick={() => { setActiveTab('All'); setQuery('') }}>
-            Reset filters
-          </button>
+
+        <div className="buyer-orders-toolbar">
+          <label className="order-search-input-wrap">
+            <Search size={17} aria-hidden="true" />
+            <input
+              type="search"
+              value={query}
+              onChange={event => setQuery(event.target.value)}
+              placeholder="Search order number, merchant, item or destination"
+              aria-label="Search orders"
+            />
+            {query && (
+              <button type="button" aria-label="Clear search" onClick={() => setQuery('')}>
+                <X size={15} />
+              </button>
+            )}
+          </label>
+          <span className="orders-count-label">
+            <strong>{visible.length}</strong> of {orders.length} order{orders.length === 1 ? '' : 's'}
+          </span>
         </div>
-      )}
+
+        <div id="buyer-orders-results" className="buyer-orders-results" role="tabpanel">
+          {visible.length > 0 ? (
+            <div className="buyer-orders-list">
+              {visible.map(order => {
+                const products = Array.isArray(order.products) ? order.products : []
+                const itemCount = Number.isFinite(Number(order.items))
+                  ? Number(order.items)
+                  : products.reduce((sum, product) => sum + (product.qty || 1), 0)
+                return (
+                  <article className="buyer-order-card" key={order.id}>
+                    <div className="buyer-order-card-top">
+                      <div className="buyer-order-reference-block">
+                        <span className="eyebrow">ORDER NUMBER</span>
+                        <Link to={`/orders/${order.id}`} className="buyer-order-reference">{order.id}</Link>
+                        <small>{order.created || 'Recently placed'} <span aria-hidden="true">·</span> {order.seller || 'MARCHY marketplace'}</small>
+                      </div>
+                      <Status value={order.status} language={language} />
+                    </div>
+
+                    <div className="buyer-order-products-row">
+                      {products.length > 0 ? (
+                        <div className="buyer-order-thumbnails" aria-label={`${products.length} product lines`}>
+                          {products.slice(0, 4).map((product, index) => (
+                            <div key={`${product.id || product.name}-${index}`} className="order-prod-thumb" title={`${product.name} (Qty: ${product.qty || 1})`}>
+                              <img
+                                src={product.image || '/product-placeholder.svg'}
+                                alt={product.name || 'Ordered product'}
+                                loading="lazy"
+                                onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = '/product-placeholder.svg' }}
+                              />
+                              <span className="thumb-qty">×{product.qty || 1}</span>
+                            </div>
+                          ))}
+                          {products.length > 4 && <span className="buyer-order-more-items">+{products.length - 4}</span>}
+                        </div>
+                      ) : (
+                        <div className="order-placeholder-thumb"><Package size={22} /></div>
+                      )}
+                      <div className="order-items-summary-text">
+                        <b>{itemCount} item{itemCount === 1 ? '' : 's'}</b>
+                        <small>Delivery destination: {order.city || 'Not provided'}{order.city ? ', Tunisia' : ''}</small>
+                      </div>
+                    </div>
+
+                    <div className="buyer-order-card-details">
+                      <div><small>MERCHANT</small><b>{order.seller || 'Not specified'}</b></div>
+                      <div><small>PAYMENT METHOD</small><b>{order.payment || 'Not specified'}</b></div>
+                      <div><small>{order.payment?.toLowerCase().includes('cash') ? 'AMOUNT DUE ON DELIVERY' : 'ORDER TOTAL'}</small><b className="order-total-price">{money(order.total)}</b></div>
+                    </div>
+
+                    <div className="buyer-order-card-bottom">
+                      <div className="order-actions-left">
+                        {canCancelOrder(order.status) && (
+                          <button type="button" className="text-link danger-link" onClick={() => handleCancel(order)}>
+                            Cancel order
+                          </button>
+                        )}
+                        {products.length > 0 && (
+                          <button type="button" className="text-link" onClick={() => handleReorder(order)}>
+                            <RotateCcw size={13} /> Reorder
+                          </button>
+                        )}
+                      </div>
+                      <Link to={`/orders/${order.id}`} className="primary-btn">View order <span aria-hidden="true">→</span></Link>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="ops-empty buyer-orders-empty">
+              <span className="buyer-orders-empty-icon"><Package size={28} /></span>
+              <h3>{orders.length === 0 ? 'No orders yet' : 'No orders found'}</h3>
+              <p>{orders.length === 0
+                ? 'When you place an order, it will appear here with its items and status.'
+                : 'Try a different search term or choose another status filter.'}</p>
+              {orders.length === 0
+                ? <Link to="/search" className="primary-btn">Discover products <span aria-hidden="true">→</span></Link>
+                : <button type="button" className="outline-btn" onClick={resetFilters}>Clear filters</button>}
+            </div>
+          )}
+        </div>
+      </section>
 
       <div className="buyer-orders-footer-nav">
         <Link to="/account" className="text-link"><ArrowLeft size={14} /> Back to account</Link>
-        <Link to="/search" className="text-link">Explore marketplace →</Link>
+        <Link to="/search" className="text-link">Continue shopping <span aria-hidden="true">→</span></Link>
       </div>
     </main>,
     language
