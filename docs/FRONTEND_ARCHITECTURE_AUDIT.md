@@ -101,3 +101,47 @@ No component or route has been deleted in this pass.
 - The last application-code cleanup commit checked was `7ef6ba7702f63f5d0b2c464e7c46a67a88bb840f`; later commits in this batch only updated audit documentation.
 - At the verification checkpoint, GitHub reported `khalil` diverged from `main`: 232 commits ahead and 1 behind. The branch has since received additional audit-documentation commits. This cleanup did not merge, rebase or modify `main`.
 - The Vercel status check on the latest cleanup commit reports `failure` with a target URL indicating `build-rate-limit`. This is a deployment/build quota status, not evidence of a source compilation error. The production build and Playwright suite remain unverified and must be run in an environment with available build capacity.
+
+## CSS selector ownership audit — second pass
+
+A source-level selector inventory was run across all 22 stylesheets imported by `src/styles.css`. This is a static selector inventory, not a browser-computed cascade analysis: repeated selectors can be intentional across breakpoints, themes or refinement layers. The following overlaps are therefore migration candidates, not automatic deletion targets.
+
+### Confirmed high-risk ownership overlaps
+
+| Selector area | Files sharing selectors | Risk / next action |
+|---|---|---|
+| Product detail layout and gallery | `buyer-ui-polish.css`, `product-page-refinement.css`, `experience-upgrade.css`, `discovery.css` | Highest. Several layout, image-stage, buy-panel, seller-card and mobile-buybar rules are redefined. Establish one product-page owner and migrate after computed-style comparison. |
+| Checkout | `checkout.css`, `experience-upgrade.css` | High. Checkout page/layout/steps/panels/summary selectors are repeated. Keep `checkout.css` as feature owner; migrate only verified refinements. |
+| Listing and result controls | `result-controls.css`, `experience-upgrade.css`, `operations.css`, `buyer-ui-polish.css` | High. Toolbar, view toggle, filters and result controls have multiple owners. `result-controls.css` should own reusable controls; page-specific layout stays with discovery. |
+| Cart and seller grouping | `multi-seller-basket.css`, `shopping.css`, `experience-upgrade.css` | High. Cart summary, checkout action, seller grouping and trust-note selectors repeat. `shopping.css` / `multi-seller-basket.css` should own cart features. |
+| Shared header and navigation | `base.css`, `design-system.css`, `seller-workspace.css`, `quality-refinements.css`, `shopping.css` | Medium-high. Some repeats are global shell variants and some are late refinements. Define shell ownership before moving rules. |
+| Product cards and catalogue primitives | `base.css`, `discovery.css`, `design-foundation.css`, `seller-experience.css`, `quality-refinements.css` | Medium-high. Repeated product-card/photo/info/name/price/action selectors cross feature boundaries. Keep primitives in shared catalogue styles and page layout in feature styles. |
+| Theme variants | `theme.css`, `buyer-ui-polish.css`, `product-page-refinement.css` | Medium. Dark-theme selectors overlap with component refinements. Preserve theme-specific overrides until both themes are visually checked. |
+
+### Concrete duplicate selector examples
+
+- Product page: `.product-detail-layout`, `.product-image-stage`, `.product-buy-panel`, `.product-seller-card`, `.product-mobile-buybar`.
+- Checkout: `.checkout-layout`, `.checkout-page`, `.checkout-steps`, `.checkout-summary`.
+- Result controls: `.results-toolbar-actions`, `.listing-view-toggle`, `.store-search-sort`, `.product-share-button`.
+- Cart: `.cart-summary`, `.cart-checkout-button`, `.cart-trust-note`, `.cart-seller-group-heading`.
+- Product cards: `.product-card`, `.product-photo`, `.product-info`, `.product-name`, `.price-row strong`, `.add-btn`.
+
+### File-size and ownership observations
+
+- `upwork-ui.css`: 5,055 lines and approximately 926 unique selectors in the static inventory. This is the largest refinement layer and should be split by component ownership only after usage mapping.
+- `buyer-ui-polish.css`: 1,417 lines and approximately 677 unique selectors.
+- `experience-upgrade.css`: 1,037 lines and approximately 486 unique selectors.
+- `product-page-refinement.css`: 829 lines and approximately 121 unique selectors.
+- `seller-workspace.css`: 319 lines and approximately 644 unique selectors (many selector groups are comma-separated).
+
+The counts are approximate because nested at-rules and complex CSS syntax are not fully parsed by the lightweight inventory. They are useful for locating hotspots, not for measuring runtime CSS usage.
+
+### Migration order
+
+1. Product detail: make `product-page-refinement.css` the canonical owner for product detail presentation; compare all media-query and theme variants before removing duplicates from broad refinement files.
+2. Checkout: keep `checkout.css` as owner and extract only checkout-specific late overrides from `experience-upgrade.css`.
+3. Results controls: keep `result-controls.css` as owner for reusable view toggles, share/compare actions and toolbar controls.
+4. Cart: keep `shopping.css` and `multi-seller-basket.css` as owners; move cart-only refinements out of broad layers.
+5. Shared shell and product cards: settle shared component ownership and migrate last, since these selectors affect many routes.
+
+**No duplicate selector blocks were deleted in this pass.** The inspected files contain repeated selectors with different declarations and responsive variants; deleting based on selector name alone would change the cascade and risk visual regressions.
