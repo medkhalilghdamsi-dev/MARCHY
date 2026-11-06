@@ -1,4 +1,4 @@
-# MARCHY Frontend — Phase 0 Audit
+# MARCHY Frontend — Historical Phase 0 Audit
 
 _Date: 2026-11-05 · Branch: `frontend/marchy-production-upgrade` · Scope: frontend only (React 18 + Vite 6 + React Router 7)_
 
