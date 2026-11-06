@@ -58,9 +58,9 @@ export function useMarketplaceState() {
     })
   }, [])
 
-  const updateQty = useCallback((id, qty, variant = null) => {
+  const updateQty = useCallback((id, qty, variant = null, sellerSlug = null) => {
     if (qty < 1) return
-    const line = { id, selectedVariant: variant || null }
+    const line = { id, selectedVariant: variant || null, sellerSlug: sellerSlug || null }
     setCart(previous => {
       const next = previous.map(item => isSameCartLine(item, line) ? { ...item, qty } : item)
       writeJson('marchy-cart', next)
@@ -68,8 +68,8 @@ export function useMarketplaceState() {
     })
   }, [])
 
-  const removeItem = useCallback((id, variant = null) => {
-    const line = { id, selectedVariant: variant || null }
+  const removeItem = useCallback((id, variant = null, sellerSlug = null) => {
+    const line = { id, selectedVariant: variant || null, sellerSlug: sellerSlug || null }
     setCart(previous => {
       const next = previous.filter(item => !isSameCartLine(item, line))
       writeJson('marchy-cart', next)
@@ -123,8 +123,8 @@ export function useMarketplaceState() {
     })
   }, [])
 
-  const removeSavedItem = useCallback((id, variant = null) => {
-    const line = { id, selectedVariant: variant || null }
+  const removeSavedItem = useCallback((id, variant = null, sellerSlug = null) => {
+    const line = { id, selectedVariant: variant || null, sellerSlug: sellerSlug || null }
     setSavedForLater(previous => {
       const next = previous.filter(entry => !isSameCartLine(entry, line))
       writeJson('marchy-saved-for-later', next)
