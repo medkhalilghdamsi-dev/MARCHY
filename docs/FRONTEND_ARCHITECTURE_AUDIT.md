@@ -347,3 +347,12 @@ Completed a final product-page commerce hierarchy pass.
 - Refined gallery borders, active thumbnail treatment and information-section rhythm.
 - Added responsive, dark-theme and reduced-motion coverage.
 - Preserved all existing product, seller-offer, cart, wishlist, comparison and checkout logic.
+
+
+## Buyer shell consistency pass — 2026-11-06
+
+- Refined the global footer to match its five actual content groups: brand, discovery, account, seller onboarding, and support. Desktop now uses a dedicated brand column plus four link columns, with clear tablet/mobile reflow.
+- Improved footer headings, link rhythm, brand summary width, and legal/footer baseline alignment while retaining existing destinations and copy.
+- Standardized the five-item mobile tab bar with consistent icon/label alignment, active-route treatment, accessible focus, badge placement, and safe-area-aware padding for modern phones.
+- Added dark-theme and reduced-motion handling to the shared navigation surfaces.
+- CSS-only presentation changes; no routing, state, persistence, API, or backend behavior changed.
