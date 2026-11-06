@@ -47,7 +47,7 @@ These layers contain cross-page refinements and late overrides. Removing or movi
 
 `src/utils/marketplace.js` and `src/utils/storage.js` both implemented safe JSON localStorage reads/writes.
 
-**Change made:** `marketplace.js` now reuses the canonical `readJson` and `writeJson` helpers from `storage.js`, preserving its existing exports for callers.
+**Change made:** `marketplace.js` now reuses the canonical `readText`, `readJson` and `writeJson` helpers from `storage.js`, preserving its existing exports and fallback semantics for callers.
 
 ### 4. Component boundaries need targeted review
 
