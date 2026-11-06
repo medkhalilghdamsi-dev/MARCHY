@@ -191,3 +191,10 @@ The current boundary still has three areas to address before calling the fronten
 - Keep the shared design system as the single source for buttons, inputs, cards, badges, tables, focus states and responsive behavior. Feature styles should compose those primitives rather than reimplement them.
 - Keep the public seller storefront buyer-facing; it remains part of the marketplace shopping journey.
 
+
+
+---
+
+## Design reference and UI quality direction
+
+The design research translation and implementation checklist live in [DESIGN_INSPIRATION_PLAYBOOK.md](./DESIGN_INSPIRATION_PLAYBOOK.md). It maps the requested inspiration libraries to concrete MARCHY surfaces and sets evidence, accessibility, responsive, RTL, and consistency rules for future UI work.
