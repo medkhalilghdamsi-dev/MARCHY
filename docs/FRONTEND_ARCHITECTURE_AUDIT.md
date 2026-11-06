@@ -542,3 +542,10 @@ Completed a final product-page commerce hierarchy pass.
 - Existing header layout, position, background and shadow declarations are unchanged.
 - Source change: `src/styles/base.css`.
 - Verification remains source-level; the Playwright stacking regression and browser visual checks have not been executed here.
+
+## Buyer order-confirmation CSS ownership migration — 2026-11-06
+
+- Moved the isolated `.buyer-order-success` component rules, including its responsive layout, from the global buyer refinement layer into `shopping.css`, alongside buyer commerce and transaction surfaces.
+- Preserved the selectors, declarations, breakpoint, and source order relative to later refinement layers; this is an ownership-only move with no intended visual or behavior change.
+- No JSX, state, routing, storage, API, or backend code changed.
+- Verification is source-level only; the CSS audit, production build, and browser visual regression have not been executed in this environment.
