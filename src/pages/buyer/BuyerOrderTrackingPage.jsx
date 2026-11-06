@@ -88,14 +88,14 @@ export function BuyerOrderTrackingPage(props) {
             <p>{order.cancelReason || 'This order was cancelled. No delivery will take place.'}</p>
           </div>
         ) : (
-          <div className="order-stepper-wrap" aria-label="Delivery progress">
+          <div className="order-stepper-wrap" role="group" aria-label="Delivery progress">
             <ol className="buyer-tracking-steps">
               {steps.map((step, index) => {
                 const isComplete = currentStepIndex >= index
                 const isCurrent = currentStepIndex === index
                 return (
-                  <li key={step} className={`${isComplete ? 'complete' : ''} ${isCurrent ? 'is-current' : ''}`}>
-                    <span className="buyer-tracking-step-dot" aria-current={isCurrent ? 'step' : undefined}>
+                  <li key={step} className={`${isComplete ? 'complete' : ''} ${isCurrent ? 'is-current' : ''}`} aria-current={isCurrent ? 'step' : undefined}>
+                    <span className="buyer-tracking-step-dot">
                       {isComplete ? '✓' : index + 1}
                     </span>
                     <div>
@@ -149,6 +149,8 @@ export function BuyerOrderTrackingPage(props) {
             type="button"
             className="outline-btn"
             onClick={() => setInvoiceOpen(true)}
+              aria-expanded={invoiceOpen}
+              aria-controls="buyer-invoice-dialog"
           >
             <Printer size={15} /> View Receipt
           </button>
@@ -157,6 +159,8 @@ export function BuyerOrderTrackingPage(props) {
             type="button"
             className="outline-btn"
             onClick={() => setContactOpen(true)}
+              aria-expanded={contactOpen}
+              aria-controls="buyer-contact-dialog"
           >
             <MessageSquare size={15} /> Contact Merchant
           </button>
@@ -304,7 +308,7 @@ export function BuyerOrderTrackingPage(props) {
       {/* Invoice Modal Preview */}
       {invoiceOpen && (
         <div className="quick-view-backdrop" role="presentation">
-          <div className="invoice-modal-card" role="dialog" aria-modal="true" aria-labelledby="buyer-invoice-title">
+          <div id="buyer-invoice-dialog" className="invoice-modal-card" role="dialog" aria-modal="true" aria-labelledby="buyer-invoice-title">
             <button
               type="button"
               className="quick-view-close"
@@ -407,7 +411,7 @@ export function BuyerOrderTrackingPage(props) {
       {/* Contact Seller Modal */}
       {contactOpen && (
         <div className="quick-view-backdrop" role="presentation">
-          <div className="contact-modal-card" role="dialog" aria-modal="true" aria-labelledby="buyer-contact-title">
+          <div id="buyer-contact-dialog" className="contact-modal-card" role="dialog" aria-modal="true" aria-labelledby="buyer-contact-title" aria-describedby="buyer-contact-description">
             <button
               type="button"
               className="quick-view-close"
@@ -418,7 +422,7 @@ export function BuyerOrderTrackingPage(props) {
             </button>
             <span className="eyebrow">DIRECT SELLER CONNECTION</span>
             <h3 id="buyer-contact-title">Contact {order.seller}</h3>
-            <p>Seller contact is a preview only. Direct messaging and verified merchant contact details will be connected with the backend.</p>
+            <p id="buyer-contact-description">Seller contact is a preview only. Direct messaging and verified merchant contact details will be connected with the backend.</p>
             <div className="seller-contact-methods">
               <div className="contact-method-item">
                 <Phone size={18} />
