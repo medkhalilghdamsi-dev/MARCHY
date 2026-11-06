@@ -135,3 +135,15 @@
   font-size: 13px;
   line-height: 1.6;
 }
+
+
+/* Final buyer accessibility and focus-state corrections. */
+.product-card .price-row del,
+.home-landing-v2 .price-row del,
+.home-landing-v2 .product-info .price-row del {
+  color: #52665b;
+}
+
+.header .searchbar:focus-within {
+  border-color: #83ae95 !important;
+}

@@ -575,9 +575,10 @@ test('buyer order history searches, filters and opens tracking', async ({ page }
   await expect(page.locator('.buyer-order-card')).toHaveCount(1)
   await expect(page.locator('.buyer-order-card')).toContainText('MC-1048')
   await page.getByLabel('Search orders').fill('')
-  await page.getByLabel('Order status').selectOption('Delivered')
+  await page.getByRole('button', { name: /^Delivered/ }).click()
   await expect(page.locator('.buyer-order-card')).toHaveCount(1)
-  await page.getByRole('link', { name: 'Track order' }).click()
+  await expect(page.locator('.buyer-order-card')).toContainText('MC-1046')
+  await page.getByRole('link', { name: 'View order', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Track Order MC-1046' })).toBeVisible()
 })
 
