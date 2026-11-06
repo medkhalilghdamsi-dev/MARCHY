@@ -183,10 +183,10 @@ export function CheckoutPage() {
           )}
 
           <div className="checkout-fields">
-            <label>Full name<input autoComplete="name" required value={details.name} onChange={e => update('name', e.target.value)} placeholder="Your full name"/></label>
-            <label>Phone number<input autoComplete="tel" type="tel" required inputMode="tel" pattern="[+0-9() .-]{7,20}" value={details.phone} onChange={e => update('phone', e.target.value)} placeholder="+216 XX XXX XXX"/></label>
-            <label>Governorate / Region
-              <select autoComplete="address-level1" required value={details.city} onChange={e => update('city', e.target.value)}>
+            <label htmlFor="checkout-full-name">Full name<input id="checkout-full-name" autoComplete="name" required aria-describedby="checkout-name-hint" value={details.name} onChange={e => update('name', e.target.value)} placeholder="Your full name"/><small id="checkout-name-hint" className="checkout-field-hint">Enter the name the courier can use to identify the recipient.</small></label>
+            <label htmlFor="checkout-phone">Phone number<input id="checkout-phone" autoComplete="tel" type="tel" required inputMode="tel" pattern="[+0-9() .-]{7,20}" aria-describedby="checkout-phone-hint" value={details.phone} onChange={e => update('phone', e.target.value)} placeholder="+216 XX XXX XXX"/><small id="checkout-phone-hint" className="checkout-field-hint">Use a reachable number, including the +216 country code when applicable.</small></label>
+            <label htmlFor="checkout-region">Governorate / Region
+              <select id="checkout-region" autoComplete="address-level1" required value={details.city} onChange={e => update('city', e.target.value)}>
                 <option value="Tunis">Tunis (Grand Tunis)</option>
                 <option value="Ariana">Ariana (Grand Tunis)</option>
                 <option value="Ben Arous">Ben Arous (Grand Tunis)</option>
@@ -205,22 +205,22 @@ export function CheckoutPage() {
                 <option value="Other governorate">Other governorate</option>
               </select>
             </label>
-            <label className="checkout-field-wide">Delivery address<input autoComplete="street-address" required value={details.address} onChange={e => update('address', e.target.value)} placeholder="Street, building and neighbourhood"/></label>
-            <label>Delivery method
-              <select value={details.deliveryMethod} onChange={e => update('deliveryMethod', e.target.value)}>
+            <label className="checkout-field-wide" htmlFor="checkout-address">Delivery address<input id="checkout-address" autoComplete="street-address" required aria-describedby="checkout-address-hint" value={details.address} onChange={e => update('address', e.target.value)} placeholder="Street, building and neighbourhood"/><small id="checkout-address-hint" className="checkout-field-hint">Include the building, street and neighbourhood so the courier can find you.</small></label>
+            <label htmlFor="checkout-delivery-method">Delivery method
+              <select id="checkout-delivery-method" value={details.deliveryMethod} onChange={e => update('deliveryMethod', e.target.value)}>
                 <option value="Standard courier (seller confirmed)">Standard courier (seller confirmed)</option>
                 <option value="Express dispatch (24–48h where available)">Express dispatch (24–48h where available)</option>
                 <option value="Local pickup / relay point (demo)">Local pickup / relay point (demo)</option>
               </select>
             </label>
-            <label>Payment method (Demo only)
-              <select value={details.paymentMethod} onChange={e => update('paymentMethod', e.target.value)}>
+            <label htmlFor="checkout-payment-method">Payment method (Demo only)
+              <select id="checkout-payment-method" value={details.paymentMethod} onChange={e => update('paymentMethod', e.target.value)}>
                 <option value="Cash on delivery · demo">Cash on delivery (Pay upon inspection · Demo)</option>
                 <option value="Bank card preview · demo">Bank card / ClicToPay preview (Simulated · Demo only)</option>
                 <option value="Mobile wallet preview · demo">Flouci / Mobile wallet preview (Simulated · Demo only)</option>
               </select>
             </label>
-            <label className="checkout-field-wide">Delivery notes <span className="checkout-optional">Optional</span><textarea value={details.notes} onChange={e => update('notes', e.target.value)} rows="3" placeholder="Landmark or useful delivery instructions"/></label>
+            <label className="checkout-field-wide" htmlFor="checkout-notes">Delivery notes <span className="checkout-optional">Optional</span><textarea id="checkout-notes" value={details.notes} onChange={e => update('notes', e.target.value)} rows="3" placeholder="Landmark or useful delivery instructions"/></label>
           </div>
 
           <label className="checkout-save-address-opt">
