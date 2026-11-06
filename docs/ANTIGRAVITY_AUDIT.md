@@ -1,5 +1,7 @@
 # MARCHY Frontend — Historical Phase 0 Audit
 
+> **Historical snapshot — 2026-11-05.** This is a pre-cleanup audit from an earlier repository state and branch. Its file counts, architecture descriptions, bug reports, route names, test results and proposed deletions are not current. Use [ARCHITECTURE.md](./ARCHITECTURE.md) for the current source map and [FRONTEND_ARCHITECTURE_AUDIT.md](./FRONTEND_ARCHITECTURE_AUDIT.md) for the current cleanup status. Retained for historical context only.
+
 _Date: 2026-11-05 · Branch: `frontend/marchy-production-upgrade` · Scope: frontend only (React 18 + Vite 6 + React Router 7)_
 
 This audit was produced **before** any rewrite. All figures were measured on the repository as found
