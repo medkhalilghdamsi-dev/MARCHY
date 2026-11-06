@@ -1,4 +1,4 @@
-import { products as initialProducts, categories as initialCategories, mockReviews } from '../data/products'
+import { products as initialProducts } from '../data/products'
 import { sellers } from '../data/sellers'
 import { readJson, writeJson } from '../utils/marketplace'
 import { DEFAULT_OFFERS, DEFAULT_QA, DEFAULT_PROMOTIONS, DEFAULT_NOTIFICATIONS } from '../data/marketplaceDemoData'
