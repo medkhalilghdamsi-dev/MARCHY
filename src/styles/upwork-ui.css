@@ -302,15 +302,17 @@
   place-items: center;
 }
 
-.seller-verified-chip {
+.seller-location-chip {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  flex: 0 0 auto;
   font-size: 10px;
-  font-weight: 700;
-  color: #15803d;
-  background: #dcfce7;
-  padding: 2px 7px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  padding: 3px 7px;
   border-radius: 12px;
 }
 
