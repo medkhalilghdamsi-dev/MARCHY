@@ -69,7 +69,7 @@ function splitSelectors(header) {
   return selectors.filter(Boolean)
 }
 
-function scan(source, file, context = []) {
+function scan(source, file, context = [], lineOffset = 0) {
   let cursor = 0
   while (cursor < source.length) {
     const open = source.indexOf('{', cursor)
@@ -82,12 +82,12 @@ function scan(source, file, context = []) {
     const close = findBlockEnd(source, open)
     const header = source.slice(cursor, open).replace(/\/\*[\s\S]*?\*\//g, '').trim()
     const body = source.slice(open + 1, close)
-    const line = source.slice(0, cursor).split('\n').length
+    const line = lineOffset + source.slice(0, cursor).split('\n').length
     cursor = close + 1
     if (!header) continue
 
     if (/^@(media|supports|container|layer|scope)\b/i.test(header)) {
-      scan(body, file, [...context, header.replace(/\s+/g, ' ')])
+      scan(body, file, [...context, header.replace(/\s+/g, ' ')], lineOffset + source.slice(0, open + 1).split('\n').length - 1)
       continue
     }
     if (header.startsWith('@')) continue
@@ -132,6 +132,6 @@ if (crossFile.length) {
 }
 if (repeatedInFile.length) {
   console.log('\nRepeated blocks within a stylesheet (may be responsive refinements):')
-  for (const item of repeatedInFile) console.log(`- ${item.selector} (${item.occurrences} blocks)\n  ${item.files.join(', ')}`)
+  for (const item of repeatedInFile) console.log(`- ${item.selector} (${item.occurrences} blocks)\n  ${item.locations.join(', ')}`)
 }
 console.log('\nThis report is a static ownership aid, not a visual-regression or computed-cascade test.')
