@@ -72,6 +72,7 @@ export function WishlistPage() {
           <div className="wishlist-category-tabs" role="group" aria-label="Product categories">{categories.map(cat => <button key={cat} type="button" className={`variant-pill ${selectedCat === cat ? 'is-active' : ''}`} onClick={() => setSelectedCat(cat)} aria-pressed={selectedCat === cat}>{cat}</button>)}</div>
           <div className="wishlist-action-btns"><button type="button" className="primary-btn" onClick={moveAvailable} disabled={!saved.some(p => p.bestOffer)}><ShoppingCart size={15}/> Add available to cart</button><button type="button" className="outline-btn danger-link" onClick={clearAll}><Trash2 size={15}/> Clear list</button></div>
         </div>
+        <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{`Showing ${filtered.length} of ${saved.length} saved products.`}</p>
         {filtered.length ? <div className="wishlist-saved-list">{filtered.map(product => {
           const offer = product.bestOffer
           return <article className="wishlist-saved-card" key={product.id}>
@@ -84,7 +85,7 @@ export function WishlistPage() {
             </div>
             <div className="wishlist-saved-side">{offer ? <><div className="wishlist-saved-price"><strong>{money(offer.price)}</strong>{offer.oldPrice && Number(offer.oldPrice) > Number(offer.price) && <del>{money(offer.oldPrice)}</del>}</div><button type="button" className="primary-btn wishlist-add-button" onClick={() => addOffer(product, offer)}><ShoppingCart size={15}/> Add to cart</button></> : <Link to={`/product/${product.id}`} className="outline-btn wishlist-view-button">View product</Link>}<button type="button" className="wishlist-remove-button" onClick={() => { toggleWish(product.id); toast('Product removed from saved items.', { type: 'info' }) }}><Heart size={15} fill="currentColor"/> Remove</button></div>
           </article>
-        })}</div> : <div className="wishlist-filter-empty"><Search size={22}/><b>No saved products match these filters</b><p>Try another search or clear a filter.</p><button type="button" className="text-link" onClick={() => { setSearch(''); setSelectedCat('All'); setAvailability('all') }}>Clear filters</button></div>}
+        })}</div> : <div className="wishlist-filter-empty"><Search size={22}/><b>No saved products match these filters</b><p>Try another search or clear a filter.</p><button type="button" className="text-link" onClick={() => { setSearch(''); setSelectedCat('All'); setAvailability('all'); setSort('saved') }}>Clear filters</button></div>}
         <div className="wishlist-footnote"><span><Heart size={18}/></span><p>Your saved list is stored on this device. Prices and stock are demo marketplace data; confirm the current offer on the product page before ordering.</p></div>
       </> : <div className="wishlist-empty wishlist-workspace-empty"><div className="wishlist-empty-icon"><Heart size={30} strokeWidth={1.6}/></div><span className="eyebrow">YOUR NEXT FIND IS OUT THERE</span><h2>No saved products yet</h2><p>Tap the heart on any product to keep it here. Your collection will be ready whenever you are.</p><Link to="/search" className="primary-btn">Explore the marketplace <ArrowRight size={15}/></Link></div>}
     </main>, language
