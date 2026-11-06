@@ -153,6 +153,7 @@ export function ProductPage() {
   }, [product?.id])
   if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span><Search size={22}/></span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace <ArrowRight size={15}/></Link></main>, language)
   const seller = sellerForProduct(product)
+  const currentSeller = sellers.find(entry => entry.slug === currentSellerSlug) || seller
   const galleryImages = [...new Set([...(Array.isArray(product.images) ? product.images : []), product.image].filter(Boolean))]
   const displayedImage = galleryImages.includes(activeImage) ? activeImage : galleryImages[0]
   const related = [
@@ -339,16 +340,16 @@ export function ProductPage() {
     </div>
     <section className="product-buyer-highlights" aria-label="Important product information"><div><span>01</span><b>Know what you're buying</b><small>Review the description and confirm exact specifications.</small></div><div><span>02</span><b>Check with the shop</b><small>Ask about variants, condition and current availability.</small></div><div><span>03</span><b>Confirm delivery first</b><small>Agree on coverage, cost and timing before ordering.</small></div></section>
     
-    <section className="product-information-grid"><ProductSpecs product={product} seller={seller} />
+    <section className="product-information-grid"><ProductSpecs product={product} seller={currentSeller} />
       <article className="product-information-card">
         <span className="eyebrow">PRODUCT DETAILS</span><h2>About this listing</h2>
         <p>{product.description || 'No product information has been supplied for this sample listing. Contact the seller to confirm the exact product, condition, specifications and what is included.'}</p>
-        <dl className="product-attribute-list"><div><dt>Category</dt><dd>{product.category}</dd></div><div><dt>Seller location</dt><dd>{seller.city}, Tunisia</dd></div><div><dt>Price display</dt><dd>Tunisian dinar (TND)</dd></div><div><dt>Listing type</dt><dd>Sample catalogue</dd></div></dl>
+        <dl className="product-attribute-list"><div><dt>Category</dt><dd>{product.category}</dd></div><div><dt>Seller location</dt><dd>{currentSeller.city}, Tunisia</dd></div><div><dt>Price display</dt><dd>Tunisian dinar (TND)</dd></div><div><dt>Listing type</dt><dd>Sample catalogue</dd></div></dl>
       </article>
       <article className="product-information-card product-order-checklist">
         <span className="eyebrow">BEFORE YOU ORDER</span><h2>Confirm these details with the seller</h2>
         <ul>{sellerQuestions.map(question=><li key={question}>{question}</li>)}</ul>
-        <Link to={`/seller/${seller.slug}`} className="text-link">Visit {seller.name}'s storefront <ArrowRight size={15}/></Link>
+        <Link to={`/seller/${currentSellerSlug}`} className="text-link">Visit {currentSellerName}'s storefront <ArrowRight size={15}/></Link>
       </article>
     </section>
 
