@@ -1734,7 +1734,7 @@ html[data-theme="dark"] .upwork-cta-buyers {
   cursor: pointer;
 }
 
-/* COD Guarantee Banner in Checkout Step 2 */
+/* Checkout preview notice */
 .checkout-preview-note {
   display: flex;
   align-items: flex-start;
