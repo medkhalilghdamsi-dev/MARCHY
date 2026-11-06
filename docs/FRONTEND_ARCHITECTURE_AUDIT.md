@@ -447,3 +447,12 @@ Completed a final product-page commerce hierarchy pass.
 - `ConfirmDialog` inherits the improvements automatically because it composes the shared `Modal` primitive.
 - Source changes: `src/components/ui/index.jsx` and `src/styles/base.css`.
 - Verification is source-level only; confirm-dialog call-site behavior, browser keyboard testing and production build remain outstanding.
+
+
+## Shared tab keyboard interaction refinement — 2026-11-06
+
+- The reusable `Tabs` primitive now follows the expected tablist keyboard model: arrow-key movement, Home/End navigation, and a single active tab in the normal Tab sequence.
+- Arrow direction reverses in RTL workspaces while preserving the existing controlled `activeId` / `onChange` contract.
+- Existing tab labels, click behavior and workspace content rendering remain unchanged.
+- Source change: `src/components/ui/index.jsx`.
+- Verification is source-level only; keyboard testing across each consuming workspace and production build remain outstanding.
