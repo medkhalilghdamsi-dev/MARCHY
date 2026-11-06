@@ -821,3 +821,43 @@ test('seller routes use an independent portal shell without buyer shopping chrom
   await expect(page.locator('.mobile-tabbar')).toBeVisible()
   await expect(page.locator('.seller-portal-header')).toHaveCount(0)
 })
+
+
+test('product cards distinguish illustrative catalogue data from verified marketplace facts', async ({ page }) => {
+  await page.goto('/search')
+  const card = page.locator('.product-card').first()
+  await expect(card).toContainText('Sample listing')
+  await expect(card).toContainText('Delivery to confirm')
+  await expect(card).toContainText('Sample price')
+  await expect(card).not.toContainText('Verified')
+  await expect(card).not.toContainText('COD Available')
+  await expect(card).not.toContainText('Local dispatch')
+  await expect(card).toContainText('Sample rating')
+})
+
+test('buyer navigation sends merchants to the seller introduction page', async ({ page }) => {
+  await page.goto('/')
+  await page.locator('.nav').getByRole('link', { name: 'Sell on MARCHY' }).click()
+  await expect(page).toHaveURL(/\\/sell$/)
+  await expect(page.getByRole('main')).toContainText(/seller|storefront|merchant/i)
+})
+
+test('product detail keeps delivery and seller trust information explicitly unconfirmed', async ({ page }) => {
+  await page.goto('/product/1')
+  await expect(page.getByRole('region', { name: 'Delivery information' })).toContainText('Delivery details to confirm')
+  await expect(page.getByRole('region', { name: 'Delivery information' })).toContainText('not connected to live courier data')
+  await expect(page.locator('.product-listing-status')).toContainText('Sample offer')
+  await expect(page.locator('.product-seller-card')).toContainText('Sample storefront')
+  await expect(page.locator('.product-buy-panel')).not.toContainText('Verified merchant')
+  await expect(page.locator('.product-buy-panel')).not.toContainText('Cash on Delivery protection')
+})
+
+test('global search exposes its suggestions panel state accessibly', async ({ page }) => {
+  await page.goto('/')
+  const search = page.getByRole('search').getByLabel('Search products and stores')
+  await expect(search).toHaveAttribute('aria-expanded', 'false')
+  await search.fill('headphones')
+  await expect(search).toHaveAttribute('aria-expanded', 'true')
+  await expect(page.getByRole('region', { name: 'Search suggestions' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Search suggestions' })).toContainText('Wireless noise-cancelling headphones')
+})
