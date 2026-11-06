@@ -7,7 +7,37 @@ const viewports = [
   { name: 'tablet', width: 768, height: 1024 },
 ]
 
-test('live MARCHY landing page responsive visual and runtime audit', async ({ page }, testInfo) => {
+async function inspectLayout(page) {
+  return page.evaluate(() => {
+    const doc = document.documentElement
+    const overflowing = [...document.querySelectorAll('body *')].filter(el => {
+      const rect = el.getBoundingClientRect()
+      const style = getComputedStyle(el)
+      return rect.width > 0 && rect.height > 0 &&
+        (rect.right > innerWidth + 2 || rect.left < -2) &&
+        style.position !== 'fixed' && style.position !== 'absolute' &&
+        style.overflowX !== 'hidden'
+    }).slice(0, 12).map(el => ({
+      tag: el.tagName,
+      className: typeof el.className === 'string' ? el.className.slice(0, 100) : '',
+      text: (el.innerText || '').slice(0, 70),
+      left: Math.round(el.getBoundingClientRect().left),
+      right: Math.round(el.getBoundingClientRect().right),
+    }))
+    return {
+      viewport: { width: innerWidth, height: innerHeight },
+      documentWidth: doc.scrollWidth,
+      horizontalOverflow: doc.scrollWidth > innerWidth + 1,
+      overflowingElements: overflowing,
+      brokenImages: [...document.images].filter(img => !img.complete || img.naturalWidth === 0)
+        .slice(0, 12).map(img => ({ src: img.currentSrc || img.src, alt: img.alt })),
+      mainCount: document.querySelectorAll('main').length,
+      headingCount: document.querySelectorAll('h1').length,
+    }
+  })
+}
+
+test('live MARCHY mobile and tablet visual/runtime audit', async ({ page }, testInfo) => {
   const consoleErrors = []
   const pageErrors = []
   page.on('console', message => {
@@ -15,8 +45,7 @@ test('live MARCHY landing page responsive visual and runtime audit', async ({ pa
   })
   page.on('pageerror', error => pageErrors.push(error.message))
 
-  const route = process.env.MARCHY_AUDIT_PATH || '/'
-  await page.goto(route, { waitUntil: 'domcontentloaded' })
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
   await page.locator('body').waitFor()
 
   const routeLinks = await page.locator('a[href]').evaluateAll(links => {
@@ -27,59 +56,44 @@ test('live MARCHY landing page responsive visual and runtime audit', async ({ pa
       .filter(path => path && path !== '/'))].slice(0, 12)
   })
 
-  const results = []
+  const landingResults = []
   for (const viewport of viewports) {
     await page.setViewportSize({ width: viewport.width, height: viewport.height })
-    await page.waitForTimeout(350)
-    const metrics = await page.evaluate(() => {
-      const doc = document.documentElement
-      const body = document.body
-      const overflowing = [...document.querySelectorAll('body *')].filter(el => {
-        const rect = el.getBoundingClientRect()
-        const style = getComputedStyle(el)
-        return rect.width > 0 && rect.height > 0 &&
-          (rect.right > window.innerWidth + 2 || rect.left < -2) &&
-          style.position !== 'fixed' && style.position !== 'absolute' &&
-          style.overflowX !== 'hidden'
-      }).slice(0, 15).map(el => ({
-        tag: el.tagName,
-        className: typeof el.className === 'string' ? el.className.slice(0, 100) : '',
-        text: (el.innerText || '').slice(0, 70),
-        left: Math.round(el.getBoundingClientRect().left),
-        right: Math.round(el.getBoundingClientRect().right),
-      }))
-      return {
-        viewport: { width: innerWidth, height: innerHeight },
-        documentWidth: doc.scrollWidth,
-        bodyWidth: body.scrollWidth,
-        horizontalOverflow: doc.scrollWidth > innerWidth + 1,
-        overflowingElements: overflowing,
-        images: [...document.images].map(img => ({
-          src: img.currentSrc || img.src,
-          loaded: img.complete && img.naturalWidth > 0,
-          alt: img.alt,
-        })).filter(img => !img.loaded).slice(0, 15),
-        mainCount: document.querySelectorAll('main').length,
-        headingCount: document.querySelectorAll('h1').length,
-      }
-    })
-    results.push({ name: viewport.name, ...metrics })
+    await page.waitForTimeout(300)
+    const metrics = await inspectLayout(page)
+    landingResults.push({ name: viewport.name, ...metrics })
     await page.screenshot({
       path: testInfo.outputPath(`landing-${viewport.name}.png`),
       fullPage: true,
     })
   }
 
-  console.log('MARCHY_LIVE_AUDIT', JSON.stringify({
-    url: page.url(),
-    results,
-    routeLinks,
-    consoleErrors,
-    pageErrors,
-  }, null, 2))
+  const routeResults = []
+  for (const route of routeLinks) {
+    try {
+      await page.setViewportSize({ width: 390, height: 844 })
+      const response = await page.goto(route, { waitUntil: 'domcontentloaded', timeout: 30_000 })
+      await page.locator('body').waitFor({ timeout: 10_000 })
+      await page.waitForTimeout(250)
+      const metrics = await inspectLayout(page)
+      routeResults.push({ route, status: response?.status(), ...metrics })
+      const safeName = route.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').slice(0, 50) || 'home'
+      await page.screenshot({
+        path: testInfo.outputPath(`route-${safeName}.png`),
+        fullPage: true,
+      })
+    } catch (error) {
+      routeResults.push({ route, error: error.message })
+    }
+  }
+
+  const report = { url: 'https://marchy-khalil.onrender.com', landingResults, routeLinks, routeResults, consoleErrors, pageErrors }
+  console.log('MARCHY_LIVE_AUDIT', JSON.stringify(report, null, 2))
 
   expect(pageErrors, 'uncaught browser page errors').toEqual([])
-  expect(results.filter(result => result.horizontalOverflow).map(result => result.name),
-    'horizontal overflow at mobile/tablet widths').toEqual([])
-  expect(results[1].headingCount, 'landing page should have a primary heading').toBeGreaterThan(0)
+  expect(landingResults.filter(result => result.horizontalOverflow).map(result => result.name),
+    'horizontal overflow at landing-page breakpoints').toEqual([])
+  expect(landingResults[1].headingCount, 'landing page should have a primary heading').toBeGreaterThan(0)
+  expect(routeResults.filter(result => result.status && result.status >= 500),
+    'internal pages returning server errors').toEqual([])
 })
