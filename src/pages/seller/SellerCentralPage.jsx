@@ -1,22 +1,13 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowRight, Building2, ClipboardCheck, FileText, ShieldCheck, Store, Truck } from 'lucide-react'
 import { useMarketplace } from '../../providers/MarketplaceContext'
-import { SellerProfileWorkspace } from '../../components/seller/SellerProfileWorkspace'
+import { SellerCentralWorkspace } from '../../components/seller/SellerCentralWorkspace'
 import { SellerCentralNavigation } from '../../components/seller/SellerCentralNavigation'
 import { SELLER_CENTRAL_SECTIONS, SELLER_CENTRAL_SECTION_IDS } from '../../app/sellerCentralSections'
 import { useSellerOnboardingDraft } from '../../hooks/useSellerOnboardingDraft'
 import { translateTree } from '../../i18n/translate'
 
-
-const SellerCatalogManager = lazy(() => import('../../components/seller/SellerCatalogManager').then(m => ({ default: m.SellerCatalogManager })))
-const SellerInventoryWorkspace = lazy(() => import('../../components/seller/SellerInventoryWorkspace').then(m => ({ default: m.SellerInventoryWorkspace })))
-const SellerOffersManager = lazy(() => import('../../components/seller/SellerOffersManager').then(m => ({ default: m.SellerOffersManager })))
-const SellerOrdersWorkspace = lazy(() => import('../../components/seller/SellerOrdersWorkspace').then(m => ({ default: m.SellerOrdersWorkspace })))
-const SellerReturnsWorkspace = lazy(() => import('../../components/seller/SellerReturnsWorkspace').then(m => ({ default: m.SellerReturnsWorkspace })))
-const SellerFinanceWorkspace = lazy(() => import('../../components/seller/SellerFinanceWorkspace').then(m => ({ default: m.SellerFinanceWorkspace })))
-const SellerAnalyticsWorkspace = lazy(() => import('../../components/seller/SellerAnalyticsWorkspace').then(m => ({ default: m.SellerAnalyticsWorkspace })))
-const SellerSupportWorkspace = lazy(() => import('../../components/seller/SellerSupportWorkspace').then(m => ({ default: m.SellerSupportWorkspace })))
 
 const governorates = [
   'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba',
@@ -81,17 +72,7 @@ export function SellerCentralPage() {
             <span className="sc-status"><i/> Local preview</span>
           </div>
 
-          <Suspense fallback={<div className="sc-module-loading" role="status">Loading seller workspace…</div>}>
-            {activeSection === 'catalog' && <SellerCatalogManager />}
-            {activeSection === 'inventory' && <SellerInventoryWorkspace />}
-            {activeSection === 'offers' && <SellerOffersManager />}
-            {activeSection === 'orders' && <SellerOrdersWorkspace />}
-            {activeSection === 'returns' && <SellerReturnsWorkspace />}
-            {activeSection === 'finance' && <SellerFinanceWorkspace />}
-            {activeSection === 'analytics' && <SellerAnalyticsWorkspace />}
-            {activeSection === 'support' && <SellerSupportWorkspace />}
-          </Suspense>
-          {['profile', 'operations', 'verification'].includes(activeSection) && <SellerProfileWorkspace section={activeSection} form={form} update={update} governorates={governorates} categories={categories} steps={steps} />}
+          <SellerCentralWorkspace section={activeSection} form={form} update={update} governorates={governorates} categories={categories} steps={steps} />
 
           {['profile', 'operations', 'verification'].includes(activeSection) && (
             <>
