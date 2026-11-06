@@ -33,12 +33,14 @@ export function ProductPage() {
 
   // Multi-seller offers for this product
   const sellerOffers = product ? MarketplaceService.getProductOffers(product.id) : []
-  const [selectedOffer, setSelectedOffer] = useState(null)
+  const [selectedOffer, setSelectedOffer] = useState(() => sellerOffers.find(offer => offer.isFeatured) || sellerOffers[0] || null)
 
   const defaultSeller = product ? sellerForProduct(product) : sellers[0]
   const currentSellerName = selectedOffer?.sellerName || defaultSeller.name
   const currentPrice = selectedOffer?.price || product?.price || 0
   const currentSellerSlug = selectedOffer?.sellerSlug || defaultSeller.slug
+  const availableStock = Number(selectedOffer?.stock ?? 0)
+  const isOutOfStock = selectedOffer ? availableStock <= 0 : false
 
   const tunisianGovs = [
     { name: 'Tunis', time: 'Tomorrow (within 24h)', fee: 7 },
@@ -58,14 +60,13 @@ export function ProductPage() {
   const currentGovData = tunisianGovs.find(g => g.name === selectedGov) || tunisianGovs[0]
   const isFreeShipping = (currentPrice * qty) >= 120
 
-  const productVariants = Array.isArray(product?.variants) && product.variants.length > 0
-    ? product.variants
-    : ['Standard Edition', 'Artisan Green', 'Premium Finish']
-  const [selectedVariant, setSelectedVariant] = useState(productVariants[0] || 'Standard Edition')
+  const productVariants = Array.isArray(product?.variants) ? product.variants : []
+  const [selectedVariant, setSelectedVariant] = useState(productVariants[0] || null)
 
   useEffect(() => {
-    setSelectedVariant(productVariants[0] || 'Standard Edition')
+    setSelectedVariant(productVariants[0] || null)
     setQty(1)
+    setSelectedOffer(sellerOffers.find(offer => offer.isFeatured) || sellerOffers[0] || null)
     setActiveImage('')
   }, [id])
 
@@ -100,6 +101,10 @@ export function ProductPage() {
   }
 
   const handleAdd = () => {
+    if (isOutOfStock || (availableStock > 0 && qty > availableStock)) {
+      toast(isOutOfStock ? 'This seller offer is currently out of stock.' : `Only ${availableStock} units are available.`, { type: 'error' })
+      return
+    }
     const variant = selectedVariant || null
     addToCart(effectiveProduct, qty, variant)
     setAdded(true)
@@ -108,6 +113,10 @@ export function ProductPage() {
   }
 
   const handleBuyNow = () => {
+    if (isOutOfStock || (availableStock > 0 && qty > availableStock)) {
+      toast(isOutOfStock ? 'This seller offer is currently out of stock.' : `Only ${availableStock} units are available.`, { type: 'error' })
+      return
+    }
     const variant = selectedVariant || null
     addToCart(effectiveProduct, qty, variant)
     navigate('/checkout')
@@ -198,8 +207,8 @@ export function ProductPage() {
         <div className="product-listing-status">
           <span className="status-dot"></span>
           <div>
-            <b>Verified merchant offer</b>
-            <small>Dispatched by {currentSellerName} from {selectedOffer?.sellerCity || seller.city}, Tunisia</small>
+            <b>{isOutOfStock ? 'Out of stock' : 'Verified merchant offer'}</b>
+            <small>{isOutOfStock ? 'This seller cannot accept the selected quantity right now.' : `Dispatched by ${currentSellerName} from ${selectedOffer?.sellerCity || seller.city}, Tunisia`}</small>
           </div>
         </div>
 
@@ -231,10 +240,10 @@ export function ProductPage() {
             <div className="quantity product-quantity" role="group" aria-label="Quantity">
               <button type="button" aria-label="Decrease quantity" disabled={qty <= 1} onClick={() => setQty(v => Math.max(1, v - 1))}>−</button>
               <output id="product-quantity" aria-label="Selected quantity" aria-live="polite">{qty}</output>
-              <button type="button" aria-label="Increase quantity" disabled={qty >= 99} onClick={() => setQty(v => Math.min(99, v + 1))}>＋</button>
+              <button type="button" aria-label="Increase quantity" disabled={qty >= 99 || (availableStock > 0 && qty >= availableStock)} onClick={() => setQty(v => Math.min(99, availableStock > 0 ? availableStock : 99, v + 1))}>＋</button>
             </div>
-            <button type="button" className="primary-btn product-add-button" onClick={handleAdd}>{added ? <><Check size={16}/> Added to cart</> : <><ShoppingCart size={16}/> Add to cart</>}</button>
-            <button type="button" className="product-buy-now-btn" onClick={handleBuyNow} title="Instant 1-click checkout">
+            <button type="button" className="primary-btn product-add-button" onClick={handleAdd} disabled={isOutOfStock}>{added ? <><Check size={16}/> Added to cart</> : <><ShoppingCart size={16}/> Add to cart</>}</button>
+            <button type="button" className="product-buy-now-btn" onClick={handleBuyNow} disabled={isOutOfStock} title="Instant 1-click checkout">
               ⚡ Buy Now
             </button>
             <button type="button" className={`product-save-button ${saved ? 'is-saved' : ''}`} aria-label={saved ? 'Remove from saved items' : 'Save for later'} aria-pressed={saved} onClick={handleToggleWish}>{saved ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/>}</button>
