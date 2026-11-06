@@ -52,8 +52,8 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
           <img onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/product-placeholder.svg' }} src={product.image} alt={product.name} loading="lazy" />
         </Link>
         <span className="product-tag">SAMPLE</span>
-        {product.badge && <span className={`product-badge ${badgeColors[product.badge] || ''}`}>{product.badge}</span>}
-        {discount > 0 && <span className="discount-tag">-{discount}%</span>}
+        {product.badge && <span className={`product-badge ${badgeColors[product.badge] || ''}`}>Sample: {product.badge.toLowerCase()}</span>}
+        {discount > 0 && <span className="discount-tag">Sample -{discount}%</span>}
         <button type="button" className={`wish-btn ${wished ? 'wished' : ''}`} onClick={() => toggleWish(product.id)} aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'} aria-pressed={wished}>{wished ? <Heart size={19} fill="currentColor"/> : <Heart size={19}/>}</button>
         <button type="button" className="product-quick-view" onClick={() => setQuickViewOpen(true)} aria-label={`Quick view ${product.name}`}>Quick view <span><ArrowUpRight size={14}/></span></button>
       </div>
