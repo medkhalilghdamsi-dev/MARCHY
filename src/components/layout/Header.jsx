@@ -168,7 +168,7 @@ export function Header({ cartCount }) {
             <Link to="/signup" className="header-join-link header-join-pill">Join free <ArrowRight size={15}/></Link>
           </>
         )}
-        <Link to="/cart" aria-label={`Your Cart, ${cartCount} items`} className="action-link cart-link"><span className="cart-icon"><ShoppingCart size={21}/><i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link>
+        <Link to="/cart" aria-label={`${cartCount} Your Cart`} className="action-link cart-link"><span className="cart-icon"><ShoppingCart size={21}/><i aria-live="polite" aria-atomic="true">{cartCount}</i></span><span><small>Your</small><b>Cart</b></span></Link>
       </div>
     </div>
     <nav id="primary-navigation" aria-label="Primary navigation" className={`nav ${menuOpen ? 'nav-open' : ''}`}>

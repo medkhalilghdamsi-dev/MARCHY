@@ -105,7 +105,7 @@ export function BuyerOrdersPage(props) {
       <header className="buyer-orders-heading">
         <div>
           <span className="eyebrow">YOUR PURCHASES</span>
-          <h1>Orders</h1>
+          <h1>Your orders</h1>
           <p>Review order details, check the current demo status and return to a previous purchase.</p>
         </div>
         <Link to="/search" className="primary-btn">Explore marketplace <span aria-hidden="true">→</span></Link>

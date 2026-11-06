@@ -85,8 +85,9 @@ test('Arabic RTL layout remains within the viewport on key marketplace routes', 
   for (const width of [360, 390, 768]) {
     await page.setViewportSize({ width, height: 844 })
     for (const route of ['/search', '/product/1', '/seller/atlas-tech-tunis', '/account', '/seller-central', '/seller-help', '/sell', '/seller-dashboard', '/operations/delivery', '/admin', '/orders/MC-1048']) {
-      await page.goto(route)
+      await page.goto(route, { waitUntil: 'domcontentloaded' })
       const languagePicker = route.startsWith('/seller-') || route === '/sell' ? page.locator('.seller-portal-language select') : page.locator('.language-picker select')
+      await languagePicker.waitFor({ state: 'visible' })
       await languagePicker.selectOption('ar')
       await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
       const dimensions = await page.evaluate(() => ({
@@ -126,7 +127,7 @@ test('product quantity, cart updates and wishlist persist across routes', async 
   await page.goto('/product/1')
   await page.getByRole('button', { name: 'Save for later' }).click()
   await page.goto('/wishlist')
-  await expect(page.locator('.wishlist-product-grid')).toContainText('Wireless noise-cancelling headphones')
+  await expect(page.locator('.wishlist-saved-list')).toContainText('Wireless noise-cancelling headphones')
 })
 
 test('product comparisons persist when navigating away and returning', async ({ page }) => {
@@ -393,14 +394,19 @@ test('seller storefront supports persistent grid and list product layouts', asyn
   await expect(page.locator('.seller-store-page .product-grid')).not.toHaveClass(/product-list-view/)
 })
 
-test('product detail can add a listing to the cross-page comparison tray', async ({ page }) => {
+test('product comparison persists across product pages and opens the comparison modal', async ({ page }) => {
   await page.goto('/product/1')
-  await page.getByRole('button', { name: /Compare/ }).click()
-  await expect(page.getByRole('status').filter({ hasText: 'Added to comparison' })).toBeVisible()
-  await page.getByRole('link', { name: 'Open comparison' }).click()
-  await expect(page).toHaveURL(/\/search$/)
-  await expect(page.locator('.compare-tray')).toContainText('1 of 3 selected')
-  await expect(page.locator('.compare-tray')).toContainText('Wireless noise-cancelling headphones')
+  await page.locator('.product-buy-topline .product-compare-button').click()
+  await expect(page.locator('.product-buy-topline .product-compare-button')).toHaveAttribute('aria-pressed', 'true')
+  await page.goto('/product/2')
+  await page.locator('.product-buy-topline .product-compare-button').click()
+  const dock = page.getByRole('region', { name: 'Product comparison dock' })
+  await expect(dock).toContainText('2 of 3 selected')
+  await dock.getByRole('button', { name: /Compare Now/ }).click()
+  const dialog = page.getByRole('dialog', { name: /Product Comparison/ })
+  await expect(dialog).toBeVisible()
+  await expect(dialog).toContainText('Wireless noise-cancelling headphones')
+  await expect(dialog).toContainText('Minimal ceramic table lamp')
 })
 
 test('product detail buyer checklist adapts to listing category', async ({ page }) => {
@@ -414,10 +420,10 @@ test('product detail buyer checklist adapts to listing category', async ({ page 
 
 test('product comparison button reflects the current product after related-item navigation', async ({ page }) => {
   await page.goto('/product/1')
-  await page.getByRole('button', { name: '＋ Compare' }).click()
-  await page.locator('.related-products .product-card a').first().click()
-  await expect(page).toHaveURL(/\/product\//)
-  await expect(page.getByRole('button', { name: '＋ Compare' })).toHaveAttribute('aria-pressed', 'false')
+  await page.locator('.product-buy-topline .product-compare-button').click()
+  await page.locator('.related-products .product-card .product-name').first().click()
+  await expect(page).toHaveURL(/\/product\/\d+$/)
+  await expect(page.locator('.product-buy-topline .product-compare-button')).toHaveAttribute('aria-pressed', 'false')
 })
 
 test('product page can copy a shareable listing link', async ({ page, context }) => {
@@ -449,8 +455,12 @@ test('checkout creates shared demo seller orders and opens buyer tracking', asyn
   await expect(page.locator('.checkout-seller-review')).toHaveCount(2)
   await expect(page.locator('.checkout-summary')).toContainText('268 DT')
   await page.getByRole('button', { name: 'Place demo order' }).click()
-  await expect(page).toHaveURL(new RegExp('/orders/MC-'))
-  await expect(page.getByRole('heading', { name: /Track MC-/ })).toBeVisible()
+  await expect(page).toHaveURL(/\/orders$/)
+  await expect(page.getByRole('heading', { name: 'Your orders' })).toBeVisible()
+  const createdOrderLinks = page.locator('.buyer-order-success-links a')
+  await expect(createdOrderLinks).toHaveCount(2)
+  await createdOrderLinks.first().click()
+  await expect(page.getByRole('heading', { name: /Track Order MC-/ })).toBeVisible()
   await expect(page.locator('.buyer-tracking-panel')).toContainText('Demo Customer')
   const trackingPath = new URL(page.url()).pathname
   const orderId = trackingPath.split('/').pop()
@@ -458,7 +468,7 @@ test('checkout creates shared demo seller orders and opens buyer tracking', asyn
   await expect(page.locator('.account-demo-order[href="' + trackingPath + '"]')).toHaveCount(1)
   await page.goto('/seller-central')
   await page.getByRole('button', { name: /Orders & fulfilment/ }).click()
-  await expect(page.locator('.sc-order-row').filter({ hasText: 'Demo Customer' })).toHaveCount(1)
+  await expect(page.locator('.sc-order-row').filter({ hasText: 'Demo Customer' })).toHaveCount(2)
   await page.goto('/operations/delivery')
   const deliveryOrder = page.locator('.ops-table tbody tr').filter({ hasText: orderId })
   await expect(deliveryOrder).toContainText('Demo Customer')
@@ -538,7 +548,7 @@ test('seller preparation updates remain separate from the customer order status'
 test('buyer account can follow shared demo order status changes', async ({ page }) => {
   await page.goto('/account')
   await page.getByRole('link', { name: /MC-1048/ }).click()
-  await expect(page.getByRole('heading', { name: 'Track MC-1048' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Track Order MC-1048' })).toBeVisible()
   await expect(page.locator('.buyer-tracking-panel')).toContainText('Ready for pickup')
   await page.getByRole('link', { name: 'Delivery operations', exact: true }).click()
   const deliveryRow = page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })
@@ -570,7 +580,7 @@ test('buyer order history searches, filters and opens tracking', async ({ page }
   await page.getByLabel('Order status').selectOption('Delivered')
   await expect(page.locator('.buyer-order-card')).toHaveCount(1)
   await page.getByRole('link', { name: 'Track order' }).click()
-  await expect(page.getByRole('heading', { name: 'Track MC-1046' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Track Order MC-1046' })).toBeVisible()
 })
 
 
@@ -669,15 +679,16 @@ test('mobile product purchase bar quantity stays in sync with the main purchase 
   await page.locator('.mobile-buybar-quantity').getByRole('button', { name: 'Increase quantity' }).click()
   await expect(page.locator('.mobile-buybar-total')).toContainText('378 DT')
   await page.locator('.mobile-buybar-actions').getByRole('button', { name: 'Add to cart' }).click()
-  await expect(page.locator('.product-added-feedback')).toContainText('Added to your demo cart')
+  await expect(page.locator('.product-added-feedback')).toContainText('Added to your basket')
 })
 
 
 test('MARCHY uses the locked forest-green brand accent across buyer touchpoints', async ({ page }) => {
   await page.goto('/')
+  await expect(page.locator('.header .searchbar button[type="submit"]')).toBeVisible()
   const tokens = await page.evaluate(() => {
     const root = getComputedStyle(document.documentElement)
-    const searchButton = getComputedStyle(document.querySelector('.searchbar button'))
+    const searchButton = getComputedStyle(document.querySelector('.header .searchbar button[type="submit"]'))
     return {
       orangeAlias: root.getPropertyValue('--orange').trim(),
       greenToken: root.getPropertyValue('--green').trim(),
@@ -688,9 +699,9 @@ test('MARCHY uses the locked forest-green brand accent across buyer touchpoints'
   expect(tokens.orangeAlias).toBe('#1f5b45')
   expect(tokens.greenToken).toBe('#1f5b45')
   expect(tokens.marchyAccent).toBe('#1f5b45')
-  expect(tokens.searchButton).toBe('rgb(23, 71, 53)')
-  await page.locator('.searchbar input').focus()
-  await expect(page.locator('.searchbar')).toHaveCSS('border-color', 'rgb(120, 165, 140)')
+  expect(tokens.searchButton).toBe('rgb(31, 91, 69)')
+  await page.locator('.header .searchbar input').focus()
+  await expect(page.locator('.header .searchbar')).toHaveCSS('border-color', 'rgb(131, 174, 149)')
 })
 
 
