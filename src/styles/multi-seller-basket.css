@@ -44,3 +44,47 @@
  .cart-summary{box-shadow:0 9px 26px #12261e0a}
  .cart-checkout-button{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom));z-index:5;box-shadow:0 7px 22px #12261e20}
 }
+
+
+/* Stock availability labels rendered by CartPage.jsx. */
+.cart-item-info .cart-stock-status {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 21px;
+  margin-top: 1px;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.cart-item-info .cart-stock-status.is-good {
+  border-color: color-mix(in srgb, var(--success, #1f5b45) 22%, transparent);
+  background: color-mix(in srgb, var(--success-soft, #edf5f0) 88%, transparent);
+  color: var(--success, #1f5b45);
+}
+
+.cart-item-info .cart-stock-status.is-low {
+  border-color: color-mix(in srgb, var(--warning, #b7791f) 28%, transparent);
+  background: var(--warning-soft, #fffbeb);
+  color: var(--warning, #925d0b);
+}
+
+.cart-item-info .cart-stock-status.is-out {
+  border-color: color-mix(in srgb, var(--danger, #dc2626) 24%, transparent);
+  background: var(--danger-soft, #fef2f2);
+  color: var(--danger, #b42318);
+}
+
+@media (max-width: 640px) {
+  .cart-item-info .cart-stock-status {
+    min-height: 20px;
+    padding: 3px 7px;
+    font-size: 8px;
+  }
+}
