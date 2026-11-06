@@ -62,10 +62,10 @@ MARCHY/
 │   │   │   ├── AccountPage.jsx            # Buyer hub, shortlist, demo orders & recently viewed history
 │   │   │   ├── BuyerOrdersPage.jsx        # Filterable buyer order history
 │   │   │   └── BuyerOrderTrackingPage.jsx # Step-by-step parcel tracking view
-│   │   ├── seller/                        # Seller-facing route views
-│   │   │   ├── SellerLaunchPage.jsx       # Interactive storefront & first-listing planner (/sell)
-│   │   │   ├── SellerDashboardPage.jsx    # Seller workspace (Overview, Orders, Products, Storefront, Insights, Settings)
-│   │   │   └── SellerPreparationPage.jsx  # Pre-onboarding readiness guide (/seller-help)
+│   │   ├── seller/                        # Independent seller-facing route views
+│   │   │   ├── SellerLaunchPage.jsx       # Seller launch information and storefront planner (/sell)
+│   │   │   ├── SellerCentralPage.jsx      # Independent Seller Central business workspace (/seller-central)
+│   │   │   └── SellerPreparationPage.jsx  # Seller readiness guide (/seller-help)
 │   │   └── shared/                        # Shared auth, support & operations views
 │   │       ├── AuthPage.jsx               # Sign-in (/login) & registration (/signup) preview
 │   │       ├── HelpCenterPage.jsx         # FAQ & support topic directory (/help)
@@ -151,4 +151,7 @@ The seller journey is a distinct application surface within the same React appli
 - `src/hooks/useSellerProfile.js` provides a shared reactive view of the saved seller preparation profile.
 - `src/hooks/useSellerOnboardingDraft.js` owns onboarding form state, completion calculation, save/clear behavior and synchronization; the page component stays focused on layout and section composition.
 - `SellerCentralNavigation` and `SellerProfileWorkspace` are separate components. Profile draft actions are rendered only for business profile, operations preferences and verification readiness—not across catalogue, orders, finance or support.
+- Seller Central is a distinct route and application shell, not a buyer journey tab. Its sections are addressable with `/seller-central?section=catalog` (valid IDs are defined once in `src/app/sellerCentralSections.js`); navigation updates browser history, so direct links, refresh and Back/Forward preserve the selected workspace.
+- The section metadata file is the single source of truth for navigation labels, icons, page headings and descriptions. Seller onboarding state is isolated in `useSellerOnboardingDraft`, while profile forms and section navigation are separate components.
+
 - This is a frontend prototype persistence boundary only. It is not authentication, tenant isolation, authoritative inventory, financial ledger storage, or a substitute for the backend API.
