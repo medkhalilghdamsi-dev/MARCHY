@@ -19,6 +19,7 @@ MARCHY/
 │   └── postbuild-spa-routes.mjs           # Generates static SPA entry points for 72 routes
 ├── src/
 │   ├── app/                               # Application shell, routing & error boundaries
+│   │   ├── routePaths.js                  # Shared canonical route paths and seller portal route scope
 │   │   ├── ErrorBoundary.jsx              # Root runtime crash recovery UI
 │   │   ├── MarketplaceApp.jsx             # Route table, code-splitting & document title manager
 │   │   ├── MarketplaceContext.jsx         # Re-export barrel -> ../providers/MarketplaceContext
@@ -27,7 +28,7 @@ MARCHY/
 │   │   ├── MarketplaceContext.jsx         # Cart, wishlist, saved-for-later, coupons, theme & i18n
 │   │   └── ToastProvider.jsx              # Accessible toast notification system
 │   ├── components/
-│   │   ├── layout/                        # Global marketplace chrome
+│   │   ├── layout/                        # Buyer chrome and independent seller portal chrome
 │   │   │   ├── Header.jsx                 # Top navigation, search, language & theme controls
 │   │   │   ├── Footer.jsx                 # Multi-column marketplace footer
 │   │   │   └── MobileTabBar.jsx           # Sticky bottom navigation bar for mobile viewports
@@ -89,3 +90,48 @@ MARCHY/
     └── marketplace.spec.js
 ```
 
+
+
+---
+
+## Seller portal separation (current frontend boundary)
+
+The seller journey is a distinct application surface within the same React application. It shares the design system, providers and platform contracts, but it must not inherit buyer navigation or buyer shopping controls.
+
+### Seller portal routes
+
+| Route | Purpose |
+|---|---|
+| /sell | Seller entry point and storefront preparation planner |
+| /seller-central | Seller onboarding and operational workspace |
+| /seller-help | Seller preparation guide |
+| /seller-dashboard | Legacy route; redirects to /seller-central |
+
+### Layout ownership
+
+- `SellerPortalHeader` and `SellerPortalFooter` are rendered only on seller portal routes.
+- Buyer `Header`, `Footer`, `MobileTabBar` and `GlobalCompareDrawer` are excluded from seller portal routes.
+- Public seller storefronts at `/seller/:slug` remain buyer-facing marketplace pages and retain buyer chrome.
+- Seller navigation is independent: Start selling, Seller Central and Seller guide.
+- Seller Central owns seller setup and operational modules. Buyer account, cart, wishlist and checkout navigation do not appear in the seller shell.
+- Shared providers and tokens remain shared implementation infrastructure; visual chrome and route journeys remain separated.
+
+### Route and module rules
+
+1. Buyer-facing pages belong in `src/pages/buyer`.
+2. Seller-facing pages and workflows belong in `src/pages/seller` and `src/components/seller`.
+3. Cross-journey primitives belong in `src/components/ui`; do not duplicate buyer or seller page-level navigation in those primitives.
+4. Buyer and seller shells must be selected explicitly from route scope, not inferred from component names.
+5. A public seller storefront (`/seller/:slug`) is a marketplace destination, not Seller Central.
+6. Keep the old seller dashboard implementation out of active navigation. Its route redirects to Seller Central to avoid maintaining two competing seller workspaces.
+7. Keep business logic and API contracts out of page layout components. Future migrations should move local-storage adapters behind feature services before connecting the backend.
+
+### Current organization debt to address before platform administration
+
+- Retire or migrate the legacy `SellerDashboardPage` implementation after confirming no active route or imports depend on it.
+- Consolidate duplicated seller UI modules and legacy component aliases after checking every import and behavior.
+- Extract seller onboarding form state and browser storage into a seller onboarding service/hook.
+- Replace ad hoc local-storage access across seller modules with feature-scoped persistence adapters.
+- Establish shared form, table, empty-state, status, modal and confirmation primitives without merging buyer and seller navigation.
+- Add route-level tests proving buyer chrome never appears on seller portal paths and public seller storefronts continue to use buyer chrome.
+- Add a production build and Playwright smoke test to the branch before the next major module.

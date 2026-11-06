@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { categories, products } from '../data/products'
 import { sellers } from '../data/sellers'
 import { readJson, writeJson } from '../utils/marketplace'
@@ -8,6 +8,8 @@ import { ErrorBoundary } from './ErrorBoundary'
 import { Header } from '../components/layout/Header'
 import { Footer } from '../components/layout/Footer'
 import { MobileTabBar } from '../components/layout/MobileTabBar'
+import { SellerPortalHeader, SellerPortalFooter } from '../components/layout/SellerPortalChrome'
+import { SELLER_PORTAL_PATHS } from './routePaths'
 import { GlobalCompareDrawer } from '../components/marketplace/GlobalCompareDrawer'
 import { Home } from '../pages/buyer/HomePage'
 import { SearchPage } from '../pages/buyer/SearchPage'
@@ -21,7 +23,6 @@ import { CategoriesPage } from '../pages/buyer/CategoriesPage'
 
 // Lazy loaded secondary workspace and support pages for code splitting
 const SellerLaunchPage = lazy(() => import('../pages/seller/SellerLaunchPage').then(m => ({ default: m.SellerLaunchPage })))
-const SellerDashboardPage = lazy(() => import('../pages/seller/SellerDashboardPage').then(m => ({ default: m.SellerDashboardPage })))
 const SellerPreparationPage = lazy(() => import('../pages/seller/SellerPreparationPage').then(m => ({ default: m.SellerPreparationPage })))
 const SellerCentralPage = lazy(() => import('../pages/seller/SellerCentralPage').then(m => ({ default: m.SellerCentralPage })))
 
@@ -114,6 +115,7 @@ export default function App() {
   const { language, cart, wishlist } = useMarketplace()
   const location = useLocation()
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
+  const isSellerPortal = SELLER_PORTAL_PATHS.includes(location.pathname)
   const cartCount = cart.reduce((s, x) => s + x.qty, 0)
 
   return (
@@ -121,7 +123,8 @@ export default function App() {
       <ScrollToTop />
       <PageTitleManager />
       {!isAuthPage && <a className="skip-to-content" href="#main-content">Skip to main content</a>}
-      {!isAuthPage && <Header cartCount={cartCount} />}
+      {!isAuthPage && !isSellerPortal && <Header cartCount={cartCount} />}
+      {!isAuthPage && isSellerPortal && <SellerPortalHeader />}
       <ErrorBoundary>
         <Suspense fallback={<PageLoadingFallback />}>
           <Routes>
@@ -143,7 +146,7 @@ export default function App() {
             <Route path="/returns" element={<MarketplaceGuidePage type="returns" />} />
             <Route path="/seller-help" element={<SellerPreparationPage />} />
             <Route path="/sell" element={<SellerLaunchPage />} />
-            <Route path="/seller-dashboard" element={<SellerDashboardPage />} />
+            <Route path="/seller-dashboard" element={<Navigate to="/seller-central" replace />} />
             <Route path="/seller-central" element={<SellerCentralPage />} />
             <Route path="/operations/delivery" element={<DeliveryOperationsPage />} />
             <Route path="/admin" element={<AdminOperationsPage />} />
@@ -153,9 +156,10 @@ export default function App() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
-      <GlobalCompareDrawer />
-      {!isAuthPage && <Footer />}
-      {!isAuthPage && <MobileTabBar cartCount={cartCount} wishlistCount={wishlist.length} />}
+      {!isAuthPage && !isSellerPortal && <GlobalCompareDrawer />}
+      {!isAuthPage && !isSellerPortal && <Footer />}
+      {!isAuthPage && isSellerPortal && <SellerPortalFooter />}
+      {!isAuthPage && !isSellerPortal && <MobileTabBar cartCount={cartCount} wishlistCount={wishlist.length} />}
     </div>
   )
 }
