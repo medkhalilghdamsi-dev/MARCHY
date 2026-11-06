@@ -144,11 +144,11 @@ export function CheckoutPage() {
     </ol>
     <div className="checkout-layout">
       <section className="checkout-main-panel" aria-live="polite">
-        {step === 1 && <form className="checkout-form" onSubmit={event => { event.preventDefault(); setStep(2); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
+        {step === 1 && <form className="checkout-form" onSubmit={event => { event.preventDefault(); setStep(2); window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }) }}>
           <div className="checkout-panel-title">
             <span className="eyebrow">STEP 01</span>
             <h2>Where should the seller contact you?</h2>
-            <p>Phone, street address and notes stay in this page session. Only your display name and city are kept in the local demo order after confirmation.</p>
+            <p>Your contact, address and delivery notes are saved only in this browser's local demo order history. They are not sent to sellers, couriers or a payment provider.</p>
           </div>
 
           {savedAddresses.length > 0 && (
