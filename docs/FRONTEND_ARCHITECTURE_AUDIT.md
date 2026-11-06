@@ -33,29 +33,28 @@ The active Seller Central route and workspace modules were retained. The legacy 
 
 ### 3. CSS entry point inventory
 
-`src/styles.css` imports 22 stylesheets in a deliberate order:
+`src/styles.css` imports 29 stylesheets in a deliberate order (the count increased after splitting one 135 KB monolith into eight direct imports):
 - Foundation: design system and base
 - Buyer: discovery and shopping
 - Seller: seller experience and workspace
 - Commerce: product, basket, checkout and result controls
 - Shared: auth, operations and theme
-- Late refinements: final quality, buyer polish, product refinement, Upwork UI and seller portal
+- Late refinements: final quality, buyer polish, product refinement, eight ordered Upwork UI feature slices and seller portal
 
 The broad refinement layers contain late overrides. Reordering or moving selectors without visual regression checks is unsafe.
 
 ### 4. Unloaded stylesheet identified and removed
 
-`src/styles/ui.css` was not imported by `src/styles.css`; the central entry point imports 22 other stylesheets. It was an orphaned UI-kit stylesheet and has been removed rather than kept as misleading, inactive code.
+`src/styles/ui.css` was not imported by `src/styles.css`; the central entry point imports 29 other stylesheets. It was an orphaned UI-kit stylesheet and has been removed rather than kept as misleading, inactive code.
 
 ## Remaining CSS work
 
 ### 5. Large stylesheet ownership hotspots
 
-A focused source review found two particularly large late-layer files:
-- `src/styles/buyer-ui-polish.css` — approximately 123 KB. It mixes homepage/landing-page presentation, buyer-specific polish, icon alignment primitives and some global UI rules.
-- `src/styles/upwork-ui.css` — approximately 135 KB. It mixes header/navigation, product cards, seller showcase, value-proposition sections, dual CTAs, responsive rules and dark-mode overrides.
+One large late-layer file remains a clear ownership hotspot:
+- `src/styles/buyer-ui-polish.css` — approximately 123 KB. It mixes homepage/landing-page presentation, search and product-page polish, shared navigation, icon alignment and global UI rules.
 
-These are not safe deletion candidates: they contain active presentation rules and are loaded by the global entry point. Their size and mixed ownership make them the first candidates for staged extraction into feature-owned stylesheets. Preserve the current import order until each extracted group has been compared in browser regression.
+The former 135 KB `upwork-ui.css` has now been split into eight feature-oriented slices, imported directly from `src/styles.css` in the exact original sequence. The source text was checked byte-for-byte against the original blob before the old monolith was removed. No declarations or selectors were intentionally changed. The split still requires a completed browser regression run.
 
 1. Run `npm run audit:css` and inspect repeated selectors with their declarations and media-query contexts.
 2. Map selector ownership to actual JSX component usage.
@@ -77,7 +76,7 @@ The repository exposes:
 - `npm run test:e2e`
 - `npm run audit:css`
 
-A successful result must come from an actual completed run. Do not infer test success from a queued GitHub Actions workflow. The previous cleanup batch was pushed to `khalil`; its production build and browser regression status must be checked before further visual changes.
+A successful result must come from an actual completed run. Do not infer test success from a queued GitHub Actions workflow. The stylesheet split has not been considered visually verified until the workflow for the split commit completes its Playwright suite.
 
 ## Guardrails
 
