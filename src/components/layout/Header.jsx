@@ -12,6 +12,7 @@ export function Header({ cartCount }) {
   const { language, setLanguage, theme, setTheme } = useMarketplace()
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [recentSearches, setRecentSearches] = useState(() => {
     try { return JSON.parse(localStorage.getItem('marchy-search-history') || '[]').filter(v => typeof v === 'string').slice(0, 5) } catch { return [] }
@@ -34,6 +35,7 @@ export function Header({ cartCount }) {
   useEffect(() => {
     setMenuOpen(false)
     setSearchOpen(false)
+    setMobileSearchOpen(false)
   }, [location.pathname, location.search])
 
   useEffect(() => {
@@ -84,6 +86,7 @@ export function Header({ cartCount }) {
     e.preventDefault()
     rememberSearch(query)
     setSearchOpen(false)
+    setMobileSearchOpen(false)
     if (searchScope === 'Sellers') {
       navigate(query.trim() ? `/sellers?q=${encodeURIComponent(query)}` : '/sellers')
     } else {
@@ -93,10 +96,11 @@ export function Header({ cartCount }) {
 
   return translateTree(<>
     <div className="topline"><div className="shell topline-inner"><span>MARCHY preview · sample catalogue and illustrative prices</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span></div></div></div>
-    <header ref={headerRef} className={`header${searchOpen ? ' header-search-open' : ''}${menuOpen ? ' header-menu-open' : ''}`}><div className="shell header-main">
+    <header ref={headerRef} className={`header${searchOpen ? ' header-search-open' : ''}${menuOpen ? ' header-menu-open' : ''}${mobileSearchOpen ? ' header-mobile-search-open' : ''}`}><div className="shell header-main">
       <button type="button" className="mobile-menu icon-btn" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? <X size={20} strokeWidth={2}/> : <Menu size={20} strokeWidth={2}/>}</button>
+      <button type="button" className="mobile-search-toggle icon-btn" onClick={() => { setMobileSearchOpen(v => !v); setSearchOpen(false) }} aria-label={mobileSearchOpen ? 'Close search' : 'Open search'} aria-expanded={mobileSearchOpen} aria-controls="global-search-form"><Search size={19} strokeWidth={2}/></button>
       <Link to="/" className="logo" aria-label="MARCHY home"><img className="logo-mark" src="/favicon.svg" alt="" width="34" height="34" /><span className="logo-word">MARCHY</span><span className="logo-period">.</span></Link>
-      <form className="searchbar" onSubmit={submit} role="search">
+      <form id="global-search-form" className="searchbar" onSubmit={submit} role="search">
         <select
           className="searchbar-scope-select"
           aria-label="Search scope"
