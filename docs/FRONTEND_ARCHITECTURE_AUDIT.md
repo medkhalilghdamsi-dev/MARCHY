@@ -200,3 +200,11 @@ Also made the tab bar surface and text use semantic theme tokens, kept all five 
 ### Compact primary-navigation states
 
 Reviewed the real mobile-menu button and navigation markup in `Header.jsx`: the button already exposes `aria-expanded` and `aria-controls`, and the controlled nav has the matching ID. Kept that interaction and all route links unchanged. Added clear expanded-button styling, a contained open-panel shadow, larger/consistent tap targets, active and hover/focus states, dark-theme equivalents and reduced-motion handling. The menu still uses the existing React state and CSS visibility rules; keyboard traversal and device-width rendering require browser verification.
+
+## Shared product-card consistency pass
+
+Inspected the shared `ProductCard.jsx` markup and the actual stylesheet import order. The same card selectors were being adjusted in discovery, design-foundation, quality-refinements and the late-loaded Upwork UI stylesheet. In particular, the discovery stylesheet declared a square image ratio while later rules set a fixed/clamped image height and the final Upwork stylesheet declared a 4:3 ratio. The last declaration won, but the height declaration made the intended ratio ambiguous and different grids could inherit inconsistent geometry.
+
+Added a final, explicitly documented shared card block at the end of `upwork-ui.css` rather than reordering global imports. It establishes a predictable 4:3 image stage with contained product imagery, shrink-safe seller identity/location, a consistent two-line product title, wrapping rating metadata, compact attribute pills, separated price row and aligned comparison/cart actions. Added narrow-phone sizing, logical RTL badge placement, focus handling, dark-theme surfaces and reduced-motion behaviour. This is styling-only: product data, sample labels, seller links, cart/wishlist/compare callbacks and quick-view logic remain unchanged.
+
+The card still intentionally identifies this catalogue content as sample data; no UI copy was changed to imply verified availability, reviews or delivery. Visual regression checks across homepage, category/search grids, related products, dark mode and RTL are still required before calling the pass production-verified.
