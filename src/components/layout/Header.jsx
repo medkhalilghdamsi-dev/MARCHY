@@ -44,12 +44,20 @@ export function Header({ cartCount }) {
   }, [location.pathname, location.search])
 
   useEffect(() => {
-    if (!menuOpen && !searchOpen) return
+    if (!menuOpen && !searchOpen && !mobileSearchOpen) return
     const handlePointerDown = e => {
-      if (!headerRef.current?.contains(e.target)) { setMenuOpen(false); setSearchOpen(false) }
+      if (!headerRef.current?.contains(e.target)) {
+        setMenuOpen(false)
+        setSearchOpen(false)
+        setMobileSearchOpen(false)
+      }
     }
     const handleKeyDown = e => {
-      if (e.key === 'Escape') { setMenuOpen(false); setSearchOpen(false) }
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+        setSearchOpen(false)
+        setMobileSearchOpen(false)
+      }
     }
     document.addEventListener('pointerdown', handlePointerDown)
     window.addEventListener('keydown', handleKeyDown)
@@ -57,7 +65,7 @@ export function Header({ cartCount }) {
       document.removeEventListener('pointerdown', handlePointerDown)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [menuOpen, searchOpen])
+  }, [menuOpen, searchOpen, mobileSearchOpen])
 
   const searchTerm = query.trim()
   const searchMatches = useMemo(() =>
