@@ -381,3 +381,66 @@
 @media (prefers-reduced-motion: reduce) {
   .checkout-saved-addresses-bar .saved-addr-chip { transition: none; }
 }
+
+
+/* Checkout follows the shared light/dark theme tokens. */
+html[data-theme="dark"] .checkout-steps li,
+html[data-theme="dark"] .checkout-main-panel,
+html[data-theme="dark"] .checkout-summary,
+html[data-theme="dark"] .checkout-contact-review,
+html[data-theme="dark"] .checkout-seller-review,
+html[data-theme="dark"] .checkout-saved-addresses-bar,
+html[data-theme="dark"] .checkout-save-address-opt,
+html[data-theme="dark"] .checkout-preview-note,
+html[data-theme="dark"] .checkout-next-list{background:var(--surface);border-color:var(--line)}
+html[data-theme="dark"] .checkout-steps li.is-current,
+html[data-theme="dark"] .checkout-steps li.is-complete,
+html[data-theme="dark"] .checkout-contact-review,
+html[data-theme="dark"] .checkout-seller-heading,
+html[data-theme="dark"] .checkout-seller-count{background:var(--surface-soft)}
+html[data-theme="dark"] .checkout-steps li>span{background:var(--surface-soft);color:var(--ink)}
+html[data-theme="dark"] .checkout-steps li.is-current>span{background:var(--forest);color:#fff}
+html[data-theme="dark"] .checkout-steps li.is-complete>span{background:color-mix(in srgb,var(--forest) 20%,var(--surface));color:var(--forest)}
+html[data-theme="dark"] .checkout-panel-title h2,
+html[data-theme="dark"] .checkout-summary h2,
+html[data-theme="dark"] .checkout-steps li b,
+html[data-theme="dark"] .checkout-contact-review>div>b,
+html[data-theme="dark"] .checkout-seller-heading b,
+html[data-theme="dark"] .checkout-seller-heading>strong,
+html[data-theme="dark"] .checkout-review-item>b,
+html[data-theme="dark"] .checkout-review-item>span,
+html[data-theme="dark"] .checkout-save-address-opt,
+html[data-theme="dark"] .checkout-preview-note strong,
+html[data-theme="dark"] .checkout-next-list>b{color:var(--ink)}
+html[data-theme="dark"] .checkout-heading p,
+html[data-theme="dark"] .checkout-panel-title p,
+html[data-theme="dark"] .checkout-steps li small,
+html[data-theme="dark"] .checkout-contact-review p,
+html[data-theme="dark"] .checkout-contact-review small,
+html[data-theme="dark"] .checkout-seller-heading small,
+html[data-theme="dark"] .checkout-review-item small,
+html[data-theme="dark"] .checkout-delivery-status,
+html[data-theme="dark"] .checkout-form-actions>span,
+html[data-theme="dark"] .checkout-preview-note p,
+html[data-theme="dark"] .checkout-next-list ul{color:var(--muted)}
+html[data-theme="dark"] .checkout-fields input,
+html[data-theme="dark"] .checkout-fields select,
+html[data-theme="dark"] .checkout-fields textarea,
+html[data-theme="dark"] .checkout-saved-addresses-bar .saved-addr-chip{background:var(--surface-soft);border-color:var(--line);color:var(--ink)}
+html[data-theme="dark"] .checkout-fields input::placeholder,
+html[data-theme="dark"] .checkout-fields textarea::placeholder{color:var(--muted)}
+html[data-theme="dark"] .checkout-saved-addresses-bar .saved-addr-chip:hover,
+html[data-theme="dark"] .checkout-saved-addresses-bar .saved-addr-chip.is-selected{background:color-mix(in srgb,var(--forest) 12%,var(--surface))}
+html[data-theme="dark"] .checkout-review-item,
+html[data-theme="dark"] .checkout-seller-heading,
+html[data-theme="dark"] .checkout-delivery-status{border-color:var(--line)}
+html[data-theme="dark"] .checkout-page .cart-trust-note{border-color:var(--line)}
+html[data-theme="dark"] .checkout-page .cart-trust-note p{color:var(--muted)}
+html[data-theme="dark"] .checkout-page .cart-summary-note,
+html[data-theme="dark"] .checkout-seller-count span{color:var(--muted)}
+html[data-theme="dark"] .checkout-page .cart-summary-row{color:var(--muted)}
+html[data-theme="dark"] .checkout-page .cart-summary-row>b,
+html[data-theme="dark"] .checkout-page .summary-total>span,
+html[data-theme="dark"] .checkout-page .summary-total strong{color:var(--ink)}
+html[data-theme="dark"] .checkout-page button:focus-visible,
+html[data-theme="dark"] .checkout-page a:focus-visible{outline-color:color-mix(in srgb,var(--forest) 70%,white)}
