@@ -486,3 +486,12 @@ Completed a final product-page commerce hierarchy pass.
 - Preserved existing draft/publish state, local persistence and marketplace catalogue behavior.
 - Source changes: `src/pages/seller/SellerDashboardPage.jsx` and `src/styles/seller-workspace.css`.
 - Verification is source-level only; build, form submission and browser keyboard checks remain outstanding.
+
+
+## Seller storefront planner form consistency — 2026-11-06
+
+- Grouped business-profile inputs and first-product inputs into separate semantic fieldsets with legends, improving navigation for assistive technology.
+- Added a programmatic name to the planner form and retained the existing label wrapping, responsive two-column layout and preview workflow.
+- Preserved all temporary form state and image-preview behavior; no application submission or backend workflow was introduced.
+- Source changes: `src/pages/seller/SellerLaunchPage.jsx` and `src/styles/seller-experience.css`.
+- Verification is source-level only; file-upload preview, browser validation, keyboard/screen-reader checks and production build remain outstanding.
