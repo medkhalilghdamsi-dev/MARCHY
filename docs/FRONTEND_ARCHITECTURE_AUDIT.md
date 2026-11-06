@@ -237,3 +237,13 @@ Audited the actual `SearchPage.jsx` result controls and the late buyer refinemen
 - Added explicit dark-theme treatment for active filter chips, context strip, results toolbar, comparison panel, empty state and mobile filter sheet, plus RTL direction and reduced-motion handling.
 
 No API calls, service methods, product data, filter semantics, sorting rules, cart/wishlist behaviour, or seller logic were changed. Browser verification remains outstanding, especially mobile sheet focus/scroll behaviour, direct-link pagination restoration, RTL and dark mode.
+
+
+## Seller directory and storefront UX pass — 2026-11-06
+
+- Fixed seller-directory search so its advertised product search now checks each seller's associated sample product names, categories and descriptions as well as seller identity, city, tagline and categories. Existing city/category filters still apply.
+- Added scoped buyer-facing seller discovery styling: clearer directory hero and sample-data stats, responsive seller cards, location/category metadata, and a consistent storefront action.
+- Added storefront presentation styling for the cover/identity block, sample-status label, seller metadata, category links, share feedback, product filters, search/sort controls, view toggle, active filters and empty state.
+- Included responsive layouts, keyboard focus visibility, RTL alignment, dark-theme surfaces and reduced-motion handling.
+- No seller onboarding, seller operations, backend, API, data model or authentication behaviour was changed.
+- Browser visual verification and production build remain outstanding; the CSS and JSX changes are source-reviewed only.
