@@ -265,3 +265,11 @@
     flex-basis: 34px;
   }
 }
+
+@media (max-width: 760px) {
+  /* These destinations remain available in the persistent mobile tab bar. */
+  .header-actions .wishlist-link,
+  .header-actions .header-signin {
+    display: none;
+  }
+}
