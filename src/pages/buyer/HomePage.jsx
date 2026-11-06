@@ -101,9 +101,9 @@ export function Home() {
     <main id="main-content" className="shell page home-page home-landing-v2">
       <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
         <div className="market-hero-copy">
-          <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · PRODUCTION-READY MARKETPLACE</span>
+          <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · MARKETPLACE PREVIEW</span>
           <h1 id="market-hero-title">How local shopping<br /><em>should work.</em></h1>
-          <p>Discover authentic Tunisian goods, compare transparent prices in Dinars (TND), and order directly from verified local workshops with 100% Cash on Delivery inspection.</p>
+          <p>Explore local-style products and storefronts, compare illustrative prices in Tunisian Dinars, and preview a clearer way to discover and shop across Tunisia.</p>
 
           <div className="hero-segmented-tabs" role="tablist" aria-label="Search scope">
             <button
@@ -174,20 +174,20 @@ export function Home() {
 
           <div className="upwork-hero-stats">
             <div className="upwork-stat-item">
-              <b>4.9 / 5</b>
-              <span>Average artisan rating</span>
+              <b>TND</b>
+              <span>Prices shown clearly</span>
             </div>
             <div className="upwork-stat-item">
-              <b>100% COD</b>
-              <span>Inspect before paying</span>
+              <b>Seller offers</b>
+              <span>Compare listings</span>
             </div>
             <div className="upwork-stat-item">
-              <b>24 Govs</b>
-              <span>Delivery across Tunisia</span>
+              <b>Delivery info</b>
+              <span>Governorate estimates</span>
             </div>
             <div className="upwork-stat-item">
-              <b>0 TND</b>
-              <span>Zero hidden fees</span>
+              <b>Demo checkout</b>
+              <span>Preview the order flow</span>
             </div>
           </div>
         </div>
@@ -216,8 +216,8 @@ export function Home() {
         <div className="landing-section-header">
           <div>
             <span className="eyebrow">HOW SHOPPING WITH MARCHY WORKS</span>
-            <h2>Simple, transparent and risk-free</h2>
-            <p className="muted">Experience the convenience of modern local e-commerce with zero upfront payment risk.</p>
+            <h2>A clear path from discovery to checkout</h2>
+            <p className="muted">Explore the intended shopping flow in this interactive marketplace preview. Catalogue, stock and checkout data are illustrative.</p>
           </div>
           <Link to="/guide" className="text-link">Full marketplace guide <ArrowRight size={15} /></Link>
         </div>
@@ -226,17 +226,17 @@ export function Home() {
           <div className="landing-step-card">
             <span className="step-badge-num">1</span>
             <h3>Explore & Compare</h3>
-            <p>Browse verified artisan goods, everyday tech, and fashion. View clear prices in Tunisian Dinars (TND) with exact governorate delivery estimates.</p>
+            <p>Browse sample artisan goods, everyday tech and fashion. Compare illustrative TND prices and review delivery estimates where available.</p>
           </div>
           <div className="landing-step-card">
             <span className="step-badge-num">2</span>
-            <h3>Order Without Advance Payment</h3>
-            <p>Confirm your basket using Cash on Delivery. No bank card details or upfront payment required to dispatch your order.</p>
+            <h3>Review Your Basket</h3>
+            <p>Review items from different storefronts, check the estimated delivery costs and continue through the demo checkout.</p>
           </div>
           <div className="landing-step-card">
             <span className="step-badge-num">3</span>
-            <h3>Inspect Before Paying</h3>
-            <p>Open and check your package when the courier arrives at your door. You only hand over payment once you verify item quality.</p>
+            <h3>See the Order Summary</h3>
+            <p>Review the order details and the delivery information shown before confirming the local demo order.</p>
           </div>
         </div>
       </section>
@@ -264,7 +264,7 @@ export function Home() {
               </span>
               <div className="upwork-cat-text">
                 <b>{item.name}</b>
-                <small>{item.count} verified listing{item.count === 1 ? '' : 's'}</small>
+                <small>{item.count} sample listing{item.count === 1 ? '' : 's'}</small>
               </div>
               <span className="upwork-cat-arrow">
                 <ArrowRight size={16} />
