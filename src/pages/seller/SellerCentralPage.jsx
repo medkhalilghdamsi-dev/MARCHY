@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Building2, ClipboardCheck, FileText, ShieldCheck, Store, Truck } from 'lucide-react'
 import { useMarketplace } from '../../providers/MarketplaceContext'
@@ -25,6 +25,14 @@ const SellerAnalyticsWorkspace = lazy(() => import('../../components/seller/Sell
 const SellerSupportWorkspace = lazy(() => import('../../components/seller/SellerSupportWorkspace').then(m => ({ default: m.SellerSupportWorkspace })))
 
 
+const governorates = [
+  'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba',
+  'Kairouan', 'Kasserine', 'Kébili', 'Kef', 'Mahdia', 'Manouba', 'Médenine',
+  'Monastir', 'Nabeul', 'Sfax', 'Sidi Bouzid', 'Siliana', 'Sousse', 'Tataouine',
+  'Tozeur', 'Tunis', 'Zaghouan'
+]
+const categories = ['Electronics', 'Fashion', 'Home & Living', 'Beauty & Personal Care', 'Sports', 'Food & Grocery', 'Handmade', 'Other']
+
 const steps = [
   { title: 'Business profile', detail: 'Store identity, legal name and location', icon: Building2 },
   { title: 'Contact details', detail: 'A reliable phone number and email', icon: FileText },
@@ -35,6 +43,7 @@ const steps = [
 export function SellerCentralPage() {
   const { language } = useMarketplace()
   const { form, savedAt, notice, isSaving, completion, readyForReview, update, saveDraft, clearDraft } = useSellerOnboardingDraft()
+  const [activeSection, setActiveSection] = useState('profile')
 
   useEffect(() => {
     document.title = 'Seller Central | MARCHY'
