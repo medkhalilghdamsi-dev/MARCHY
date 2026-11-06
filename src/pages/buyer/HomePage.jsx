@@ -216,33 +216,23 @@ export function Home() {
         </div>
       </section>
 
-      {/* 3-Step Trust & Purchase Flow */}
-      <section className="landing-section" aria-label="How MARCHY works">
-        <div className="landing-section-header">
-          <div>
-            <span className="eyebrow">HOW SHOPPING WITH MARCHY WORKS</span>
-            <h2>A clear path from discovery to checkout</h2>
-            <p className="muted">Explore the intended shopping flow in this interactive marketplace preview. Catalogue, stock and checkout data are illustrative.</p>
-          </div>
-          <Link to="/guide" className="text-link">Full marketplace guide <ArrowRight size={15} /></Link>
+      {/* Compact trust rail — keep the homepage focused on discovery rather than explaining the whole product. */}
+      <section className="home-trust-rail" aria-label="Why shop with MARCHY">
+        <div className="home-trust-item">
+          <span><ShieldCheck size={18} /></span>
+          <div><b>Shop with clarity</b><small>Prices, sellers and product details stay visible.</small></div>
         </div>
-
-        <div className="landing-steps-grid">
-          <div className="landing-step-card">
-            <span className="step-badge-num">1</span>
-            <h3>Explore & Compare</h3>
-            <p>Browse sample artisan goods, everyday tech and fashion. Compare illustrative TND prices and review delivery estimates where available.</p>
-          </div>
-          <div className="landing-step-card">
-            <span className="step-badge-num">2</span>
-            <h3>Review Your Basket</h3>
-            <p>Review items from different storefronts, check the estimated delivery costs and continue through the demo checkout.</p>
-          </div>
-          <div className="landing-step-card">
-            <span className="step-badge-num">3</span>
-            <h3>See the Order Summary</h3>
-            <p>Review the order details and the delivery information shown before confirming the local demo order.</p>
-          </div>
+        <div className="home-trust-item">
+          <span><Coins size={18} /></span>
+          <div><b>Prices in TND</b><small>Compare listings without currency guesswork.</small></div>
+        </div>
+        <div className="home-trust-item">
+          <span><Truck size={18} /></span>
+          <div><b>Delivery information</b><small>See available governorate estimates before checkout.</small></div>
+        </div>
+        <div className="home-trust-item">
+          <span><Store size={18} /></span>
+          <div><b>Discover local sellers</b><small>Browse sample storefronts and makers in one place.</small></div>
         </div>
       </section>
 
