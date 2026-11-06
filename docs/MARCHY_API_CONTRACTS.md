@@ -352,3 +352,30 @@ The current Seller Finance workspace contains a small, explicitly illustrative s
 ### Frontend prototype boundary
 
 The current Seller Analytics workspace reads local demo orders and matches them to the saved storefront name. It provides illustrative order counts, delivered order value, product demand and destination city breakdowns. It does not provide audited revenue, net profit, conversion, traffic, advertising performance or live carrier outcomes. Replace local data with authenticated analytics APIs before production.
+
+
+## 15. Seller support, cases and disputes
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | /api/v1/seller/support/cases | List cases scoped to the authenticated seller |
+| POST | /api/v1/seller/support/cases | Open a case with category, priority, subject and optional related resource |
+| GET | /api/v1/seller/support/cases/{caseId} | Read case details, authorized messages and status history |
+| POST | /api/v1/seller/support/cases/{caseId}/messages | Add a seller message; idempotency required |
+| POST | /api/v1/seller/support/cases/{caseId}/evidence | Request a short-lived secure upload URL and bind evidence metadata |
+| POST | /api/v1/seller/support/cases/{caseId}/escalations | Request escalation under configured policy |
+| GET | /api/v1/seller/support/cases/{caseId}/events | Read immutable case event history |
+
+### Support and dispute invariants
+
+- Cases are bound server-side to the authenticated seller organization. Sellers cannot read or modify another seller's cases.
+- The backend owns status transitions, assignment, response deadlines, dispute windows, escalation eligibility and resolution outcomes.
+- Return/refund disputes reference original return, order and refund records. Opening a dispute never approves a refund or changes ledger balances.
+- Messages and evidence metadata are append-only and audit logged. Evidence requires private storage, malware scanning, file limits and short-lived upload URLs.
+- Idempotency keys prevent duplicate case creation, messages and escalation requests. Rate limits and abuse controls apply.
+- Customer data is minimized. Never store card data, passwords or identity documents in support message bodies.
+- SLA clocks, priority definitions and seller remedies are configured by operations/legal policy and returned by the server.
+
+### Frontend prototype boundary
+
+The Seller Support workspace stores cases, messages, status changes and history only in browser local storage. It does not contact support, upload evidence, establish an official dispute, assign an agent or guarantee response times. Replace local behavior with authenticated support APIs before production.
