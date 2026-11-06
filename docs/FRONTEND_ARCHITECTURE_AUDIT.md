@@ -180,3 +180,7 @@ The main cart layout, seller grouping, saved-for-later, coupon controls and resp
 ### Cart dark-theme pass
 
 A second review of `theme.css` found that the global dark theme covered the outer cart panels but not several nested surfaces that still used hard-coded light backgrounds. Added dark-theme overrides for seller groups and headings, saved-for-later cards, the illustrative delivery meter, coupon chips and inputs, and all three stock-status states. Active coupon and stock labels receive explicit dark-theme foreground/background pairs for legibility. This is a targeted theme-layer correction; no global token definitions or cart behaviour changed. Visual contrast and RTL still need browser review.
+
+## Shared header component-to-style audit
+
+Compared `src/components/layout/Header.jsx` with the shared header styles. The logged-in account controls (user link, avatar pill and sign-out action) and several search suggestion affordances (category rows, recent searches, empty-result text and arrow affordances) were rendered in JSX without dedicated matching styles. Added these styles to the existing buyer header refinement stylesheet, with compact mobile account treatment and token-based surfaces, borders and semantic colors. Existing search, navigation, account and local-storage logic was not changed. Header dropdown and mobile menu interactions still need browser and keyboard verification.
