@@ -1576,3 +1576,115 @@ html[data-theme="dark"] .header .search-suggestion-close:hover {
   .header-actions .header-user-link { width: 34px; min-width: 34px; padding: 0; }
   .header-actions .user-avatar-pill { width: 30px; height: 30px; flex-basis: 30px; }
 }
+
+
+/* Search scope control and keyboard affordances for the shared header. */
+.header .searchbar-scope-select {
+  width: 126px;
+  min-width: 112px;
+  height: 100%;
+  padding: 0 10px 0 13px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.header .searchbar-scope-select:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--forest);
+}
+
+.header .searchbar .search-symbol {
+  display: grid;
+  flex: 0 0 42px;
+  place-items: center;
+  padding: 0;
+  color: var(--muted);
+}
+
+.header .searchbar input {
+  height: 100%;
+  padding: 0 10px;
+}
+
+.header .searchbar button {
+  flex: 0 0 auto;
+  min-width: 84px;
+  padding: 0 20px;
+  transition: background .16s, box-shadow .16s;
+}
+
+.header .searchbar button:focus-visible,
+.header .mobile-menu:focus-visible,
+.header-actions a:focus-visible,
+.header-actions button:focus-visible,
+.header .nav-inner a:focus-visible,
+.header .global-search-suggestions a:focus-visible,
+.header .search-suggestion-close:focus-visible {
+  outline: 2px solid var(--forest);
+  outline-offset: 3px;
+}
+
+.header .global-search-suggestions {
+  max-height: min(68vh, 520px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.header .global-search-suggestions a {
+  min-height: 48px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background .14s, color .14s;
+}
+
+.header .global-search-suggestions a:hover {
+  background: var(--surface-hover);
+}
+
+@media (max-width: 760px) {
+  .header .searchbar-scope-select {
+    width: 94px;
+    min-width: 88px;
+    padding-inline: 7px;
+    font-size: 9px;
+  }
+  .header .searchbar .search-symbol {
+    flex-basis: 30px;
+  }
+  .header .searchbar button {
+    min-width: 68px;
+    padding-inline: 11px;
+  }
+}
+
+:dir(rtl) .header .searchbar-scope-select {
+  border-right: 0;
+  border-left: 1px solid var(--line);
+}
+
+:dir(rtl) .header .searchbar button {
+  border-radius: 999px 0 0 999px;
+}
+
+:dir(rtl) .header .global-search-suggestions .suggestion-arrow {
+  transform: scaleX(-1);
+}
+
+:dir(rtl) .header .global-search-suggestions a:hover .suggestion-arrow {
+  transform: scaleX(-1) translate(2px, -1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header .searchbar button,
+  .header .global-search-suggestions a,
+  .header .global-search-suggestions .suggestion-arrow {
+    transition: none;
+  }
+}
