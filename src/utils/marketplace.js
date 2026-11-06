@@ -16,13 +16,13 @@ const searchSynonyms = {
   fashion: ['clothing','apparel','mode','ملابس'],
   home: ['household','maison','منزل']
 }
-const normalizeSearchText = value => String(value || '').toLocaleLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/[^\\p{L}\\p{N}]+/gu, ' ').trim()
+const normalizeSearchText = value => String(value || '').toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
 const searchTextMatches = (text, query) => {
   const normalized = normalizeSearchText(text)
   const cleanedQuery = normalizeSearchText(query)
   if (!cleanedQuery) return true
   if (normalized.includes(cleanedQuery)) return true
-  const words = cleanedQuery.split(/\\s+/).filter(Boolean)
+  const words = cleanedQuery.split(/\s+/).filter(Boolean)
   return words.every(word => {
     const variants = [word, ...Object.entries(searchSynonyms).filter(([key, values]) => key === word || values.some(value => normalizeSearchText(value) === word)).flatMap(([key, values]) => [key, ...values].map(normalizeSearchText))]
     return variants.some(variant => normalized.split(' ').some(token => token === variant || token.startsWith(variant) || (token.length >= 3 && variant.startsWith(token))))

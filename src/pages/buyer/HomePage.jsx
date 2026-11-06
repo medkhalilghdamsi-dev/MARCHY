@@ -142,6 +142,11 @@ export function Home() {
               <input
                 id="home-market-search"
                 type="search"
+                role="combobox"
+                aria-label="Search products and categories"
+                aria-expanded={searchOpen}
+                aria-controls="home-search-suggestions"
+                aria-autocomplete="list"
                 value={heroSearch}
                 onFocus={() => setSearchOpen(true)}
                 onBlur={() => window.setTimeout(() => setSearchOpen(false), 140)}
