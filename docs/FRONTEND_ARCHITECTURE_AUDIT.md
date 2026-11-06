@@ -456,3 +456,12 @@ Completed a final product-page commerce hierarchy pass.
 - Existing tab labels, click behavior and workspace content rendering remain unchanged.
 - Source change: `src/components/ui/index.jsx`.
 - Verification is source-level only; keyboard testing across each consuming workspace and production build remain outstanding.
+
+
+## Buyer account form consistency refinement — 2026-11-06
+
+- Profile and delivery-address forms now expose their purpose through programmatically associated headings and semantic fieldsets with legends.
+- Repeated address actions now announce the specific address they affect, rather than exposing several identical “Delete” or “Make default” labels.
+- Existing labels, responsive form grids, local persistence, validation and address/profile actions are preserved.
+- Source changes: `src/pages/buyer/AccountPage.jsx` and `src/styles/shopping.css`.
+- Verification is source-level only; browser form submission, keyboard/screen-reader behavior and production build remain outstanding.
