@@ -1,0 +1,53 @@
+name: MARCHY live mobile Playwright audit
+
+on:
+  push:
+    branches:
+      - khalil
+    paths:
+      - 'playwright.live.config.js'
+      - 'tests/mobile-live-audit.spec.js'
+      - '.github/workflows/mobile-playwright-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mobile-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out khalil
+        uses: actions/checkout@v4
+        with:
+          ref: khalil
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install project dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run live responsive audit
+        env:
+          CI: 'true'
+          MARCHY_BASE_URL: https://marchy-khalil.onrender.com
+        run: npx playwright test --config=playwright.live.config.js
+
+      - name: Upload screenshots, traces, and HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: marchy-mobile-playwright-audit
+          path: |
+            test-results/
+            playwright-live-report/
+          if-no-files-found: ignore
+          retention-days: 14
