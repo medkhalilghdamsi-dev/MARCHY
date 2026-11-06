@@ -303,8 +303,8 @@ export function BuyerOrderTrackingPage(props) {
 
       {/* Invoice Modal Preview */}
       {invoiceOpen && (
-        <div className="quick-view-backdrop" role="dialog" aria-modal="true">
-          <div className="invoice-modal-card">
+        <div className="quick-view-backdrop" role="presentation">
+          <div className="invoice-modal-card" role="dialog" aria-modal="true" aria-labelledby="buyer-invoice-title">
             <button
               type="button"
               className="quick-view-close"
@@ -320,7 +320,7 @@ export function BuyerOrderTrackingPage(props) {
                   <p>Tunisian Multi-Merchant Marketplace</p>
                 </div>
                 <div className="invoice-meta-right">
-                  <h2>Official Demo Receipt</h2>
+                  <h2 id="buyer-invoice-title">Official Demo Receipt</h2>
                   <p>Order #{order.id}</p>
                   <small>Date: {new Date(order.createdAt || Date.now()).toLocaleDateString()}</small>
                 </div>
@@ -407,7 +407,7 @@ export function BuyerOrderTrackingPage(props) {
       {/* Contact Seller Modal */}
       {contactOpen && (
         <div className="quick-view-backdrop" role="dialog" aria-modal="true">
-          <div className="contact-modal-card">
+          <div className="contact-modal-card" role="dialog" aria-modal="true" aria-labelledby="buyer-contact-title">
             <button
               type="button"
               className="quick-view-close"
@@ -417,14 +417,14 @@ export function BuyerOrderTrackingPage(props) {
               ✕
             </button>
             <span className="eyebrow">DIRECT SELLER CONNECTION</span>
-            <h3>Contact {order.seller}</h3>
+            <h3 id="buyer-contact-title">Contact {order.seller}</h3>
             <p>Seller contact is a preview only. Direct messaging and verified merchant contact details will be connected with the backend.</p>
             <div className="seller-contact-methods">
               <div className="contact-method-item">
                 <Phone size={18} />
                 <div>
                   <b>Phone Support</b>
-                  <span>{order.phone ? order.phone : 'Seller phone details are not connected yet.'}</span>
+                  <span>Merchant phone details are not connected in this demo.</span>
                 </div>
               </div>
               <div className="contact-method-item">
