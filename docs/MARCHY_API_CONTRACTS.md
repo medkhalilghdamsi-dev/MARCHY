@@ -7,9 +7,9 @@
 
 ## 1. Environment and adapter selection
 
-- \`VITE_MARCHY_DATA_MODE=mock\` (default): explicit local demo adapter.
-- \`VITE_MARCHY_DATA_MODE=api\`: production/staging API adapter; no fallback to mock on errors.
-- \`VITE_MARCHY_API_URL=https://api.example.tn\`: API origin, no trailing slash required.
+- `VITE_MARCHY_DATA_MODE=mock` (default): explicit local demo adapter.
+- `VITE_MARCHY_DATA_MODE=api`: production/staging API adapter; no fallback to mock on errors.
+- `VITE_MARCHY_API_URL=https://api.example.tn`: API origin, no trailing slash required.
 - Never place private API keys, gateway secrets or service credentials in Vite variables.
 - Authentication should use secure server-managed cookies or a separately agreed token strategy. If cookies are used cross-origin, backend CORS and cookie settings must be configured together.
 
@@ -18,31 +18,31 @@
 Every response uses JSON unless status 204.
 
 Errors:
-\`\`\`json
+```json
 {
   "code": "VALIDATION_ERROR",
   "message": "Please review the highlighted fields.",
   "field_errors": { "phone": "Enter a valid Tunisian phone number." },
   "request_id": "req_..."
 }
-\`\`\`
+```
 
 Paginated collection:
-\`\`\`json
+```json
 {
   "items": [],
   "next_cursor": null,
   "total_estimate": 0
 }
-\`\`\`
+```
 
 Money:
-\`\`\`json
+```json
 { "amount_minor": 125500, "currency": "TND" }
-\`\`\`
-One TND equals 1,000 millimes. The backend must choose one canonical representation and use it consistently. The frontend adapter currently expects camelCase \`amountMinor\`; use a documented serialization layer or agree to camelCase before integration. Never send formatted strings as authoritative money.
+```
+One TND equals 1,000 millimes. The backend must choose one canonical representation and use it consistently. The frontend adapter currently expects camelCase `amountMinor`; use a documented serialization layer or agree to camelCase before integration. Never send formatted strings as authoritative money.
 
-All timestamps are ISO 8601 UTC. All mutating transaction requests use an \`Idempotency-Key\`. Include \`X-Request-Id\` or \`request_id\` in responses. Pagination is cursor-based.
+All timestamps are ISO 8601 UTC. All mutating transaction requests use an `Idempotency-Key`. Include `X-Request-Id` or `request_id` in responses. Pagination is cursor-based.
 
 ## 3. First integration endpoints
 
@@ -67,7 +67,7 @@ All timestamps are ISO 8601 UTC. All mutating transaction requests use an \`Idem
 
 ## 4. Checkout quote request
 
-\`\`\`json
+```json
 {
   "lines": [
     { "offer_id": "offer_123", "variant_id": "variant_42", "quantity": 2 }
@@ -77,7 +77,7 @@ All timestamps are ISO 8601 UTC. All mutating transaction requests use an \`Idem
   "payment_method": "cod",
   "promotion_code": null
 }
-\`\`\`
+```
 
 Response must include:
 - quote id and expiry;
@@ -94,13 +94,13 @@ The frontend displays the quote; it does not calculate the payable total.
 
 ## 5. Order creation request
 
-\`\`\`json
+```json
 {
   "quote_id": "quote_123",
   "customer_note": "Call on arrival",
   "confirmation": { "accepted_terms_version": "2026-01" }
 }
-\`\`\`
+```
 
 The backend must revalidate quote expiry, price, offer status, stock, address, delivery and payment eligibility; reserve inventory atomically; create the parent customer order and seller fulfilment orders; snapshot all commercial terms; create the payment intent or COD obligation; and publish domain events through a transactional outbox.
 
@@ -135,4 +135,4 @@ Every endpoint validates authorization server-side. Seller endpoints are scoped 
 
 ## 9. Known compatibility decision
 
-The current UI formatter accepts display values in TND and can explicitly convert millimes. The API contract should use integer millimes to avoid floating-point ambiguity. The frontend API adapter validates \`amountMinor\` with \`currency: "TND"\`; the backend and frontend must agree whether JSON uses camelCase or snake_case and normalize at the adapter boundary. Do not integrate until this is settled.
+The current UI formatter accepts display values in TND and can explicitly convert millimes. The API contract should use integer millimes to avoid floating-point ambiguity. The frontend API adapter validates `amountMinor` with `currency: "TND"`; the backend and frontend must agree whether JSON uses camelCase or snake_case and normalize at the adapter boundary. Do not integrate until this is settled.
