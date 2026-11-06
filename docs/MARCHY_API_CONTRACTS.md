@@ -136,3 +136,64 @@ Every endpoint validates authorization server-side. Seller endpoints are scoped 
 ## 9. Known compatibility decision
 
 The current UI formatter accepts display values in TND and can explicitly convert millimes. The API contract should use integer millimes to avoid floating-point ambiguity. The frontend API adapter validates `amountMinor` with `currency: "TND"`; the backend and frontend must agree whether JSON uses camelCase or snake_case and normalize at the adapter boundary. Do not integrate until this is settled.
+
+## 10. Seller onboarding and verification contract
+
+Seller onboarding must be a server-owned state machine. The local Seller Central preparation page is a browser-only planning tool; it does not create an application or establish a seller identity.
+
+### Proposed endpoints
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | /api/v1/seller/onboarding/draft | Retrieve the authenticated user's saved application draft |
+| PUT | /api/v1/seller/onboarding/draft | Create/update a server-side draft |
+| POST | /api/v1/seller/applications | Submit a completed application for review |
+| GET | /api/v1/seller/applications/{id} | Read application status and required next steps |
+| POST | /api/v1/seller/applications/{id}/documents | Upload a requested document using a secure upload flow |
+
+### Proposed application fields
+
+- storefront_name
+- legal_name
+- business_type
+- governorate_code and locality
+- business_phone and business_email
+- primary_category_id
+- business_description
+- fulfilment_preference
+- payment_capabilities_requested
+- website_or_public_business_reference (optional)
+- accepted_terms_version and accepted_at (only at the real submission step)
+
+Do not accept an arbitrary client-supplied verification status, seller ID, approval decision or payout destination. The backend assigns IDs and controls all status transitions.
+
+### State machine
+
+\`draft → submitted → under_review → approved\`
+
+Exceptional transitions:
+- \`under_review → needs_information → submitted\`
+- \`under_review → rejected\`
+- \`approved → suspended → approved\` (only through audited admin action)
+- \`approved → closed\` (policy-controlled)
+
+Each transition records actor, timestamp, reason code, previous state, new state and correlation/request ID. Only authorized operations roles can approve, reject or suspend.
+
+### Document handling
+
+- Publish the exact document checklist only after legal/operations approval.
+- Use short-lived signed upload URLs or a controlled upload service.
+- Validate MIME type, extension, file size and malware scan result.
+- Store private documents outside public catalogue media.
+- Restrict access to specifically authorized reviewers.
+- Log every view, download, replacement and deletion.
+- Never store identity documents in browser localStorage or expose them through public URLs.
+
+### Verification and account activation
+
+Application submission is not seller approval. Approval does not itself create a payout destination or enable money movement. Seller activation requires separate checks for organization membership, permissions, accepted seller agreement, catalogue policy and finance onboarding. Seller payout destination verification is a distinct controlled workflow.
+
+### Tunisia policy dependencies
+
+The final checklist, business-type eligibility, registration/tax fields, retention period and seller agreement must be confirmed by Tunisian counsel and an accountant. The frontend must not imply that a specific document is universally mandatory until MARCHY's policy has been approved.
+
