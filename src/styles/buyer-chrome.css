@@ -244,13 +244,16 @@
   }
   .nav-inner>a[aria-current="page"]{background:var(--surface-soft)}
   .nav-deal{margin-left:0!important}
-  .global-search-suggestions{
-    position:fixed!important;
-    left:12px!important;
-    right:12px!important;
-    top:calc(var(--header-height,68px) + 8px)!important;
+  /* Keep autocomplete anchored to the search field. A fixed top offset
+     placed the panel over the mobile header and first page content. */
+  .header .global-search-suggestions{
+    position:absolute!important;
+    top:calc(100% + 8px)!important;
+    left:0!important;
+    right:0!important;
     width:auto!important;
-    max-height:70vh!important;
+    min-width:0!important;
+    max-height:min(62vh,440px)!important;
     overflow:auto;
   }
 }
