@@ -406,7 +406,7 @@ export function BuyerOrderTrackingPage(props) {
 
       {/* Contact Seller Modal */}
       {contactOpen && (
-        <div className="quick-view-backdrop" role="dialog" aria-modal="true">
+        <div className="quick-view-backdrop" role="presentation">
           <div className="contact-modal-card" role="dialog" aria-modal="true" aria-labelledby="buyer-contact-title">
             <button
               type="button"
