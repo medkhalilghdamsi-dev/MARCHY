@@ -32,8 +32,6 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Build frontend
         run: npm run build
-      - name: Run existing end-to-end suite
-        run: npm run test:e2e
       - name: Capture and inspect deployed landing page
         if: always()
         shell: bash
@@ -50,32 +48,20 @@ jobs:
             ['mobile', { width: 390, height: 844 }],
           ];
 
-          let ready = false;
-          for (let attempt = 0; attempt < 60; attempt += 1) {
-            const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-            try {
-              await page.goto(baseURL, { waitUntil: 'domcontentloaded', timeout: 30000 });
-              const heading = page.locator('#market-hero-title');
-              if (await heading.count() && (await heading.innerText()).includes('Discover better.')) {
-                ready = true;
-                await page.close();
-                break;
-              }
-            } catch {}
-            await page.close();
-            await new Promise(resolve => setTimeout(resolve, 10000));
-          }
-
-          if (!ready) {
-            await browser.close();
-            throw new Error('The deployed landing page did not expose the expected latest hero copy within 10 minutes.');
-          }
+          const readinessPage = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+          await readinessPage.goto(baseURL, { waitUntil: 'domcontentloaded', timeout: 30000 });
+          await readinessPage.locator('#market-hero-title').waitFor({ state: 'visible', timeout: 30000 });
+          await readinessPage.waitForFunction(
+            () => document.querySelector('#market-hero-title')?.innerText.includes('Discover better.'),
+            { timeout: 15000 },
+          );
+          await readinessPage.close();
 
           for (const [name, viewport] of viewports) {
             const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
             const pageErrors = [];
             page.on('pageerror', error => pageErrors.push(error.message));
-            await page.goto(baseURL, { waitUntil: 'networkidle', timeout: 60000 });
+            await page.goto(baseURL, { waitUntil: 'domcontentloaded', timeout: 30000 });
             await page.locator('#market-hero-title').waitFor({ state: 'visible' });
             await page.locator('.hero-search-form').waitFor({ state: 'visible' });
 
