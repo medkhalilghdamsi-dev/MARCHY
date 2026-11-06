@@ -260,42 +260,41 @@ test('customer account shows and clears recently viewed products', async ({ page
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('marchy-recently-viewed')))).toEqual([])
 })
 
-test('seller workspace can save and delete a local product draft without publishing it', async ({ page }) => {
-  await page.goto('/seller-dashboard')
-  await page.getByRole('button', { name: 'Products' }).click()
-  await page.getByRole('button', { name: /Create draft/ }).click()
-  await page.getByLabel('Product name').fill('Handmade test vase')
-  await page.getByLabel('Category').first().fill('Home & Living')
-  await page.getByLabel('Indicative price (TND)').fill('45')
-  await page.getByLabel('Description').last().fill('A locally saved draft for testing')
-  await page.getByRole('button', { name: 'Save draft on this device' }).click()
-  await expect(page.getByRole('status')).toContainText('Draft saved on this device')
-  await expect(page.locator('.seller-local-drafts')).toContainText('Handmade test vase')
-  await expect(page.locator('.seller-local-drafts')).toContainText('LOCAL DRAFT')
-  await page.getByRole('button', { name: 'Delete draft Handmade test vase' }).click()
-  await expect(page.locator('.seller-local-drafts')).toHaveCount(0)
+test('seller central can create and delete a local catalogue draft without publishing it', async ({ page }) => {
+  await page.goto('/seller-central')
+  await page.getByRole('button', { name: /Product catalogue/ }).click()
+  await page.getByRole('button', { name: 'Add product' }).click()
+  await page.getByLabel('Product title *').fill('Handmade test vase')
+  await page.getByLabel('Seller SKU *').fill('TEST-VASE-001')
+  await page.getByLabel('Category').selectOption('Home')
+  await page.getByLabel('Selling price (TND) *').fill('45')
+  await page.getByLabel('Product description *').fill('A locally saved draft for testing')
+  await page.getByRole('button', { name: 'Save draft', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('Listing draft saved on this device.')
+  await expect(page.locator('.sc-catalog-list')).toContainText('Handmade test vase')
+  page.once('dialog', dialog => dialog.accept())
+  await page.getByRole('button', { name: 'Delete Handmade test vase' }).click()
+  await expect(page.locator('.sc-catalog-list')).toHaveCount(0)
 })
-
-test('seller can edit a saved local product draft without changing other drafts', async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('marchy-seller-drafts', JSON.stringify([
-    {id:'draft-a',sellerSlug:'atlas-tech-tunis',title:'First local draft',category:'Electronics',price:25,description:'First description',status:'Draft',createdAt:'2026-01-01T00:00:00.000Z'},
-    {id:'draft-b',sellerSlug:'atlas-tech-tunis',title:'Second local draft',category:'Accessories',price:35,description:'Second description',status:'Draft',createdAt:'2026-01-02T00:00:00.000Z'}
+test('seller central can edit a saved catalogue listing without changing other listings', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-seller-catalog-v1', JSON.stringify([
+    {id:'draft-a',name:'First local draft',sku:'FIRST-001',category:'Electronics',price:25,compareAtPrice:null,stock:3,description:'First description',variants:[],image:'',status:'draft'},
+    {id:'draft-b',name:'Second local draft',sku:'SECOND-001',category:'Accessories',price:35,compareAtPrice:null,stock:2,description:'Second description',variants:[],image:'',status:'draft'}
   ])))
-  await page.goto('/seller-dashboard')
-  await page.getByRole('button', { name: 'Products' }).click()
-  await page.getByRole('button', { name: 'Edit draft First local draft' }).click()
-  await expect(page.getByRole('heading', { name: 'Update product information' })).toBeVisible()
-  await page.getByLabel('Product name').fill('Updated first draft')
-  await page.getByRole('button', { name: 'Update local draft' }).click()
-  await expect(page.getByRole('status')).toContainText('Draft updated on this device')
-  await expect(page.locator('.seller-local-drafts')).toContainText('Updated first draft')
-  await expect(page.locator('.seller-local-drafts')).toContainText('Second local draft')
-  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('marchy-seller-drafts')))
+  await page.goto('/seller-central')
+  await page.getByRole('button', { name: /Product catalogue/ }).click()
+  await page.getByRole('button', { name: 'Edit First local draft' }).click()
+  await expect(page.getByRole('heading', { name: 'Update listing details' })).toBeVisible()
+  await page.getByLabel('Product title *').fill('Updated first draft')
+  await page.getByRole('button', { name: 'Save draft', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('Listing draft saved on this device.')
+  await expect(page.locator('.sc-catalog-list')).toContainText('Updated first draft')
+  await expect(page.locator('.sc-catalog-list')).toContainText('Second local draft')
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('marchy-seller-catalog-v1')))
   expect(saved).toHaveLength(2)
-  expect(saved.find(d => d.id === 'draft-a').title).toBe('Updated first draft')
-  expect(saved.find(d => d.id === 'draft-b').title).toBe('Second local draft')
+  expect(saved.find(d => d.id === 'draft-a').name).toBe('Updated first draft')
+  expect(saved.find(d => d.id === 'draft-b').name).toBe('Second local draft')
 })
-
 test('seller storefront offers a share action without inventing seller contact details', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.addInitScript(() => Object.defineProperty(navigator, 'share', { configurable: true, value: undefined }))
@@ -365,6 +364,7 @@ test('product page can copy a shareable listing link', async ({ page, context })
 })
 
 test('checkout creates shared demo seller orders and opens buyer tracking', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('marchy-seller-onboarding-draft-v1', JSON.stringify({ storeName: 'Atlas Tech' })))
   await page.goto('/product/1')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
   await page.goto('/product/2')
@@ -390,9 +390,9 @@ test('checkout creates shared demo seller orders and opens buyer tracking', asyn
   const orderId = trackingPath.split('/').pop()
   await page.goto('/account')
   await expect(page.locator('.account-demo-order[href="' + trackingPath + '"]')).toHaveCount(1)
-  await page.goto('/seller-dashboard')
-  await page.getByRole('button', { name: 'Orders' }).click()
-  await expect(page.locator('.seller-order-row').filter({ hasText: 'Demo Customer' })).toHaveCount(1)
+  await page.goto('/seller-central')
+  await page.getByRole('button', { name: /Orders & fulfilment/ }).click()
+  await expect(page.locator('.sc-order-row').filter({ hasText: 'Demo Customer' })).toHaveCount(1)
   await page.goto('/operations/delivery')
   const deliveryOrder = page.locator('.ops-table tbody tr').filter({ hasText: orderId })
   await expect(deliveryOrder).toContainText('Demo Customer')
@@ -447,15 +447,25 @@ test('delivery operations and platform admin share order status and courier chan
   await expect(page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })).toContainText('Delivered')
 })
 
-test('merchant order workspace shares order updates with delivery operations', async ({ page }) => {
-  await page.goto('/seller-dashboard')
-  await page.getByRole('button', { name: 'Orders' }).click()
-  const order = page.locator('.seller-order-row').filter({ hasText: 'MC-1048' })
+test('seller preparation updates remain separate from the customer order status', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('marchy-seller-onboarding-draft-v1', JSON.stringify({ storeName: 'Atlas Tech' }))
+    localStorage.setItem('marchy-demo-operations-v1', JSON.stringify([{
+      id: 'TEST-SELLER-ORDER', seller: 'Atlas Tech', buyer: 'Amira Ben Salem', phone: '+216 20 000 000',
+      city: 'Tunis', address: 'Test address', products: [{ id: 1, name: 'Test product', sellerName: 'Atlas Tech', price: 20, qty: 1 }],
+      total: 20, status: 'Processing', createdAt: '2026-11-06T08:00:00.000Z', timeline: []
+    }]))
+  })
+  await page.goto('/seller-central')
+  await page.getByRole('button', { name: /Orders & fulfilment/ }).click()
+  const order = page.locator('.sc-order-row').filter({ hasText: 'TEST-SELLER-ORDER' })
   await expect(order).toContainText('Amira Ben Salem')
-  await order.getByLabel('Update status for MC-1048').selectOption('Processing')
-  await page.getByRole('link', { name: '↗ Delivery operations' }).click()
-  const deliveryRow = page.locator('.ops-table tbody tr').filter({ hasText: 'MC-1048' })
-  await expect(deliveryRow).toContainText('Processing')
+  await order.click()
+  await page.getByRole('button', { name: 'Mark accepted' }).click()
+  await expect(page.locator('.sc-order-stage')).toContainText('Accepted')
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('marchy-demo-operations-v1')))
+  expect(saved[0].sellerFulfilmentStatus).toBe('Accepted')
+  expect(saved[0].status).toBe('Processing')
 })
 
 
