@@ -270,6 +270,17 @@ test('seller preparation actions stay inside profile-related sections', async ({
   await expect(page.getByRole('button', { name: 'Save preparation draft' })).toBeVisible()
 })
 
+test('seller central section navigation is addressable and browser-history aware', async ({ page }) => {
+  await page.goto('/seller-central?section=analytics')
+  await expect(page.getByRole('heading', { name: 'Understand order activity, product demand and business performance' })).toBeVisible()
+  await page.getByRole('button', { name: /Product catalogue/ }).click()
+  await expect(page).toHaveURL(/section=catalog/)
+  await expect(page.getByRole('heading', { name: 'Manage your product catalogue' })).toBeVisible()
+  await page.goBack()
+  await expect(page).toHaveURL(/section=analytics/)
+  await expect(page.getByRole('heading', { name: 'Understand order activity, product demand and business performance' })).toBeVisible()
+})
+
 test('seller central can create and delete a local catalogue draft without publishing it', async ({ page }) => {
   await page.goto('/seller-central')
   await page.getByRole('button', { name: /Product catalogue/ }).click()

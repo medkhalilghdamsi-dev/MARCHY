@@ -1,18 +1,12 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { lazy, Suspense, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowRight, Building2, ClipboardCheck, FileText, ShieldCheck, Store, Truck } from 'lucide-react'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { SellerProfileWorkspace } from '../../components/seller/SellerProfileWorkspace'
 import { SellerCentralNavigation } from '../../components/seller/SellerCentralNavigation'
+import { SELLER_CENTRAL_SECTIONS, SELLER_CENTRAL_SECTION_IDS } from '../../app/sellerCentralSections'
 import { useSellerOnboardingDraft } from '../../hooks/useSellerOnboardingDraft'
 import { translateTree } from '../../i18n/translate'
-
-
-
-
-
-
-
 
 
 const SellerCatalogManager = lazy(() => import('../../components/seller/SellerCatalogManager').then(m => ({ default: m.SellerCatalogManager })))
@@ -23,7 +17,6 @@ const SellerReturnsWorkspace = lazy(() => import('../../components/seller/Seller
 const SellerFinanceWorkspace = lazy(() => import('../../components/seller/SellerFinanceWorkspace').then(m => ({ default: m.SellerFinanceWorkspace })))
 const SellerAnalyticsWorkspace = lazy(() => import('../../components/seller/SellerAnalyticsWorkspace').then(m => ({ default: m.SellerAnalyticsWorkspace })))
 const SellerSupportWorkspace = lazy(() => import('../../components/seller/SellerSupportWorkspace').then(m => ({ default: m.SellerSupportWorkspace })))
-
 
 const governorates = [
   'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba',
@@ -43,12 +36,15 @@ const steps = [
 export function SellerCentralPage() {
   const { language } = useMarketplace()
   const { form, savedAt, notice, isSaving, completion, readyForReview, update, saveDraft, clearDraft } = useSellerOnboardingDraft()
-  const [activeSection, setActiveSection] = useState('profile')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const requestedSection = searchParams.get('section')
+  const activeSection = SELLER_CENTRAL_SECTION_IDS.has(requestedSection) ? requestedSection : 'profile'
+  const setActiveSection = section => setSearchParams(section === 'profile' ? {} : { section })
+  const activeSectionMeta = SELLER_CENTRAL_SECTIONS.find(section => section.id === activeSection) || SELLER_CENTRAL_SECTIONS[0]
 
   useEffect(() => {
     document.title = 'Seller Central | MARCHY'
   }, [])
-
 
   return translateTree(
     <main id="main-content" className="shell page seller-central-page">
@@ -81,7 +77,7 @@ export function SellerCentralPage() {
 
         <section className="sc-main">
           <div className="sc-main-heading">
-            <div><span className="eyebrow">{activeSection === 'catalog' ? 'SELLER PRODUCT CATALOGUE' : 'YOUR BUSINESS PROFILE'}</span><h2>{activeSection === 'profile' ? 'Tell us about your business' : activeSection === 'catalog' ? 'Manage your product catalogue' : activeSection === 'inventory' ? 'Control seller stock and variants' : activeSection === 'offers' ? 'Configure seller-specific offers and pricing' : activeSection === 'orders' ? 'Manage incoming orders and parcel preparation' : activeSection === 'returns' ? 'Review return requests and inspection outcomes' : activeSection === 'finance' ? 'Review seller proceeds, COD reconciliation and settlement records' : activeSection === 'analytics' ? 'Understand order activity, product demand and business performance' : activeSection === 'support' ? 'Track seller support requests, return disputes and case history' : activeSection === 'operations' ? 'How will you fulfil orders?' : 'Verification readiness'}</h2><p>{activeSection === 'profile' ? 'These details help establish the identity and location of your future storefront.' : activeSection === 'catalog' ? 'Create listings with seller SKUs, prices, variants and stock. Customer publishing remains locked until real seller approval.' : activeSection === 'inventory' ? 'Review SKU-level quantities, record stock movements and configure low-stock thresholds.' : activeSection === 'offers' ? 'Set prices, promotions, delivery and payment preferences for each listing.' : activeSection === 'orders' ? 'Review orders assigned to your storefront, prepare parcels and record courier handoff readiness.' : activeSection === 'returns' ? 'Handle buyer return requests, record receipt and inspection, and refer refunds for platform review.' : activeSection === 'finance' ? 'Review illustrative transaction activity and understand the future finance workflow. No real money movement is connected.' : activeSection === 'analytics' ? 'Explore order trends, delivered sales, top products and customer locations using local demo records.' : activeSection === 'support' ? 'Create local cases, record notes, track statuses and organise return or operational disputes.' : activeSection === 'operations' ? 'Set realistic expectations for delivery and payment handling in Tunisia.' : 'Prepare accurate business information. Document collection and verification are not yet enabled in this prototype.'}</p></div>
+            <div><span className="eyebrow">{activeSectionMeta.eyebrow}</span><h2>{activeSectionMeta.title}</h2><p>{activeSectionMeta.description}</p></div>
             <span className="sc-status"><i/> Local preview</span>
           </div>
 
@@ -95,7 +91,7 @@ export function SellerCentralPage() {
             {activeSection === 'analytics' && <SellerAnalyticsWorkspace />}
             {activeSection === 'support' && <SellerSupportWorkspace />}
           </Suspense>
-          <SellerProfileWorkspace section={activeSection} form={form} update={update} governorates={governorates} categories={categories} steps={steps} />
+          {['profile', 'operations', 'verification'].includes(activeSection) && <SellerProfileWorkspace section={activeSection} form={form} update={update} governorates={governorates} categories={categories} steps={steps} />}
 
           {['profile', 'operations', 'verification'].includes(activeSection) && (
             <>
