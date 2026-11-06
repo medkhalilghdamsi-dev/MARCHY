@@ -208,3 +208,18 @@ Inspected the shared `ProductCard.jsx` markup and the actual stylesheet import o
 Added a final, explicitly documented shared card block at the end of `upwork-ui.css` rather than reordering global imports. It establishes a predictable 4:3 image stage with contained product imagery, shrink-safe seller identity/location, a consistent two-line product title, wrapping rating metadata, compact attribute pills, separated price row and aligned comparison/cart actions. Added narrow-phone sizing, logical RTL badge placement, focus handling, dark-theme surfaces and reduced-motion behaviour. This is styling-only: product data, sample labels, seller links, cart/wishlist/compare callbacks and quick-view logic remain unchanged.
 
 The card still intentionally identifies this catalogue content as sample data; no UI copy was changed to imply verified availability, reviews or delivery. Visual regression checks across homepage, category/search grids, related products, dark mode and RTL are still required before calling the pass production-verified.
+
+
+## Homepage discovery and responsive hierarchy pass
+
+Reviewed the live homepage composition in `src/pages/buyer/HomePage.jsx` against its imported discovery, design-foundation, Upwork UI and late buyer refinement styles. The page uses a four-column category grid, three-step explainer, four-column value proposition, three seller cards, editorial discovery tiles, and a four-item hero proof row. The prior styles did not provide one consistent landing-page responsive contract across all these distinct sections, and some cards could compress without clear text wrapping or a predictable mobile hierarchy.
+
+Added a scoped homepage-only refinement in `buyer-ui-polish.css`:
+- Establishes a consistent vertical rhythm for the homepage's main sections without changing shared page spacing.
+- Makes category cards shrink-safe and gives the category grid explicit four-column desktop, two-column tablet/mobile behaviour.
+- Stacks the how-it-works cards and storefront cards on narrow screens; value cards move from four to two to one column.
+- Makes editorial tiles stack on mobile and keeps the three hero search scopes horizontally scrollable instead of compressing their labels.
+- Reflows the hero proof row to two columns on mobile and aligns section headings and supporting copy for narrow viewports.
+- Adds visible keyboard focus states, bounded/scrollable search suggestions, RTL-aware category arrows, dark-theme card surfaces and reduced-motion handling.
+
+No homepage JSX, search routing, category navigation, product filtering, catalogue data, cart/wishlist behaviour, seller data or backend integration was changed. This is a source-level styling pass; desktop/mobile browser verification, including RTL and dark mode, remains outstanding.
