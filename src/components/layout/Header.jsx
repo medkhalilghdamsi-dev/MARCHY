@@ -114,13 +114,17 @@ export function Header({ cartCount }) {
           onKeyDown={e => { if (e.key === 'Escape') setSearchOpen(false) }}
           onChange={e => { setQuery(e.target.value); setSearchOpen(true) }}
           placeholder="Search products, brands and local finds…"
-          aria-label="Search products"
+          aria-label="Search products and stores"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={searchOpen}
+          aria-controls="global-search-suggestions"
         />
         <button type="submit">Search</button>
-        {searchOpen && <div className="global-search-suggestions" id="global-search-suggestions">
+        {searchOpen && <div className="global-search-suggestions" id="global-search-suggestions" role="listbox" aria-label="Search suggestions">
           {searchTerm ? <>
             <div className="search-suggestion-heading">Matching products</div>
-            {searchMatches.length ? searchMatches.map(p => <Link key={p.id} to={`/product/${p.id}`} onMouseDown={() => setSearchOpen(false)}>
+            {searchMatches.length ? searchMatches.map(p => <Link key={p.id} role="option" aria-selected="false" to={`/product/${p.id}`} onMouseDown={() => setSearchOpen(false)}>
               <span className="suggestion-thumb"><img onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/product-placeholder.svg' }} src={p.image} alt="" /></span>
               <span className="suggestion-copy"><b>{p.name}</b><small>{p.category} · {money(p.price)}</small></span>
               <span className="suggestion-arrow"><ArrowUpRight size={15}/></span>
@@ -172,7 +176,7 @@ export function Header({ cartCount }) {
         <Link to="/categories" aria-current={navIsActive("/categories") ? "page" : undefined}><LayoutGrid size={16}/><b>Shop by category</b></Link>
         {categories.slice(1, 5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`} aria-current={navIsActive(`/category/${c.toLowerCase()}`) ? "page" : undefined}>{c}</Link>)}
         <Link to="/sellers" aria-current={navIsActive("/sellers") ? "page" : undefined}>Sellers</Link>
-        <Link to="/seller-central" aria-current={navIsActive("/seller-central") ? "page" : undefined}>Sell on MARCHY</Link>
+        <Link to="/sell" aria-current={navIsActive("/sell") ? "page" : undefined}>Sell on MARCHY</Link>
         <Link className="nav-deal" to="/search?deal=true" aria-current={location.search.includes("deal=true") ? "page" : undefined}>Deals of the day <ArrowRight size={15}/></Link>
       </div>
     </nav>
