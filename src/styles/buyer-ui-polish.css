@@ -491,7 +491,8 @@ html[data-theme="dark"] .home-budget-links a{background:var(--surface-soft);colo
 
 
 /* Global buyer header refinement: clearer hierarchy, states and responsive behavior. */
-.header{position:relative;z-index:5;background:var(--surface,#fff);border-bottom:1px solid #e2ebe5;box-shadow:0 7px 24px rgba(18,38,30,.045)}
+.header{position:relative;z-index:auto;background:var(--surface,#fff);border-bottom:1px solid #e2ebe5;box-shadow:0 7px 24px rgba(18,38,30,.045)}
+.header.header-search-open,.header.header-menu-open{z-index:50}
 .header-main{min-height:82px;gap:clamp(14px,2vw,28px)}
 .header .logo{flex:0 0 auto;display:inline-flex;align-items:center;gap:2px;color:#174735;text-decoration:none}
 .header .logo-mark{width:34px;height:34px;object-fit:contain}
