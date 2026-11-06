@@ -220,3 +220,48 @@
  .listing-layout>.filters{transition:none}
  .listing-results .product-card,.search-suggestions,.listing-search-autocomplete{transition:none}
 }
+
+
+/* Mobile header: keep the hero search primary while preserving global search access. */
+.header .mobile-search-toggle {
+  display: none;
+}
+@media (max-width: 760px) {
+  .header-main {
+    flex-wrap: wrap;
+  }
+  .header .mobile-search-toggle {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    flex: 0 0 38px;
+    place-items: center;
+    border: 1px solid #e0eae3;
+    border-radius: 10px;
+    background: #fff;
+    color: #174735;
+  }
+  .header .mobile-search-toggle:hover,
+  .header.header-mobile-search-open .mobile-search-toggle {
+    border-color: #b8d1c1;
+    background: #f0f6f2;
+  }
+  .header .searchbar {
+    display: none;
+    order: 6;
+    flex: 1 0 100%;
+    width: 100%;
+    max-width: none;
+    margin-top: 1px;
+  }
+  .header.header-mobile-search-open .searchbar {
+    display: flex;
+  }
+}
+@media (max-width: 390px) {
+  .header .mobile-search-toggle {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+}
