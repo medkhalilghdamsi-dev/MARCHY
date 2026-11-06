@@ -139,6 +139,15 @@ test('live MARCHY mobile and tablet visual/runtime audit', async ({ page }, test
   expect(pageErrors, 'uncaught browser page errors').toEqual([])
   expect(landingResults.filter(result => result.horizontalOverflow).map(result => result.name),
     'horizontal overflow at landing-page breakpoints').toEqual([])
+  for (const result of landingResults.filter(item => item.viewport.width <= 430)) {
+    expect(result.header.mobileSearchToggleDisplay, `${result.name}: mobile search toggle must exist`).not.toBe('missing')
+    expect(result.header.mobileSearchToggleDisplay, `${result.name}: mobile search toggle must be visible`).toBe('grid')
+    expect(result.header.globalSearchDisplay, `${result.name}: global search must stay collapsed by default`).toBe('none')
+    expect(result.heroTabs.lastTab.right, `${result.name}: last hero tab must fit inside its container`)
+      .toBeLessThanOrEqual(result.heroTabs.container.right + 1)
+    expect(result.heroTabs.scrollWidth, `${result.name}: hero tabs must not require horizontal scrolling`)
+      .toBeLessThanOrEqual(result.heroTabs.clientWidth + 1)
+  }
   expect(landingResults[1].headingCount, 'landing page should have a primary heading').toBeGreaterThan(0)
   expect(routeResults.filter(result => result.status && result.status >= 500),
     'internal pages returning server errors').toEqual([])
