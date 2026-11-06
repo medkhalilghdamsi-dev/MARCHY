@@ -65,7 +65,7 @@ export function CartPage() {
         <div className="cart-panel-heading"><b>Items in your cart</b><span>{cart.length} product{cart.length === 1 ? '' : 's'}</span></div>
         {sellerGroups.map(group => <section className="cart-seller-group" key={group.seller.slug} aria-label={`Items from ${group.seller.name}`}>
           <div className="cart-seller-group-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city}, Tunisia · sample storefront</small></div></div><strong>{group.items.length} product{group.items.length===1?'':'s'}</strong></div>
-          {group.items.map(item => <article className="cart-item" key={`${item.id}-${item.selectedVariant || 'default'}`}>
+          {group.items.map(item => <article className="cart-item" key={`${item.id}-${item.sellerSlug || sellerForProduct(item).slug}-${item.selectedVariant || 'default'}`}>
             <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
             <div className="cart-item-info">
               <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
