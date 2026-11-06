@@ -333,3 +333,17 @@ Completed a dedicated buyer transaction-detail UI pass without changing order lo
 - Added seller contact method cards and modal surfaces.
 - Added dark-theme, RTL, keyboard/focus, mobile, and reduced-motion coverage.
 - Kept the existing local-demo behavior intact; this pass is presentation and interaction-surface styling only.
+
+
+## Buyer product purchase hierarchy refinement — 2026-11-06
+
+Completed a final product-page commerce hierarchy pass.
+
+- Strengthened the desktop product split between visual discovery and purchase decision.
+- Made the desktop visual column sticky while keeping the purchase panel clearly dominant.
+- Improved title, price, listing-status, variant, quantity and purchase-control hierarchy.
+- Clarified Add to Cart vs Buy Now as distinct actions.
+- Improved mobile behavior with a dedicated persistent Add to Cart bar and simplified inline purchase controls.
+- Refined gallery borders, active thumbnail treatment and information-section rhythm.
+- Added responsive, dark-theme and reduced-motion coverage.
+- Preserved all existing product, seller-offer, cart, wishlist, comparison and checkout logic.
