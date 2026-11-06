@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { MarketplaceService } from '../../services/marketplaceService'
 import { useToast } from '../../providers/ToastProvider'
-import { HelpCircle, MessageSquare, Send, ShieldCheck, User } from 'lucide-react'
+import { HelpCircle, MessageSquare, Send } from 'lucide-react'
 
 export function ProductQA({ productId, productName }) {
   const toast = useToast()
@@ -18,17 +18,17 @@ export function ProductQA({ productId, productName }) {
     setQaList([newQ, ...qaList])
     setQuestionText('')
     setIsAsking(false)
-    toast('Your question has been posted to the merchant community!', { type: 'success' })
+    toast('Question saved in this browser preview. It has not been sent to a seller.', { type: 'info' })
   }
 
   return (
     <section className="product-qa-section card" aria-labelledby="product-qa-heading">
       <div className="qa-section-header">
         <div>
-          <span className="eyebrow">BUYER & SELLER COMMUNITY</span>
+          <span className="eyebrow">LISTING Q&A PREVIEW</span>
           <h2 id="product-qa-heading">Customer Questions & Answers</h2>
           <p className="qa-subhead">
-            Have a question about compatibility, warranty, or delivery? Ask verified merchants directly.
+            Ask a question about this sample listing. Questions stay in this browser preview and are not sent to a seller.
           </p>
         </div>
         <button
@@ -103,9 +103,7 @@ export function ProductQA({ productId, productName }) {
                         <p className="qa-answer-text">{ans.answer}</p>
                         <div className="qa-answer-meta">
                           {ans.isSeller && (
-                            <span className="qa-verified-merchant-tag">
-                              <ShieldCheck size={13} /> Verified Merchant Answer
-                            </span>
+                            <span className="qa-verified-merchant-tag">Sample seller response</span>
                           )}
                           <span>By {ans.author} · {ans.date}</span>
                         </div>
@@ -115,7 +113,7 @@ export function ProductQA({ productId, productName }) {
                 </div>
               ) : (
                 <div className="qa-pending-answer">
-                  <small>Pending answer from verified sellers...</small>
+                  <small>No seller response is connected in this preview.</small>
                 </div>
               )}
             </article>
