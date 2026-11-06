@@ -506,3 +506,10 @@ html[data-theme="dark"] .seller-store-cover{background:radial-gradient(circle at
  .store-view-toggle{justify-self:end}
 }
 @media(prefers-reduced-motion:reduce){.seller-directory-card,.seller-visit-link span{transition:none!important}.seller-directory-card:hover{transform:none}}
+
+
+/* Seller planner: semantic business and listing groups, same visual rhythm. */
+.seller-planner-fieldset{min-width:0;margin:0;padding:0;border:0}
+.seller-planner-fieldset legend{display:block;width:100%;margin:0 0 17px;padding:0;color:var(--ink);font-size:13px;font-weight:800}
+.seller-planner-fieldset label{min-width:0}
+.seller-planner-fieldset input:focus-visible,.seller-planner-fieldset select:focus-visible,.seller-planner-fieldset textarea:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
