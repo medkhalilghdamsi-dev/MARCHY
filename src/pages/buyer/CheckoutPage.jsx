@@ -5,12 +5,14 @@ import { money, readJson, writeJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { useToast } from '../../providers/ToastProvider'
 import { MarketplaceService } from '../../services/marketplaceService'
 import { ArrowLeft, ArrowRight, Check, Info, ShoppingBag, Store, Truck, ShieldCheck, MapPin } from 'lucide-react'
 
 export function CheckoutPage() {
   const { cart, language, clearCart, appliedCoupon } = useMarketplace()
   const { createOrders } = useDemoOrders()
+  const toast = useToast()
   const [step, setStep] = useState(1)
   const savedAddresses = readJson('marchy-saved-addresses', [])
   const [saveAddressToBook, setSaveAddressToBook] = useState(false)
@@ -55,6 +57,21 @@ export function CheckoutPage() {
   }
 
   const submitDemoOrder = () => {
+    const stockIssues = cart.flatMap(item => {
+      const offers = MarketplaceService.getProductOffers(item.id)
+      const slug = item.sellerSlug || sellerForProduct(item).slug
+      const offer = offers.find(entry => entry.sellerSlug === slug)
+      if (!offer) return [{ item, message: 'This seller offer is no longer available.' }]
+      const stock = Number(offer.stock ?? 0)
+      if (stock < item.qty) return [{ item, message: `Only ${stock} unit${stock === 1 ? '' : 's'} remain for ${item.name}.` }]
+      return []
+    })
+
+    if (stockIssues.length) {
+      toast(stockIssues[0].message, { type: 'error' })
+      return
+    }
+
     if (saveAddressToBook && details.name && details.phone && details.address) {
       const currentAddrs = readJson('marchy-saved-addresses', [])
       const alreadyExists = currentAddrs.some(a => a.address.trim().toLowerCase() === details.address.trim().toLowerCase())
