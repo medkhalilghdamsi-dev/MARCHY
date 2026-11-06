@@ -41,10 +41,10 @@ export function CartPage() {
     toast('Coupon removed', { type: 'info' })
   }
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
-  const sellerCount = new Set(cart.map(item => sellerForProduct(item).slug)).size
-  const sellerGroups = [...new Set(cart.map(item => sellerForProduct(item).slug))].map(slug => {
+  const sellerCount = new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug)).size
+  const sellerGroups = [...new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug))].map(slug => {
     const seller = sellers.find(entry => entry.slug === slug)
-    const items = cart.filter(item => sellerForProduct(item).slug === slug)
+    const items = cart.filter(item => (item.sellerSlug || sellerForProduct(item).slug) === slug)
     return { seller, items, subtotal: items.reduce((sum, item) => sum + item.price * item.qty, 0) }
   })
   return translateTree(<main id="main-content" className="shell page cart-page">
