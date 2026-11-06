@@ -73,6 +73,11 @@ function scan(source, file, context = []) {
   let cursor = 0
   while (cursor < source.length) {
     const open = source.indexOf('{', cursor)
+    const statementEnd = source.indexOf(';', cursor)
+    if (statementEnd !== -1 && (open === -1 || statementEnd < open)) {
+      cursor = statementEnd + 1
+      continue
+    }
     if (open === -1) break
     const close = findBlockEnd(source, open)
     const header = source.slice(cursor, open).replace(/\/\*[\s\S]*?\*\//g, '').trim()
