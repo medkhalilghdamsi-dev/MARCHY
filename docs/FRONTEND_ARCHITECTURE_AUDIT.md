@@ -259,3 +259,13 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Added dark theme, RTL, responsive and reduced-motion styling for the affected surfaces.
 - No backend, API, order persistence model, payment or authentication changes were made.
 - Build, browser interaction, keyboard-modal behaviour and mobile visual checks remain unverified in this environment.
+
+
+## Cart and checkout journey pass — 2026-11-06
+
+- Corrected checkout's data-retention disclosure to match the actual local demo order payload: contact phone, delivery address and notes are stored in this browser's local demo order history; they are not submitted to sellers, couriers or a payment provider.
+- Made the checkout step transition respect the user's reduced-motion preference.
+- Added dark-theme token-based surfaces, controls, text, review cards, address chips and summary states to the cart and checkout styles.
+- Preserved seller-grouped basket review, proportional sample coupon allocation, stock revalidation at demo order submission and the existing sample-order-only flow.
+- No backend, payment, authentication, API or live fulfilment behaviour was added or changed.
+- Browser visual verification and production build remain outstanding.
