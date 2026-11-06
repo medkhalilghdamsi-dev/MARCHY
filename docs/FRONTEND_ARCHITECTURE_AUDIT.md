@@ -409,3 +409,11 @@ Completed a final product-page commerce hierarchy pass.
 - This removes duplicate dialog announcements without changing contact-preview behavior or order data.
 - Source change: `src/pages/buyer/BuyerOrderTrackingPage.jsx`.
 - Verification is source-level only; keyboard, screen-reader and browser checks remain outstanding.
+
+## Buyer account interaction semantics — 2026-11-06
+
+- Profile edit and add-address toggles now expose their expanded state and identify the controlled form with `aria-controls`.
+- The saved-address section has an explicit heading association, and its address collection is exposed as a labelled list with individual list items.
+- Existing profile, address persistence, default-address selection and deletion logic is unchanged.
+- Source change: `src/pages/buyer/AccountPage.jsx`.
+- Verification is source-level only; production build and browser/assistive-technology checks remain outstanding.
