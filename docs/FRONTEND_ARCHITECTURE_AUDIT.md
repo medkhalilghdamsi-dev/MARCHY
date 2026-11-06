@@ -247,3 +247,15 @@ No API calls, service methods, product data, filter semantics, sorting rules, ca
 - Included responsive layouts, keyboard focus visibility, RTL alignment, dark-theme surfaces and reduced-motion handling.
 - No seller onboarding, seller operations, backend, API, data model or authentication behaviour was changed.
 - Browser visual verification and production build remain outstanding; the CSS and JSX changes are source-reviewed only.
+
+
+## Buyer account order history and tracking pass — 2026-11-06
+
+- Reclassified order status filters as an accessible button group with pressed state rather than tab semantics; the changing results region now announces updates politely.
+- Refined buyer order history and tracking layout: filter controls, order cards, product summaries, delivery/merchant details, timeline and mobile action layout.
+- Added a programmatic current-step marker to the order progress indicator.
+- Corrected the tracking contact preview: it previously displayed the order's buyer phone number as though it were the merchant's support number. The preview now clearly states that merchant phone details are not connected.
+- Added explicit accessible names to the invoice and merchant-contact dialog surfaces.
+- Added dark theme, RTL, responsive and reduced-motion styling for the affected surfaces.
+- No backend, API, order persistence model, payment or authentication changes were made.
+- Build, browser interaction, keyboard-modal behaviour and mobile visual checks remain unverified in this environment.
