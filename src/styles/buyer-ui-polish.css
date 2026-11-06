@@ -2074,3 +2074,265 @@ html[data-theme="dark"] .home-landing-v2 .upwork-seller-footer {
     transition: none;
   }
 }
+
+
+/* Marketplace results: final responsive, accessible and theme-aware layer. */
+.marketplace-search-page {
+  min-width: 0;
+}
+.marketplace-search-page .listing-head {
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+.marketplace-search-page .listing-head > div:first-child {
+  min-width: 0;
+}
+.marketplace-search-page .listing-head h1 {
+  max-width: 720px;
+  text-wrap: balance;
+}
+.marketplace-search-page .listing-search-autocomplete {
+  flex: 0 1 390px;
+  min-width: min(300px, 100%);
+}
+.marketplace-search-page .listing-layout {
+  align-items: start;
+  gap: 24px;
+}
+.marketplace-search-page .filters {
+  min-width: 0;
+  align-self: start;
+}
+.marketplace-search-page .listing-results {
+  min-width: 0;
+}
+.marketplace-search-page .results-toolbar {
+  min-width: 0;
+  gap: 14px;
+}
+.marketplace-search-page .results-toolbar-actions {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.marketplace-search-page .results-toolbar-actions > label {
+  min-width: 0;
+}
+.marketplace-search-page .results-toolbar-actions select {
+  max-width: min(230px, 48vw);
+}
+.marketplace-search-page .listing-view-toggle {
+  flex: 0 0 auto;
+}
+.marketplace-search-page .listing-view-toggle button:focus-visible,
+.marketplace-search-page .results-toolbar select:focus-visible,
+.marketplace-search-page .filters button:focus-visible,
+.marketplace-search-page .filters input:focus-visible,
+.marketplace-search-page .filters select:focus-visible,
+.marketplace-search-page .active-filter-chips button:focus-visible,
+.marketplace-search-page .pagination button:focus-visible,
+.marketplace-search-page .search-suggestions button:focus-visible,
+.marketplace-search-page .search-suggestions a:focus-visible,
+.marketplace-search-page .mobile-filter-trigger:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--forest));
+  outline-offset: 3px;
+}
+.marketplace-search-page .search-suggestions {
+  max-height: min(62vh, 480px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.marketplace-search-page .search-suggestions-all {
+  position: sticky;
+  bottom: 0;
+}
+.marketplace-search-page .active-filter-chips {
+  min-width: 0;
+}
+.marketplace-search-page .active-filter-chips > button {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.marketplace-search-page .filter-budget-presets > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.marketplace-search-page .filter-budget-presets button {
+  min-height: 34px;
+}
+.marketplace-search-page .pagination button {
+  min-width: 104px;
+}
+.marketplace-search-page .marketplace-no-results {
+  padding: clamp(24px, 4vw, 44px);
+}
+.marketplace-search-page .compare-tray {
+  min-width: 0;
+}
+.marketplace-search-page .compare-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+.marketplace-search-page .compare-table {
+  min-width: 560px;
+}
+@media (max-width: 1050px) {
+  .marketplace-search-page .listing-head {
+    align-items: stretch;
+  }
+  .marketplace-search-page .listing-search-autocomplete {
+    flex-basis: 340px;
+  }
+}
+@media (max-width: 760px) {
+  .marketplace-search-page .listing-head {
+    gap: 13px;
+    margin-bottom: 16px;
+  }
+  .marketplace-search-page .listing-search-autocomplete {
+    flex: 0 0 auto;
+  }
+  .marketplace-search-page .results-toolbar {
+    align-items: stretch;
+    padding: 12px;
+    border-radius: 12px;
+  }
+  .marketplace-search-page .results-toolbar-actions {
+    display: flex;
+    align-items: center;
+  }
+  .marketplace-search-page .results-toolbar-actions > label {
+    display: flex;
+    flex: 1 1 150px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .marketplace-search-page .results-toolbar-actions select {
+    min-width: 0;
+    width: min(100%, 180px);
+  }
+  .marketplace-search-page .listing-view-toggle button {
+    min-width: 36px;
+    min-height: 36px;
+  }
+  .marketplace-search-page .listing-layout > .filters.filters-open {
+    z-index: 120;
+    display: block;
+  }
+  .marketplace-search-page .mobile-filter-backdrop {
+    z-index: 119;
+  }
+  .marketplace-search-page .listing-layout > .filters {
+    max-height: min(86dvh, 760px);
+    overscroll-behavior: contain;
+  }
+  .marketplace-search-page .listing-layout > .filters .filter-apply {
+    bottom: calc(env(safe-area-inset-bottom, 0px));
+    z-index: 2;
+  }
+  .marketplace-search-page .pagination {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 8px;
+  }
+  .marketplace-search-page .pagination button {
+    min-width: 0;
+    min-height: 42px;
+    padding-inline: 8px;
+    font-size: 10px;
+  }
+  .marketplace-search-page .pagination span {
+    text-align: center;
+    white-space: nowrap;
+  }
+  .marketplace-search-page .marketplace-no-results {
+    padding: 25px 16px;
+  }
+  .marketplace-search-page .empty-search-suggestions {
+    width: 100%;
+  }
+}
+@media (max-width: 390px) {
+  .marketplace-search-page .results-toolbar-actions > label {
+    flex-basis: 130px;
+  }
+  .marketplace-search-page .results-toolbar-actions select {
+    width: 100%;
+    max-width: 138px;
+  }
+  .marketplace-search-page .listing-results .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+html[data-theme="dark"] .marketplace-search-page .active-filter-chips > button {
+  border-color: var(--line);
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+html[data-theme="dark"] .marketplace-search-page .active-filter-chips > .clear-filter-chips {
+  background: transparent;
+  color: var(--muted);
+}
+html[data-theme="dark"] .marketplace-search-page .category-context-strip,
+html[data-theme="dark"] .marketplace-search-page .results-toolbar,
+html[data-theme="dark"] .marketplace-search-page .marketplace-no-results,
+html[data-theme="dark"] .marketplace-search-page .compare-tray {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+html[data-theme="dark"] .marketplace-search-page .category-context-strip > div b,
+html[data-theme="dark"] .marketplace-search-page .empty-search-suggestions > b {
+  color: var(--ink);
+}
+html[data-theme="dark"] .marketplace-search-page .category-context-strip > a,
+html[data-theme="dark"] .marketplace-search-page .empty-search-suggestions a {
+  color: var(--forest);
+}
+html[data-theme="dark"] .marketplace-search-page .mobile-filter-trigger,
+html[data-theme="dark"] .marketplace-search-page .pagination button {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+html[data-theme="dark"] .marketplace-search-page .listing-layout > .filters.filters-open {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+html[data-theme="dark"] .marketplace-search-page .mobile-filter-sheet-heading {
+  border-color: var(--line);
+}
+html[data-theme="dark"] .marketplace-search-page .mobile-filter-sheet-heading h2,
+html[data-theme="dark"] .marketplace-search-page .mobile-filter-sheet-heading > button {
+  color: var(--ink);
+}
+html[data-theme="dark"] .marketplace-search-page .mobile-filter-sheet-heading > button,
+html[data-theme="dark"] .marketplace-search-page .filter-budget-presets button {
+  border-color: var(--line);
+  background: var(--surface-soft);
+}
+html[data-theme="dark"] .marketplace-search-page .listing-layout > .filters .filter-apply {
+  box-shadow: 0 -8px 18px var(--surface);
+}
+html[data-theme="dark"] .marketplace-search-page .search-suggestions-all {
+  border-color: var(--line);
+  background: var(--surface-raised);
+  color: var(--ink);
+}
+:dir(rtl) .marketplace-search-page .results-toolbar-actions {
+  direction: rtl;
+}
+:dir(rtl) .marketplace-search-page .pagination {
+  direction: rtl;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marketplace-search-page .listing-layout > .filters,
+  .marketplace-search-page .active-filter-chips > button,
+  .marketplace-search-page .pagination button {
+    transition: none;
+  }
+}
