@@ -11,15 +11,15 @@ import { MobileTabBar } from '../components/layout/MobileTabBar'
 import { SellerPortalHeader, SellerPortalFooter } from '../components/layout/SellerPortalChrome'
 import { SELLER_PORTAL_PATHS } from './routePaths'
 import { GlobalCompareDrawer } from '../components/marketplace/GlobalCompareDrawer'
-import { Home } from '../pages/buyer/HomePage'
-import { SearchPage } from '../pages/buyer/SearchPage'
-import { ProductPage } from '../pages/buyer/ProductPage'
-import { CartPage } from '../pages/buyer/CartPage'
-import { CheckoutPage } from '../pages/buyer/CheckoutPage'
-import { WishlistPage } from '../pages/buyer/WishlistPage'
-import { SellersPage } from '../pages/buyer/SellersPage'
-import { SellerPage } from '../pages/buyer/SellerStorefrontPage'
-import { CategoriesPage } from '../pages/buyer/CategoriesPage'
+const Home = lazy(() => import('../pages/buyer/HomePage').then(m => ({ default: m.Home })))
+const SearchPage = lazy(() => import('../pages/buyer/SearchPage').then(m => ({ default: m.SearchPage })))
+const ProductPage = lazy(() => import('../pages/buyer/ProductPage').then(m => ({ default: m.ProductPage })))
+const CartPage = lazy(() => import('../pages/buyer/CartPage').then(m => ({ default: m.CartPage })))
+const CheckoutPage = lazy(() => import('../pages/buyer/CheckoutPage').then(m => ({ default: m.CheckoutPage })))
+const WishlistPage = lazy(() => import('../pages/buyer/WishlistPage').then(m => ({ default: m.WishlistPage })))
+const SellersPage = lazy(() => import('../pages/buyer/SellersPage').then(m => ({ default: m.SellersPage })))
+const SellerPage = lazy(() => import('../pages/buyer/SellerStorefrontPage').then(m => ({ default: m.SellerPage })))
+const CategoriesPage = lazy(() => import('../pages/buyer/CategoriesPage').then(m => ({ default: m.CategoriesPage })))
 
 // Lazy loaded secondary workspace and support pages for code splitting
 const SellerLaunchPage = lazy(() => import('../pages/seller/SellerLaunchPage').then(m => ({ default: m.SellerLaunchPage })))
