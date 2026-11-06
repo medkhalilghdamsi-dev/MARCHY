@@ -427,3 +427,13 @@ Completed a final product-page commerce hierarchy pass.
 - Preserved the existing demo order timeline, receipt printing, contact-preview and order actions; no backend or service behavior changed.
 - Source change: `src/pages/buyer/BuyerOrderTrackingPage.jsx`.
 - Verification is source-level only; modal focus containment/restoration, production build and browser/assistive-technology checks remain outstanding.
+
+
+## Shared operations table consistency pass — 2026-11-06
+
+- Added a concise table caption and explicit column-header scope to the shared operational order table used across operations workspaces.
+- Empty filtered results now expose a polite status announcement for assistive technology.
+- Added consistent caption hierarchy, RTL alignment and visible keyboard focus for table links and editable controls.
+- Kept order data, courier assignment, status updates and existing workspace routes unchanged.
+- Source changes: `src/pages/shared/OperationsShared.jsx` and `src/styles/operations.css`.
+- Verification is source-level only; responsive table behavior, browser/assistive-technology checks and production build remain outstanding.
