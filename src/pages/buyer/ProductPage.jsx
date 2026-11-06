@@ -265,6 +265,7 @@ export function ProductPage() {
             <span className="seller-profile-status">Store details are illustrative</span>
           </div>
           <Link to={`/seller/${currentSellerSlug}`}>Visit shop <span><ArrowRight size={15}/></span></Link>
+        </section>
         <section className="product-confidence-panel" aria-label="Buyer confidence information">
           <span className="eyebrow">BUYER CONFIDENCE</span>
           <h2>What is and isn't verified</h2>
@@ -277,7 +278,6 @@ export function ProductPage() {
           <p><b>Delivery fee:</b> not provided</p>
           <p><b>Estimated arrival:</b> not provided</p>
           <p>Delivery coverage and stock availability must be confirmed with the seller before checkout.</p>
-        </section>
         </section>
       </section>
     </div>
