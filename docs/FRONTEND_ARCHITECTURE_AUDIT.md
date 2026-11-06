@@ -495,3 +495,12 @@ Completed a final product-page commerce hierarchy pass.
 - Preserved all temporary form state and image-preview behavior; no application submission or backend workflow was introduced.
 - Source changes: `src/pages/seller/SellerLaunchPage.jsx` and `src/styles/seller-experience.css`.
 - Verification is source-level only; file-upload preview, browser validation, keyboard/screen-reader checks and production build remain outstanding.
+
+
+## Seller preview announcement refinement — 2026-11-06
+
+- Removed the full storefront preview from the live-announcement region because it re-renders on every keystroke and could cause excessive screen-reader announcements.
+- Kept the concise submit confirmation as the polite status announcement, so users are informed when they deliberately update the preview.
+- No preview rendering, input state or submission behavior changed.
+- Source change: `src/pages/seller/SellerLaunchPage.jsx`.
+- Verification is source-level only; screen-reader behavior and browser checks remain outstanding.
