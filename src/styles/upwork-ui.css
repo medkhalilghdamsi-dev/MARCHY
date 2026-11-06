@@ -1942,6 +1942,14 @@ html[data-theme="dark"] .upwork-cta-buyers {
   text-align: right;
 }
 
+.offer-price-caption {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+
 .offer-price-block strong {
   font-size: 18px;
   color: var(--charcoal, #111827);
