@@ -42,6 +42,11 @@ export function CartPage() {
   }
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const sellerCount = new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug)).size
+  const getLineStock = (item) => {
+    const slug = item.sellerSlug || sellerForProduct(item).slug
+    const offer = MarketplaceService.getProductOffers(item.id).find(entry => entry.sellerSlug === slug)
+    return Number(offer?.stock ?? 0)
+  }
   const sellerGroups = [...new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug))].map(slug => {
     const items = cart.filter(item => (item.sellerSlug || sellerForProduct(item).slug) === slug)
     const seller = sellers.find(entry => entry.slug === slug) || {
@@ -78,6 +83,9 @@ export function CartPage() {
               )}
               <small>{group.seller.name} · {group.seller.city}, Tunisia</small>
               <b className="cart-item-unit-price">{money(item.price)} <span>each</span></b>
+              <span className={`cart-stock-status ${getLineStock(item) <= 0 ? 'is-out' : getLineStock(item) <= 5 ? 'is-low' : 'is-good'}`}>
+                {getLineStock(item) <= 0 ? 'Currently unavailable' : getLineStock(item) <= 5 ? `Only ${getLineStock(item)} left` : `${getLineStock(item)} available`}
+              </span>
               <div className="cart-item-actions-row">
                 <button type="button" className="remove-link" onClick={() => removeItem(item.id, item.selectedVariant, item.sellerSlug)}>Remove item</button>
                 {saveForLater && <button type="button" className="save-later-link" onClick={() => { saveForLater(item); toast(`Saved ${item.name} for later`, { type: 'info' }) }}>Save for later</button>}
@@ -86,7 +94,7 @@ export function CartPage() {
             <div className="cart-item-quantity"><span>Quantity</span><div className="quantity">
               <button type="button" aria-label={`Decrease ${item.name} quantity`} disabled={item.qty <= 1} onClick={() => updateQty(item.id, item.qty - 1, item.selectedVariant, item.sellerSlug)}>−</button>
               <output aria-live="polite">{item.qty}</output>
-              <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= 99} onClick={() => updateQty(item.id, Math.min(99, item.qty + 1), item.selectedVariant, item.sellerSlug)}>＋</button>
+              <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= Math.min(99, getLineStock(item))} onClick={() => updateQty(item.id, Math.min(99, getLineStock(item), item.qty + 1), item.selectedVariant, item.sellerSlug)}>＋</button>
             </div></div>
             <strong className="cart-line-total">{money(item.price * item.qty)}</strong>
           </article>)}
