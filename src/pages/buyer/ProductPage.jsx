@@ -293,7 +293,7 @@ export function ProductPage() {
     {/* Customer Reviews & Feedback */}
     <ProductReviews product={product} />
 
-    {/* Interactive Customer Q&A with Verified Merchant Answers */}
+    {/* Local preview Q&A; no seller messaging is connected. */}
     <ProductQA productId={product.id} productName={product.name} />
 
     {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>Discover more products</h2><p className="muted">More from this category and other corners of the marketplace.</p></div><Link to="/search" className="text-link">Explore marketplace <ArrowRight size={15}/></Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language} returnTo={location.pathname}/>)}</div></section>}
