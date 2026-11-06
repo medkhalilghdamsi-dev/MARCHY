@@ -889,7 +889,9 @@ test('shared header only rises above page content while an overlay is open', asy
 test('global search suggestions stay anchored below the field on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
+  await page.getByRole('button', { name: 'Open search' }).click()
   const search = page.getByRole('search').getByLabel('Search products and stores')
+  await expect(search).toBeVisible()
   await expect(search).toHaveAttribute('aria-expanded', 'false')
   await search.fill('headphones')
   await expect(search).toHaveAttribute('aria-expanded', 'true')
