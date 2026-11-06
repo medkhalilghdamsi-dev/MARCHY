@@ -252,3 +252,19 @@ Only moderation services/authorized reviewers can approve or reject. Seller requ
 
 The current Seller Central catalogue manager stores isolated preparation records in browser localStorage. Its “Submit for review” action changes a local demo state only. It does not create a backend listing, publish a customer offer, reserve stock, or approve/activate a product.
 
+
+
+## 11. Seller orders and fulfilment workflow
+
+The seller workspace must return only orders containing items assigned to the authenticated seller organization. Never trust a seller identifier supplied by the browser to authorize access. For multi-seller checkouts, each seller receives its own fulfilment view while the buyer retains the platform-level order relationship.
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | /api/v1/seller/orders | List seller-assigned orders with status, date and cursor filters |
+| GET | /api/v1/seller/orders/{orderId} | Read an authorized seller order and its fulfilment lines |
+| POST | /api/v1/seller/orders/{orderId}/accept | Accept eligible seller lines (idempotent) |
+| POST | /api/v1/seller/orders/{orderId}/preparation | Update preparation state and optional seller note |
+| POST | /api/v1/seller/orders/{orderId}/packed | Confirm packing and parcel metadata (idempotent) |
+| POST | /api/v1/seller/orders/{orderId}/ready-for-pickup | Request courier handoff and pickup slot (idempotent) |
+
+Seller fulfilment state is distinct from customer order/payment state. The backend owns the canonical state machine and validates every transition. Seller actions must be scoped to that seller's order lines, even when one checkout contains multiple sellers. Acceptance revalidates listing eligibility and reserved inventory; packing validates quantities and parcel data. Marking ready for pickup is not proof of courier collection; only a courier integration or verified operations event may advance tracking to in-transit. Never mark COD collected, payment settled, delivered or refunded from a seller preparation action. The local prototype stores a separate sellerFulfilmentStatus and does not send notifications or create courier bookings.
