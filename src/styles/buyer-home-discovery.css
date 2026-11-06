@@ -694,3 +694,29 @@ html[data-theme="dark"] .home-landing-v2 .upwork-value-card {
     transition: none;
   }
 }
+
+
+/* Mobile hero scope selector: keep all three options visible without horizontal clipping. */
+@media (max-width: 760px) {
+  .home-landing-v2 .hero-segmented-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    max-width: 100%;
+    gap: 4px;
+    overflow: visible;
+  }
+
+  .home-landing-v2 .hero-seg-tab {
+    flex: initial;
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 6px 5px;
+    font-size: clamp(8px, 2.2vw, 9px);
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+}
