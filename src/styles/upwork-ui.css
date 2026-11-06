@@ -2292,12 +2292,16 @@ html[data-theme="dark"] .upwork-cta-buyers {
   margin-top: 4px;
 }
 
-.qa-verified-merchant-tag {
+.qa-sample-answer-tag {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  color: var(--emerald-primary, #047857);
-  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 650;
 }
 
 /* 4. Global Floating Compare Dock & Modal */
