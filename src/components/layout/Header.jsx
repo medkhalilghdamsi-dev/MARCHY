@@ -172,6 +172,7 @@ export function Header({ cartCount }) {
         <Link to="/categories" aria-current={navIsActive("/categories") ? "page" : undefined}><LayoutGrid size={16}/><b>Shop by category</b></Link>
         {categories.slice(1, 5).map(c => <Link key={c} to={`/category/${c.toLowerCase()}`} aria-current={navIsActive(`/category/${c.toLowerCase()}`) ? "page" : undefined}>{c}</Link>)}
         <Link to="/sellers" aria-current={navIsActive("/sellers") ? "page" : undefined}>Sellers</Link>
+        <Link to="/seller-central" aria-current={navIsActive("/seller-central") ? "page" : undefined}>Sell on MARCHY</Link>
         <Link className="nav-deal" to="/search?deal=true" aria-current={location.search.includes("deal=true") ? "page" : undefined}>Deals of the day <ArrowRight size={15}/></Link>
       </div>
     </nav>

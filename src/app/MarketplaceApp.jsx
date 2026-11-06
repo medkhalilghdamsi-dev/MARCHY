@@ -23,6 +23,7 @@ import { CategoriesPage } from '../pages/buyer/CategoriesPage'
 const SellerLaunchPage = lazy(() => import('../pages/seller/SellerLaunchPage').then(m => ({ default: m.SellerLaunchPage })))
 const SellerDashboardPage = lazy(() => import('../pages/seller/SellerDashboardPage').then(m => ({ default: m.SellerDashboardPage })))
 const SellerPreparationPage = lazy(() => import('../pages/seller/SellerPreparationPage').then(m => ({ default: m.SellerPreparationPage })))
+const SellerCentralPage = lazy(() => import('../pages/seller/SellerCentralPage').then(m => ({ default: m.SellerCentralPage })))
 
 const AccountPage = lazy(() => import('../pages/buyer/AccountPage').then(m => ({ default: m.AccountPage })))
 const BuyerOrderTrackingPage = lazy(() => import('../pages/buyer/BuyerOrderTrackingPage').then(m => ({ default: m.BuyerOrderTrackingPage })))
@@ -97,6 +98,7 @@ function PageTitleManager() {
         '/seller-help': 'Seller preparation guide',
         '/sell': 'Sell on MARCHY',
         '/seller-dashboard': 'Seller workspace',
+        '/seller-central': 'Seller Central',
         '/operations/delivery': 'Delivery operations',
         '/admin': 'Platform overview',
         '/orders': 'Your orders',
@@ -142,6 +144,7 @@ export default function App() {
             <Route path="/seller-help" element={<SellerPreparationPage />} />
             <Route path="/sell" element={<SellerLaunchPage />} />
             <Route path="/seller-dashboard" element={<SellerDashboardPage />} />
+            <Route path="/seller-central" element={<SellerCentralPage />} />
             <Route path="/operations/delivery" element={<DeliveryOperationsPage />} />
             <Route path="/admin" element={<AdminOperationsPage />} />
             <Route path="/orders" element={<BuyerOrdersPage />} />
