@@ -62,7 +62,7 @@ export function SellerInventoryWorkspace() {
     })
     const movement = { id: makeId(), listingId: selected, product: selectedListing.name, variant: selectedVariant.name, sku: selectedVariant.sku, direction, quantity: amount, reason: reason.trim(), before: selectedVariant.available, after: nextAvailable, createdAt: new Date().toISOString() }
     if (persist(nextListings, [movement, ...movements].slice(0, 250))) {
-      setNotice(\`\${amount} unit(s) \${direction === 'in' ? 'added to' : 'removed from'} \${selectedListing.name}. Local demo inventory updated.\`)
+      setNotice(`${amount} unit(s) ${direction === 'in' ? 'added to' : 'removed from'} ${selectedListing.name}. Local demo inventory updated.`)
       setQuantity('1')
     }
   }
@@ -70,7 +70,7 @@ export function SellerInventoryWorkspace() {
     const threshold = Number(thresholdDraft[listing.id] ?? listing.inventory.lowStockThreshold)
     if (!Number.isInteger(threshold) || threshold < 0 || threshold > 100000) return setError('Low-stock threshold must be a whole number from 0 to 100,000.')
     const next = listings.map(item => item.id === listing.id ? { ...item, inventory: { ...item.inventory, lowStockThreshold: threshold } } : item)
-    if (persist(next)) setNotice(\`Low-stock alert threshold saved for \${listing.name} on this device.\`)
+    if (persist(next)) setNotice(`Low-stock alert threshold saved for ${listing.name} on this device.`)
   }
   return (
     <section className="sc-inventory-workspace" aria-label="Seller inventory workspace">
