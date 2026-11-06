@@ -375,3 +375,14 @@ Completed a final product-page commerce hierarchy pass.
 - Refined saved-address selection cards, active/keyboard states, mobile grid behavior, review controls and seller-level summary readability.
 - Added RTL and dark-theme alignment for the updated address selection surface.
 - Preserved existing local-demo checkout, inventory validation, coupon calculation, order creation and storage behavior.
+
+
+## Buyer cart usability and stock-state pass — 2026-11-06
+
+- Made the cart item-list label a real section heading, and labelled the order-summary landmark.
+- Reused each line's displayed seller stock value for its status and quantity ceiling, avoiding repeated offer lookups during one render.
+- Added an explicit accessible warning when a persisted cart quantity is above the currently displayed stock; the existing quantity controls remain available to correct it.
+- Exposed coupon-chip selected state through `aria-pressed`.
+- Added consistent visible keyboard focus, responsive stock-warning layout, and dark/RTL treatment.
+- Preserved cart state, coupon validation, seller grouping, and checkout/demo behaviour. No backend or service code changed.
+- Verification is source-level only; production build and browser checks have not been run.
