@@ -292,3 +292,94 @@ html[data-theme="dark"] .home-landing-v2 .upwork-seller-footer {
     transition: none;
   }
 }
+
+/* Premium homepage trust rail — replaces the heavier explanatory step cards. */
+.home-landing-v2 .home-trust-rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 22px 0 4px;
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(18, 38, 30, 0.035);
+}
+.home-landing-v2 .home-trust-item {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 4px 16px;
+  border-right: 1px solid var(--line-soft);
+}
+.home-landing-v2 .home-trust-item:first-child { padding-left: 2px; }
+.home-landing-v2 .home-trust-item:last-child {
+  padding-right: 2px;
+  border-right: 0;
+}
+.home-landing-v2 .home-trust-item > span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--mint-surface);
+  color: var(--forest);
+}
+.home-landing-v2 .home-trust-item b {
+  display: block;
+  color: var(--ink);
+  font-size: 10.5px;
+  font-weight: 800;
+}
+.home-landing-v2 .home-trust-item small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+@media (max-width: 900px) {
+  .home-landing-v2 .home-trust-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 0;
+  }
+  .home-landing-v2 .home-trust-item:nth-child(2) {
+    border-right: 0;
+  }
+  .home-landing-v2 .home-trust-item:nth-child(3) {
+    padding-left: 2px;
+  }
+}
+@media (max-width: 760px) {
+  .home-landing-v2 .home-trust-rail {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 14px 0 2px;
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+  .home-landing-v2 .home-trust-item,
+  .home-landing-v2 .home-trust-item:first-child,
+  .home-landing-v2 .home-trust-item:last-child {
+    grid-template-columns: 32px minmax(0, 1fr);
+    padding: 9px 2px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .home-landing-v2 .home-trust-item:last-child {
+    border-bottom: 0;
+  }
+  .home-landing-v2 .home-trust-item > span {
+    width: 32px;
+    height: 32px;
+  }
+  .home-landing-v2 .home-trust-item b { font-size: 10px; }
+  .home-landing-v2 .home-trust-item small { font-size: 8.5px; }
+}
+html[data-theme="dark"] .home-landing-v2 .home-trust-rail {
+  background: var(--surface);
+  box-shadow: none;
+}
