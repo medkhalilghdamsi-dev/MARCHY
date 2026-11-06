@@ -6,7 +6,7 @@ import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
 import { MarketplaceService } from '../../services/marketplaceService'
-import { ArrowRight, ArrowUpRight, Check, Heart, MapPin, Plus, ShoppingCart, ShieldCheck } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Check, Heart, MapPin, Plus, ShoppingCart } from 'lucide-react'
 
 export function ProductCard({ product, addToCart, wished, toggleWish, compareIds = [], toggleCompare, returnTo }) {
   const { language } = useMarketplace()
@@ -63,23 +63,21 @@ export function ProductCard({ product, addToCart, wished, toggleWish, compareIds
             <span className="seller-avatar-mini">{seller.name.slice(0, 1)}</span>
             <span className="seller-name-text">{seller.name}</span>
           </Link>
-          <span className="seller-verified-chip" title="Verified local merchant"><ShieldCheck size={11} /> Verified</span>
+          <span className="seller-location-chip"><MapPin size={11} aria-hidden="true" /> {seller.city}</span>
         </div>
         <div className="product-category">{product.category}</div>
         <Link to={`/product/${product.id}`} state={returnTo ? { from: returnTo } : undefined} className="product-name">{product.name}</Link>
-        {product.rating && <div className="product-rating" aria-label={`Rating: ${product.rating} out of 5`}>
+        {product.rating && <div className="product-rating" aria-label={`Sample rating: ${product.rating} out of 5`}>
           <span aria-hidden="true" className="rating-stars">★ {product.rating}</span>
-          <span className="rating-count">({product.reviewCount || 12} reviews)</span>
-          <span className="seller-city-dot">·</span>
-          <span className="seller-city-tag"><MapPin size={11} aria-hidden="true"/> {seller.city}</span>
+          <span className="rating-count">Sample rating{product.reviewCount ? ` · ${product.reviewCount} sample reviews` : ''}</span>
         </div>}
         <div className="card-attribute-pills">
-          <span className="attr-pill">COD Available</span>
-          <span className="attr-pill">Local dispatch</span>
+          <span className="attr-pill">Sample listing</span>
+          <span className="attr-pill">Delivery to confirm</span>
         </div>
         <div className="price-row">
           <div className="price-label-group">
-            <small className="price-type-label">Fixed price</small>
+            <small className="price-type-label">Sample price</small>
             <strong>{money(product.price)}</strong>
           </div>
           {product.oldPrice && <del>{money(product.oldPrice)}</del>}
