@@ -2645,3 +2645,36 @@ html[data-theme="dark"] .nav-inner>a[aria-current="page"]{
 @media(prefers-reduced-motion:reduce){
   .searchbar,.header-actions .action-link,.nav-inner>a{transition:none}
 }
+
+
+/* MARCHY shared buyer shell — footer architecture + mobile tab bar */
+.footer{position:relative;isolation:isolate;border-top:1px solid rgba(218,237,226,.12)}
+.footer-main{grid-template-columns:minmax(210px,1.8fr) repeat(4,minmax(0,1fr));gap:clamp(18px,2.7vw,38px);padding-top:52px;padding-bottom:42px}
+.footer-brand{min-width:0}
+.footer-brand .logo{width:max-content}
+.footer-brand p{max-width:260px;margin:15px 0 18px;line-height:1.8}
+.footer-social{display:flex;flex-wrap:wrap;gap:8px}
+.footer-social span{display:inline-flex;align-items:center;min-height:28px;padding:5px 9px;border:1px solid rgba(218,237,226,.16);border-radius:6px;color:#c0d4c8;font-size:9px;font-weight:700}
+.footer-main>div:not(:first-child){min-width:0;align-items:flex-start;gap:11px}
+.footer-main>div>b{display:flex;align-items:center;gap:8px;min-height:30px;margin-bottom:5px;color:#f0f6f2;font-size:10px;font-weight:850}
+.footer-main>div>b svg{color:#a8cbb8}
+.footer-main a:not(.logo){width:max-content;max-width:100%;color:#b6cbbf;font-size:9px;line-height:1.5;transition:color .15s ease,transform .15s ease}
+.footer-main a:not(.logo):hover{color:#fff;transform:translateX(2px)}
+.footer-bottom{min-height:54px;align-items:center;gap:14px;border-top:1px solid rgba(218,237,226,.14);line-height:1.5}
+.mobile-tabbar{z-index:80;padding:7px 8px calc(7px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:color-mix(in srgb,var(--surface) 94%,transparent);box-shadow:0 -8px 28px rgba(12,34,24,.09);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.mobile-tabbar a{position:relative;display:flex;min-width:0;min-height:51px;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:5px 3px;border-radius:9px;color:var(--muted);text-decoration:none;-webkit-tap-highlight-color:transparent}
+.mobile-tabbar a>span{position:relative;display:grid;place-items:center;min-width:25px;min-height:23px;color:currentColor}
+.mobile-tabbar a>span svg{width:20px;height:20px;stroke-width:1.9}
+.mobile-tabbar a small{overflow:hidden;max-width:100%;color:inherit;font-size:8px;font-weight:700;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}
+.mobile-tabbar a i{position:absolute;top:-5px;right:-9px;display:grid;min-width:16px;height:16px;place-items:center;padding:0 4px;border:2px solid var(--surface);border-radius:20px;background:var(--orange);color:#fff;font:800 8px/1 'DM Sans',sans-serif;font-style:normal}
+.mobile-tabbar a.is-active{background:color-mix(in srgb,var(--forest) 8%,var(--surface));color:var(--forest)}
+.mobile-tabbar a.is-active>span svg{stroke-width:2.25}
+.mobile-tabbar a:focus-visible{outline:2px solid var(--focus-ring,var(--forest));outline-offset:-2px}
+@media(max-width:1080px){.footer-main{grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 20px}.footer-brand{grid-column:1/-1}.footer-brand p{max-width:420px}}
+@media(max-width:680px){.footer-main{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px;padding-top:34px;padding-bottom:29px}.footer-brand{grid-column:1/-1}.footer-brand p{max-width:330px;margin:11px 0 13px}.footer-main>div>b{font-size:9px}.footer-main a:not(.logo){font-size:8px}.footer-bottom{min-height:48px;padding:12px 0;align-items:flex-start;flex-direction:column;gap:5px}.mobile-tabbar{padding-top:6px;padding-right:max(8px,env(safe-area-inset-right,0px));padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));padding-left:max(8px,env(safe-area-inset-left,0px))}.mobile-tabbar a{min-height:49px}}
+@media(max-width:360px){.mobile-tabbar{padding-inline:4px}.mobile-tabbar a small{font-size:7px}.mobile-tabbar a>span svg{width:19px;height:19px}}
+html[data-theme="dark"] .mobile-tabbar{background:color-mix(in srgb,var(--surface) 94%,transparent);border-color:var(--line);box-shadow:0 -8px 28px rgba(0,0,0,.28)}
+html[data-theme="dark"] .mobile-tabbar a.is-active{background:color-mix(in srgb,var(--forest) 16%,var(--surface))}
+@media(prefers-reduced-motion:reduce){.footer-main a:not(.logo){transition:none}}
+.is-rtl .footer-main,.is-rtl .footer-bottom{direction:rtl}
+.is-rtl .footer-main a:not(.logo):hover{transform:translateX(-2px)}
