@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { sellers, sellerForProduct } from '../../data/sellers'
 import { money, readJson, writeJson } from '../../utils/marketplace'
@@ -14,6 +14,8 @@ export function CheckoutPage() {
   const { createOrders } = useDemoOrders()
   const toast = useToast()
   const [step, setStep] = useState(1)
+  const stepHeadingRef = useRef(null)
+  const previousStepRef = useRef(step)
   const savedAddresses = readJson('marchy-saved-addresses', [])
   const [saveAddressToBook, setSaveAddressToBook] = useState(false)
   const [details, setDetails] = useState(() => {
@@ -45,6 +47,13 @@ export function CheckoutPage() {
     return { seller, items, subtotal: items.reduce((sum, item) => sum + item.price * item.qty, 0) }
   })
   const update = (key, value) => setDetails(current => ({ ...current, [key]: value }))
+
+  useEffect(() => {
+    if (previousStepRef.current !== step) {
+      stepHeadingRef.current?.focus()
+      previousStepRef.current = step
+    }
+  }, [step])
 
   const handleSelectSavedAddress = (addr) => {
     setDetails(curr => ({
@@ -147,7 +156,7 @@ export function CheckoutPage() {
         {step === 1 && <form className="checkout-form" onSubmit={event => { event.preventDefault(); setStep(2); window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }) }}>
           <div className="checkout-panel-title">
             <span className="eyebrow">STEP 01</span>
-            <h2>Where should the seller contact you?</h2>
+            <h2 ref={stepHeadingRef} tabIndex={-1}>Where should the seller contact you?</h2>
             <p>Your contact, address and delivery notes are saved only in this browser's local demo order history. They are not sent to sellers, couriers or a payment provider.</p>
           </div>
 
@@ -161,9 +170,12 @@ export function CheckoutPage() {
                     type="button"
                     className={`saved-addr-chip ${details.address === addr.address ? 'is-selected' : ''}`}
                     onClick={() => handleSelectSavedAddress(addr)}
+                    aria-label={`Use saved address: ${addr.address}, ${addr.city}`}
+                    aria-pressed={details.address === addr.address}
+                    title={`${addr.address}, ${addr.city}`}
                   >
                     <b>{addr.label || addr.city}</b>
-                    <span>{addr.address.slice(0, 22)}...</span>
+                    <span>{addr.address}</span>
                   </button>
                 ))}
               </div>
@@ -223,7 +235,7 @@ export function CheckoutPage() {
           <div className="checkout-form-actions"><span>Required fields are marked by the browser.</span><button type="submit" className="primary-btn">Review order <ArrowRight size={15}/></button></div>
         </form>}
         {step === 2 && <section className="checkout-review">
-          <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2>Review before proceeding</h2><p>Each seller handles their own availability and delivery confirmation.</p></div>
+          <div className="checkout-panel-title"><span className="eyebrow">STEP 02</span><h2 ref={stepHeadingRef} tabIndex={-1}>Review before proceeding</h2><p>Each seller handles their own availability and delivery confirmation.</p></div>
 
           <div className="checkout-preview-note" role="note">
             <Info size={20} aria-hidden="true" />
