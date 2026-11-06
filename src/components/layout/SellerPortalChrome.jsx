@@ -18,7 +18,7 @@ export function SellerPortalHeader(){
    <nav className="seller-portal-nav" aria-label="Seller navigation">{links.map(({to,label,icon:Icon})=><Link key={to} to={to} className={pathname===to?'active':''} aria-current={pathname===to?'page':undefined}><Icon size={16}/>{label}</Link>)}</nav>
    <div className="seller-portal-preferences">
     <button type="button" className="seller-portal-theme" onClick={()=>setTheme(theme==='dark'?'light':'dark')} aria-label={theme==='dark'?'Switch to light mode':'Switch to dark mode'} aria-pressed={theme==='dark'}>{theme==='dark'?<Sun size={16}/>:<Moon size={16}/>}</button>
-    <label className="seller-portal-language"><span className="sr-only">Seller language</span><select aria-label="Seller language" value={language} onChange={e=>setLanguage(e.target.value)}><option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option></select></label>
+    <label className="seller-portal-language"><span className="sr-only">Seller language</span><select data-testid="seller-language" aria-label="Seller language" value={language} onChange={e=>setLanguage(e.target.value)}><option value="en">EN</option><option value="fr">FR</option><option value="ar">عربي</option></select></label>
    </div>
    <Link to="/" className="seller-portal-store-link">Visit marketplace <ArrowUpRight size={15}/></Link>
   </div>

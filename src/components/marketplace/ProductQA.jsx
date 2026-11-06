@@ -9,6 +9,7 @@ export function ProductQA({ productId, productName }) {
   const [questionText, setQuestionText] = useState('')
   const [authorName, setAuthorName] = useState('')
   const [isAsking, setIsAsking] = useState(false)
+  const [submissionFeedback, setSubmissionFeedback] = useState('')
 
   const handleAskSubmit = (e) => {
     e.preventDefault()
@@ -18,6 +19,7 @@ export function ProductQA({ productId, productName }) {
     setQaList([newQ, ...qaList])
     setQuestionText('')
     setIsAsking(false)
+    setSubmissionFeedback('Question saved in this browser preview. It has not been sent to a seller.')
     toast('Question saved in this browser preview. It has not been sent to a seller.', { type: 'info' })
   }
 
@@ -75,6 +77,8 @@ export function ProductQA({ productId, productName }) {
           </div>
         </form>
       )}
+
+      {submissionFeedback && <p className="qa-submission-feedback" role="status">{submissionFeedback}</p>}
 
       <div className="qa-list">
         {qaList.length === 0 ? (

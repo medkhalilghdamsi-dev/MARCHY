@@ -1,0 +1,112 @@
+/* Responsive containment and reflow guards for product detail modules.
+   Keep wide comparison and bundle layouts useful without allowing their
+   intrinsic grid widths to expand the document on small screens. */
+.product-page,
+.product-page .product-detail-layout,
+.product-page .product-detail-layout > *,
+.product-page .product-buy-panel,
+.product-page .multi-seller-offers-panel,
+.product-page .frequently-bought-card {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+  .product-page .product-detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-page .multi-seller-offers-panel,
+  .product-page .frequently-bought-card {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .product-page .offers-list {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .product-page .offer-card {
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-page .offer-seller-col,
+  .product-page .offer-delivery-col,
+  .product-page .offer-price-col {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .product-page .offer-price-col {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .product-page .offer-select-btn {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .product-page .bundle-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+    min-width: 0;
+    gap: 14px;
+  }
+
+  .product-page .bundle-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .product-page .bundle-selection-list,
+  .product-page .bundle-action-box {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .product-page .bundle-checkbox-row {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr) auto;
+    align-items: start;
+    width: 100%;
+    min-width: 0;
+    gap: 8px;
+  }
+
+  .product-page .bundle-item-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .product-page .bundle-item-price {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-page .offer-price-col {
+    align-items: stretch;
+  }
+
+  .product-page .offer-select-btn {
+    width: 100%;
+  }
+
+  .product-page .bundle-checkbox-row {
+    grid-template-columns: 16px minmax(0, 1fr);
+  }
+
+  .product-page .bundle-item-price {
+    grid-column: 2;
+  }
+}
