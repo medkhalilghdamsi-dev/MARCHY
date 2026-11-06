@@ -223,3 +223,17 @@ Added a scoped homepage-only refinement in `buyer-ui-polish.css`:
 - Adds visible keyboard focus states, bounded/scrollable search suggestions, RTL-aware category arrows, dark-theme card surfaces and reduced-motion handling.
 
 No homepage JSX, search routing, category navigation, product filtering, catalogue data, cart/wishlist behaviour, seller data or backend integration was changed. This is a source-level styling pass; desktop/mobile browser verification, including RTL and dark mode, remains outstanding.
+
+
+## Marketplace search, category and filter experience
+
+Audited the actual `SearchPage.jsx` result controls and the late buyer refinement styles. The page already supports shareable query/category/price/location/sort filters, grid/list view, product comparison, a mobile filter sheet and pagination. Two refinements were made without changing catalogue or backend behaviour:
+
+- Added a dedicated `marketplace-search-page` scope so future search-page styling can be isolated from shared listing/product surfaces.
+- Fixed URL synchronization to observe the current page number. Pagination now writes the selected page into the query string, allowing a copied search URL and browser history to restore the same result page; the existing filter-reset behaviour still returns to page one.
+- Added responsive sizing for the search header, result toolbar, view/sort controls, comparison table overflow, empty state and pagination.
+- Improved keyboard-visible focus across filter inputs/actions, search suggestions, view controls, pagination and active filter chips.
+- Refined the mobile filter sheet stacking, safe-area-aware apply control and scroll containment.
+- Added explicit dark-theme treatment for active filter chips, context strip, results toolbar, comparison panel, empty state and mobile filter sheet, plus RTL direction and reduced-motion handling.
+
+No API calls, service methods, product data, filter semantics, sorting rules, cart/wishlist behaviour, or seller logic were changed. Browser verification remains outstanding, especially mobile sheet focus/scroll behaviour, direct-link pagination restoration, RTL and dark mode.
