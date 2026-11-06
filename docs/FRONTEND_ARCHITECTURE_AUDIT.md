@@ -164,3 +164,9 @@ These were corrected in `src/styles/product-page-refinement.css`. The product-pa
 ### Product-page migration guardrail
 
 The broad refinement files still contain product-page rules that affect sample status, compare/share feedback, seller metadata, mobile buy-bar spacing, and accessibility. They are intentionally retained for now: moving them across import layers can alter specificity and cascade order. The next safe migration requires browser snapshots at desktop, tablet and mobile widths, plus light/dark and RTL checks.
+
+## Checkout component-to-style audit
+
+Compared `src/pages/buyer/CheckoutPage.jsx` with `src/styles/checkout.css` and found several current JSX controls with no dedicated component styling: saved-address quick-fill, the save-address checkbox row, the demo-review notice, and selected product variant text. Added explicit styles for those elements, including keyboard-visible focus inheritance, selected/hover states, responsive wrapping and reduced-motion handling. Also corrected an over-qualified selector (`.checkout-page .checkout-page .cart-trust-note p`) so the intended trust-note typography applies.
+
+The checkout page component and its order/demo behaviour were not modified. These changes are source-level only and still require browser verification at desktop/mobile widths, in dark mode and RTL.
