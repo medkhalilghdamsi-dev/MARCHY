@@ -266,15 +266,29 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .is-rtl .product-facts{text-align:right}
 .is-rtl .cart-item{direction:rtl}
 
-/* Mobile-first persistent marketplace navigation */
+/* Persistent buyer navigation is enabled only on compact viewports. */
 .mobile-tabbar{display:none}
 @media(max-width:640px){
- .mobile-tabbar{position:fixed;z-index:40;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #d8e5dd;box-shadow:0 -6px 22px #12261e0c}
- .mobile-tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:44px;color:#435b4f;text-decoration:none}
- .mobile-tabbar a>span{position:relative;font-size:21px;line-height:1.1;color:#12261e}
- .mobile-tabbar a small{font-size:9px;font-weight:700}
- .mobile-tabbar i{position:absolute;top:-5px;right:-9px;min-width:14px;height:14px;padding:0 3px;display:grid;place-items:center;border-radius:10px;background:#1f5b45;color:#fff;font-size:8px;font-style:normal}
- .app-root{padding-bottom:76px}
+ .mobile-tabbar{
+  position:fixed;z-index:40;inset-inline:0;bottom:0;
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;
+  box-sizing:border-box;padding:8px 5px calc(8px + env(safe-area-inset-bottom,0px));
+  background:var(--surface,#fff);border-top:1px solid var(--line,#d8e5dd);
+  box-shadow:0 -6px 22px rgba(18,38,30,.08);
+ }
+ .mobile-tabbar a{
+  display:flex;min-width:0;min-height:44px;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;border-radius:10px;color:var(--muted,#435b4f);text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+ }
+ .mobile-tabbar a>span{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:22px;color:var(--ink,#12261e)}
+ .mobile-tabbar a small{max-width:100%;overflow:hidden;font-size:10px;font-weight:700;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}
+ .mobile-tabbar i{
+  position:absolute;top:-5px;inset-inline-end:-10px;min-width:15px;height:15px;padding:0 3px;
+  display:grid;place-items:center;border:2px solid var(--surface,#fff);border-radius:10px;
+  background:var(--forest,#1f5b45);color:#fff;font-size:8px;font-style:normal;font-weight:800;line-height:1;
+ }
+ .app-root{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
  .is-rtl .mobile-tabbar{direction:rtl}
 }
 
