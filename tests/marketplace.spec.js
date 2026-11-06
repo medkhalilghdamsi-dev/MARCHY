@@ -860,7 +860,7 @@ test('global search exposes its suggestions panel state accessibly', async ({ pa
   await expect(search).toHaveAttribute('aria-expanded', 'false')
   await search.fill('headphones')
   await expect(search).toHaveAttribute('aria-expanded', 'true')
-  await expect(page.getByRole('region', { name: 'Search suggestions' })).toBeVisible()
+  await expect(page.getByRole('dialog', { name: 'Search suggestions' })).toBeVisible()
   await expect(page.getByRole('region', { name: 'Search suggestions' })).toContainText('Wireless noise-cancelling headphones')
 })
 
