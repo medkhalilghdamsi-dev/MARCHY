@@ -1,4 +1,5 @@
 import { formatMoney } from './format'
+import { readJson, writeJson } from './storage'
 
 // Shared marketplace formatter: display TND values as buyer-friendly DT prices.
 const money = value => formatMoney(value, 'en')
@@ -28,7 +29,5 @@ const searchTextMatches = (text, query) => {
   })
 }
 const readText = (key, fallback) => { try { const value = localStorage.getItem(key); return value || fallback } catch { return fallback } }
-const readJson = (key, fallback) => { try { const value = JSON.parse(localStorage.getItem(key) || 'null'); return value ?? fallback } catch { return fallback } }
-const writeJson = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)) } catch {} }
 
 export { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText, readJson, writeJson }
