@@ -56,3 +56,6 @@
 @import './styles/upwork-shared-cascade.css';
 @import './styles/seller-portal.css';
 @import './styles/responsive-overflow-guards.css';
+
+/* 7. Contrast fixes for small labels in light and dark themes. */
+@import './styles/accessibility-contrast.css';
