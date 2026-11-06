@@ -19,40 +19,21 @@ ul, ol { list-style: none; padding: 0; }
 /* ---- Design tokens: Light mode (default) ------------------ */
 :root {
   /* Official MARCHY Emerald Brand Palette */
-  --emerald-deep: #064E3B;    /* Deep Emerald: Brand surfaces, headers */
-  --emerald-primary: #047857; /* Primary Green: Action buttons, interactive states */
+  --emerald-deep: #174735;    /* Deep Emerald: Brand surfaces, headers */
+  --emerald-primary: #1f5b45; /* Primary Green: Action buttons, interactive states */
   --emerald-accent: #10B981;  /* Emerald Accent: Verified tags, highlights */
-  --mint-surface: #ECFDF5;    /* Mint Surface: Soft background accents */
+  --mint-surface: #edf5f0;    /* Mint Surface: Soft background accents */
   --charcoal: #111827;        /* Charcoal: High-contrast typography */
   --white: #FFFFFF;           /* White: Elevated cards, sheet panels */
   --neutral-bg: #F8FAFC;      /* Neutral Background: Slate clean shopping background */
 
   /* Legacy & Semantic Mapping */
-  --forest: var(--emerald-primary);
-  --forest-dark: var(--emerald-deep);
-  --forest-light: var(--mint-surface);
-  --forest-soft: var(--mint-surface);
-  --gold: var(--emerald-primary);
 
   /* Neutral palette (Charcoal-tinted slate, WCAG AAA >= 7:1 contrast) */
-  --ink: var(--charcoal);
-  --ink-soft: #1E293B;
-  --muted: #475569;
-  --muted-light: #64748B;
-  --line: #E2E8F0;
-  --line-soft: #F1F5F9;
 
   /* Surfaces */
-  --page: var(--neutral-bg);
-  --surface: var(--white);
-  --surface-soft: #F1F5F9;
-  --surface-raised: var(--white);
-  --surface-hover: #F8FAFC;
 
   /* Semantic */
-  --accent: var(--emerald-primary);
-  --accent-dark: var(--emerald-deep);
-  --accent-text: #FFFFFF;
   --focus-ring: rgba(4, 120, 87, 0.28);
   --danger: #DC2626;
   --danger-soft: #FEF2F2;
@@ -64,19 +45,6 @@ ul, ol { list-style: none; padding: 0; }
   --info-soft: #F0F9FF;
 
   /* Legacy aliases mapped to Emerald Brand */
-  --orange: var(--emerald-primary);
-  --orange-dark: var(--emerald-deep);
-  --green: var(--emerald-primary);
-  --marchy-ink: var(--ink);
-  --marchy-muted: var(--muted);
-  --marchy-line: var(--line);
-  --marchy-surface: var(--surface);
-  --marchy-page: var(--page);
-  --marchy-orange: var(--emerald-primary);
-  --marchy-orange-deep: var(--forest-dark);
-  --marchy-green: var(--forest);
-  --marchy-accent-soft: var(--forest-light);
-  --marchy-accent-border: #b8d4c5;
 
   /* Typography scale */
   --text-xs: 10px;
@@ -116,6 +84,28 @@ ul, ol { list-style: none; padding: 0; }
   --space-16: 64px;
   --space-20: 80px;
 
+  /* Canonical legacy-compatible tokens. Feature styles consume these aliases. */
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 4px rgba(18,38,30,.06);
+  --shadow-sm: 0 3px 10px rgba(18,38,30,.07);
+  --shadow-md: 0 6px 22px rgba(18,38,30,.09);
+  --shadow-lg: 0 14px 36px rgba(18,38,30,.12);
+  --shadow-xl: 0 24px 56px rgba(18,38,30,.16);
+
+  /* Layout */
+  --content-width: 1320px;
+  --header-height: 82px;
+  --nav-height: 44px;
+
+  color-scheme: light;
+  color: var(--ink);
+  background: var(--page);
   /* Canonical legacy-compatible tokens. Feature styles consume these aliases. */
   --forest: #1f5b45;
   --forest-dark: #174735;
@@ -158,29 +148,6 @@ ul, ol { list-style: none; padding: 0; }
   --shadow-card: 0 8px 28px rgba(18,38,30,.065);
   --shadow-raised: 0 18px 48px rgba(18,38,30,.13);
 
-  /* Radii */
-  --radius-xs: 4px;
-  --radius-sm: 7px;
-  --radius-md: 11px;
-  --radius-lg: 16px;
-  --radius-xl: 22px;
-  --radius-pill: 999px;
-
-  /* Shadows */
-  --shadow-xs: 0 1px 4px rgba(18,38,30,.06);
-  --shadow-sm: 0 3px 10px rgba(18,38,30,.07);
-  --shadow-md: 0 6px 22px rgba(18,38,30,.09);
-  --shadow-lg: 0 14px 36px rgba(18,38,30,.12);
-  --shadow-xl: 0 24px 56px rgba(18,38,30,.16);
-
-  /* Layout */
-  --content-width: 1320px;
-  --header-height: 82px;
-  --nav-height: 44px;
-
-  color-scheme: light;
-  color: var(--ink);
-  background: var(--page);
 }
 
 /* ---- Design tokens: Dark mode ----------------------------- */
