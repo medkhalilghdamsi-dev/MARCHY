@@ -43,12 +43,12 @@ export function CartPage() {
   const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const sellerCount = new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug)).size
   const sellerGroups = [...new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug))].map(slug => {
+    const items = cart.filter(item => (item.sellerSlug || sellerForProduct(item).slug) === slug)
     const seller = sellers.find(entry => entry.slug === slug) || {
       slug,
-      name: items?.[0]?.seller || items?.[0]?.sellerName || 'Marketplace seller',
-      city: items?.[0]?.sellerCity || 'Tunisia'
+      name: items[0]?.seller || items[0]?.sellerName || 'Marketplace seller',
+      city: items[0]?.sellerCity || 'Tunisia'
     }
-    const items = cart.filter(item => (item.sellerSlug || sellerForProduct(item).slug) === slug)
     return { seller, items, subtotal: items.reduce((sum, item) => sum + item.price * item.qty, 0) }
   })
   return translateTree(<main id="main-content" className="shell page cart-page">
