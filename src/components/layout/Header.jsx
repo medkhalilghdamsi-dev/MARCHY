@@ -115,16 +115,14 @@ export function Header({ cartCount }) {
           onChange={e => { setQuery(e.target.value); setSearchOpen(true) }}
           placeholder="Search products, brands and local finds…"
           aria-label="Search products and stores"
-          role="combobox"
-          aria-autocomplete="list"
-          aria-expanded={searchOpen}
+           aria-expanded={searchOpen}
           aria-controls="global-search-suggestions"
         />
         <button type="submit">Search</button>
-        {searchOpen && <div className="global-search-suggestions" id="global-search-suggestions" role="listbox" aria-label="Search suggestions">
+        {searchOpen && <div className="global-search-suggestions" id="global-search-suggestions" role="region" aria-label="Search suggestions">
           {searchTerm ? <>
             <div className="search-suggestion-heading">Matching products</div>
-            {searchMatches.length ? searchMatches.map(p => <Link key={p.id} role="option" aria-selected="false" to={`/product/${p.id}`} onMouseDown={() => setSearchOpen(false)}>
+            {searchMatches.length ? searchMatches.map(p => <Link key={p.id} to={`/product/${p.id}`} onMouseDown={() => setSearchOpen(false)}>
               <span className="suggestion-thumb"><img onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/product-placeholder.svg' }} src={p.image} alt="" /></span>
               <span className="suggestion-copy"><b>{p.name}</b><small>{p.category} · {money(p.price)}</small></span>
               <span className="suggestion-arrow"><ArrowUpRight size={15}/></span>
