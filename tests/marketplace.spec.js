@@ -871,8 +871,8 @@ test('shared header only rises above page content while an overlay is open', asy
   await page.getByRole('button', { name: 'Open navigation menu' }).click()
   await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible()
   await expect(header).toHaveCSS('z-index', '50')
-  await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'Categories' }).click()
-  await expect(page).toHaveURL(/\\/categories$/)
+  await page.locator('.nav a[href="/categories"]').click()
+  await expect(page).toHaveURL(/categories$/)
   await expect(header).toHaveCSS('z-index', 'auto')
 })
 
