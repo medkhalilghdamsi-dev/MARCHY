@@ -1,6 +1,9 @@
-/* Product-card cascade owner: final shared geometry and control rhythm.
-   Keep this block after legacy card rules until those rules are migrated. */
+/* Product-card cascade owner: canonical shared geometry and control rhythm.
+   Feature stylesheets own only card-specific content, not shared card layout. */
 .product-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
   min-width:0;
   height:100%;
   border:1px solid var(--line);
