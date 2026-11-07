@@ -7,6 +7,7 @@ import { useMarketplace } from '../../providers/MarketplaceContext'
 import { MarketplaceService } from '../../services/marketplaceService'
 import { ArrowRight, Check, ShoppingCart, X, AlertTriangle } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
+import { PageFrame } from '../../components/ui/PageFrame'
 
 export function CartPage() {
   const {
@@ -60,7 +61,7 @@ export function CartPage() {
     }
     return { seller, items, subtotal: items.reduce((sum, item) => sum + item.price * item.qty, 0) }
   })
-  return translateTree(<main id="main-content" className="shell page cart-page">
+  return translateTree(<PageFrame className="cart-page">
     <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><span aria-current="page">Your cart</span></div>
     <div className="cart-page-heading">
       <div><span className="eyebrow">YOUR MARCHY BASKET</span><h1>Your shopping cart</h1><p>{itemCount} items · {cart.length} products · {sellerCount} sellers</p></div>
@@ -220,6 +221,6 @@ export function CartPage() {
         </section>
       )}
     </div>}
-  </main>, language)
+  </PageFrame>, language)
 }
 
