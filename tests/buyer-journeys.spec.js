@@ -121,3 +121,46 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await expect(page.getByRole('link', { name: /Continue to checkout/ })).toBeVisible()
   })
 })
+
+  test('06 · mobile shopper changes destination without the header search covering the page', async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 })
+    await page.goto('/category/kitchen')
+    await expect(page.locator('.header')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Open search' })).toBeVisible()
+
+    await page.getByRole('button', { name: 'Open search' }).click()
+    await expect(page.locator('#global-search-form')).toBeVisible()
+    await page.keyboard.press('Escape')
+    await expect(page.locator('#global-search-form')).not.toBeVisible()
+
+    await page.goto('/search?q=coffee')
+    await expect(page.locator('.listing-head')).toBeVisible()
+    await expect(page.locator('.listing-results')).toBeVisible()
+
+    const overflow = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+      body: document.body.scrollWidth,
+    }))
+    expect(overflow.document).toBeLessThanOrEqual(overflow.viewport + 1)
+    expect(overflow.body).toBeLessThanOrEqual(overflow.viewport + 1)
+  })
+
+  test('07 · mobile product page keeps the purchase action reachable while details reflow', async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 })
+    await page.goto('/product/1')
+
+    await expect(page.locator('.product-page')).toBeVisible()
+    await expect(page.locator('.product-mobile-buybar')).toBeVisible()
+    await expect(page.locator('.product-detail-layout')).toBeVisible()
+
+    const overflow = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+    }))
+    expect(overflow.document).toBeLessThanOrEqual(overflow.viewport + 1)
+
+    await page.locator('.mobile-buybar-actions').getByRole('button', { name: 'Add to cart' }).click()
+    await expect(page.locator('.cart-icon i')).toContainText(/1/)
+  })
+
