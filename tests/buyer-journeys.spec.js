@@ -201,7 +201,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
 
     await langPicker.selectOption('en')
     await expect(page.locator('body')).toBeVisible()
-  
+  })
 
   test('product navigation never carries the previous listing seller offer into the next product', async ({ page }) => {
     await page.goto('/product/1')
