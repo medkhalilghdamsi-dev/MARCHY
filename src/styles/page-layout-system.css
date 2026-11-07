@@ -1,12 +1,93 @@
-/* Shared page composition primitives.
- * Layout owns geometry; feature styles own visual details.
+/* MARCHY PAGE LAYOUT SYSTEM
+ * Single ownership layer for page geometry.
+ *
+ * Feature styles own visual details.
+ * This file owns:
+ * - viewport containment
+ * - page/container geometry
+ * - section rhythm
+ * - shared headers
+ * - generic responsive grid behavior
+ * - mobile-safe sizing
  */
+
+/* -------------------------------------------------------------------------- */
+/* Global geometry contracts                                                   */
+/* -------------------------------------------------------------------------- */
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 320px;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.app-root {
+  width: 100%;
+  min-height: 100vh;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.shell {
+  width: min(100% - 48px, var(--content-width, 1320px));
+  margin-inline: auto;
+  min-width: 0;
+}
+
+.page {
+  width: 100%;
+  min-width: 0;
+  min-height: calc(100vh - var(--header-height, 82px) - var(--nav-height, 44px) - 180px);
+  padding-block: var(--space-8, 32px) var(--space-16, 64px);
+}
+
+.page > *,
+.section > *,
+.card > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+img,
+video,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Shared page composition                                                     */
+/* -------------------------------------------------------------------------- */
+
+.section {
+  width: 100%;
+  min-width: 0;
+  margin-block: 0 var(--space-12, 48px);
+}
+
+.section:last-child {
+  margin-block-end: 0;
+}
+
 .section-header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--space-6);
-  margin-block-end: var(--space-6);
+  gap: var(--space-6, 24px);
+  margin-block-end: var(--space-6, 24px);
   min-width: 0;
 }
 
@@ -15,26 +96,270 @@
 }
 
 .section-header h2 {
-  margin-block: var(--space-2) 0;
+  margin-block: var(--space-2, 8px) 0;
 }
 
 .section-header p {
-  margin-block-start: var(--space-2);
+  margin-block-start: var(--space-2, 8px);
   max-width: 68ch;
 }
 
 .section-header-action {
   flex: 0 0 auto;
+  min-width: 0;
+}
+
+.section-header-action > * {
+  max-width: 100%;
+}
+
+/* Existing page heading pattern remains supported. */
+.section-heading,
+.listing-head {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6, 24px);
+  margin-block-end: var(--space-6, 24px);
+}
+
+.section-heading > * {
+  min-width: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Shared content grids                                                        */
+/* -------------------------------------------------------------------------- */
+
+.product-grid,
+.category-grid,
+.seller-directory-grid,
+.related-products .product-grid {
+  width: 100%;
+  min-width: 0;
+}
+
+.product-grid > *,
+.category-grid > *,
+.seller-directory-grid > * {
+  min-width: 0;
+}
+
+/* Prevent long product/seller content from creating intrinsic-width overflow. */
+.product-card,
+.category-tile,
+.seller-directory-card,
+.detail-layout,
+.cart-layout,
+.checkout-layout,
+.summary-card,
+.filters {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.product-card *,
+.category-tile *,
+.seller-directory-card *,
+.detail-layout *,
+.cart-layout *,
+.checkout-layout *,
+.summary-card *,
+.filters * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Product media must remain contained inside its card. */
+.product-card img,
+.product-photo img,
+.detail-image img,
+.cart-item-photo img {
+  max-width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Shared controls                                                             */
+/* -------------------------------------------------------------------------- */
+
+.primary-btn,
+.outline-btn,
+.light-btn,
+.text-link {
+  max-width: 100%;
+}
+
+.primary-btn,
+.outline-btn,
+.light-btn {
+  min-height: var(--control-height, 44px);
+}
+
+.primary-btn,
+.outline-btn,
+.light-btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .primary-btn,
+  .outline-btn,
+  .light-btn {
+    white-space: normal;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Header/navigation containment                                               */
+/* -------------------------------------------------------------------------- */
+
+.header,
+.header-main,
+.header-actions,
+.nav,
+.nav-inner {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.header-main > *,
+.header-actions > *,
+.nav-inner > * {
+  min-width: 0;
+}
+
+.header .logo {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.header .logo-word {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header .searchbar {
+  min-width: 0;
+}
+
+.header .searchbar input {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.global-search-suggestions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Mobile geometry                                                             */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .shell {
+    width: min(100% - 40px, 920px);
+  }
+
+  .section {
+    margin-block-end: var(--space-10, 40px);
+  }
 }
 
 @media (max-width: 760px) {
-  .section-header {
+  .shell {
+    width: calc(100% - 32px);
+  }
+
+  .page {
+    padding-block: var(--space-6, 24px) var(--space-12, 48px);
+  }
+
+  .section {
+    margin-block-end: var(--space-8, 32px);
+  }
+
+  .section-header,
+  .section-heading {
     align-items: flex-start;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--space-3, 12px);
   }
 
   .section-header-action {
     width: 100%;
+  }
+
+  .section-header-action > a,
+  .section-header-action > button {
+    max-width: 100%;
+  }
+
+  .listing-head {
+    width: 100%;
+  }
+
+  .product-grid,
+  .category-grid,
+  .seller-directory-grid {
+    min-width: 0;
+  }
+
+  /* Mobile pages should never inherit desktop two-column minimums. */
+  .detail-layout,
+  .checkout-layout,
+  .cart-layout {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .shell {
+    width: calc(100% - 24px);
+  }
+
+  .page {
+    padding-block: var(--space-5, 20px) var(--space-10, 40px);
+  }
+
+  .section {
+    margin-block-end: var(--space-7, 28px);
+  }
+
+  .section-header,
+  .section-heading {
+    margin-block-end: var(--space-4, 16px);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* RTL geometry                                                                */
+/* -------------------------------------------------------------------------- */
+
+.is-rtl .section-header,
+.is-rtl .section-heading {
+  direction: rtl;
+}
+
+.is-rtl .section-header-action {
+  direction: rtl;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Accessibility / motion                                                      */
+/* -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .section-header,
+  .section-heading {
+    scroll-behavior: auto;
   }
 }
