@@ -186,7 +186,7 @@ test('clearing marketplace filters also restores featured sorting', async ({ pag
 
 test('marketplace search autocomplete offers category and no-match guidance', async ({ page }) => {
   await page.goto('/search')
-  const search = page.getByRole('combobox', { name: 'Search marketplace' })
+  const search = page.getByRole('searchbox', { name: 'Search marketplace' })
   await search.fill('Electronics')
   await expect(page.locator('.search-suggestion-group').filter({ hasText: 'Categories' })).toContainText('Electronics')
   await page.locator('.search-suggestion-group button').filter({ hasText: 'Electronics' }).click()
@@ -196,6 +196,18 @@ test('marketplace search autocomplete offers category and no-match guidance', as
   await expect(page.locator('.search-suggestions-empty')).toBeVisible()
 })
 
+
+test('marketplace search suggestions can be reached and opened with the keyboard', async ({ page }) => {
+  await page.goto('/search')
+  const search = page.getByRole('searchbox', { name: 'Search marketplace' })
+  await search.fill('headphones')
+  await expect(page.locator('.search-suggestions')).toBeVisible()
+  await search.press('ArrowDown')
+  const firstSuggestion = page.locator('.search-suggestion-product').first()
+  await expect(firstSuggestion).toBeFocused()
+  await firstSuggestion.press('Enter')
+  await expect(page).toHaveURL(/\\/product\\//)
+})
 
 test('marketplace search autocomplete suggests products and opens the selected product', async ({ page }) => {
   await page.goto('/search')
