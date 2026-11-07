@@ -1027,6 +1027,20 @@
 }
 
 @media (max-width: 720px) {
+  /* Mobile cart: let shoppers review items before the final basket action. */
+  .cart-layout { display: flex; flex-direction: column; }
+  .cart-items-panel { order: 1; }
+  .cart-summary { order: 2; position: static; }
+  .cart-summary .cart-checkout-button {
+    position: sticky;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    z-index: 6;
+    box-shadow: 0 10px 28px rgba(18,38,30,.16);
+  }
+  .cart-summary .summary-total strong { font-size: 21px; }
+  .cart-summary .cart-coupon-form { grid-template-columns: minmax(0, 1fr) 86px; }
+  .cart-checkout-button { max-width: 100%; }
+
   .shell {
     width: min(100% - 28px, var(--content-width));
   }
