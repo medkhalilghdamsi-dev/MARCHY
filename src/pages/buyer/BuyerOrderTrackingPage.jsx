@@ -254,7 +254,7 @@ export function BuyerOrderTrackingPage(props) {
               </div>
               <div className="meta-line">
                 <span className="meta-label">Courier partner:</span>
-                <span>{order.courier || 'Not assigned in this demo'}</span>
+                <span>Not connected in this demo</span>
               </div>
               <div className="meta-line">
                 <span className="meta-label">Merchant Workshop:</span>
