@@ -4,6 +4,7 @@ import { products } from '../../data/products'
 import { sellers } from '../../data/sellers'
 import { money, readJson, writeJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
+import { PageFrame } from '../../components/ui/PageFrame'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
@@ -157,7 +158,7 @@ export function AccountPage() {
   }
 
   return translateTree(
-    <main id="main-content" className="shell page account-page">
+    <PageFrame className="account-page">
       <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb">
         <Link to="/">Home</Link> / <span>Account</span>
       </div>
@@ -571,7 +572,7 @@ export function AccountPage() {
           Sign out of this session
         </button>
       </section>
-    </main>,
+    </PageFrame>,
     language
   )
 }
