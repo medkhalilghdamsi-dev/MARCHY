@@ -1,0 +1,85 @@
+/* MARCHY page layout system
+ * Shared geometry belongs here; feature styles should own component appearance.
+ * Keep this layer last so every buyer route starts from the same predictable
+ * container, sizing and responsive grid rules.
+ */
+
+.shell {
+  width: min(var(--content-width, 1320px), calc(100% - 48px));
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  flex: 1 0 auto;
+  padding-block: clamp(20px, 2.4vw, 32px) clamp(56px, 6vw, 80px);
+}
+
+.page > *,
+.page :is(section, article, aside, form, nav) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.page :is(.listing-layout, .product-detail-layout, .cart-layout, .checkout-layout) {
+  min-width: 0;
+}
+
+.page .listing-layout {
+  grid-template-columns: minmax(0, 248px) minmax(0, 1fr);
+}
+
+.page .listing-layout > *,
+.page .product-detail-layout > *,
+.page .cart-layout > *,
+.page .checkout-layout > * {
+  min-width: 0;
+}
+
+.page img,
+.page video,
+.page iframe {
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  .shell {
+    width: min(var(--content-width, 1320px), calc(100% - 40px));
+  }
+
+  .page .listing-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    width: calc(100% - 32px);
+  }
+
+  .page {
+    padding-block: 18px calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .page .product-detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page .section-heading {
+    flex-wrap: wrap;
+  }
+
+  .page .section-heading > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .shell {
+    width: calc(100% - 24px);
+  }
+}
