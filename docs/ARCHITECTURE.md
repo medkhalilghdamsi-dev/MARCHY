@@ -19,6 +19,8 @@
 
 `src/app/routes.jsx` owns the route tree and lazy page loading.
 
+Route layouts own persistent chrome. Route pages own their single semantic `<main>` landmark; layouts must not wrap `<Outlet />` in another `<main>`. The marketplace layout therefore uses a neutral route-content wrapper so page-level landmarks and `main-content` skip-link targets remain unique.
+
 Route layouts own persistent chrome:
 - `src/app/layouts/MarketplaceLayout.jsx` — buyer/public marketplace chrome
 - `src/app/layouts/SellerPortalLayout.jsx` — seller portal chrome
