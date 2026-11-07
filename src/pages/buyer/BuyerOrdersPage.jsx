@@ -5,6 +5,7 @@ import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
 import { translateTree } from '../../i18n/translate'
+import { PageFrame } from '../../components/ui/PageFrame'
 import { Status } from '../shared/OperationsShared'
 import { ArrowLeft, Check, Package, RotateCcw, Search, X } from 'lucide-react'
 
@@ -97,7 +98,7 @@ export function BuyerOrdersPage(props) {
   }
 
   return translateTree(
-    <main id="main-content" className="shell page buyer-orders-page">
+    <PageFrame className="buyer-orders-page">
       <div className="breadcrumbs">
         <Link to="/">Home</Link> / <Link to="/account">Account</Link> / <span>Orders</span>
       </div>
@@ -273,7 +274,7 @@ export function BuyerOrdersPage(props) {
         <Link to="/account" className="text-link"><ArrowLeft size={14} /> Back to account</Link>
         <Link to="/search" className="text-link">Continue shopping <span aria-hidden="true">→</span></Link>
       </div>
-    </main>,
+    </PageFrame>,
     language
   )
 }
