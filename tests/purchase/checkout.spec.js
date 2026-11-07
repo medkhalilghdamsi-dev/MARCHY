@@ -53,7 +53,7 @@ test.describe('Purchase Journey & Progressive Checkout', () => {
     await expect(page).toHaveURL(/\/orders\/MC-/)
     await expect(page.getByText(/Courier scans, seller messaging and delivery estimates are not connected/i)).toBeVisible()
     await expect(page.getByText(/No payment, parcel inspection service or buyer protection is active/i)).toBeVisible()
-    await expect(page.getByText(/not a tax invoice, payment receipt or delivery confirmation/i)).toBeVisible()
+    await expect(page.locator('.invoice-printable')).toContainText(/This summary is not a tax invoice, payment receipt or delivery confirmation/i)
   })
 })
 
@@ -69,7 +69,8 @@ test('mobile Arabic checkout address stays within the viewport', async ({ page }
   await page.setViewportSize({ width: 390, height: 844 })
   await page.addInitScript(() => localStorage.setItem('marchy-language', 'ar'))
   await page.goto('/product/1')
-  await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
+  await expect(page.locator('.product-mobile-buybar')).toBeVisible()
+  await page.locator('.mobile-buybar-actions').getByRole('button', { name: 'Add to cart' }).click()
   await page.goto('/checkout')
   await expect(page).toHaveURL(/\/checkout$/)
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')

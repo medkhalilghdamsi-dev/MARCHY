@@ -8,7 +8,7 @@ export function Footer() {
   return translateTree(<footer className="footer"><div className="shell footer-main">
     <div className="footer-brand">
       <Link to="/" className="logo"><span className="logo-mark" aria-hidden="true">M</span><span className="logo-word">MARCHY</span><span className="logo-period" aria-hidden="true">.</span></Link>
-      <p><b>EVERYDAY COMMERCE, MADE EASIER.</b><br />Tunisia's multi-vendor marketplace connecting you directly with verified local makers and shops.</p>
+      <p><b>EVERYDAY COMMERCE, MADE EASIER.</b><br />A Tunisia-first marketplace prototype connecting shoppers with sample local makers and shops.</p>
       <div className="footer-social"><span>🇹🇳 Tunisia-First Marketplace</span></div>
     </div>
     <div>

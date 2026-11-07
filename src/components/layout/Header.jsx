@@ -103,7 +103,7 @@ export function Header({ cartCount }) {
   }
 
   return translateTree(<>
-    <div className="topline"><div className="shell topline-inner"><span>EVERYDAY COMMERCE, MADE EASIER.</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span><span className="top-sep">·</span><span>100% Cash on Delivery</span></div></div></div>
+    <div className="topline"><div className="shell topline-inner"><span>EVERYDAY COMMERCE, MADE EASIER.</span><div><span>🇹🇳 Tunisia-first</span><span className="top-sep">·</span><span>Prices in TND</span><span className="top-sep">·</span><span>Demo payment preferences</span></div></div></div>
     <header ref={headerRef} className={`header${searchOpen ? ' header-search-open' : ''}${menuOpen ? ' header-menu-open' : ''}${mobileSearchOpen ? ' header-mobile-search-open' : ''}`}><div className="shell header-main">
       <button type="button" className="mobile-menu icon-btn" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? <X size={20} strokeWidth={2}/> : <Menu size={20} strokeWidth={2}/>}</button>
       <button type="button" className="mobile-search-toggle icon-btn" onClick={() => { setMobileSearchOpen(v => !v); setSearchOpen(false) }} aria-label={mobileSearchOpen ? 'Close search' : 'Open search'} aria-expanded={mobileSearchOpen} aria-controls="global-search-form"><Search size={19} strokeWidth={2}/></button>

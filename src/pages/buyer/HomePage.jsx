@@ -105,7 +105,7 @@ export function Home() {
         <div className="market-hero-copy">
           <span className="hero-kicker"><i aria-hidden="true"></i> EVERYDAY COMMERCE, MADE EASIER. · TUNISIA-FIRST</span>
           <h1 id="market-hero-title">Discover better.<br /><em>Shop local.</em></h1>
-          <p>Find products, makers and storefronts in one clear marketplace experience — with prices in TND and delivery information upfront.</p>
+          <p>Find products, makers and storefronts in one clear marketplace experience — with prices in TND and delivery preferences clearly marked for seller confirmation.</p>
 
           <div className="hero-segmented-tabs" role="tablist" aria-label="Search scope">
             <button
@@ -186,11 +186,11 @@ export function Home() {
             </div>
             <div className="upwork-stat-item">
               <b>Local sellers</b>
-              <span>Browse real storefront concepts</span>
+              <span>Browse sample storefronts</span>
             </div>
             <div className="upwork-stat-item">
-              <b>Delivery</b>
-              <span>See estimates before checkout</span>
+              <b>Delivery preferences</b>
+              <span>Seller confirmation required</span>
             </div>
           </div>
         </div>
@@ -226,7 +226,7 @@ export function Home() {
         </div>
         <div className="home-trust-item">
           <span><Truck size={18} /></span>
-          <div><b>Delivery information</b><small>See available governorate estimates before checkout.</small></div>
+          <div><b>Delivery information</b><small>Illustrative delivery details; coverage and timing need seller confirmation.</small></div>
         </div>
         <div className="home-trust-item">
           <span><Store size={18} /></span>
@@ -243,7 +243,7 @@ export function Home() {
           <div>
             <span className="eyebrow">EXPLORE BY SPECIALTY</span>
             <h2>Browse categories</h2>
-            <p className="muted">Find authentic Tunisian workshops, electronics, and lifestyle goods.</p>
+            <p className="muted">Explore sample categories across Tunisian workshops, electronics and lifestyle goods.</p>
           </div>
           <Link to="/categories" className="text-link">All categories <ArrowRight size={15} /></Link>
         </div>
@@ -295,7 +295,7 @@ export function Home() {
           <div className="upwork-value-card">
             <span className="value-icon-circle"><Truck size={22} /></span>
             <h3>Delivery visibility</h3>
-            <p>See available governorate delivery estimates before you commit to the order.</p>
+            <p>Review illustrative delivery details; coverage, fees and timing still need seller confirmation.</p>
           </div>
         </div>
       </section>
@@ -319,7 +319,7 @@ export function Home() {
       <section className="landing-section upwork-seller-showcase" aria-label="Featured Tunisian Storefronts">
         <div className="landing-section-header">
           <div>
-            <span className="eyebrow">AUTHENTIC LOCAL MAKERS</span>
+            <span className="eyebrow">SAMPLE LOCAL STOREFRONTS</span>
             <h2>Storefronts to explore</h2>
             <p className="muted">Discover sample Tunisian shops, ateliers and artisan workshops.</p>
           </div>
@@ -401,7 +401,7 @@ export function Home() {
         <div className="upwork-cta-card upwork-cta-buyers">
           <div>
             <span className="eyebrow">FOR DISCERNING SHOPPERS</span>
-            <h3>Find authentic craft<br />and everyday goods.</h3>
+            <h3>Explore local craft<br />and everyday goods.</h3>
             <p>Explore sample product listings and discover the kinds of local shops MARCHY is designed to bring together.</p>
           </div>
           <Link to="/search">Browse Marketplace <ArrowRight size={14} /></Link>
