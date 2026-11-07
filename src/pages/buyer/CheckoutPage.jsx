@@ -162,13 +162,13 @@ export function CheckoutPage() {
       deliveryMethod: details.deliveryMethod || 'Standard courier (seller confirmed)',
     })))
 
-    // Decrement live inventory across all ordered vendor items
+    // Update the local demo inventory for the ordered items.
     MarketplaceService.decrementInventory(cart)
 
-    // Trigger instant system notification
+    // Add a local in-app demo notification; no external seller notification is sent.
     MarketplaceService.addNotification({
       title: 'Order Confirmed',
-      message: `Order #${created[0]?.id || 'NEW'} placed with Cash on Delivery protection. Merchant notified for dispatch.`,
+      message: `Order #${created[0]?.id || 'NEW'} placed with Cash on Delivery demo preference. No seller or courier is contacted in this frontend demo.`,
       type: 'order',
       link: '/orders'
     })
@@ -218,7 +218,7 @@ export function CheckoutPage() {
         <div>
           <span className="eyebrow">A CLEARER WAY TO CHECK OUT</span>
           <h1>Checkout & Order Placement</h1>
-          <p>Simple 4-step transparent checkout with multi-seller clarity and Cash on Delivery protection.</p>
+          <p>A four-step checkout preview for reviewing delivery details, payment preferences and seller-by-seller totals.</p>
         </div>
         <Link to="/cart" className="cart-continue-link">
           <ArrowLeft size={15}/> Back to cart
@@ -272,7 +272,7 @@ export function CheckoutPage() {
               <div className="checkout-panel-title">
                 <span className="eyebrow">STEP 01 OF 04</span>
                 <h2 ref={stepHeadingRef} tabIndex={-1}>Where should the order be delivered?</h2>
-                <p>Provide contact and address details so the regional courier can locate you.</p>
+                <p>Add the recipient’s contact details and delivery address for this sample order.</p>
               </div>
 
               {savedAddresses.length > 0 && (
@@ -308,7 +308,7 @@ export function CheckoutPage() {
                     placeholder="Your full name"
                   />
                 </FormField>
-                <FormField label="Phone number" hint="Reachable mobile number for courier arrival confirmation." required>
+                <FormField label="Phone number" hint="Enter a mobile number associated with this sample order." required>
                   <input
                     id="checkout-phone"
                     autoComplete="tel"
@@ -347,7 +347,7 @@ export function CheckoutPage() {
                     <option value="Other governorate">Other governorate</option>
                   </select>
                 </label>
-                <FormField className="checkout-field-wide" label="Delivery address" hint="Include the building, street and neighbourhood so the courier can find you." required>
+                <FormField className="checkout-field-wide" label="Delivery address" hint="Include the building, street and neighbourhood in the sample delivery address." required>
                   <input
                     id="checkout-address"
                     autoComplete="street-address"
@@ -473,7 +473,7 @@ export function CheckoutPage() {
               <div className="checkout-panel-title">
                 <span className="eyebrow">STEP 03 OF 04</span>
                 <h2 ref={stepHeadingRef} tabIndex={-1}>Choose how you want to pay</h2>
-                <p>Enjoy full buyer safety with Cash on Delivery or test digital payment methods in demo mode.</p>
+                <p>Choose a payment preference for this demo. No payment is collected and no payment provider is connected.</p>
               </div>
 
               <div className="checkout-option-cards" role="radiogroup" aria-label="Payment method selection">
@@ -507,7 +507,7 @@ export function CheckoutPage() {
                       <b><CreditCard size={16}/> Bank card / ClicToPay (Simulated demo)</b>
                       <span className="option-badge">Preview</span>
                     </div>
-                    <p>National Tunisian banking switch preview (GIM-TEL / ClicToPay). Simulated secure 3D-Secure sandbox.</p>
+                    <p>Payment-provider concept preview only. No GIM-TEL, ClicToPay or 3D-Secure connection is active.</p>
                   </div>
                 </label>
 
