@@ -202,14 +202,33 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
+  test('category directory search leads into a focused category catalogue', async ({ page }) => {
+    await page.goto('/categories')
+    const categorySearch = page.getByRole('textbox', { name: 'Search categories' })
+    await categorySearch.fill('Electronics')
+    await expect(page.locator('.category-directory-card')).toHaveCount(1)
+    await expect(page.locator('.category-directory-card').first()).toContainText('Electronics')
+    await categorySearch.fill('no-such-category')
+    await expect(page.getByRole('heading', { name: 'No categories found' })).toBeVisible()
+    await page.getByRole('button', { name: 'Clear search' }).click()
+    await expect(page.locator('.category-directory-card').count()).resolves.toBeGreaterThan(1)
+    await page.locator('.category-directory-card').filter({ hasText: 'Electronics' }).click()
+    await expect(page).toHaveURL(/\\/category\\/electronics$/)
+    await expect(page.locator('.category-context-strip')).toContainText('Electronics')
+    await expect(page.locator('.listing-results .product-card').first()).toBeVisible()
+  })
+
   test('product navigation never carries the previous listing seller offer into the next product', async ({ page }) => {
     await page.goto('/product/1')
     await expect(page.getByRole('heading', { name: 'Wireless noise-cancelling headphones' })).toBeVisible()
     await expect(page.locator('.product-price-block strong')).toContainText('189 DT')
+    await page.getByRole('group', { name: 'Quantity', exact: true }).getByRole('button', { name: 'Increase quantity' }).click()
+    await expect(page.getByRole('group', { name: 'Quantity', exact: true }).getByLabel('Selected quantity')).toHaveText('2')
 
     await page.locator('.related-products a[href="/product/2"]').click()
     await expect(page).toHaveURL(/\/product\/2$/)
     await expect(page.getByRole('heading', { name: 'Minimal ceramic table lamp' })).toBeVisible()
+    await expect(page.getByRole('group', { name: 'Quantity', exact: true }).getByLabel('Selected quantity')).toHaveText('1')
     await expect(page.locator('.product-price-block strong')).toContainText('79 DT')
     await expect(page.locator('.product-price-caption')).toContainText('Demo seller')
   })
