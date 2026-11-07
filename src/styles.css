@@ -62,3 +62,6 @@
 
 /* 8. Shared responsive page geometry — final layout ownership layer. */
 @import './styles/page-layout-system.css';
+
+/* 9. Canonical shared component primitives — final UI ownership layer. */
+@import './styles/component-system.css';
