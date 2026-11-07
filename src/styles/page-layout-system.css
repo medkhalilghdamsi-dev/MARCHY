@@ -83,3 +83,51 @@
     width: calc(100% - 24px);
   }
 }
+
+
+/* Compact handset header: keep the menu, search toggle, brand and cart on one
+   predictable row at 320–360px instead of allowing flex items to collide. */
+@media (max-width: 360px) {
+  .header .header-main {
+    gap: 6px;
+  }
+
+  .header .mobile-menu,
+  .header .mobile-search-toggle {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+  }
+
+  .header .logo {
+    flex: 0 1 auto;
+    width: auto;
+    max-width: calc(100vw - 190px);
+    min-width: 0;
+    gap: 4px;
+  }
+
+  .header .logo-mark {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header .logo-word {
+    min-width: 0;
+    font-size: 18px;
+    letter-spacing: -1px;
+  }
+
+  .header .header-actions {
+    gap: 2px;
+    margin-inline-start: auto;
+  }
+
+  .header .header-actions > * {
+    flex: 0 0 auto;
+  }
+
+  .header .searchbar {
+    flex-basis: 100%;
+  }
+}
