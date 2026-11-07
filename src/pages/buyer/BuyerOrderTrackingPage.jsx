@@ -291,7 +291,7 @@ export function BuyerOrderTrackingPage(props) {
                       <b>{entry.status}</b>
                       <small>{entry.time}</small>
                     </div>
-                    <p>{entry.note}</p>
+                    <p>Sample timeline entry. This event has not been verified by a seller or courier.</p>
                   </div>
                 </li>
               ))}
