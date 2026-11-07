@@ -29,8 +29,9 @@ test.describe('responsive global header search', () => {
     await expect(searchForm).toBeHidden()
 
     await page.getByRole('button', { name: 'Open search' }).click()
-    await page.locator('main').click({ position: { x: 10, y: 10 } })
+    await page.locator('.mobile-tabbar a[href="/cart"]').click()
     await expect(searchForm).toBeHidden()
+    await expect(page).toHaveURL(/\/cart$/)
   })
 
   test('desktop keeps the full global search visible without a mobile toggle', async ({ page }) => {

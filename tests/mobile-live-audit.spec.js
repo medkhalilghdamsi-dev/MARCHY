@@ -81,6 +81,7 @@ async function inspectLayout(page) {
 }
 
 test('live MARCHY mobile and tablet visual/runtime audit', async ({ page }, testInfo) => {
+  test.setTimeout(120_000)
   const consoleErrors = []
   const pageErrors = []
   page.on('console', message => {

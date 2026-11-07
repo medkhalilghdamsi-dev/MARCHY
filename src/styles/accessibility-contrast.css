@@ -6,3 +6,30 @@
 .sample-status {
   color: #52665b;
 }
+
+
+/* Shared brand surfaces and dark-footer copy meet WCAG AA contrast. */
+.header .searchbar button,
+.searchbar button,
+.primary-btn,
+.add-btn,
+.cart-checkout-button,
+.checkout-form-actions button {
+  background: var(--brand) !important;
+}
+.header .searchbar button:hover,
+.searchbar button:hover,
+.primary-btn:hover,
+.add-btn:hover,
+.cart-checkout-button:hover,
+.checkout-form-actions button:hover {
+  background: var(--brand-deep) !important;
+}
+.upwork-cta-sellers p {
+  color: #ffffff !important;
+}
+.footer .footer-social span,
+.footer .footer-main a:not(.logo),
+.footer .footer-bottom {
+  color: #DDF2E9 !important;
+}

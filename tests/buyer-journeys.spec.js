@@ -8,7 +8,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/')
 
-    await expect(page.getByRole('heading', { name: /Discover more, closer to home/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Discover better\.\s*Shop local\./i })).toBeVisible()
     const heroSearch = page.getByRole('search').getByRole('combobox', { name: 'Search products and categories' })
     await heroSearch.fill('headphones')
     await expect(page.locator('.hero-search-suggestions')).toBeVisible()
@@ -42,7 +42,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
 
     await page.getByRole('button', { name: 'Move to cart' }).click()
     await expect(page.locator('.cart-item')).toContainText('Wireless noise-cancelling headphones')
-    await expect(page.locator('.cart-saved-later-section')).toContainText('0 items')
+    await expect(page.locator('.cart-saved-later-section')).toHaveCount(0)
     await page.reload()
     await expect(page.locator('.cart-item')).toContainText('Wireless noise-cancelling headphones')
   })
@@ -74,23 +74,31 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await page.goto('/cart')
     await page.getByRole('link', { name: /Continue to checkout/ }).click()
 
-    await expect(page.locator('.checkout-steps li')).toHaveCount(2)
-    await page.getByRole('button', { name: 'Review order' }).click()
+    await expect(page.locator('.checkout-steps li')).toHaveCount(4)
+    await page.getByRole('button', { name: /Continue to shipping method/i }).click()
     await expect(page.getByLabel('Full name')).toBeFocused()
-    await expect(page.locator('.checkout-form').evaluate(form => form.checkValidity())).toBe(false)
+    expect(await page.locator('.checkout-form').evaluate(form => form.checkValidity())).toBe(false)
 
     await page.getByLabel('Full name').fill('Demo Buyer')
     await page.getByLabel('Phone number').fill('+216 20 000 000')
     await page.getByLabel('Governorate / Region').selectOption('Tunis')
     await page.getByLabel('Delivery address').fill('10 Rue de Test, Tunis')
-    await page.getByRole('button', { name: 'Review order' }).click()
+    await page.getByRole('button', { name: /Continue to shipping method/i }).click()
+    await expect(page).toHaveURL(/\/checkout\/delivery$/)
 
-    await expect(page.getByRole('heading', { name: 'Review before proceeding' })).toBeVisible()
+    await page.getByRole('button', { name: /Continue to payment/i }).click()
+    await expect(page).toHaveURL(/\/checkout\/payment$/)
+    await page.getByRole('button', { name: /Review your order/i }).click()
+    await expect(page).toHaveURL(/\/checkout\/review$/)
+    await expect(page.getByRole('heading', { name: 'Review and confirm your order' })).toBeVisible()
     await expect(page.locator('.checkout-contact-review')).toContainText('Demo Buyer')
-    await expect(page.locator('.checkout-preview-note')).toContainText('No seller receives the order')
+    await expect(page.locator('.checkout-preview-note')).toContainText('No seller receives real charges')
+
     await page.getByRole('button', { name: 'Place demo order' }).click()
-    await expect(page).toHaveURL(/\/orders\//)
-    await expect(page.getByRole('heading', { name: /Track Order MC-/ })).toBeVisible()
+    await expect(page).toHaveURL(/\/order-confirmation\/MC-/)
+    await expect(page.getByRole('heading', { name: /Thank you for your order/i })).toBeVisible()
+    await page.getByRole('link', { name: /View demo order status/i }).click()
+    await expect(page).toHaveURL(/\/orders\/MC-/)
     await expect(page.locator('.buyer-tracking-panel')).toContainText('Demo Buyer')
     await page.goto('/cart')
     await expect(page.locator('.cart-empty-state')).toBeVisible()
@@ -104,7 +112,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await page.getByRole('button', { name: 'Open search' }).click()
     await expect(page.locator('#global-search-form')).toBeVisible()
     await page.getByRole('search').getByRole('combobox', { name: 'Search products and stores' }).fill('headphones')
-    await page.getByRole('search').getByRole('button', { name: 'Search' }).click()
+    await page.locator('#global-search-form').getByRole('button', { name: 'Search' }).click()
     await expect(page).toHaveURL(/\/search\?q=headphones/)
 
     await page.goto('/product/1')
@@ -178,7 +186,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
 
   test('09 · Arabic RTL shopper verifies layout direction, Arabic typography and cart', async ({ page }) => {
     await page.goto('/')
-    const langPicker = page.locator('select[aria-label="Language"]').first()
+    const langPicker = page.locator('.language-picker select').first()
     await langPicker.selectOption('ar')
 
     const dir = await page.locator('.app-root').getAttribute('dir')
@@ -194,7 +202,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
 
   test('10 · French/English localization switching preserves navigation and forms', async ({ page }) => {
     await page.goto('/')
-    const langPicker = page.locator('select[aria-label="Language"]').first()
+    const langPicker = page.locator('.language-picker select').first()
     await langPicker.selectOption('fr')
     await expect(page.locator('body')).toBeVisible()
 
@@ -253,7 +261,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await page.getByRole('group', { name: 'Quantity', exact: true }).getByRole('button', { name: 'Increase quantity' }).click()
     await expect(page.getByRole('group', { name: 'Quantity', exact: true }).getByLabel('Selected quantity')).toHaveText('2')
 
-    await page.locator('.related-products a[href="/product/2"]').click()
+    await page.locator('.related-products a[href="/product/2"]').first().click()
     await expect(page).toHaveURL(/\/product\/2$/)
     await expect(page.getByRole('heading', { name: 'Minimal ceramic table lamp' })).toBeVisible()
     await expect(page.getByRole('group', { name: 'Quantity', exact: true }).getByLabel('Selected quantity')).toHaveText('1')

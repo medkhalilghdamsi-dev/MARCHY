@@ -16,7 +16,7 @@ test.describe('Purchase Journey & Progressive Checkout', () => {
     await checkoutBtn.click()
 
     // Step 1: Address
-    await expect(page).toHaveURL(/\/checkout\/address/)
+    await expect(page).toHaveURL(/\/checkout$/)
     await expect(page.getByRole('heading', { name: /Where should the order be delivered/i })).toBeVisible()
     await page.fill('#checkout-full-name', 'Khalil Test')
     await page.fill('#checkout-phone', '+216 98 765 432')
@@ -71,10 +71,10 @@ test('mobile Arabic checkout address stays within the viewport', async ({ page }
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
   await page.goto('/cart')
   await page.locator('.cart-checkout-button').click()
-  await expect(page).toHaveURL(/\/checkout\/address/)
+  await expect(page).toHaveURL(/\/checkout$/)
   await page.locator('.language-picker select').selectOption('ar')
   await expect(page.locator('.app-root')).toHaveAttribute('dir', 'rtl')
-  const layout = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, document: document.documentElement.scrollWidth, panel: document.querySelector('.checkout-step-panel')?.getBoundingClientRect().toJSON() }))
+  const layout = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, document: document.documentElement.scrollWidth, panel: document.querySelector('.checkout-form')?.getBoundingClientRect().toJSON() }))
   expect(layout.document).toBeLessThanOrEqual(layout.viewport + 1)
   expect(layout.panel).toBeTruthy()
   expect(layout.panel.x).toBeGreaterThanOrEqual(-1)

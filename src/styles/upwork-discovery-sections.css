@@ -586,3 +586,11 @@
 
 
 
+
+
+/* WCAG AA: active mission labels remain readable on the teal tab surface. */
+.mission-tab-button.is-active .mission-tab-num,
+.mission-tab-button.is-active .mission-tab-meta small {
+  color: #ffffff;
+  opacity: 1;
+}
