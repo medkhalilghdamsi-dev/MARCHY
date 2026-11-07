@@ -38,7 +38,7 @@ export function CheckoutPage() {
       city: defaultAddr?.city || authUser?.city || 'Tunis',
       address: defaultAddr?.address || authUser?.address || '',
       notes: '',
-      deliveryMethod: 'Standard courier (seller confirmed)',
+      deliveryMethod: 'Delivery preference (demo; seller confirmation required)',
       paymentMethod: 'Cash on delivery · demo'
     }
   })
