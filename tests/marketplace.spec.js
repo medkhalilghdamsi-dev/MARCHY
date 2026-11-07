@@ -192,7 +192,7 @@ test('marketplace search autocomplete offers category and no-match guidance', as
   await page.locator('.search-suggestion-group button').filter({ hasText: 'Electronics' }).click()
   await expect(page).toHaveURL(/\/category\/electronics/)
   await page.goto('/search')
-  await page.getByRole('combobox', { name: 'Search marketplace' }).fill('zzqv-no-match')
+  await page.getByRole('searchbox', { name: 'Search marketplace' }).fill('zzqv-no-match')
   await expect(page.locator('.search-suggestions-empty')).toBeVisible()
 })
 
@@ -211,7 +211,7 @@ test('marketplace search suggestions can be reached and opened with the keyboard
 
 test('marketplace search autocomplete suggests products and opens the selected product', async ({ page }) => {
   await page.goto('/search')
-  const search = page.getByRole('combobox', { name: 'Search marketplace' })
+  const search = page.getByRole('searchbox', { name: 'Search marketplace' })
   await search.fill('headphones')
   await expect(page.locator('.search-suggestions')).toBeVisible()
   await expect(page.locator('.search-suggestion-product').first()).toContainText('headphones')
