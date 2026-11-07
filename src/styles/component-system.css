@@ -252,10 +252,6 @@ textarea::placeholder {
     padding-inline: 15px;
   }
 
-  .product-card:hover {
-    transform: none;
-    box-shadow: var(--shadow-sm);
-  }
 
   .product-card .add-btn,
   .product-card .compare-product-button {
@@ -300,7 +296,4 @@ textarea::placeholder {
     transition: none;
   }
 
-  .product-card:hover {
-    transform: none;
-  }
 }
