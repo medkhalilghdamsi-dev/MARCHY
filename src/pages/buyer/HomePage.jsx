@@ -7,6 +7,7 @@ import { translateTree } from '../../i18n/translate'
 import { ProductCard } from '../../components/marketplace/ProductCard'
 import { ShopByMission } from '../../components/marketplace/ShopByMission'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { PageFrame } from '../../components/ui/PageFrame'
 import {
   ArrowRight, Check, Search, Smartphone, ShoppingBasket, House, Shirt,
   Sparkles, Dumbbell, CarFront, BookOpen, Gamepad2, Baby, PawPrint,
@@ -99,7 +100,7 @@ export function Home() {
     .slice(0, 4)
 
   return translateTree(
-    <main id="main-content" className="shell page home-page home-landing-v2">
+    <PageFrame className="home-page home-landing-v2">
       <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
         <div className="market-hero-copy">
           <span className="hero-kicker"><i aria-hidden="true"></i> EVERYDAY COMMERCE, MADE EASIER. · TUNISIA-FIRST</span>
@@ -416,7 +417,7 @@ export function Home() {
       </section>
 
       <p className="catalogue-note">MARCHY is a frontend prototype. Product listings, storefronts, prices, discounts and availability shown here are illustrative — not verified live offers.</p>
-    </main>,
+    </PageFrame>,
     language
   )
 }
