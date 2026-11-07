@@ -13,8 +13,8 @@ export function OrderConfirmationPage() {
   const { language } = useMarketplace()
   const { orders } = useDemoOrders()
 
-  // Find order in demo store or default to first created
-  const order = orders.find(item => item.id === id) || orders[0]
+  // Only show the order matching this URL; never substitute another order.
+  const order = orders.find(item => item.id === id)
 
   const handlePrint = () => {
     window.print()
@@ -59,12 +59,11 @@ export function OrderConfirmationPage() {
         <span className="eyebrow">ORDER PLACED SUCCESSFULLY</span>
         <h1>Thank you for your order!</h1>
         <p className="confirmation-lead">
-          Your order reference is <strong>#{order.id}</strong>. We've notified the seller to prepare your package for dispatch.
+          Your order reference is <strong>#{order.id}</strong>. This sample order is saved in this browser only; no seller or courier has been contacted.
         </p>
         <div className="confirmation-tags">
-          <span className="badge-pill cod-badge"><ShieldCheck size={14}/> Cash on Delivery Protected</span>
+          <span className="badge-pill cod-badge"><ShieldCheck size={14}/> {order.payment || 'Payment preference'} · Demo</span>
           <span className="badge-pill seller-badge"><Store size={14}/> Sold by {order.seller || 'Marketplace Seller'}</span>
-          <span className="badge-pill status-badge"><Truck size={14}/> Estimated Delivery: 24–48 hours</span>
         </div>
       </div>
 
@@ -109,15 +108,15 @@ export function OrderConfirmationPage() {
             <ol className="next-steps-timeline">
               <li>
                 <b>1. Merchant Review & Preparation</b>
-                <p>The vendor confirms inventory availability and packs your order in protective packaging.</p>
+                <p>In a live marketplace, the seller would review stock and confirm whether the items can be supplied. No seller review happens in this demo.</p>
               </li>
               <li>
-                <b>2. Courier Dispatch</b>
-                <p>A regional delivery driver receives the parcel and initiates route dispatch to your city.</p>
+                <b>2. Delivery arrangements</b>
+                <p>Delivery coverage, fees and timing would need to be agreed with the seller. No courier is assigned in this demo.</p>
               </li>
               <li>
-                <b>3. Pay Upon Inspection</b>
-                <p>Inspect your parcel upon arrival and settle the payment with the courier in cash.</p>
+                <b>3. Payment</b>
+                <p>Your selected payment preference is recorded locally. No payment is collected or processed in this demo.</p>
               </li>
             </ol>
           </div>
@@ -138,7 +137,7 @@ export function OrderConfirmationPage() {
             <span className="eyebrow">PAYMENT METHOD</span>
             <p className="payment-method-pill">
               <strong>{order.payment || 'Cash on Delivery'}</strong>
-              <small>Pay in cash upon parcel receipt</small>
+              <small>Demo preference only. No payment is collected.</small>
             </p>
           </div>
 
@@ -153,14 +152,14 @@ export function OrderConfirmationPage() {
               <b className="free-tag">To be confirmed by seller</b>
             </div>
             <div className="summary-total-row">
-              <span>Total due upon delivery</span>
+              <span>Order total (delivery not included)</span>
               <strong>{money(order.total)}</strong>
             </div>
           </div>
 
           <div className="confirmation-action-buttons">
             <Link to={`/orders/${order.id}`} className="primary-btn full-btn">
-              Track order status <ArrowRight size={16}/>
+              View demo order status <ArrowRight size={16}/>
             </Link>
             <Link to="/search" className="outline-btn full-btn">
               <ShoppingBag size={15}/> Continue shopping
