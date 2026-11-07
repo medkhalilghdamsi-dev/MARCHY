@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { products } from '../../data/products'
 import { money } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
+import { PageFrame } from '../../components/ui/PageFrame'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { useToast } from '../../providers/ToastProvider'
 import { MarketplaceService } from '../../services/marketplaceService'
@@ -56,7 +57,7 @@ export function WishlistPage() {
   }
 
   return translateTree(
-    <main id="main-content" className="shell page wishlist-page wishlist-workspace">
+    <PageFrame className="wishlist-page wishlist-workspace">
       <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><span aria-current="page">Saved items</span></div>
       <header className="wishlist-heading wishlist-workspace-heading">
         <div><span className="eyebrow">YOUR PERSONAL COLLECTION</span><h1>Saved items</h1><p>Keep products close, compare seller offers and return when you’re ready to buy.</p></div>
@@ -88,6 +89,6 @@ export function WishlistPage() {
         })}</div> : <div className="wishlist-filter-empty"><Search size={22}/><b>No saved products match these filters</b><p>Try another search or clear a filter.</p><button type="button" className="text-link" onClick={() => { setSearch(''); setSelectedCat('All'); setAvailability('all'); setSort('saved') }}>Clear filters</button></div>}
         <div className="wishlist-footnote"><span><Heart size={18}/></span><p>Your saved list is stored on this device. Prices and stock are demo marketplace data; confirm the current offer on the product page before ordering.</p></div>
       </> : <div className="wishlist-empty wishlist-workspace-empty"><div className="wishlist-empty-icon"><Heart size={30} strokeWidth={1.6}/></div><span className="eyebrow">YOUR NEXT FIND IS OUT THERE</span><h2>No saved products yet</h2><p>Tap the heart on any product to keep it here. Your collection will be ready whenever you are.</p><Link to="/search" className="primary-btn">Explore the marketplace <ArrowRight size={15}/></Link></div>}
-    </main>, language
+    </PageFrame>, language
   )
 }
