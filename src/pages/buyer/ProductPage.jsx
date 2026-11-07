@@ -34,7 +34,14 @@ export function ProductPage() {
 
   // Multi-seller offers for this product
   const sellerOffers = product ? MarketplaceService.getProductOffers(product.id) : []
-  const [selectedOffer, setSelectedOffer] = useState(() => sellerOffers.find(offer => offer.isFeatured) || sellerOffers[0] || null)
+  const [selectedOfferSelection, setSelectedOfferSelection] = useState(() => ({
+    productId: product?.id,
+    offerId: sellerOffers.find(offer => offer.isFeatured)?.id || sellerOffers[0]?.id || null,
+  }))
+  const selectedOffer = selectedOfferSelection.productId === product?.id
+    ? sellerOffers.find(offer => offer.id === selectedOfferSelection.offerId) || sellerOffers.find(offer => offer.isFeatured) || sellerOffers[0] || null
+    : sellerOffers.find(offer => offer.isFeatured) || sellerOffers[0] || null
+  const setSelectedOffer = offer => setSelectedOfferSelection({ productId: product?.id, offerId: offer?.id || null })
 
   const defaultSeller = product ? sellerForProduct(product) : sellers[0]
   const currentSellerName = selectedOffer?.sellerName || defaultSeller.name
