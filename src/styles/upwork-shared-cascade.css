@@ -309,8 +309,8 @@ html[data-theme="dark"] .matrix-img,html[data-theme="dark"] .dock-thumb-item{bac
 .product-card .wish-btn{position:absolute;top:10px;inset-inline-end:10px;display:grid;place-items:center;z-index:2;width:34px;height:34px;border:1px solid rgba(255,255,255,.8);border-radius:50%;background:rgba(255,255,255,.9);backdrop-filter:blur(6px);color:#4e675a;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;transition:transform .18s ease,background .18s ease,color .18s ease;}
 .product-card .wish-btn:hover{transform:scale(1.06);background:#fff;color:#e11d48;}
 .product-card .wish-btn.wished{background:#fff;color:#e11d48;}
-.product-card .add-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:40px;margin:0;padding:9px 11px;border:1px solid var(--forest);border-radius:8px;background:var(--forest);color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease;}
-.product-card .add-btn:hover{background:var(--forest-dark);border-color:var(--forest-dark);}
+/* Layout only: component-system.css owns the shared add-button palette and hover state. */
+.product-card .add-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:40px;margin:0;padding:9px 11px;font-size:11px;}
 .product-card .add-btn.added{background:#e6f0eb;color:#164033;border-color:#b8d4c5;}
 
 /* Product-card campaign labels. */
