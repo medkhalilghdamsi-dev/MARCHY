@@ -112,11 +112,20 @@ for (const importedPath of imports) {
 
 const crossFile = []
 const repeatedInFile = []
+const filePairCounts = new Map()
 for (const [key, owners] of records) {
   const uniqueOwners = [...new Set(owners.map((owner) => owner.file))]
   const locations = owners.map(({ file, line }) => `${file}:${line}`)
   if (uniqueOwners.length > 1) crossFile.push({ selector: key, files: uniqueOwners, locations })
   if (owners.length > uniqueOwners.length) repeatedInFile.push({ selector: key, occurrences: owners.length, files: uniqueOwners, locations })
+  if (uniqueOwners.length > 1) {
+    for (let left = 0; left < uniqueOwners.length; left += 1) {
+      for (let right = left + 1; right < uniqueOwners.length; right += 1) {
+        const pair = [uniqueOwners[left], uniqueOwners[right]].sort().join(' ↔ ')
+        filePairCounts.set(pair, (filePairCounts.get(pair) || 0) + 1)
+      }
+    }
+  }
 }
 crossFile.sort((a, b) => b.files.length - a.files.length || a.selector.localeCompare(b.selector))
 repeatedInFile.sort((a, b) => b.occurrences - a.occurrences || a.selector.localeCompare(b.selector))
@@ -133,5 +142,10 @@ if (crossFile.length) {
 if (repeatedInFile.length) {
   console.log('\nRepeated blocks within a stylesheet (may be responsive refinements):')
   for (const item of repeatedInFile) console.log(`- ${item.selector} (${item.occurrences} blocks)\n  ${item.locations.join(', ')}`)
+}
+if (filePairCounts.size) {
+  console.log('\nMost frequent stylesheet overlap pairs (shared selector/context count):')
+  const rankedPairs = [...filePairCounts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  for (const [pair, count] of rankedPairs.slice(0, 20)) console.log(`- ${count}: ${pair}`)
 }
 console.log('\nThis report is a static ownership aid, not a visual-regression or computed-cascade test.')
