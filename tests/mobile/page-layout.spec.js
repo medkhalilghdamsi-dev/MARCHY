@@ -10,6 +10,8 @@ const buyerRoutes = [
   '/wishlist',
   '/sellers',
   '/account',
+  '/orders',
+  '/orders/MC-1048',
   '/help',
   '/delivery',
   '/returns',

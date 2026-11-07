@@ -32,7 +32,7 @@ test('all public frontend routes render a page and a page-specific title', async
   }
 })
 
-const responsiveRoutes = ['/', '/search', '/category/electronics', '/product/1', '/cart', '/checkout', '/wishlist', '/account', '/seller-central', '/seller-dashboard', '/operations/delivery']
+const responsiveRoutes = ['/', '/search', '/category/electronics', '/product/1', '/cart', '/checkout', '/wishlist', '/account', '/orders', '/orders/MC-1048', '/seller-central', '/seller-dashboard', '/operations/delivery']
 const viewports = [
   { width: 360, height: 800 },
   { width: 390, height: 844 },
@@ -85,7 +85,7 @@ test('Arabic RTL layout remains within the viewport on key marketplace routes', 
   await page.addInitScript(() => localStorage.setItem('marchy-language', 'ar'))
   for (const width of [360, 390, 768]) {
     await page.setViewportSize({ width, height: 844 })
-    for (const route of ['/search', '/product/1', '/cart', '/checkout', '/account', '/seller-central', '/seller-dashboard']) {
+    for (const route of ['/search', '/product/1', '/cart', '/checkout', '/account', '/orders', '/orders/MC-1048', '/seller-central', '/seller-dashboard']) {
       await page.goto(route, { waitUntil: 'domcontentloaded' })
       await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
       const dimensions = await page.evaluate(() => ({
