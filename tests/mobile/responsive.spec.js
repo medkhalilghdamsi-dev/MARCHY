@@ -6,7 +6,7 @@ test.describe('Mobile Viewport & Bottom Navigation Bar', () => {
     await page.goto('/')
     
     // Bottom mobile tab bar is visible
-    const mobileTabBar = page.locator('.mobile-tab-bar')
+    const mobileTabBar = page.locator('.mobile-tabbar')
     await expect(mobileTabBar).toBeVisible()
     
     // Check navigation tab icons
