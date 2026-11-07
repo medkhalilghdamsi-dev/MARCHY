@@ -48,6 +48,12 @@ test.describe('Purchase Journey & Progressive Checkout', () => {
     await expect(page.getByText(/no seller or courier has been contacted/i)).toBeVisible()
     await expect(page.getByText(/no payment is collected/i)).toBeVisible()
     await expect(page.getByText(/estimated delivery: 24.?48 hours/i)).toHaveCount(0)
+
+    await page.getByRole('link', { name: /View demo order status/i }).click()
+    await expect(page).toHaveURL(/\/orders\/MC-/)
+    await expect(page.getByText(/Courier scans, seller messaging and delivery estimates are not connected/i)).toBeVisible()
+    await expect(page.getByText(/No payment, parcel inspection service or buyer protection is active/i)).toBeVisible()
+    await expect(page.getByText(/not a tax invoice, payment receipt or delivery confirmation/i)).toBeVisible()
   })
 })
 
