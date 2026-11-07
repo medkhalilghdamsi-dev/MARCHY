@@ -156,13 +156,13 @@ textarea {
   resize: vertical;
 }
 
-input:not([type="checkbox"]):not([type="radio]):hover,
+input:not([type="checkbox"]):not([type="radio"]):hover,
 select:hover,
 textarea:hover {
   border-color: var(--marchy-accent-border);
 }
 
-input:not([type="checkbox"]):not([type="radio]):focus,
+input:not([type="checkbox"]):not([type="radio"]):focus,
 select:focus,
 textarea:focus {
   border-color: var(--brand);
