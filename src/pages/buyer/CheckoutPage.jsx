@@ -158,7 +158,7 @@ export function CheckoutPage() {
       subtotal: group.subtotal,
       discountRatio,
       total: Math.round(group.subtotal * discountRatio * 1000) / 1000,
-      payment: details.paymentMethod || 'Cash on delivery · Pay upon inspection',
+      payment: details.paymentMethod || 'Cash on delivery · demo preference only',
       deliveryMethod: details.deliveryMethod || 'Standard courier (seller confirmed)',
     })))
 
