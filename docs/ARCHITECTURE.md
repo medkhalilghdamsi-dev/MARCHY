@@ -89,6 +89,8 @@ Platform adapter / future API
 
 Pages should not contain platform HTTP implementation details.
 
+Buyer route pages should use `src/components/ui/PageFrame.jsx` for the shared `main-content` landmark and `.shell.page` geometry. The experience layout must not add a second `<main>` around the route outlet. PageFrame owns only the page landmark/container; feature sections retain their domain-specific composition.
+
 Feature components should not own global application routing.
 
 Shared UI primitives should not import marketplace-specific business logic.
