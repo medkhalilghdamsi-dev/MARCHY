@@ -67,10 +67,10 @@ test('unknown confirmation reference never displays another order', async ({ pag
 
 test('mobile Arabic checkout address stays within the viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.addInitScript(() => localStorage.setItem('marchy-language', 'ar'))
   await page.goto('/product/1')
   await expect(page.locator('.product-mobile-buybar')).toBeVisible()
-  await page.locator('.mobile-buybar-actions').getByRole('button', { name: 'Add to cart' }).click()
+  await page.locator('.mobile-buybar-actions .primary-btn').click()
+  await page.evaluate(() => localStorage.setItem('marchy-language', 'ar'))
   await page.goto('/checkout')
   await expect(page).toHaveURL(/\/checkout$/)
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')

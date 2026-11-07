@@ -152,7 +152,7 @@ export function BuyerOrderTrackingPage(props) {
               aria-expanded={invoiceOpen}
               aria-controls="buyer-invoice-dialog"
           >
-            <Printer size={15} /> View Receipt
+            <Printer size={15} /> View Order Summary
           </button>
 
           <button
@@ -394,7 +394,7 @@ export function BuyerOrderTrackingPage(props) {
                 className="primary-btn"
                 onClick={() => window.print()}
               >
-                <Printer size={15} /> Print Receipt
+                <Printer size={15} /> Print Order Summary
               </button>
               <button
                 type="button"

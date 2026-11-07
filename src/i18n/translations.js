@@ -714,3 +714,9 @@ Object.assign(translations, {
   "Explore local craft": ["Explorez l’artisanat local", "اكتشف الحرف المحلية"],
   "Browse sample storefronts": ["Parcourir les boutiques de démonstration", "تصفح واجهات المتاجر التجريبية"]
 });
+
+
+Object.assign(translations, {
+  "View Order Summary": ["Voir le récapitulatif de commande", "عرض ملخص الطلب"],
+  "Print Order Summary": ["Imprimer le récapitulatif de commande", "طباعة ملخص الطلب"]
+});
