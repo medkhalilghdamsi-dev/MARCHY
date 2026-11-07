@@ -410,7 +410,7 @@ export function CheckoutPage() {
                       <b><Truck size={16}/> Standard courier delivery</b>
                       <span className="option-badge">Standard Rate</span>
                     </div>
-                    <p>Estimated 48–72 hours across Tunisia. Direct doorstep delivery with package inspection.</p>
+                    <p>Illustrative option only. Delivery coverage, timing, fees and parcel-inspection rules must be confirmed with the seller before an order is placed.</p>
                   </div>
                 </label>
 
@@ -427,7 +427,7 @@ export function CheckoutPage() {
                       <b><Truck size={16}/> Express regional dispatch</b>
                       <span className="option-badge">Fast Dispatch</span>
                     </div>
-                    <p>Estimated 24–48 hours for Grand Tunis, Sousse, and Sfax metropolitan zones.</p>
+                    <p>Illustrative express option only. Availability and delivery timing are not connected to a live courier network and must be confirmed with the seller.</p>
                   </div>
                 </label>
 
@@ -531,7 +531,7 @@ export function CheckoutPage() {
 
               <div className="checkout-dispatch-note" role="note" style={{ marginTop: '16px', padding: '14px', background: 'rgba(0, 122, 100, 0.06)', border: '1px solid rgba(0, 122, 100, 0.15)', borderRadius: '9px', fontSize: '12px', color: 'var(--ink)', display: 'flex', gap: '10px', alignItems: 'center' }}>
                 <ShieldCheck size={20} style={{ color: 'var(--forest)', flexShrink: 0 }} />
-                <span><strong>MARCHY Buyer Guarantee:</strong> You never risk your funds before receiving goods. All marketplace vendors adhere to verified product descriptions and transparent returns.</span>
+                <span><strong>Buyer protection preview:</strong> MARCHY’s verification, payment protection and returns processes are not active in this demo. Review the seller’s terms and confirm product details before placing a sample order.</span>
               </div>
 
               <div className="checkout-form-actions">
