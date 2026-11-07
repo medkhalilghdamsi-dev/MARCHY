@@ -159,7 +159,7 @@ export function CheckoutPage() {
       discountRatio,
       total: Math.round(group.subtotal * discountRatio * 1000) / 1000,
       payment: details.paymentMethod || 'Cash on delivery · demo preference only',
-      deliveryMethod: details.deliveryMethod || 'Standard courier (seller confirmed)',
+      deliveryMethod: details.deliveryMethod || 'Delivery preference (demo; seller confirmation required)',
     })))
 
     // Update the local demo inventory for the ordered items.
