@@ -694,7 +694,7 @@ test('mobile product purchase bar quantity stays in sync with the main purchase 
 })
 
 
-test('MARCHY uses the locked forest-green brand accent across buyer touchpoints', async ({ page }) => {
+test('MARCHY uses the approved Commerce Teal palette across buyer touchpoints', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('.header .searchbar button[type="submit"]')).toBeVisible()
   const tokens = await page.evaluate(() => {
@@ -707,12 +707,12 @@ test('MARCHY uses the locked forest-green brand accent across buyer touchpoints'
       searchButton: searchButton.backgroundColor,
     }
   })
-  expect(tokens.orangeAlias).toBe('#1f5b45')
-  expect(tokens.greenToken).toBe('#1f5b45')
-  expect(tokens.marchyAccent).toBe('#1f5b45')
-  expect(tokens.searchButton).toBe('rgb(23, 71, 53)')
+  expect(tokens.orangeAlias).toBe('#007A64')
+  expect(tokens.greenToken).toBe('#007A64')
+  expect(tokens.marchyAccent).toBe('#007A64')
+  expect(tokens.searchButton).toBe('rgb(0, 122, 100)')
   await page.locator('.header .searchbar input').focus()
-  await expect(page.locator('.header .searchbar')).toHaveCSS('border-color', 'rgb(131, 174, 149)')
+  await expect(page.locator('.header .searchbar')).toHaveCSS('border-color', 'rgb(0, 122, 100)')
 })
 
 

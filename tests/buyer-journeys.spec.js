@@ -202,6 +202,21 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
+  test('mobile purchase bar disables its add action when the selected offer is unavailable', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.addInitScript(() => {
+      localStorage.setItem('marchy-inventory-records', JSON.stringify({
+        'atlas-tech-tunis-1': 0,
+        'daily-essentials-monastir-1': 0,
+        'nour-beauty-tunis-1': 0,
+      }))
+    })
+    await page.goto('/product/1')
+    await expect(page.locator('.product-mobile-buybar')).toBeVisible()
+    await expect(page.locator('.product-mobile-buybar .primary-btn')).toBeDisabled()
+    await expect(page.locator('.product-purchase-row .product-add-button')).toBeDisabled()
+  })
+
   test('category directory search leads into a focused category catalogue', async ({ page }) => {
     await page.goto('/categories')
     const categorySearch = page.getByRole('textbox', { name: 'Search categories' })
