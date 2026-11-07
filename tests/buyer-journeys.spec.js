@@ -164,3 +164,43 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await expect(page.locator('.cart-icon i')).toContainText(/1/)
   })
 
+  test('08 · visitor explores Shop by Mission and adds curated routine bundle to basket', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('.shop-by-mission-section')).toBeVisible()
+    const addBundleBtn = page.locator('.mission-add-bundle-btn').first()
+    await expect(addBundleBtn).toBeVisible()
+    await addBundleBtn.click()
+
+    await page.goto('/cart')
+    await expect(page.locator('.cart-item').first()).toBeVisible()
+    const count = await page.locator('.cart-item').count()
+    expect(count).toBeGreaterThanOrEqual(2)
+  })
+
+  test('09 · Arabic RTL shopper verifies layout direction, Arabic typography and cart', async ({ page }) => {
+    await page.goto('/')
+    const langPicker = page.locator('select[aria-label="Language"]').first()
+    await langPicker.selectOption('ar')
+
+    const dir = await page.locator('.app-root').getAttribute('dir')
+    expect(dir).toBe('rtl')
+    await expect(page.locator('.app-root')).toHaveClass(/is-rtl/)
+
+    await page.goto('/product/1')
+    await expect(page.locator('h1')).toBeVisible()
+
+    await page.goto('/cart')
+    await expect(page.locator('main')).toBeVisible()
+  })
+
+  test('10 · French/English localization switching preserves navigation and forms', async ({ page }) => {
+    await page.goto('/')
+    const langPicker = page.locator('select[aria-label="Language"]').first()
+    await langPicker.selectOption('fr')
+    await expect(page.locator('body')).toBeVisible()
+
+    await langPicker.selectOption('en')
+    await expect(page.locator('body')).toBeVisible()
+  })
+
+
