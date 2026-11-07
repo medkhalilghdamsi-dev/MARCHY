@@ -70,10 +70,10 @@ export function BuyerOrderTrackingPage(props) {
       <section className="ops-panel buyer-tracking-panel">
         <div className="ops-panel-head">
           <div>
-            <span className="eyebrow">TUNISIAN LOCAL COURIER TRACKING</span>
+            <span className="eyebrow">LOCAL DEMO ORDER STATUS</span>
             <h2>Order {order.id}</h2>
             <p>
-              Placed with <b>{order.seller}</b> for delivery to <b>{order.city}</b>.
+              Sample order for <b>{order.seller || 'this merchant'}</b> · destination: <b>{order.city || 'not specified'}</b>.
             </p>
           </div>
           <Status value={order.status} language={language} />
@@ -101,10 +101,10 @@ export function BuyerOrderTrackingPage(props) {
                     <div>
                       <b>{step}</b>
                       <small>
-                        {index === 0 && 'Seller confirmed and packed items'}
-                        {index === 1 && 'Courier collection scheduled'}
-                        {index === 2 && 'In transit with Tunisian delivery partner'}
-                        {index === 3 && 'Delivered & inspected upon payment'}
+                        {index === 0 && 'Demo status: processing'}
+                        {index === 1 && 'Demo status: marked ready for pickup'}
+                        {index === 2 && 'Demo status: marked in transit'}
+                        {index === 3 && 'Demo status: marked delivered'}
                       </small>
                     </div>
                   </li>
@@ -208,11 +208,11 @@ export function BuyerOrderTrackingPage(props) {
                 <b>{money(order.subtotal || order.total)}</b>
               </div>
               <div className="totals-row">
-                <span>Delivery (COD Inspection Guarantee)</span>
-                <span className="free-tag">Included</span>
+                <span>Delivery fee</span>
+                <span className="free-tag">Not confirmed</span>
               </div>
               <div className="totals-row total-highlight">
-                <span>Total Amount Due</span>
+                <span>Sample order total (excluding delivery)</span>
                 <strong>{money(order.total)}</strong>
               </div>
             </div>
@@ -253,8 +253,8 @@ export function BuyerOrderTrackingPage(props) {
                 <b>{order.payment}</b>
               </div>
               <div className="meta-line">
-                <span className="meta-label">Courier Partner:</span>
-                <span>{order.courier || 'Tunisian Express Logistics'}</span>
+                <span className="meta-label">Courier partner:</span>
+                <span>{order.courier || 'Not assigned in this demo'}</span>
               </div>
               <div className="meta-line">
                 <span className="meta-label">Merchant Workshop:</span>
@@ -271,8 +271,8 @@ export function BuyerOrderTrackingPage(props) {
             <div className="tracking-guarantee-note">
               <ShieldCheck size={20} />
               <div>
-                <b>Cash on Delivery Inspection Protection</b>
-                <small>You have the right to open and inspect the package before handing payment to the driver.</small>
+                <b>Payment preference: {order.payment || 'Not specified'}</b>
+                <small>No payment, parcel inspection service or buyer protection is active in this frontend demo.</small>
               </div>
             </div>
           </div>
@@ -281,7 +281,7 @@ export function BuyerOrderTrackingPage(props) {
         {/* Milestone Timeline Log */}
         {Array.isArray(order.timeline) && order.timeline.length > 0 && (
           <div className="tracking-timeline-history">
-            <h3>Courier Activity Timeline</h3>
+            <h3>Demo status history</h3>
             <ul className="timeline-list">
               {order.timeline.map((entry, idx) => (
                 <li key={idx} className={`timeline-entry ${entry.completed ? 'is-done' : ''}`}>
@@ -324,7 +324,7 @@ export function BuyerOrderTrackingPage(props) {
                   <p>Tunisian Multi-Merchant Marketplace</p>
                 </div>
                 <div className="invoice-meta-right">
-                  <h2 id="buyer-invoice-title">Official Demo Receipt</h2>
+                  <h2 id="buyer-invoice-title">Sample Order Summary</h2>
                   <p>Order #{order.id}</p>
                   <small>Date: {new Date(order.createdAt || Date.now()).toLocaleDateString()}</small>
                 </div>
@@ -337,7 +337,7 @@ export function BuyerOrderTrackingPage(props) {
                   <p>{order.city}, Tunisia</p>
                 </div>
                 <div>
-                  <small>DELIVERED TO</small>
+                  <small>ORDER RECIPIENT</small>
                   <b>{order.buyer}</b>
                   <p>{order.address || order.city}, Tunisia</p>
                   <p>{order.phone || ''}</p>
@@ -374,17 +374,17 @@ export function BuyerOrderTrackingPage(props) {
                   <b>{money(order.subtotal || order.total)}</b>
                 </div>
                 <div className="summary-line">
-                  <span>Shipping / Courier:</span>
-                  <b>0.000 TND (Free Inspection)</b>
+                  <span>Delivery fee:</span>
+                  <b>To be confirmed</b>
                 </div>
                 <div className="summary-line total-line">
-                  <span>Grand Total (COD):</span>
+                  <span>Sample order total:</span>
                   <strong>{money(order.total)}</strong>
                 </div>
               </div>
 
               <div className="invoice-footer-note">
-                <p>Thank you for shopping local with MARCHY. Cash on delivery guarantee applies.</p>
+                <p>Frontend demo only. This summary is not a tax invoice, payment receipt or delivery confirmation.</p>
               </div>
             </div>
 
@@ -420,7 +420,7 @@ export function BuyerOrderTrackingPage(props) {
             >
               ✕
             </button>
-            <span className="eyebrow">DIRECT SELLER CONNECTION</span>
+            <span className="eyebrow">SELLER CONTACT PREVIEW</span>
             <h3 id="buyer-contact-title">Contact {order.seller}</h3>
             <p id="buyer-contact-description">Seller contact is a preview only. Direct messaging and verified merchant contact details will be connected with the backend.</p>
             <div className="seller-contact-methods">
@@ -442,7 +442,7 @@ export function BuyerOrderTrackingPage(props) {
             <form onSubmit={e => { e.preventDefault(); toast('Messaging is not connected in this demo yet.', { type: 'info' }); }}>
               <label>
                 Send a quick note regarding Order #{order.id}:
-                <textarea rows="3" placeholder="e.g. Please deliver after 2 PM, or call upon arrival at building entrance..." required />
+                <textarea rows="3" placeholder="Write a sample message for a future seller messaging feature..." required />
               </label>
               <button type="submit" className="primary-btn full-btn">Preview Message</button>
             </form>
