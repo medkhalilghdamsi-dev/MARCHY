@@ -202,6 +202,19 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
+  test('buyer can switch seller offers and see the selected price and merchant update together', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/product/1')
+    await expect(page.locator('.product-price-block strong')).toContainText('189 DT')
+    const alternateOffer = page.locator('.offers-list .offer-card').nth(1)
+    await expect(alternateOffer).toContainText('Daily Essentials')
+    await alternateOffer.getByRole('button', { name: 'Select sample offer' }).click()
+    await expect(page.locator('.product-price-block strong')).toContainText('182 DT')
+    await expect(page.locator('.product-price-caption')).toContainText('Daily Essentials')
+    await expect(page.locator('.product-seller-card')).toContainText('Daily Essentials')
+    await expect(page.locator('.product-mobile-buybar .mobile-buybar-total')).toContainText('182 DT')
+  })
+
   test('mobile purchase bar disables its add action when the selected offer is unavailable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.addInitScript(() => {
@@ -245,7 +258,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await expect(page.getByRole('heading', { name: 'Minimal ceramic table lamp' })).toBeVisible()
     await expect(page.getByRole('group', { name: 'Quantity', exact: true }).getByLabel('Selected quantity')).toHaveText('1')
     await expect(page.locator('.product-price-block strong')).toContainText('79 DT')
-    await expect(page.locator('.product-price-caption')).toContainText('Demo seller')
+    await expect(page.locator('.product-price-caption')).toContainText('Maison & Co')
   })
 })
 
