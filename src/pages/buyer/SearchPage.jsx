@@ -193,7 +193,7 @@ export function SearchPage() {
     <div className="listing-head">
       <div><span className="eyebrow">{routeCategory ? "EXPLORE THIS CATEGORY" : "SHOP THE MARCHY MARKETPLACE"}</span><h1>{routeCategory ? category : "Find what you’re looking for."}</h1><p className="muted">{routeCategory ? "Browse products in this category." : results.length + " products to explore"}</p></div>
       <div className="listing-search listing-search-autocomplete" onFocus={() => setSearchFocused(true)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setSearchFocused(false) }}>
-        <input type="search" role="searchbox" aria-label="Search marketplace" value={term} onFocus={() => setSearchFocused(true)} onChange={e => updateTerm(e.target.value)} onKeyDown={event => {
+        <input type="text" role="searchbox" aria-label="Search marketplace" value={term} onFocus={() => setSearchFocused(true)} onChange={e => updateTerm(e.target.value)} onKeyDown={event => {
            if (event.key === 'Escape') setSearchFocused(false)
            if (event.key === 'ArrowDown' && searchFocused && term.trim()) {
              const firstSuggestion = document.querySelector('#marketplace-search-suggestions a, #marketplace-search-suggestions button')
