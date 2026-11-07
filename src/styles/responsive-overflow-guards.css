@@ -147,3 +147,75 @@
 .header .searchbar:focus-within {
   border-color: #83ae95 !important;
 }
+
+
+/* Global mobile containment: no page-level horizontal scroll or intrinsic-width
+   component is allowed to push the storefront viewport sideways. */
+html,
+body,
+#root,
+.app-root {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.header,
+.header-main,
+.header .nav,
+.header .nav-inner,
+.header-actions,
+.searchbar,
+.global-search-suggestions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.header-main > *,
+.header-actions > * {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .shell {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .header-main {
+    width: 100%;
+  }
+
+  .header .logo {
+    min-width: 0;
+    max-width: 40vw;
+  }
+
+  .header .logo-word {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .header .searchbar {
+    min-width: 0;
+  }
+
+  .header .searchbar input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .header .global-search-suggestions {
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .page,
+  .section,
+  .card {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
