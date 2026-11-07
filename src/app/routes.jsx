@@ -55,6 +55,7 @@ export function AppRoutes() {
           <Route path="returns" element={<MarketplaceGuidePage type="returns" />} />
           <Route path="operations/delivery" element={<DeliveryOperationsPage />} />
           <Route path="admin" element={<AdminOperationsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route element={<SellerPortalLayout />}>
@@ -68,8 +69,6 @@ export function AppRoutes() {
           <Route path="login" element={<AuthPage />} />
           <Route path="signup" element={<AuthPage />} />
         </Route>
-
-        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
   )
