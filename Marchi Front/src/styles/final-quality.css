@@ -15,16 +15,7 @@
 }
 
 /* One accent system across the complete experience */
-:root {
-  --orange:#1f5b45;
-  --orange-dark:#174735;
-  --green:#1f5b45;
-  --marchy-orange:#1f5b45;
-  --marchy-orange-deep:#174735;
-  --marchy-green:#1f5b45;
-  --marchy-accent-soft:#edf5f0;
-  --marchy-accent-border:#c9ded1;
-}
+/* Global tokens: moved to design-system.css */
 .hero-search-form button {
   background:var(--marchy-orange-deep)!important;
   color:var(--text-on-accent,#fff)!important;

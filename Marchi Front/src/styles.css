@@ -1,17 +1,67 @@
+/* MARCHY global stylesheet entry point.
+ * Import order is intentional: foundation -> feature styles -> refinements.
+ * Do not reorder or add another global token source without checking the cascade.
+ */
+
+/* 1. Foundation: reset, design tokens and shared primitives. */
+@import './styles/design-system.css';
 @import './styles/base.css';
+
+/* 2. Buyer discovery and shopping surfaces. */
 @import './styles/discovery.css';
 @import './styles/shopping.css';
+
+/* 3. Seller experience and workspace surfaces. */
 @import './styles/design-foundation.css';
 @import './styles/seller-experience.css';
 @import './styles/seller-workspace.css';
+@import './styles/seller-analytics-settings.css';
+
+/* 4. Product, basket and checkout feature styles. */
+@import './styles/product-reviews-specs.css';
 @import './styles/quality-refinements.css';
 @import './styles/multi-seller-basket.css';
 @import './styles/checkout.css';
 @import './styles/result-controls.css';
 @import './styles/experience-upgrade.css';
 
+/* 5. Shared support, operations and theme surfaces. */
 @import './styles/auth.css';
-
 @import './styles/operations.css';
 @import './styles/theme.css';
+
+/* 6. Legacy refinement layers.
+ * These remain last to preserve current cascade behaviour while selectors
+ * are migrated into their owning feature stylesheets in later cleanup work.
+ */
 @import './styles/final-quality.css';
+/* Buyer UI polish split — preserve original cascade sequence. */
+@import './styles/buyer-home-foundation.css';
+@import './styles/buyer-header-search.css';
+@import './styles/buyer-product-detail.css';
+@import './styles/buyer-shared-hierarchy.css';
+@import './styles/buyer-product-navigation.css';
+@import './styles/buyer-home-discovery.css';
+@import './styles/buyer-search-results.css';
+@import './styles/buyer-chrome.css';
+@import './styles/product-page-refinement.css';
+/* Split legacy UI layer — preserve original cascade sequence. */
+@import './styles/upwork-navigation-discovery.css';
+@import './styles/upwork-orders-account.css';
+@import './styles/upwork-discovery-sections.css';
+@import './styles/upwork-product-checkout.css';
+@import './styles/upwork-marketplace-widgets.css';
+@import './styles/upwork-buyer-funnel.css';
+@import './styles/upwork-workspaces.css';
+@import './styles/upwork-shared-cascade.css';
+@import './styles/seller-portal.css';
+@import './styles/responsive-overflow-guards.css';
+
+/* 7. Contrast fixes for small labels in light and dark themes. */
+@import './styles/accessibility-contrast.css';
+
+/* 8. Shared responsive page geometry — final layout ownership layer. */
+@import './styles/page-layout-system.css';
+
+/* 9. Canonical shared component primitives — final UI ownership layer. */
+@import './styles/component-system.css';

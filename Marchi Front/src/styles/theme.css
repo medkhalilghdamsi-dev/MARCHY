@@ -2,39 +2,39 @@
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
-  --ink:#17212b;
-  --forest:#1f5b45;
-  --muted:#5f6b76;
-  --line:#e3e8e5;
-  --page:#f5f7f6;
+  --ink:#172B27;
+  --forest:#007A64;
+  --muted:#52665B;
+  --line:#DCE6E2;
+  --page:#F5F8F6;
   --surface:#ffffff;
-  --surface-soft:#f8faf9;
+  --surface-soft:#F0F5F2;
   --surface-raised:#ffffff;
   --text-on-accent:#ffffff;
-  --focus-ring:#83b7a0;
+  --focus-ring:#7DB8AA;
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
   --ink:#edf3ef;
-  --forest:#83b99d;
-  --muted:#a8b6ae;
-  --line:#34443c;
-  --page:#111915;
-  --surface:#19231e;
-  --surface-soft:#202d26;
-  --surface-raised:#243229;
-  --text-on-accent:#102017;
-  --focus-ring:#a6d9bc;
-  --orange:#83b99d;
-  --orange-dark:#a6d9bc;
-  --green:#83b99d;
-  --marchy-orange:#83b99d;
-  --marchy-orange-deep:#a6d9bc;
-  --marchy-ink:#edf3ef;
-  --marchy-muted:#a8b6ae;
-  --marchy-line:#34443c;
-  --marchy-surface:#19231e;
-  --marchy-canvas:#111915;
+  --forest:#46A893;
+  --muted:#A8BCB5;
+  --line:#31514A;
+  --page:#0E1714;
+  --surface:#14231F;
+  --surface-soft:#19312A;
+  --surface-raised:#1E3A31;
+  --text-on-accent:#FFFFFF;
+  --focus-ring:#72C7B3;
+  --orange:#46A893;
+  --orange-dark:#72C7B3;
+  --green:#46A893;
+  --marchy-orange:#46A893;
+  --marchy-orange-deep:#72C7B3;
+  --marchy-ink:#E7F0EC;
+  --marchy-muted:#A8BCB5;
+  --marchy-line:#31514A;
+  --marchy-surface:#14231F;
+  --marchy-canvas:#0E1714;
   --shadow-card:0 8px 28px rgba(0,0,0,.20);
   --shadow-raised:0 18px 48px rgba(0,0,0,.32);
 }
@@ -160,7 +160,7 @@ html[data-theme="dark"] .wish-btn {
   background:#27362d;
 }
 html[data-theme="dark"] .theme-toggle {
-  color:#f0d38a;
+  color:#a3d4ba;
   background:#27362d;
   border-color:#42554a;
 }
@@ -255,4 +255,90 @@ html[data-theme="dark"] .product-gallery-thumbnails button {
 html[data-theme="dark"] .seller-launch-art,
 html[data-theme="dark"] .auth-brand-panel {
   background:#1b2b21;
+}
+
+
+/* Cart surfaces: complete the dark-theme treatment for nested seller and saved-item cards. */
+html[data-theme="dark"] .cart-seller-group,
+html[data-theme="dark"] .cart-saved-later-section,
+html[data-theme="dark"] .cart-saved-item {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .cart-seller-group-heading,
+html[data-theme="dark"] .cart-saved-later-section .cart-panel-heading {
+  background: var(--surface-soft);
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .cart-seller-group-heading b,
+html[data-theme="dark"] .cart-seller-group-heading small,
+html[data-theme="dark"] .cart-seller-group-footer,
+html[data-theme="dark"] .cart-saved-item .cart-item-name,
+html[data-theme="dark"] .cart-saved-item .cart-item-unit-price {
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .cart-seller-group .cart-item,
+html[data-theme="dark"] .cart-saved-item {
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .cart-free-delivery-meter {
+  color: var(--ink);
+  background: var(--surface-soft);
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .cart-free-delivery-copy,
+html[data-theme="dark"] .cart-free-delivery-copy > b {
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .cart-free-delivery-bar {
+  background: var(--line);
+}
+
+html[data-theme="dark"] .coupon-chip {
+  color: var(--ink);
+  background: var(--surface-soft);
+  border-color: var(--forest);
+}
+
+html[data-theme="dark"] .coupon-chip.is-active {
+  color: #102017;
+  background: var(--forest);
+  border-color: var(--forest);
+}
+
+html[data-theme="dark"] .cart-coupon-form input {
+  color: var(--ink);
+  background: var(--surface-soft);
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .coupon-remove-btn {
+  color: var(--ink);
+  background: var(--surface-soft);
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .cart-stock-status.is-low {
+  color: #f4c66a;
+  background: #3b301b;
+  border-color: #65502b;
+}
+
+html[data-theme="dark"] .cart-stock-status.is-out {
+  color: #ffaaa3;
+  background: #3b2222;
+  border-color: #653737;
+}
+
+html[data-theme="dark"] .cart-stock-status.is-good {
+  color: #a3d4ba;
+  background: #1b3326;
+  border-color: #315b43;
 }

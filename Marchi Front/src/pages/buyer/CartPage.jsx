@@ -1,0 +1,226 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { sellers, sellerForProduct } from '../../data/sellers'
+import { money } from '../../utils/marketplace'
+import { translateTree } from '../../i18n/translate'
+import { useMarketplace } from '../../providers/MarketplaceContext'
+import { MarketplaceService } from '../../services/marketplaceService'
+import { ArrowRight, Check, ShoppingCart, X, AlertTriangle } from 'lucide-react'
+import { useToast } from '../../providers/ToastProvider'
+import { PageFrame } from '../../components/ui/PageFrame'
+
+export function CartPage() {
+  const {
+    cart, updateQty, removeItem, language,
+    appliedCoupon, setAppliedCoupon,
+    savedForLater = [], saveForLater, moveToCart, removeSavedItem,
+  } = useMarketplace()
+  const toast = useToast()
+  const [couponCode, setCouponCode] = useState('')
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+  const couponValidation = appliedCoupon ? MarketplaceService.validateCoupon(appliedCoupon, subtotal) : null
+  const discountAmount = couponValidation?.valid ? couponValidation.discount : 0
+  const finalTotal = Math.max(0, subtotal - discountAmount)
+  const freeDeliveryThreshold = 120
+  const freeDeliveryRemaining = Math.max(0, freeDeliveryThreshold - subtotal)
+  const freeDeliveryProgress = Math.min(100, Math.round((subtotal / freeDeliveryThreshold) * 100))
+
+  const applyCoupon = (e) => {
+    e.preventDefault()
+    const clean = couponCode.trim().toUpperCase()
+    const result = MarketplaceService.validateCoupon(clean, subtotal)
+    if (result.valid) {
+      setAppliedCoupon(result.code)
+      toast(`${result.label} applied successfully!`, { type: 'success' })
+      setCouponCode('')
+    } else {
+      toast(result.message, { type: 'error' })
+    }
+  }
+  const removeCoupon = () => {
+    setAppliedCoupon('')
+    toast('Coupon removed', { type: 'info' })
+  }
+  const itemCount = cart.reduce((sum, item) => sum + item.qty, 0)
+  const sellerCount = new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug)).size
+  const getLineStock = (item) => {
+    const slug = item.sellerSlug || sellerForProduct(item).slug
+    const offer = MarketplaceService.getProductOffers(item.id).find(entry => entry.sellerSlug === slug)
+    return Number(offer?.stock ?? 0)
+  }
+  const hasStockIssues = cart.some(item => {
+    const stock = getLineStock(item)
+    return stock <= 0 || item.qty > stock
+  })
+  const sellerGroups = [...new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug))].map(slug => {
+    const items = cart.filter(item => (item.sellerSlug || sellerForProduct(item).slug) === slug)
+    const seller = sellers.find(entry => entry.slug === slug) || {
+      slug,
+      name: items[0]?.seller || items[0]?.sellerName || 'Marketplace seller',
+      city: items[0]?.sellerCity || 'Tunisia'
+    }
+    return { seller, items, subtotal: items.reduce((sum, item) => sum + item.price * item.qty, 0) }
+  })
+  return translateTree(<PageFrame className="cart-page">
+    <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><span aria-current="page">Your cart</span></div>
+    <div className="cart-page-heading">
+      <div><span className="eyebrow">YOUR MARCHY BASKET</span><h1>Your shopping cart</h1><p>{itemCount} items · {cart.length} products · {sellerCount} sellers</p></div>
+      <Link to="/search" className="cart-continue-link">← Continue shopping</Link>
+    </div>
+    {cart.length ? <div className="cart-layout">
+      <section className="cart-items-panel" aria-label="Cart items">
+        <div className="cart-free-delivery-meter" role="region" aria-label="Free delivery progress">
+          <div className="cart-free-delivery-copy">
+            <span>{freeDeliveryRemaining > 0 ? `Add ${money(freeDeliveryRemaining)} more for illustrative free standard delivery` : <><Check size={14}/> Illustrative free standard delivery threshold reached (120.000 TND)</>}</span>
+            <b>{freeDeliveryProgress}%</b>
+          </div>
+          <div className="cart-free-delivery-bar" aria-hidden="true"><span style={{ width: `${freeDeliveryProgress}%` }} /></div>
+        </div>
+        <div className="cart-panel-heading"><h2>Items in your cart</h2><span>{cart.length} product{cart.length === 1 ? '' : 's'}</span></div>
+        {sellerGroups.map(group => <section className="cart-seller-group" key={group.seller.slug} aria-label={`Items from ${group.seller.name}`}>
+          <div className="cart-seller-group-heading"><div><span className="seller-avatar">{group.seller.name.slice(0,1)}</span><div><b>{group.seller.name}</b><small>{group.seller.city}, Tunisia · sample storefront</small></div></div><strong>{group.items.length} product{group.items.length===1?'':'s'}</strong></div>
+          {group.items.map(item => { const stock = getLineStock(item); const stockExceeded = item.qty > stock; return <article className="cart-item" key={`${item.id}-${item.sellerSlug || sellerForProduct(item).slug}-${item.selectedVariant || 'default'}`}>
+            <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
+            <div className="cart-item-info">
+              <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
+              {item.selectedVariant && (
+                <span className="cart-item-variant-tag">Option: {item.selectedVariant}</span>
+              )}
+              <small>{group.seller.name} · {group.seller.city}, Tunisia</small>
+              <b className="cart-item-unit-price">{money(item.price)} <span>each</span></b>
+              <span className={`cart-stock-status ${stock <= 0 ? 'is-out' : stock <= 5 ? 'is-low' : 'is-good'}`} role="status">
+                {stock <= 0 ? 'Currently unavailable' : stock <= 5 ? `Only ${stock} left` : `${stock} available`}
+              </span>
+              {stockExceeded && <span className="cart-stock-warning" role="alert">Your quantity ({item.qty}) is above the displayed stock ({stock}). Reduce it before ordering.</span>}
+              <div className="cart-item-actions-row">
+                <button type="button" className="remove-link" onClick={() => removeItem(item.id, item.selectedVariant, item.sellerSlug)}>Remove item</button>
+                {saveForLater && <button type="button" className="save-later-link" onClick={() => { saveForLater(item); toast(`Saved ${item.name} for later`, { type: 'info' }) }}>Save for later</button>}
+              </div>
+            </div>
+            <div className="cart-item-quantity"><span>Quantity</span><div className="quantity">
+              <button type="button" aria-label={`Decrease ${item.name} quantity`} disabled={item.qty <= 1} onClick={() => updateQty(item.id, item.qty - 1, item.selectedVariant, item.sellerSlug)}>−</button>
+              <output aria-live="polite" aria-label={`${item.name} quantity`}>{item.qty}</output>
+              <button type="button" aria-label={`Increase ${item.name} quantity`} disabled={item.qty >= Math.min(99, stock)} onClick={() => updateQty(item.id, Math.min(99, stock, item.qty + 1), item.selectedVariant, item.sellerSlug)}>＋</button>
+            </div></div>
+            <strong className="cart-line-total" aria-label={`Line total ${money(item.price * item.qty)}`}>{money(item.price * item.qty)}</strong>
+          </article>})}
+          <div className="cart-seller-group-footer"><span>Seller subtotal</span><b>{money(group.subtotal)}</b></div>
+        </section>)}
+        {savedForLater.length > 0 && (
+          <section className="cart-saved-later-section" aria-label="Saved for later">
+            <div className="cart-panel-heading"><b>Saved for later</b><span>{savedForLater.length} item{savedForLater.length === 1 ? '' : 's'}</span></div>
+            <div className="cart-saved-later-list">
+              {savedForLater.map(item => (
+                <article className="cart-saved-item" key={`${item.id}-${item.sellerSlug || sellerForProduct(item).slug}-${item.selectedVariant || 'default'}`}>
+                  <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
+                  <div className="cart-item-info">
+                    <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
+                    <b className="cart-item-unit-price">{money(item.price)}</b>
+                  </div>
+                  <div className="cart-saved-item-actions">
+                    <button type="button" className="outline-btn" onClick={() => { moveToCart(item); toast(`Moved ${item.name} to cart`, { type: 'success' }) }}>Move to cart</button>
+                    <button type="button" className="remove-link" onClick={() => removeSavedItem(item.id, item.selectedVariant, item.sellerSlug)}>Remove</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+        <div className="cart-panel-footer"><span>Need something else?</span><Link to="/categories">Explore all categories <ArrowRight size={15}/></Link></div>
+      </section>
+      <aside className="summary-card cart-summary" aria-label="Order summary">
+        <div className="cart-summary-title"><div><span className="eyebrow">YOUR ORDER</span><h2>Order summary</h2></div><span className="cart-summary-count">{itemCount} items</span></div>
+        <div className="cart-summary-row"><span>Products subtotal</span><b>{money(subtotal)}</b></div>
+        {sellerGroups.map(group=><div className="cart-summary-row seller-summary-row" key={group.seller.slug}><span>{group.seller.name}</span><b>{money(group.subtotal)}</b></div>)}
+        <div className="cart-summary-row"><span>Delivery</span><b className="summary-pending">To be confirmed</b></div>
+        {appliedCoupon ? (
+          <div className="cart-summary-row applied-coupon-row">
+            <span>Discount ({appliedCoupon}) <button type="button" className="coupon-remove-btn" onClick={removeCoupon} aria-label="Remove coupon"><X size={14}/></button></span>
+            <b style={{ color: 'var(--forest)' }}>-{money(discountAmount)}</b>
+          </div>
+        ) : (
+          <div className="cart-summary-row"><span>Discounts</span><b>—</b></div>
+        )}
+        <div className="cart-coupon-chips" role="group" aria-label="Available discount coupons">
+          <button
+            type="button"
+            className={`coupon-chip ${appliedCoupon === 'MARCHY10' ? 'is-active' : ''}`} aria-pressed={appliedCoupon === 'MARCHY10'}
+            onClick={() => {
+              setAppliedCoupon('MARCHY10')
+              toast('10% discount applied with code MARCHY10!', { type: 'success' })
+            }}
+          >
+            🏷️ MARCHY10 (-10%)
+          </button>
+          <button
+            type="button"
+            className={`coupon-chip ${appliedCoupon === 'BIENVENUE' ? 'is-active' : ''}`} aria-pressed={appliedCoupon === 'BIENVENUE'}
+            onClick={() => {
+              setAppliedCoupon('BIENVENUE')
+              toast('5.000 TND welcome discount applied!', { type: 'success' })
+            }}
+          >
+            ✨ BIENVENUE (-5 TND)
+          </button>
+        </div>
+        <form className="cart-coupon-form" onSubmit={applyCoupon} aria-label="Promo code">
+          <label htmlFor="cart-coupon-input" className="sr-only">Promo code</label>
+          <input
+            id="cart-coupon-input"
+            type="text"
+            value={couponCode}
+            onChange={e => setCouponCode(e.target.value)}
+            placeholder="Promo code (e.g. MARCHY10)"
+            aria-label="Promo code"
+          />
+          <button type="submit" className="outline-btn">Apply</button>
+        </form>
+        <div className="summary-total"><span>Estimated product total</span><strong>{money(finalTotal)}</strong></div>
+        <p className="cart-summary-note">Delivery charges, availability and final prices are not yet connected to live seller systems. They are not included in this estimate.</p>
+        {hasStockIssues && (
+          <div className="cart-stock-alert-banner" role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', background: 'rgba(217, 83, 79, 0.1)', color: '#d9534f', borderRadius: '8px', fontSize: '11px', fontWeight: '600', marginBottom: '12px' }}>
+            <AlertTriangle size={15} style={{ flexShrink: 0 }} />
+            <span>Some items exceed available merchant stock. Please adjust quantities to proceed.</span>
+          </div>
+        )}
+        {hasStockIssues ? (
+          <button
+            type="button"
+            disabled
+            className="primary-btn full-btn cart-checkout-button is-disabled"
+            aria-disabled="true"
+            title="Please adjust quantities for unavailable or over-subscribed items before checkout"
+            style={{ opacity: 0.6, cursor: 'not-allowed', background: '#a0b0aa' }}
+          >
+            Adjust quantities to checkout
+          </button>
+        ) : (
+          <Link to="/checkout" className="primary-btn full-btn cart-checkout-button">Continue to checkout <ArrowRight size={16}/></Link>
+        )}
+        <div className="cart-trust-note"><span>ⓘ</span><p>You're reviewing a sample basket. No payment is taken and no order is placed.</p></div>
+      </aside>
+    </div> : <div className="cart-empty-state"><div className="cart-empty-icon"><ShoppingCart size={30}/></div><span className="eyebrow">A FRESH START</span><h2>Your cart is empty</h2><p>Explore the marketplace and add products you'd like to come back to.</p><div><Link to="/search" className="primary-btn">Explore products <ArrowRight size={15}/></Link><Link to="/categories" className="cart-empty-secondary">Browse categories</Link></div>
+      {savedForLater.length > 0 && (
+        <section className="cart-saved-later-section" aria-label="Saved for later" style={{ marginTop: '24px', textAlign: 'left' }}>
+          <div className="cart-panel-heading"><b>Saved for later</b><span>{savedForLater.length} item{savedForLater.length === 1 ? '' : 's'}</span></div>
+          <div className="cart-saved-later-list">
+            {savedForLater.map(item => (
+              <article className="cart-saved-item" key={`${item.id}-${item.selectedVariant || 'default'}`}>
+                <Link to={`/product/${item.id}`} className="cart-item-photo"><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={item.image} alt={item.name} loading="lazy"/></Link>
+                <div className="cart-item-info">
+                  <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
+                  <b className="cart-item-unit-price">{money(item.price)}</b>
+                </div>
+                <div className="cart-saved-item-actions">
+                  <button type="button" className="outline-btn" onClick={() => { moveToCart(item); toast(`Moved ${item.name} to cart`, { type: 'success' }) }}>Move to cart</button>
+                  <button type="button" className="remove-link" onClick={() => removeSavedItem(item.id, item.selectedVariant)}>Remove</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>}
+  </PageFrame>, language)
+}
+

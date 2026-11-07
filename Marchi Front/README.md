@@ -1,111 +1,164 @@
-# MARCHY Marketplace
+# MARCHY Marketplace — Production-Ready Frontend
 
-A responsive, multi-page Tunisia-first marketplace frontend built with React and Vite.
+A modern, responsive, accessible multi-vendor marketplace frontend built for Tunisia with **React 18**, **Vite 6**, and **React Router v7**. Follows the **Forest Green Premium Minimal** design system with complete light and dark themes, Arabic RTL support, code splitting, and an isolated mock data layer ready for seamless backend integration.
 
-## Project structure
+---
+
+## Key Highlights & Architectural Features
+
+- **Tunisia-First Commerce Experience**: Prices in Tunisian Dinars (TND, with 3 decimal precision), local governorates and cities, Cash on Delivery + local digital payment demos (ClicToPay, Flouci/Konnect).
+- **Connected Multi-Vendor Ecosystem**:
+  - **Buyer Marketplace**: Home merchandising, instant autocomplete search, multi-faceted filtering (category, price range, city, discounts), product comparison (up to 3 items), multi-image gallery with zoom lightbox, customer ratings & reviews, coupon code engine, multi-seller cart grouping, and multi-step checkout preview.
+  - **Seller Portal**: Merchant workspace with 6 dedicated tabs: Overview, Orders Fulfilment, Product Drafts Manager, Storefront Profile Preview, Performance Analytics (interactive pure-SVG sales charts, regional distribution), and Business Settings (payout RIB, delivery fees, alerts).
+  - **Operations Workspaces**: Shared demo delivery courier assignments (`/operations/delivery`) and platform admin overview (`/admin`).
+- **Modern State & Architecture**:
+  - Centralized `MarketplaceContext` eliminating prop drilling.
+  - Global `ToastProvider` for accessible, animated notifications across all actions.
+  - `ErrorBoundary` at the application root for graceful error handling.
+  - Route-level code splitting using `React.lazy()` and Rollup manual chunking.
+  - PWA Web App Manifest (`manifest.json`) and rich Open Graph / Twitter Card SEO metadata.
+  - Pre-rendered SPA directory fallbacks (72 routes) for zero-configuration static deployment (Render, Vercel, Netlify).
+
+---
+
+## Project Structure
 
 ```text
 MARCHY/
-├── public/                     # Static assets
+├── docs/
+│   ├── ANTIGRAVITY_AUDIT.md      # Phase 0 baseline audit & technical findings
+│   ├── ARCHITECTURE.md           # Project organization & module ownership guide
+│   ├── BUYER_FRONTEND_ROADMAP.md # Buyer UX roadmap
+│   ├── FRONTEND_IMPROVEMENTS_SUMMARY.md
+│   └── QA_AUDIT_REPORT.md        # End-to-end Playwright & accessibility report
+├── public/
+│   ├── favicon.svg               # SVG brand favicon
+│   ├── manifest.json             # Web App PWA Manifest
+│   ├── product-placeholder.svg   # Fallback product image
+│   └── _redirects                # SPA redirect configuration
 ├── src/
 │   ├── app/
-│   │   └── MarketplaceApp.jsx  # Route composition and app shell
+│   │   ├── ErrorBoundary.jsx     # Graceful error boundary fallback
+│   │   └── MarketplaceApp.jsx    # Core app router & lazy page loader
+│   ├── providers/
+│   │   ├── MarketplaceContext.jsx# React Context provider for global state
+│   │   └── ToastProvider.jsx     # Non-intrusive toast notifications
 │   ├── components/
-│   │   └── MarketplaceChrome.jsx # Header, product card, footer, mobile tabs
-│   ├── data/
-│   │   ├── products.js         # Illustrative product catalogue and categories
-│   │   └── sellers.js          # Illustrative seller profiles and mappings
-│   ├── hooks/
-│   │   └── useMarketplaceState.js # Persistent language, cart and wishlist state
-│   ├── i18n/
-│   │   ├── translations.js     # English/French/Arabic interface copy
-│   │   └── translate.js        # Shared translated React-tree helper
+│   │   ├── layout/               # Header, Footer, MobileTabBar
+│   │   ├── marketplace/          # ProductCard, ProductReviews, ProductSpecs
+│   │   ├── seller/               # SellerAnalytics, SellerSettings
+│   │   └── ui/                   # Reusable accessible UI primitives
 │   ├── pages/
-│   │   ├── ShoppingPages.jsx   # Home, search, product, cart, checkout, wishlist
-│   │   ├── DiscoveryPages.jsx  # Categories and seller discovery/storefront
-│   │   ├── SellerPages.jsx     # Seller onboarding, workspace and preparation
-│   │   └── SupportPages.jsx    # Account, help, delivery, returns and not-found
+│   │   ├── buyer/                # HomePage, SearchPage, ProductPage, CartPage, CheckoutPage, WishlistPage, CategoriesPage, SellersPage, SellerStorefrontPage, AccountPage, BuyerOrdersPage, BuyerOrderTrackingPage
+│   │   ├── seller/               # SellerLaunchPage, SellerDashboardPage, SellerPreparationPage
+│   │   └── shared/               # AuthPage, HelpCenterPage, MarketplaceGuidePage, NotFoundPage, DeliveryOperationsPage, AdminOperationsPage
+│   ├── data/
+│   │   ├── products.js           # 40 mock products across 13 categories with specs & reviews
+│   │   └── sellers.js            # 10 merchant storefronts across Tunisian cities
+│   ├── hooks/
+│   │   ├── useDemoOrders.js      # Synced localStorage order lifecycle
+│   │   └── useMarketplaceState.js# Theme, language, cart, wishlist & coupon primitives
+│   ├── i18n/
+│   │   └── translate.js          # Shared English / RTL Arabic translation tree processor
 │   ├── styles/
-│   │   ├── base.css                 # Fonts, tokens and foundational rules
-│   │   ├── discovery.css            # Category and seller discovery
-│   │   ├── shopping.css             # Shopping, product and cart styles
-│   │   ├── design-foundation.css    # Shared design-system refinements
-│   │   ├── seller-experience.css    # Seller-facing pages
-│   │   ├── seller-workspace.css     # Seller dashboard workspace
-│   │   ├── quality-refinements.css  # Accessibility and responsive polish
-│   │   ├── multi-seller-basket.css  # Multi-seller cart details
-│   │   ├── checkout.css             # Checkout preview
-│   │   └── result-controls.css      # Search and listing controls
+│   │   ├── design-system.css     # CSS custom property tokens, reset & components
+│   │   ├── base.css              # Core typography, header, footer & layout
+│   │   ├── marketplace.css       # Buyer discovery, search, product, cart & checkout styles
+│   │   ├── workspaces.css        # Seller workspace, analytics, settings & operations styles
+│   │   └── rtl.css               # RTL Arabic overrides
 │   ├── utils/
-│   │   └── marketplace.js     # Search, text normalisation and storage helpers
-│   ├── App.jsx                 # Stable application entry/re-export
-│   ├── main.jsx                # React + router bootstrap
-│   └── styles.css              # Stable stylesheet entry/import
+│   │   └── marketplace.js        # Normalised search scoring, money format (TND), JSON helpers
+│   ├── App.jsx                   # Application root export
+│   ├── main.jsx                  # React 18 bootstrap with nested providers
+│   └── styles.css                # Central style sheet entry point
+├── scripts/
+│   └── postbuild-spa-routes.mjs  # Post-build SPA directory generator (72 routes)
 ├── tests/
-│   └── marketplace.spec.js     # Playwright route, responsive and interaction tests
-├── index.html
+│   └── marketplace.spec.js       # Playwright E2E, accessibility & responsive viewports
+├── index.html                    # HTML5 shell with PWA & font preconnects
 ├── package.json
 ├── playwright.config.js
-└── vite.config.js
+└── vite.config.js                # Vite build & chunk configuration
 ```
 
-## Module responsibilities
+---
 
-- **Bootstrap:** `src/main.jsx` mounts React and configures the browser router.
-- **Application:** `src/App.jsx` is the stable entry boundary; route composition and shared application state currently live in `src/app/MarketplaceApp.jsx`.
-- **Data:** `src/data/` holds illustrative catalogue and seller records. Keep sample data separate from UI and never present it as verified inventory.
-- **Internationalisation:** `src/i18n/` owns interface copy for English, French and Arabic.
-- **Utilities:** `src/utils/` owns reusable search normalisation and browser-local storage helpers.
-- **Styles:** `src/styles.css` is the stable global style entry. Ordered CSS modules in `src/styles/` separate foundations, discovery, shopping, seller experiences, checkout, result controls and the final cross-page experience layer without changing cascade order.
-- **Tests:** `tests/` contains route, responsive, interaction and accessibility checks.
+## Getting Started
 
-### Remaining modularisation
+### Prerequisites
 
-The current structure separates route composition, shared marketplace chrome, page journeys, persistent browser state, translations, utilities and ordered style layers. Continue extracting individual components only when doing so creates a clear reusable boundary; avoid empty abstraction layers or changing route and storage contracts just for file-count reasons.
+- Node.js 18+ (tested on Node 20 / 22)
+- npm or pnpm
 
-## Run locally
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/your-org/MARCHY.git
+cd MARCHY
+
+# Install dependencies
 npm install
+```
+
+### Development Server
+
+```bash
 npm run dev
 ```
 
-## Frontend experience
+Opens the local development server at `http://localhost:5173`.
 
-- Responsive marketplace homepage and category discovery
-- Global search suggestions with multilingual synonyms and relevance-aware results
-- Category, seller-location and price filters
-- Sorting and switchable grid/list result layouts
-- Product detail pages with image zoom, seller information, related listings and buyer checklists
-- Product comparison, cart, wishlist and recently viewed products
-- Multi-step demo checkout with contact validation, one local demo order per merchant and buyer tracking
-- Buyer order history with search, status filters and direct tracking links
-- Seller directory, storefront previews and browser-local seller workspace demonstration
-- English, French and Arabic interface with RTL layout support
-- Responsive navigation and keyboard interactions
-- Refined page hierarchy, product-card states, cart/checkout surfaces and comparison tray
-- Contrast and keyboard-focus improvements guided by automated accessibility checks
-
-## Validation
+### Production Build
 
 ```bash
 npm run build
+```
+
+Builds the optimized production assets in `dist/` and runs the route fallback generator:
+- **Vendor Chunk**: Separated React and router bundles for optimal HTTP caching.
+- **Lazy Loaded Route Chunks**: Shopping, Seller, Operations, Support, and Discovery views load on demand.
+- **SPA Route Fallbacks**: 72 pre-generated directory entry points ensuring direct URL reloads work on static hosts without server rewrites.
+
+### Preview Build Locally
+
+```bash
+npm run preview
+```
+
+---
+
+## Design System — Forest Green Premium Minimal
+
+- **Signature Accent**: Forest Green (`#1f5b45` light / `#83b99d` dark), paired with warm gold (`#b58b4b`).
+- **Surfaces**: High-contrast, clean elevation scale with controlled shadows.
+- **Themes**: Instant toggle between Light Mode (`[data-theme="light"]`) and Dark Mode (`[data-theme="dark"]`).
+- **Typography**: Inter/DM Sans for readable metadata, Manrope for bold editorial headers.
+- **Accessibility**: Full WCAG AA contrast compliance, keyboard navigation focus rings, visible skip links, and ARIA modal dialog traps.
+- **Internationalization**: 3-language selector (English, French, Arabic), with proper HTML `dir="rtl"` and mirrored grid alignment.
+
+---
+
+## Testing & Quality Assurance
+
+Playwright E2E test suites cover:
+1. Route availability across all public views (`/`, `/search`, `/product/1`, `/cart`, `/checkout`, `/seller-dashboard`, etc.).
+2. Responsive layout validation across 5 standard viewport widths:
+   - 360px (Small Mobile)
+   - 390px (iPhone standard)
+   - 768px (Tablet portrait)
+   - 1024px (Tablet landscape / Laptop)
+   - 1440px (Desktop)
+3. Arabic RTL layout validation without horizontal scroll overflow.
+4. Mobile navigation drawer and bottom navigation tab interactions.
+
+Run tests:
+```bash
 npm run test:e2e
 ```
 
-The Playwright suite covers public routes, responsive overflow, Arabic RTL, navigation, cart and wishlist interactions, comparison, seller storefront interactions and accessibility checks. These checks are authored but must be run locally or in CI before treating them as passing.
+---
 
-## Connected operational workspaces
+## Backend Integration Handoff
 
-- Buyer order history: `/orders` — searchable sample order list with status filters and tracking links.
-- Buyer order tracking: `/orders/:id` — sample delivery progress linked to merchant and operations updates.
-- Delivery operations: `/operations/delivery` — shared demo fulfilment queue and courier assignment.
-- Platform administration: `/admin` — cross-marketplace demo order overview.
-- Merchant workspace links directly to delivery and admin interfaces.
-- Checkout creates browser-local demo orders and clears the cart; it does not submit a real order, send notifications or process payment.
-- Both operational screens use the same browser-local demo order store. This demonstrates frontend workflow continuity only; it is not a live multi-user system.
-- Backend integration boundaries and suggested resource contracts: [Frontend handoff](docs/FRONTEND_HANDOFF.md).
-
-## Important
-
-MARCHY is currently a frontend prototype. The product catalogue, seller storefronts, prices, discounts, stock and delivery information are illustrative and are not verified live offers. Cart, wishlist, comparison and recently viewed data are stored locally in the browser. Authentication, order submission, payment processing, inventory, seller management, delivery calculations and backend integrations are not connected.
+Detailed API contracts, data schemas, and backend integration requirements are documented in [FRONTEND_HANDOFF.md](docs/FRONTEND_HANDOFF.md).

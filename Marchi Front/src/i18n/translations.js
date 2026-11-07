@@ -1,4 +1,19 @@
 const translations = {
+  "SELLER SERVICES · TUNISIA":["SERVICES VENDEURS · TUNISIE","خدمات البائعين · تونس"],
+  "Marketplace preview · Seller tools are not connected to live operations":["Aperçu de la marketplace · Les outils vendeurs ne sont pas connectés aux opérations réelles","معاينة السوق · أدوات البائعين غير متصلة بالعمليات الفعلية"],
+  "Start selling":["Commencer à vendre","ابدأ البيع"],
+  "Seller Central":["Espace vendeur","مركز البائع"],
+  "Seller guide":["Guide vendeur","دليل البائع"],
+  "Seller navigation":["Navigation vendeur","تنقل البائع"],
+  "Seller home":["Accueil vendeur","الصفحة الرئيسية للبائع"],
+  "Visit marketplace":["Visiter la marketplace","زيارة السوق"],
+  "Seller language":["Langue vendeur","لغة البائع"],
+  "Tools to prepare and manage your business on the marketplace.":["Des outils pour préparer et gérer votre activité sur la marketplace.","أدوات لإعداد وإدارة نشاطك التجاري في السوق."],
+  "Marketplace help":["Aide marketplace","مساعدة السوق"],
+  "Back to shopping":["Retour aux achats","العودة إلى التسوق"],
+  "Seller footer navigation":["Navigation de pied de page vendeur","تنقل تذييل البائع"],
+  "Seller experience preview · Tunisia":["Aperçu de l’expérience vendeur · Tunisie","معاينة تجربة البائع · تونس"],
+
   "MARCHY preview · sample catalogue and illustrative prices":["Aperçu MARCHY · catalogue et prix indicatifs","معاينة مارشي · كتالوج وأسعار توضيحية"],
   "🇹🇳 Tunisia-first":["🇹🇳 Priorité à la Tunisie","🇹🇳 تونس أولاً"],
   "Prices in TND":["Prix en TND","الأسعار بالدينار التونسي"],
@@ -683,4 +698,25 @@ Object.assign(translations, {
  "Track order →":["Suivre la commande →","تتبع الطلب ←"],
  "No orders match your search. Try another order ID, seller or status.":["Aucune commande ne correspond à votre recherche. Essayez un autre numéro, vendeur ou statut.","لا توجد طلبات تطابق بحثك. جرّب رقم طلب أو تاجراً أو حالة أخرى."],
  "Prototype only. These sample orders are not linked to a verified buyer account, payment or live courier feed.":["Prototype uniquement. Ces commandes de démonstration ne sont liées à aucun compte acheteur vérifié, paiement ou suivi de livreur en direct.","نموذج أولي فقط. هذه الطلبات التجريبية غير مرتبطة بحساب مشترٍ موثّق أو دفع أو تتبع مباشر لمندوب التوصيل."]
+});
+
+
+Object.assign(translations, {
+  "Demo payment preferences": ["Préférences de paiement de démonstration", "تفضيلات الدفع التجريبية"],
+  "A Tunisia-first marketplace prototype connecting shoppers with sample local makers and shops.": ["Un prototype de marketplace tunisienne mettant en relation les acheteurs avec des créateurs et boutiques locaux présentés à titre d’exemple.", "نموذج أولي لسوق تونسي يربط المتسوقين بصنّاع ومتاجر محلية تجريبية."],
+  "Find products, makers and storefronts in one clear marketplace experience — with prices in TND and delivery preferences clearly marked for seller confirmation.": ["Trouvez des produits, des créateurs et des boutiques dans une marketplace claire — avec des prix en TND et des préférences de livraison clairement indiquées comme devant être confirmées par le vendeur.", "اكتشف المنتجات والصنّاع والمتاجر في تجربة سوق واضحة، مع الأسعار بالدينار التونسي وتوضيح أن تفضيلات التوصيل تتطلب تأكيد البائع."],
+  "Delivery preferences": ["Préférences de livraison", "تفضيلات التوصيل"],
+  "Seller confirmation required": ["Confirmation du vendeur requise", "يتطلب تأكيد البائع"],
+  "Illustrative delivery details; coverage and timing need seller confirmation.": ["Détails de livraison indicatifs ; la couverture et les délais doivent être confirmés par le vendeur.", "تفاصيل توصيل توضيحية؛ يجب أن يؤكد البائع نطاق التغطية والتوقيت."],
+  "Explore sample categories across Tunisian workshops, electronics and lifestyle goods.": ["Explorez des catégories de démonstration : ateliers tunisiens, électronique et articles du quotidien.", "استكشف فئات تجريبية تشمل ورشات تونسية وإلكترونيات ومنتجات أسلوب الحياة."],
+  "Review illustrative delivery details; coverage, fees and timing still need seller confirmation.": ["Consultez les détails de livraison indicatifs ; la couverture, les frais et les délais doivent encore être confirmés par le vendeur.", "راجع تفاصيل التوصيل التوضيحية؛ لا تزال التغطية والرسوم والتوقيت بحاجة إلى تأكيد البائع."],
+  "SAMPLE LOCAL STOREFRONTS": ["BOUTIQUES LOCALES DE DÉMONSTRATION", "واجهات متاجر محلية تجريبية"],
+  "Explore local craft": ["Explorez l’artisanat local", "اكتشف الحرف المحلية"],
+  "Browse sample storefronts": ["Parcourir les boutiques de démonstration", "تصفح واجهات المتاجر التجريبية"]
+});
+
+
+Object.assign(translations, {
+  "View Order Summary": ["Voir le récapitulatif de commande", "عرض ملخص الطلب"],
+  "Print Order Summary": ["Imprimer le récapitulatif de commande", "طباعة ملخص الطلب"]
 });

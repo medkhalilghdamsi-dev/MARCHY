@@ -1,0 +1,221 @@
+/* Responsive containment and reflow guards for product detail modules.
+   Keep wide comparison and bundle layouts useful without allowing their
+   intrinsic grid widths to expand the document on small screens. */
+.product-page,
+.product-page .product-detail-layout,
+.product-page .product-detail-layout > *,
+.product-page .product-buy-panel,
+.product-page .multi-seller-offers-panel,
+.product-page .frequently-bought-card {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+  .product-page .product-detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-page .multi-seller-offers-panel,
+  .product-page .frequently-bought-card {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .product-page .offers-list {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .product-page .offer-card {
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-page .offer-seller-col,
+  .product-page .offer-delivery-col,
+  .product-page .offer-price-col {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .product-page .offer-price-col {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .product-page .offer-select-btn {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .product-page .bundle-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+    min-width: 0;
+    gap: 14px;
+  }
+
+  .product-page .bundle-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .product-page .bundle-selection-list,
+  .product-page .bundle-action-box {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .product-page .bundle-checkbox-row {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr) auto;
+    align-items: start;
+    width: 100%;
+    min-width: 0;
+    gap: 8px;
+  }
+
+  .product-page .bundle-item-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .product-page .bundle-item-price {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-page .offer-price-col {
+    align-items: stretch;
+  }
+
+  .product-page .offer-select-btn {
+    width: 100%;
+  }
+
+  .product-page .bundle-checkbox-row {
+    grid-template-columns: 16px minmax(0, 1fr);
+  }
+
+  .product-page .bundle-item-price {
+    grid-column: 2;
+  }
+}
+
+/* Honest buyer-confidence disclosures on product detail pages. */
+.product-page .product-confidence-panel,
+.product-page .product-delivery-panel {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line, #d8e5dd);
+  border-radius: 14px;
+  background: var(--surface, #fff);
+  overflow-wrap: anywhere;
+}
+
+.product-page .product-confidence-panel h2,
+.product-page .product-delivery-panel h2 {
+  margin: 6px 0 10px;
+  font-size: 16px;
+}
+
+.product-page .product-confidence-panel p,
+.product-page .product-delivery-panel p {
+  margin: 7px 0 0;
+  color: var(--muted, #435b4f);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* Final buyer accessibility and focus-state corrections. */
+.product-card .price-row del,
+.home-landing-v2 .price-row del,
+.home-landing-v2 .product-info .price-row del {
+  color: #52665b;
+}
+
+.header .searchbar:focus-within {
+  border-color: #83ae95 !important;
+}
+
+
+/* Global mobile containment: no page-level horizontal scroll or intrinsic-width
+   component is allowed to push the storefront viewport sideways. */
+html,
+body,
+#root,
+.app-root {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.header,
+.header-main,
+.header .nav,
+.header .nav-inner,
+.header-actions,
+.searchbar,
+.global-search-suggestions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.header-main > *,
+.header-actions > * {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .shell {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .header-main {
+    width: 100%;
+  }
+
+  .header .logo {
+    min-width: 0;
+    max-width: 40vw;
+  }
+
+  .header .logo-word {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .header .searchbar {
+    min-width: 0;
+  }
+
+  .header .searchbar input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .header .global-search-suggestions {
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .page,
+  .section,
+  .card {
+    min-width: 0;
+    max-width: 100%;
+  }
+}

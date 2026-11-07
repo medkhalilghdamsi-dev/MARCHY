@@ -1,0 +1,19 @@
+{
+  "name": "MARCHY — The Tunisian Marketplace",
+  "short_name": "MARCHY",
+  "description": "Discover products and local storefronts across Tunisia. Compare catalogue prices in Tunisian dinars.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111915",
+  "theme_color": "#1f5b45",
+  "lang": "en",
+  "categories": ["shopping", "business", "lifestyle"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,4 +1,8 @@
-const money = value => `${Number(value).toFixed(3)} TND`
+import { formatMoney } from './format'
+import { readText as readStoredText, readJson, writeJson } from './storage'
+
+// Shared marketplace formatter: display TND values as buyer-friendly DT prices.
+const money = value => formatMoney(value, 'en')
 const searchSynonyms = {
   headphones: ['headphone','earphones','earbuds','headset','casque','ecouteurs','سماعات'],
   lamp: ['light','lighting','lampe','مصباح'],
@@ -21,11 +25,9 @@ const searchTextMatches = (text, query) => {
   const words = cleanedQuery.split(/\s+/).filter(Boolean)
   return words.every(word => {
     const variants = [word, ...Object.entries(searchSynonyms).filter(([key, values]) => key === word || values.some(value => normalizeSearchText(value) === word)).flatMap(([key, values]) => [key, ...values].map(normalizeSearchText))]
-    return variants.some(variant => normalized.split(' ').some(token => token === variant || token.startsWith(variant) || variant.startsWith(token)))
+    return variants.some(variant => normalized.split(' ').some(token => token === variant || token.startsWith(variant) || (token.length >= 3 && variant.startsWith(token))))
   })
 }
-const readText = (key, fallback) => { try { const value = localStorage.getItem(key); return value || fallback } catch { return fallback } }
-const readJson = (key, fallback) => { try { const value = JSON.parse(localStorage.getItem(key) || 'null'); return value ?? fallback } catch { return fallback } }
-const writeJson = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)) } catch {} }
+const readText = (key, fallback) => readStoredText(key, '') || fallback
 
 export { money, searchSynonyms, normalizeSearchText, searchTextMatches, readText, readJson, writeJson }
