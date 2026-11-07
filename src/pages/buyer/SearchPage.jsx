@@ -187,8 +187,8 @@ export function SearchPage() {
     if (routeCategory) navigate('/search')
     else setCategory('All')
   }
-  if (isInvalidCategory) return translateTree(<main id="main-content" className='shell page'><div className='breadcrumbs' role='navigation' aria-label='Breadcrumb'><Link to='/'>Home</Link> / <Link to='/categories'>Categories</Link></div><div className='empty-state'><span>⌕</span><h2>Category not found</h2><p>This category does not exist in the MARCHY catalogue.</p><Link to='/categories' className='primary-btn'>Browse all categories →</Link></div></PageFrame>, language)
-  return translateTree(<PageFrame id="main-content" className=" marketplace-search-page">
+  if (isInvalidCategory) return translateTree(<PageFrame id="main-content" className="shell page"><div className='breadcrumbs' role='navigation' aria-label='Breadcrumb'><Link to='/'>Home</Link> / <Link to='/categories'>Categories</Link></div><div className='empty-state'><span>⌕</span><h2>Category not found</h2><p>This category does not exist in the MARCHY catalogue.</p><Link to='/categories' className='primary-btn'>Browse all categories →</Link></div></PageFrame>, language)
+  return translateTree(<PageFrame id="main-content" className="marketplace-search-page">
     <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link> / Marketplace</div>
     <div className="listing-head">
       <div><span className="eyebrow">{routeCategory ? "EXPLORE THIS CATEGORY" : "SHOP THE MARCHY MARKETPLACE"}</span><h1>{routeCategory ? category : "Find what you’re looking for."}</h1><p className="muted">{routeCategory ? "Browse products in this category." : results.length + " products to explore"}</p></div>
