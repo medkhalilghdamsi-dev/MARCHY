@@ -251,7 +251,7 @@ export function CheckoutPage() {
           style={{ cursor: step > 2 ? 'pointer' : 'default' }}
         >
           <span>{step > 3 ? <Check size={15}/> : '3'}</span>
-          <div><b>3. Payment Choice</b><small>COD & protection</small></div>
+          <div><b>3. Payment Choice</b><small>Demo payment preference</small></div>
         </li>
         <li
           className={step > 4 ? 'is-complete' : step === 4 ? 'is-current' : ''}
