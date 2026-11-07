@@ -45,5 +45,15 @@ test.describe('Purchase Journey & Progressive Checkout', () => {
     await expect(page).toHaveURL(/\/order-confirmation\/MC-/)
     await expect(page.getByRole('heading', { name: /Thank you for your order/i })).toBeVisible()
     await expect(page.locator('.cod-badge')).toBeVisible()
+    await expect(page.getByText(/no seller or courier has been contacted/i)).toBeVisible()
+    await expect(page.getByText(/no payment is collected/i)).toBeVisible()
+    await expect(page.getByText(/estimated delivery: 24.?48 hours/i)).toHaveCount(0)
   })
+})
+
+
+test('unknown confirmation reference never displays another order', async ({ page }) => {
+  await page.goto('/order-confirmation/MC-DOES-NOT-EXIST')
+  await expect(page.getByRole('heading', { name: /No order found/i })).toBeVisible()
+  await expect(page.getByText(/Thank you for your order/i)).toHaveCount(0)
 })
