@@ -40,9 +40,7 @@
 .home-seller-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 28px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:20px}
 .home-seller-cta h2{font:800 22px Manrope;margin:0 0 7px}.home-seller-cta p{font-size:11px;color:var(--muted);margin:0}
 .catalogue-note{font-size:9px;line-height:1.6;color:#4e675a;text-align:center;margin:22px auto 0;max-width:850px}
-.product-photo{aspect-ratio:1/1;height:auto;min-height:150px}.product-photo img{object-fit:contain;padding:9px;mix-blend-mode:multiply}
-.product-card{display:flex;flex-direction:column}.product-info{display:flex;flex-direction:column;flex:1}
-.product-name{min-height:36px;margin-bottom:6px}.seller-link{display:block;font-size:9px;color:#435b4f;margin:1px 0 2px}.seller-link:hover{color:#1f5b45}
+.seller-link{display:block;font-size:9px;color:#435b4f;margin:1px 0 2px}.seller-link:hover{color:#1f5b45}
 .discount-tag{position:absolute;left:11px;bottom:11px;background:#1f5b45;color:#fff;padding:5px 7px;border-radius:4px;font-size:9px;font-weight:800}
 .product-tag{top:11px;left:11px;background:#fff9;color:#274437;letter-spacing:.6px}
 .wish-btn{width:34px;height:34px;display:grid;place-items:center;box-shadow:0 2px 8px #12261e12;transition:transform .15s,color .15s}.wish-btn:hover{transform:scale(1.08)}
@@ -105,7 +103,6 @@ button:disabled{cursor:not-allowed}
  .seller-banner-stats b{font-size:21px}.seller-banner-stats span{font-size:8px}
  .home-seller-cta{padding:18px;align-items:flex-start;flex-direction:column}.home-seller-cta h2{font-size:18px}
  .home-seller-cta p{font-size:10px;line-height:1.6}.catalogue-note{font-size:8px;padding:0 8px}
- .product-photo{min-height:0}.product-info{padding:10px}.product-name{font-size:11px;min-height:34px}
  .seller-link{font-size:8px;line-height:1.4}.price-row strong{font-size:14px}
  .delivery{font-size:8px;line-height:1.4}.add-btn{min-height:36px;font-size:9px;padding:8px}
  .discount-tag{font-size:8px;bottom:8px;left:8px}.wish-btn{width:31px;height:31px;right:8px;top:8px}
