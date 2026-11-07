@@ -13,9 +13,9 @@ export function MarketplaceLayout() {
   return (
     <>
       <Header cartCount={cartCount} />
-      <main id="main-content">
+      <div className="marketplace-route-content">
         <Outlet />
-      </main>
+      </div>
       <Suspense fallback={null}>
         <GlobalCompareDrawer />
         <Footer />
