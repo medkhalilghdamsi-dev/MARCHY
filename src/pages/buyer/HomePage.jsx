@@ -5,6 +5,7 @@ import { sellers } from '../../data/sellers'
 import { readJson } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { ProductCard } from '../../components/marketplace/ProductCard'
+import { ShopByMission } from '../../components/marketplace/ShopByMission'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import {
   ArrowRight, Check, Search, Smartphone, ShoppingBasket, House, Shirt,
@@ -101,7 +102,7 @@ export function Home() {
     <main id="main-content" className="shell page home-page home-landing-v2">
       <section className="market-hero market-hero-premium" aria-labelledby="market-hero-title">
         <div className="market-hero-copy">
-          <span className="hero-kicker"><i aria-hidden="true"></i> MADE FOR TUNISIA · DISCOVER LOCAL</span>
+          <span className="hero-kicker"><i aria-hidden="true"></i> EVERYDAY COMMERCE, MADE EASIER. · TUNISIA-FIRST</span>
           <h1 id="market-hero-title">Discover better.<br /><em>Shop local.</em></h1>
           <p>Find products, makers and storefronts in one clear marketplace experience — with prices in TND and delivery information upfront.</p>
 
@@ -231,6 +232,9 @@ export function Home() {
           <div><b>Discover local sellers</b><small>Browse sample storefronts and makers in one place.</small></div>
         </div>
       </section>
+
+      {/* Shop by Mission & Curated Routines */}
+      <ShopByMission />
 
       {/* Category Discovery */}
       <section className="landing-section home-category-section">

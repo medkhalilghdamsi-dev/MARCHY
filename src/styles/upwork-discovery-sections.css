@@ -223,5 +223,366 @@
   }
 }
 
+/* ============================================================
+   Shop by Mission & Curated Routines
+   Approved Commerce Teal & Lime-Pop Palette
+   ============================================================ */
+.shop-by-mission-section {
+  margin: 54px 0;
+}
+
+.mission-tabs-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.mission-tab-button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1px solid var(--line, #d8e5df);
+  border-radius: 12px;
+  text-align: left;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.mission-tab-button:hover {
+  border-color: #007A64;
+  background: #f7fbf9;
+}
+
+.mission-tab-button.is-active {
+  background: #007A64;
+  border-color: #007A64;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 122, 100, 0.22);
+}
+
+.mission-tab-num {
+  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-weight: 800;
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+.mission-tab-button.is-active .mission-tab-num {
+  opacity: 1;
+  color: #D6F36A;
+}
+
+.mission-tab-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mission-tab-meta b {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mission-tab-meta small {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  opacity: 0.8;
+}
+
+.mission-active-panel {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
+  background: #ffffff;
+  border: 1px solid var(--line, #d8e5df);
+  border-radius: 18px;
+  padding: 32px;
+  box-shadow: 0 8px 30px rgba(23, 43, 39, 0.04);
+}
+
+.mission-editorial-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mission-eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.mission-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #DDF2E9;
+  color: #006B5B;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.mission-discount-chip {
+  background: #172B27;
+  color: #D6F36A;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+}
+
+.mission-panel-title {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  color: var(--ink, #172B27);
+  letter-spacing: -0.8px;
+  margin: 0 0 6px;
+}
+
+.mission-panel-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #007A64;
+  margin: 0 0 12px;
+}
+
+.mission-panel-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted, #4B635D);
+  max-width: 500px;
+  margin: 0 0 24px;
+}
+
+.mission-pricing-strip {
+  background: #F5F8F6;
+  border: 1px solid #D8E5DF;
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.mission-price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.mission-price-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted, #4B635D);
+}
+
+.mission-price-current {
+  font-size: 24px;
+  font-weight: 800;
+  color: #007A64;
+  font-family: var(--font-heading, 'Manrope', sans-serif);
+}
+
+.mission-price-regular {
+  font-size: 13px;
+  color: var(--muted, #6E8781);
+  text-decoration: line-through;
+}
+
+.mission-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mission-add-bundle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #007A64;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.mission-add-bundle-btn:hover {
+  background: #006B5B;
+  transform: translateY(-1px);
+}
+
+.mission-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--ink, #172B27);
+  border: 1px solid #D8E5DF;
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.mission-view-btn:hover {
+  border-color: #007A64;
+  color: #007A64;
+}
+
+/* Products Column in Mission Panel */
+.mission-products-card-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #F5F8F6;
+  border: 1px solid #D8E5DF;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.mission-product-mini-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #D8E5DF;
+  border-radius: 10px;
+  padding: 12px;
+  position: relative;
+}
+
+.mission-product-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #DDF2E9;
+  flex-shrink: 0;
+}
+
+.mission-product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mission-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.mission-product-cat {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #007A64;
+  letter-spacing: 0.6px;
+}
+
+.mission-product-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink, #172B27);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+
+.mission-product-name:hover {
+  color: #007A64;
+}
+
+.mission-product-price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.mission-product-price-row strong {
+  color: var(--ink, #172B27);
+}
+
+.mission-product-seller {
+  font-size: 10px;
+  color: var(--muted, #4B635D);
+}
+
+.mission-bundle-plus-indicator {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #172B27;
+  color: #D6F36A;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 900px) {
+  .mission-tabs-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mission-active-panel {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 520px) {
+  .mission-tabs-bar {
+    grid-template-columns: 1fr;
+  }
+  .mission-tab-button {
+    padding: 10px 14px;
+  }
+  .mission-pricing-strip {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .mission-actions-row {
+    width: 100%;
+    flex-direction: column;
+  }
+  .mission-add-bundle-btn,
+  .mission-view-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
 
 
