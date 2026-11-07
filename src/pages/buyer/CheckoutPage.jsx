@@ -242,7 +242,7 @@ export function CheckoutPage() {
           style={{ cursor: step > 1 ? 'pointer' : 'default' }}
         >
           <span>{step > 2 ? <Check size={15}/> : '2'}</span>
-          <div><b>2. Shipping Method</b><small>Courier & dispatch</small></div>
+          <div><b>2. Shipping Method</b><small>Delivery preference</small></div>
         </li>
         <li
           className={step > 3 ? 'is-complete' : step === 3 ? 'is-current' : ''}
