@@ -19,13 +19,13 @@ ul, ol { list-style: none; padding: 0; }
 /* ---- Design tokens: Light mode (default) ------------------ */
 :root {
   /* Official MARCHY Emerald Brand Palette */
-  --emerald-deep: #174735;    /* Deep Emerald: Brand surfaces, headers */
-  --emerald-primary: #1f5b45; /* Primary Green: Action buttons, interactive states */
-  --emerald-accent: #10B981;  /* Emerald Accent: Verified tags, highlights */
-  --mint-surface: #edf5f0;    /* Mint Surface: Soft background accents */
-  --charcoal: #111827;        /* Charcoal: High-contrast typography */
+  --emerald-deep: #006B5B;    /* Deep Emerald: Brand surfaces, headers */
+  --emerald-primary: #007A64; /* Primary Green: Action buttons, interactive states */
+  --emerald-accent: #D6F36A;  /* Emerald Accent: Verified tags, highlights */
+  --mint-surface: #DDF2E9;    /* Mint Surface: Soft background accents */
+  --charcoal: #172B27;        /* Charcoal: High-contrast typography */
   --white: #FFFFFF;           /* White: Elevated cards, sheet panels */
-  --neutral-bg: #F8FAFC;      /* Neutral Background: Slate clean shopping background */
+  --neutral-bg: #F5F8F6;      /* Neutral Background: Slate clean shopping background */
 
   /* Legacy & Semantic Mapping */
 
@@ -34,7 +34,7 @@ ul, ol { list-style: none; padding: 0; }
   /* Surfaces */
 
   /* Semantic */
-  --focus-ring: rgba(4, 120, 87, 0.28);
+  --focus-ring: rgba(0, 122, 100, 0.28);
   --danger: #DC2626;
   --danger-soft: #FEF2F2;
   --warning: #D97706;
@@ -107,39 +107,39 @@ ul, ol { list-style: none; padding: 0; }
   color: var(--ink);
   background: var(--page);
   /* Canonical legacy-compatible tokens. Feature styles consume these aliases. */
-  --forest: #1f5b45;
-  --forest-dark: #174735;
-  --forest-light: #edf5f0;
-  --forest-soft: #edf5f0;
-  --gold: #1f5b45;
-  --ink: #12261e;
-  --ink-soft: #1e352b;
-  --muted: #435b4f;
-  --muted-light: #64796e;
-  --line: #d8e5dd;
+  --forest: #007A64;
+  --forest-dark: #006B5B;
+  --forest-light: #DDF2E9;
+  --forest-soft: #DDF2E9;
+  --gold: #007A64;
+  --ink: #172B27;
+  --ink-soft: #29433D;
+  --muted: #52665B;
+  --muted-light: #71857D;
+  --line: #DCE6E2;
   --line-soft: #eaf1ed;
-  --page: #f4f8f5;
+  --page: #F5F8F6;
   --surface: #ffffff;
-  --surface-soft: #eef5f1;
+  --surface-soft: #F0F5F2;
   --surface-raised: #ffffff;
-  --surface-hover: #f7faf8;
-  --accent: #1f5b45;
-  --accent-dark: #174735;
+  --surface-hover: #F8FBF9;
+  --accent: #007A64;
+  --accent-dark: #006B5B;
   --accent-text: #ffffff;
-  --orange: #1f5b45;
-  --orange-dark: #174735;
-  --green: #1f5b45;
-  --marchy-ink: #12261e;
-  --marchy-muted: #435b4f;
-  --marchy-line: #d8e5dd;
+  --orange: #007A64;
+  --orange-dark: #006B5B;
+  --green: #007A64;
+  --marchy-ink: #172B27;
+  --marchy-muted: #52665B;
+  --marchy-line: #DCE6E2;
   --marchy-surface: #ffffff;
-  --marchy-page: #f4f8f5;
-  --marchy-orange: #1f5b45;
-  --marchy-orange-deep: #174735;
-  --marchy-green: #1f5b45;
-  --marchy-accent-soft: #edf5f0;
-  --marchy-accent-border: #c9ded1;
-  --marchy-canvas: #f4f8f5;
+  --marchy-page: #F5F8F6;
+  --marchy-orange: #007A64;
+  --marchy-orange-deep: #006B5B;
+  --marchy-green: #007A64;
+  --marchy-accent-soft: #DDF2E9;
+  --marchy-accent-border: #C5DDD5;
+  --marchy-canvas: #F5F8F6;
   --marchy-radius: 16px;
   --marchy-shadow: 0 12px 34px rgba(18,38,30,.065);
   --radius-sm: 8px;
