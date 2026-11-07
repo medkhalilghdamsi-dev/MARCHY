@@ -209,7 +209,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await expect(page.locator('.product-price-block strong')).toContainText('189 DT')
 
     await page.locator('.related-products a[href="/product/2"]').click()
-    await expect(page).toHaveURL(/\\/product\\/2$/)
+    await expect(page).toHaveURL(/\/product\/2$/)
     await expect(page.getByRole('heading', { name: 'Minimal ceramic table lamp' })).toBeVisible()
     await expect(page.locator('.product-price-block strong')).toContainText('79 DT')
     await expect(page.locator('.product-price-caption')).toContainText('Demo seller')
