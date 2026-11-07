@@ -131,3 +131,18 @@
     flex-basis: 100%;
   }
 }
+
+
+/* A shared vertical application frame keeps short pages from leaving the
+   footer stranded halfway up the viewport and lets long pages grow naturally. */
+.app-root {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  flex-direction: column;
+}
+
+.app-root > .page,
+.app-root > main.page {
+  flex: 1 0 auto;
+}
