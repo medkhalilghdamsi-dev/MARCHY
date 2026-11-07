@@ -74,8 +74,8 @@ export function OrderConfirmationPage() {
               <span className="eyebrow">PACKAGE DETAILS</span>
               <h2>Items in this order ({items.reduce((s, i) => s + (i.qty || 1), 0)} items)</h2>
             </div>
-            <button type="button" onClick={handlePrint} className="outline-btn print-receipt-btn" aria-label="Print receipt">
-              <Printer size={15}/> Print receipt
+            <button type="button" onClick={handlePrint} className="outline-btn print-receipt-btn" aria-label="Print order summary">
+              <Printer size={15}/> Print order summary
             </button>
           </div>
 

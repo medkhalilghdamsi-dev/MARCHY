@@ -11,7 +11,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await expect(page.getByRole('heading', { name: /Discover better\.\s*Shop local\./i })).toBeVisible()
     const heroSearch = page.getByRole('search').getByRole('combobox', { name: 'Search products and categories' })
     await heroSearch.fill('headphones')
-    await expect(page.locator('.hero-search-suggestions')).toBeVisible()
+    await expect(page.locator('.home-search-suggestions')).toBeVisible()
     await page.locator('.hero-search-form').getByRole('button', { name: /Search/ }).click()
 
     await expect(page).toHaveURL(/\/search\?q=headphones/)
@@ -91,7 +91,7 @@ test.describe('buyer situations — end-to-end journeys', () => {
     await page.getByRole('button', { name: /Review your order/i }).click()
     await expect(page).toHaveURL(/\/checkout\/review$/)
     await expect(page.getByRole('heading', { name: 'Review and confirm your order' })).toBeVisible()
-    await expect(page.locator('.checkout-contact-review')).toContainText('Demo Buyer')
+    await expect(page.locator('.checkout-contact-review').first()).toContainText('Demo Buyer')
     await expect(page.locator('.checkout-preview-note')).toContainText('No seller receives real charges')
 
     await page.getByRole('button', { name: 'Place demo order' }).click()

@@ -487,10 +487,10 @@ export function CheckoutPage() {
                   />
                   <div className="option-card-body">
                     <div className="option-header">
-                      <b><Banknote size={16}/> Cash on Delivery (Pay upon inspection)</b>
+                      <b><Banknote size={16}/> Cash on Delivery preference</b>
                       <span className="option-badge primary-badge">Recommended</span>
                     </div>
-                    <p>Pay cash in Tunisian Dinar (TND) directly to the delivery agent once you have inspected the parcel.</p>
+                    <p>Demo preference only. No delivery agent, payment collection or parcel-inspection service is connected.</p>
                   </div>
                 </label>
 
@@ -524,7 +524,7 @@ export function CheckoutPage() {
                       <b><Smartphone size={16}/> Flouci / Mobile Wallet (Simulated demo)</b>
                       <span className="option-badge">Preview</span>
                     </div>
-                    <p>Instant mobile payment via QR code scan or wallet transfer. Simulated sandbox preview.</p>
+                    <p>Mobile-wallet concept preview only. No wallet provider, QR payment or transfer is connected.</p>
                   </div>
                 </label>
               </div>
@@ -551,7 +551,7 @@ export function CheckoutPage() {
               <div className="checkout-panel-title">
                 <span className="eyebrow">STEP 04 OF 04</span>
                 <h2 ref={stepHeadingRef} tabIndex={-1}>Review and confirm your order</h2>
-                <p>Verify your delivery information, selected courier, and multi-vendor item breakdown.</p>
+                <p>Verify your delivery information, delivery preference and multi-vendor item breakdown.</p>
               </div>
 
               <div className="checkout-preview-note" role="note">

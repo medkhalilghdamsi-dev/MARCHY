@@ -46,7 +46,7 @@ test.describe('Purchase Journey & Progressive Checkout', () => {
     await expect(page.getByRole('heading', { name: /Thank you for your order/i })).toBeVisible()
     await expect(page.locator('.cod-badge')).toBeVisible()
     await expect(page.getByText(/no seller or courier has been contacted/i)).toBeVisible()
-    await expect(page.getByText(/no payment is collected/i)).toBeVisible()
+    await expect(page.locator('.confirmation-summary-card .payment-method-pill small')).toContainText(/no payment is collected/i)
     await expect(page.getByText(/estimated delivery: 24.?48 hours/i)).toHaveCount(0)
 
     await page.getByRole('link', { name: /View demo order status/i }).click()
@@ -67,14 +67,18 @@ test('unknown confirmation reference never displays another order', async ({ pag
 
 test('mobile Arabic checkout address stays within the viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
+  await page.addInitScript(() => localStorage.setItem('marchy-language', 'ar'))
   await page.goto('/product/1')
   await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
-  await page.goto('/cart')
-  await page.locator('.cart-checkout-button').click()
+  await page.goto('/checkout')
   await expect(page).toHaveURL(/\/checkout$/)
-  await page.locator('.language-picker select').selectOption('ar')
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
   await expect(page.locator('.app-root')).toHaveAttribute('dir', 'rtl')
-  const layout = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, document: document.documentElement.scrollWidth, panel: document.querySelector('.checkout-form')?.getBoundingClientRect().toJSON() }))
+  const layout = await page.evaluate(() => ({
+    viewport: document.documentElement.clientWidth,
+    document: document.documentElement.scrollWidth,
+    panel: document.querySelector('.checkout-form')?.getBoundingClientRect().toJSON(),
+  }))
   expect(layout.document).toBeLessThanOrEqual(layout.viewport + 1)
   expect(layout.panel).toBeTruthy()
   expect(layout.panel.x).toBeGreaterThanOrEqual(-1)

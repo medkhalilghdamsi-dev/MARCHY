@@ -33,3 +33,7 @@
 .footer .footer-bottom {
   color: #DDF2E9 !important;
 }
+
+.header .searchbar:focus-within {
+  border-color: var(--brand) !important;
+}

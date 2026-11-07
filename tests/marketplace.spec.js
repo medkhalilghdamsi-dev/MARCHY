@@ -791,7 +791,7 @@ test('checkout presents four clear steps and creates a local demo order after re
   await expect(page.getByRole('heading', { name: 'Review and confirm your order' })).toBeVisible()
   await expect(page.locator('.checkout-preview-note')).toContainText('No seller receives real charges')
   await expect(page.locator('.checkout-review')).not.toContainText('Buyer Protection & COD Guarantee')
-  await expect(page.locator('.checkout-contact-review')).toContainText('Test Buyer')
+  await expect(page.locator('.checkout-contact-review').first()).toContainText('Test Buyer')
   await page.getByRole('button', { name: 'Place demo order' }).click()
   await expect(page).toHaveURL(/\/order-confirmation\/MC-/)
   await expect(page.locator('main').first()).toBeVisible()
