@@ -228,6 +228,9 @@
 .product-card :focus-visible{
   outline-offset:2px;
 }
+.product-card:focus-within{outline:2px solid var(--marchy-accent-border,var(--accent-border));outline-offset:2px;}
+
+@media(max-width:760px){.product-card:hover{transform:none;box-shadow:var(--shadow-sm);}}
 @media(max-width:640px){
   .product-info{gap:7px;padding:10px}
   .product-photo img{padding:8px}
