@@ -120,7 +120,6 @@ test.describe('buyer situations — end-to-end journeys', () => {
     expect(overflow.document).toBeLessThanOrEqual(overflow.viewport + 1)
     await expect(page.getByRole('link', { name: /Continue to checkout/ })).toBeVisible()
   })
-})
 
   test('06 · mobile shopper changes destination without the header search covering the page', async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 800 })
