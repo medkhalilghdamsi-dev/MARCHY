@@ -49,7 +49,7 @@ export function BuyerOrderTrackingPage(props) {
   const handleCancel = () => {
     if (window.confirm('Are you sure you want to cancel this order?')) {
       cancelOrder(order.id, 'Cancelled by customer via order tracking')
-      toast('Order has been cancelled.', { type: 'info' })
+      toast('Demo order cancelled locally on this device.', { type: 'info' })
     }
   }
 

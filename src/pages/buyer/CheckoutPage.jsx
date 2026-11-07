@@ -393,7 +393,7 @@ export function CheckoutPage() {
               <div className="checkout-panel-title">
                 <span className="eyebrow">STEP 02 OF 04</span>
                 <h2 ref={stepHeadingRef} tabIndex={-1}>Choose your shipping method</h2>
-                <p>Select how you would like each vendor to dispatch your parcel.</p>
+                <p>Choose a delivery preference to discuss with each seller. No dispatch is arranged in this demo.</p>
               </div>
 
               <div className="checkout-option-cards" role="radiogroup" aria-label="Shipping method selection">
@@ -401,14 +401,14 @@ export function CheckoutPage() {
                   <input
                     type="radio"
                     name="deliveryMethod"
-                    value="Standard courier (seller confirmed)"
+                    value="Standard delivery preference (demo; seller confirmation required)"
                     checked={details.deliveryMethod.includes('Standard')}
                     onChange={e => update('deliveryMethod', e.target.value)}
                   />
                   <div className="option-card-body">
                     <div className="option-header">
-                      <b><Truck size={16}/> Standard courier delivery</b>
-                      <span className="option-badge">Standard Rate</span>
+                      <b><Truck size={16}/> Standard delivery preference</b>
+                      <span className="option-badge">Illustrative</span>
                     </div>
                     <p>Illustrative option only. Delivery coverage, timing, fees and parcel-inspection rules must be confirmed with the seller before an order is placed.</p>
                   </div>
@@ -418,14 +418,14 @@ export function CheckoutPage() {
                   <input
                     type="radio"
                     name="deliveryMethod"
-                    value="Express dispatch (24–48h where available)"
+                    value="Express delivery preference (demo; timing unconfirmed)"
                     checked={details.deliveryMethod.includes('Express')}
                     onChange={e => update('deliveryMethod', e.target.value)}
                   />
                   <div className="option-card-body">
                     <div className="option-header">
-                      <b><Truck size={16}/> Express regional dispatch</b>
-                      <span className="option-badge">Fast Dispatch</span>
+                      <b><Truck size={16}/> Express delivery preference</b>
+                      <span className="option-badge">Illustrative</span>
                     </div>
                     <p>Illustrative express option only. Availability and delivery timing are not connected to a live courier network and must be confirmed with the seller.</p>
                   </div>
@@ -444,7 +444,7 @@ export function CheckoutPage() {
                       <b><Store size={16}/> Local merchant pickup point</b>
                       <span className="option-badge">Self Pickup</span>
                     </div>
-                    <p>Pick up directly at the seller's storefront or local relay depot at your convenience.</p>
+                    <p>A possible pickup arrangement would need to be confirmed directly with the seller; no pickup point is connected in this demo.</p>
                   </div>
                 </label>
               </div>
@@ -452,7 +452,7 @@ export function CheckoutPage() {
               <div className="checkout-dispatch-note" role="note" style={{ marginTop: '16px', padding: '12px 14px', background: 'var(--surface-soft)', borderRadius: '9px', fontSize: '11px', color: 'var(--muted)', display: 'flex', gap: '9px', alignItems: 'flex-start' }}>
                 <Info size={16} style={{ flexShrink: 0, marginTop: '2px', color: 'var(--forest)' }} />
                 <span>
-                  <strong>Multi-vendor dispatch:</strong> You have {groups.length} vendor{groups.length === 1 ? '' : 's'} in this order. Each vendor ships their items directly from their workshop or warehouse.
+                  <strong>Multi-vendor dispatch:</strong> You have {groups.length} vendor{groups.length === 1 ? '' : 's'} in this sample order. Delivery arrangements for each seller would need separate confirmation.
                 </span>
               </div>
 

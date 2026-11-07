@@ -63,3 +63,20 @@ test('unknown confirmation reference never displays another order', async ({ pag
   await expect(page.getByRole('heading', { name: /No order found/i })).toBeVisible()
   await expect(page.getByText(/Thank you for your order/i)).toHaveCount(0)
 })
+
+
+test('mobile Arabic checkout address stays within the viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/product/1')
+  await page.locator('.product-purchase-row').getByRole('button', { name: 'Add to cart', exact: true }).click()
+  await page.goto('/cart')
+  await page.locator('.cart-checkout-button').click()
+  await expect(page).toHaveURL(/\/checkout\/address/)
+  await page.locator('.language-picker select').selectOption('ar')
+  await expect(page.locator('.app-root')).toHaveAttribute('dir', 'rtl')
+  const layout = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, document: document.documentElement.scrollWidth, panel: document.querySelector('.checkout-step-panel')?.getBoundingClientRect().toJSON() }))
+  expect(layout.document).toBeLessThanOrEqual(layout.viewport + 1)
+  expect(layout.panel).toBeTruthy()
+  expect(layout.panel.x).toBeGreaterThanOrEqual(-1)
+  expect(layout.panel.right).toBeLessThanOrEqual(layout.viewport + 1)
+})
