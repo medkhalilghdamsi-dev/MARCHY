@@ -59,3 +59,6 @@
 
 /* 7. Contrast fixes for small labels in light and dark themes. */
 @import './styles/accessibility-contrast.css';
+
+/* 8. Shared responsive page geometry — final layout ownership layer. */
+@import './styles/page-layout-system.css';
