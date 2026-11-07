@@ -193,12 +193,18 @@ export function SearchPage() {
     <div className="listing-head">
       <div><span className="eyebrow">{routeCategory ? "EXPLORE THIS CATEGORY" : "SHOP THE MARCHY MARKETPLACE"}</span><h1>{routeCategory ? category : "Find what you’re looking for."}</h1><p className="muted">{routeCategory ? "Browse products in this category." : results.length + " products to explore"}</p></div>
       <div className="listing-search listing-search-autocomplete" onFocus={() => setSearchFocused(true)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setSearchFocused(false) }}>
-        <input role="combobox" aria-label="Search marketplace" value={term} onFocus={() => setSearchFocused(true)} onChange={e => updateTerm(e.target.value)} onKeyDown={event => { if (event.key === 'Escape') setSearchFocused(false) }} placeholder="What are you looking for?" aria-expanded={searchFocused && Boolean(term.trim())} aria-controls="marketplace-search-suggestions" aria-autocomplete="list"/>
+        <input type="search" role="searchbox" aria-label="Search marketplace" value={term} onFocus={() => setSearchFocused(true)} onChange={e => updateTerm(e.target.value)} onKeyDown={event => {
+           if (event.key === 'Escape') setSearchFocused(false)
+           if (event.key === 'ArrowDown' && searchFocused && term.trim()) {
+             const firstSuggestion = document.querySelector('#marketplace-search-suggestions a, #marketplace-search-suggestions button')
+             if (firstSuggestion) { event.preventDefault(); firstSuggestion.focus() }
+           }
+         }} placeholder="What are you looking for?" aria-expanded={searchFocused && Boolean(term.trim())} aria-controls="marketplace-search-suggestions"/>
         {term && <button type="button" className="listing-search-clear" aria-label="Clear search" onClick={() => updateTerm('')}>×</button>}
         <span aria-hidden="true"><Search size={17}/></span>
-        {searchFocused && term.trim() && <div className="search-suggestions" id="marketplace-search-suggestions" role="listbox" aria-label="Search suggestions">
-          {searchSuggestions.products.length > 0 && <div className="search-suggestion-group"><small>Products</small>{searchSuggestions.products.map(product => <Link key={product.id} to={'/product/' + product.id} className="search-suggestion-product" role="option" aria-selected="false" onClick={() => setSearchFocused(false)}><img src={product.image} alt="" loading="lazy"/><span><b>{product.name}</b><small>{product.category} · {money(product.price)}</small></span><span aria-hidden="true"><ArrowUpRight size={14}/></span></Link>)}</div>}
-          {searchSuggestions.categories.length > 0 && <div className="search-suggestion-group"><small>Categories</small>{searchSuggestions.categories.map(name => <button type="button" role="option" aria-selected="false" key={name} onClick={() => { setSearchFocused(false); navigate('/category/' + encodeURIComponent(name.toLowerCase())) }}>{name}<span aria-hidden="true"><ArrowRight size={14}/></span></button>)}</div>}
+        {searchFocused && term.trim() && <div className="search-suggestions" id="marketplace-search-suggestions" aria-label="Search suggestions">
+          {searchSuggestions.products.length > 0 && <div className="search-suggestion-group"><small>Products</small>{searchSuggestions.products.map(product => <Link key={product.id} to={'/product/' + product.id} className="search-suggestion-product" onClick={() => setSearchFocused(false)}><img src={product.image} alt="" loading="lazy"/><span><b>{product.name}</b><small>{product.category} · {money(product.price)}</small></span><span aria-hidden="true"><ArrowUpRight size={14}/></span></Link>)}</div>}
+          {searchSuggestions.categories.length > 0 && <div className="search-suggestion-group"><small>Categories</small>{searchSuggestions.categories.map(name => <button type="button" key={name} onClick={() => { setSearchFocused(false); navigate('/category/' + encodeURIComponent(name.toLowerCase())) }}>{name}<span aria-hidden="true"><ArrowRight size={14}/></span></button>)}</div>}
           <button type="button" className="search-suggestions-all" onClick={() => setSearchFocused(false)}>View all {results.length} matching results <span aria-hidden="true">→</span></button>
           {searchSuggestions.products.length === 0 && searchSuggestions.categories.length === 0 && <p className="search-suggestions-empty">No quick matches. Press Enter or keep typing to search the full catalogue.</p>}
         </div>}
