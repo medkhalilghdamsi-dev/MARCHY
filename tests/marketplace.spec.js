@@ -206,7 +206,7 @@ test('marketplace search suggestions can be reached and opened with the keyboard
   const firstSuggestion = page.locator('.search-suggestion-product').first()
   await expect(firstSuggestion).toBeFocused()
   await firstSuggestion.press('Enter')
-  await expect(page).toHaveURL(/\\/product\\//)
+  await expect(page).toHaveURL(/product\//)
 })
 
 test('marketplace search autocomplete suggests products and opens the selected product', async ({ page }) => {
