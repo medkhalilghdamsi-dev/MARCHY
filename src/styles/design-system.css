@@ -21,6 +21,9 @@ ul, ol { list-style: none; padding: 0; }
   /* Official MARCHY Emerald Brand Palette */
   --emerald-deep: #006B5B;    /* Deep Emerald: Brand surfaces, headers */
   --emerald-primary: #007A64; /* Primary Green: Action buttons, interactive states */
+  --brand: #007A64;
+  --brand-deep: #006B5B;
+  --brand-accent: #D6F36A;
   --emerald-accent: #D6F36A;  /* Emerald Accent: Verified tags, highlights */
   --mint-surface: #DDF2E9;    /* Mint Surface: Soft background accents */
   --charcoal: #172B27;        /* Charcoal: High-contrast typography */
