@@ -27,14 +27,14 @@ export function MultiSellerOffers({ offers, onSelectOffer, activeOfferId }) {
         Compare illustrative seller offers and displayed prices. Stock, seller status and delivery terms are not live-verified.
       </p>
 
-      <div className="offers-list" role="radiogroup" aria-label="Sample seller offers">
+      <div className="offers-list" role="list" aria-label="Sample seller offers">
         {offers.map(offer => {
           const isSelected = selectedId === offer.id
           return (
             <article
               key={offer.id}
+              role="listitem"
               className={`offer-card ${isSelected ? 'is-selected' : ''}`}
-              onClick={() => { setSelectedId(offer.id); onSelectOffer?.(offer) }}
             >
               <div className="offer-seller-col">
                 <div className="offer-seller-identity">
@@ -77,9 +77,9 @@ export function MultiSellerOffers({ offers, onSelectOffer, activeOfferId }) {
                 <button
                   type="button"
                   className={`offer-select-btn ${isSelected ? 'is-active' : ''}`}
+                  aria-pressed={isSelected}
                   disabled={offer.stock <= 0}
                   onClick={(e) => {
-                    e.stopPropagation()
                     setSelectedId(offer.id)
                     onSelectOffer?.(offer)
                     toast(`Selected sample offer from ${offer.sellerName} at ${money(offer.price)}`, { type: 'success' })
