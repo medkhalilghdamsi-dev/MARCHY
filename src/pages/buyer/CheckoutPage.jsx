@@ -6,6 +6,7 @@ import { translateTree } from '../../i18n/translate'
 import { useDemoOrders } from '../../hooks/useDemoOrders'
 import { FormField } from '../../components/ui'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { PageFrame } from '../../components/ui/PageFrame'
 import { useToast } from '../../providers/ToastProvider'
 import { MarketplaceService } from '../../services/marketplaceService'
 import {
@@ -183,7 +184,7 @@ export function CheckoutPage() {
 
   if (!cart.length) {
     return translateTree(
-      <main id="main-content" className="shell page checkout-page">
+      <PageFrame id="main-content" className=" checkout-page">
         <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb">
           <Link to="/">Home</Link>
           <span>/</span>
@@ -198,13 +199,13 @@ export function CheckoutPage() {
           <p>Add products before starting checkout.</p>
           <Link to="/search" className="primary-btn">Explore products →</Link>
         </div>
-      </main>,
+      </PageFrame>,
       language
     )
   }
 
   return translateTree(
-    <main id="main-content" className="shell page checkout-page">
+    <PageFrame id="main-content" className=" checkout-page">
       <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb">
         <Link to="/">Home</Link>
         <span>/</span>
@@ -675,7 +676,7 @@ export function CheckoutPage() {
           </div>
         </aside>
       </div>
-    </main>,
+    </PageFrame>,
     language
   )
 }

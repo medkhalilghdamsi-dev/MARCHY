@@ -1,148 +1,40 @@
-/* MARCHY page layout system
- * Shared geometry belongs here; feature styles should own component appearance.
- * Keep this layer last so every buyer route starts from the same predictable
- * container, sizing and responsive grid rules.
+/* Shared page composition primitives.
+ * Layout owns geometry; feature styles own visual details.
  */
-
-.shell {
-  width: min(var(--content-width, 1320px), calc(100% - 48px));
-  max-width: 100%;
-  margin-inline: auto;
-}
-
-.page {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  flex: 1 0 auto;
-  padding-block: clamp(20px, 2.4vw, 32px) clamp(56px, 6vw, 80px);
-}
-
-.page > *,
-.page :is(section, article, aside, form, nav) {
-  min-width: 0;
-  max-width: 100%;
-}
-
-.page :is(.listing-layout, .product-detail-layout, .cart-layout, .checkout-layout) {
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-block-end: var(--space-6);
   min-width: 0;
 }
 
-.page .listing-layout {
-  grid-template-columns: minmax(0, 248px) minmax(0, 1fr);
-}
-
-.page .listing-layout > *,
-.page .product-detail-layout > *,
-.page .cart-layout > *,
-.page .checkout-layout > * {
+.section-header > div:first-child {
   min-width: 0;
 }
 
-.page img,
-.page video,
-.page iframe {
-  max-width: 100%;
+.section-header h2 {
+  margin-block: var(--space-2) 0;
 }
 
-@media (max-width: 900px) {
-  .shell {
-    width: min(var(--content-width, 1320px), calc(100% - 40px));
-  }
+.section-header p {
+  margin-block-start: var(--space-2);
+  max-width: 68ch;
+}
 
-  .page .listing-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
+.section-header-action {
+  flex: 0 0 auto;
 }
 
 @media (max-width: 760px) {
-  .shell {
-    width: calc(100% - 32px);
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-3);
   }
 
-  .page {
-    padding-block: 18px calc(76px + env(safe-area-inset-bottom, 0px));
+  .section-header-action {
+    width: 100%;
   }
-
-  .page .product-detail-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .page .section-heading {
-    flex-wrap: wrap;
-  }
-
-  .page .section-heading > * {
-    min-width: 0;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 360px) {
-  .shell {
-    width: calc(100% - 24px);
-  }
-}
-
-
-/* Compact handset header: keep the menu, search toggle, brand and cart on one
-   predictable row at 320–360px instead of allowing flex items to collide. */
-@media (max-width: 360px) {
-  .header .header-main {
-    gap: 6px;
-  }
-
-  .header .mobile-menu,
-  .header .mobile-search-toggle {
-    width: 34px;
-    height: 34px;
-    flex: 0 0 34px;
-  }
-
-  .header .logo {
-    flex: 0 1 auto;
-    width: auto;
-    max-width: calc(100vw - 190px);
-    min-width: 0;
-    gap: 4px;
-  }
-
-  .header .logo-mark {
-    width: 24px;
-    height: 24px;
-  }
-
-  .header .logo-word {
-    min-width: 0;
-    font-size: 18px;
-    letter-spacing: -1px;
-  }
-
-  .header .header-actions {
-    gap: 2px;
-    margin-inline-start: auto;
-  }
-
-  .header .header-actions > * {
-    flex: 0 0 auto;
-  }
-
-  .header .searchbar {
-    flex-basis: 100%;
-  }
-}
-
-
-/* A shared vertical application frame keeps short pages from leaving the
-   footer stranded halfway up the viewport and lets long pages grow naturally. */
-.app-root {
-  display: flex;
-  min-height: 100vh;
-  min-height: 100dvh;
-  flex-direction: column;
-}
-
-.app-root > .page,
-.app-root > main.page {
-  flex: 1 0 auto;
 }

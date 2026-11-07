@@ -12,6 +12,7 @@ import { FrequentlyBoughtTogether } from '../../components/marketplace/Frequentl
 import { ProductQA } from '../../components/marketplace/ProductQA'
 import { MarketplaceService } from '../../services/marketplaceService'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { PageFrame } from '../../components/ui/PageFrame'
 import { ArrowRight, Check, Heart, Plus, Share2, Search, ShoppingCart } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
@@ -133,7 +134,7 @@ export function ProductPage() {
     const previous = readJson('marchy-recently-viewed', [])
     writeJson('marchy-recently-viewed', [product.id, ...previous.filter(item => item !== product.id)].slice(0, 8))
   }, [product?.id])
-  if (!product) return translateTree(<main id="main-content" className="shell page empty-state"><span><Search size={22}/></span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace <ArrowRight size={15}/></Link></main>, language)
+  if (!product) return translateTree(<PageFrame id="main-content" className=" empty-state"><span><Search size={22}/></span><h2>Product not found</h2><p>This listing may have moved or is no longer available in the sample catalogue.</p><Link to="/search" className="primary-btn">Back to marketplace <ArrowRight size={15}/></Link></PageFrame>, language)
   const seller = sellerForProduct(product)
   const currentSeller = sellers.find(entry => entry.slug === currentSellerSlug) || seller
   const galleryImages = [...new Set([...(Array.isArray(product.images) ? product.images : []), product.image].filter(Boolean))]
@@ -161,7 +162,7 @@ export function ProductPage() {
   const currentOldPrice = selectedOffer?.oldPrice || product.oldPrice || null
   const discount = currentOldPrice && currentPrice > 0 ? Math.max(0, Math.round((1 - currentPrice / currentOldPrice) * 100)) : 0
   const handleToggleWish = () => { toggleWish(product.id); toast(!saved ? "Saved " + product.name + " to wishlist" : "Removed from wishlist", { type: "info" }) }
-  return translateTree(<main id="main-content" className="shell page product-page">
+  return translateTree(<PageFrame id="main-content" className=" product-page">
     <nav className="breadcrumbs" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to={returnTo}>Marketplace</Link><span>/</span><Link to={`/category/${encodeURIComponent(product.category.toLowerCase())}`}>{product.category}</Link><span>/</span><span aria-current="page">{product.name}</span></nav>
     <div className="product-detail-layout">
       <section className="product-visual-column" aria-label="Product images">
@@ -312,6 +313,6 @@ export function ProductPage() {
     {related.length > 0 && <section className="section related-products"><div className="section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2>Discover more products</h2><p className="muted">More from this category and other corners of the marketplace.</p></div><Link to="/search" className="text-link">Explore marketplace <ArrowRight size={15}/></Link></div><div className="product-grid">{related.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language} returnTo={location.pathname}/>)}</div></section>}
     {imageZoomOpen&&<div className="product-image-lightbox" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setImageZoomOpen(false)}}><section role="dialog" aria-modal="true" aria-label={`Image preview: ${product.name}`} className="product-image-lightbox-dialog"><button type="button" autoFocus className="product-image-lightbox-close" onClick={()=>setImageZoomOpen(false)} aria-label="Close image preview">×</button><img onError={e=>{e.currentTarget.onerror=null;e.currentTarget.src='/product-placeholder.svg'}} src={displayedImage} alt={product.name}/><p>{product.name} · Sample catalogue image</p></section></div>}
     <div className="product-mobile-buybar"><div className="mobile-buybar-total"><small>Subtotal · {qty} {qty === 1 ? 'item' : 'items'}</small><b>{money(currentPrice * qty)}</b></div><div className="mobile-buybar-actions"><div className="quantity mobile-buybar-quantity" role="group" aria-label="Mobile quantity"><button type="button" aria-label="Decrease quantity" disabled={qty<=1} onClick={()=>setQty(value=>Math.max(1,value-1))}>−</button><output aria-label="Mobile selected quantity">{qty}</output><button type="button" aria-label="Increase quantity" disabled={qty>=99 || (availableStock > 0 && qty >= availableStock)} onClick={()=>setQty(value=>Math.min(99, availableStock > 0 ? availableStock : 99, value + 1))}>＋</button></div><button type="button" className="primary-btn" onClick={handleAdd}>{added ? <><Check size={15}/> Added</> : <><ShoppingCart size={15}/> Add to cart</>}</button></div></div>
-  </main>, language)
+  </PageFrame>, language)
 }
 

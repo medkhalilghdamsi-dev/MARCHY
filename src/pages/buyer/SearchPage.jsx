@@ -7,6 +7,7 @@ import { money, normalizeSearchText, searchTextMatches, readText, readJson, writ
 import { translateTree } from '../../i18n/translate'
 import { ProductCard } from '../../components/marketplace/ProductCard'
 import { useMarketplace } from '../../providers/MarketplaceContext'
+import { PageFrame } from '../../components/ui/PageFrame'
 import { ArrowRight, ArrowUpRight, Search, SlidersHorizontal, Sparkles, X } from 'lucide-react'
 
 export function SearchPage() {
@@ -186,8 +187,8 @@ export function SearchPage() {
     if (routeCategory) navigate('/search')
     else setCategory('All')
   }
-  if (isInvalidCategory) return translateTree(<main id="main-content" className='shell page'><div className='breadcrumbs' role='navigation' aria-label='Breadcrumb'><Link to='/'>Home</Link> / <Link to='/categories'>Categories</Link></div><div className='empty-state'><span>⌕</span><h2>Category not found</h2><p>This category does not exist in the MARCHY catalogue.</p><Link to='/categories' className='primary-btn'>Browse all categories →</Link></div></main>, language)
-  return translateTree(<main id="main-content" className="shell page marketplace-search-page">
+  if (isInvalidCategory) return translateTree(<main id="main-content" className='shell page'><div className='breadcrumbs' role='navigation' aria-label='Breadcrumb'><Link to='/'>Home</Link> / <Link to='/categories'>Categories</Link></div><div className='empty-state'><span>⌕</span><h2>Category not found</h2><p>This category does not exist in the MARCHY catalogue.</p><Link to='/categories' className='primary-btn'>Browse all categories →</Link></div></PageFrame>, language)
+  return translateTree(<PageFrame id="main-content" className=" marketplace-search-page">
     <div className="breadcrumbs" role="navigation" aria-label="Breadcrumb"><Link to="/">Home</Link> / Marketplace</div>
     <div className="listing-head">
       <div><span className="eyebrow">{routeCategory ? "EXPLORE THIS CATEGORY" : "SHOP THE MARCHY MARKETPLACE"}</span><h1>{routeCategory ? category : "Find what you’re looking for."}</h1><p className="muted">{routeCategory ? "Browse products in this category." : results.length + " products to explore"}</p></div>
@@ -253,6 +254,6 @@ export function SearchPage() {
         {results.length ? <><div className={`product-grid ${view==='list'?'product-list-view':''}`}>{visibleResults.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} wished={wishlist.includes(p.id)} toggleWish={toggleWish} language={language} compareIds={compareIds} toggleCompare={toggleCompare} returnTo={window.location.pathname + window.location.search}/>)}</div>{pageCount > 1 && <nav className="pagination" aria-label="Product pages"><button type="button" disabled={page === 1} onClick={() => setPage(v => Math.max(1, v - 1))}>← Previous</button><span>Page {page} of {pageCount}</span><button type="button" disabled={page === pageCount} onClick={() => setPage(v => Math.min(pageCount, v + 1))}>Next →</button></nav>}</> : <div className="empty-state marketplace-no-results"><span><Search size={22}/></span><h3>No products found</h3><p>Try a broader search, choose another category or reset your price and location filters.</p><button type="button" className="outline-btn" onClick={clearFilters}>Reset all filters</button><div className="empty-search-suggestions"><b>Explore popular categories</b><div>{categories.filter(c=>c!=='All').slice(0,5).map(c=><Link key={c} to={`/category/${encodeURIComponent(c.toLowerCase())}`}>{c} <span>→</span></Link>)}</div></div></div>}
       </section>
     </div>
-  </main>, language)
+  </PageFrame>, language)
 }
 
