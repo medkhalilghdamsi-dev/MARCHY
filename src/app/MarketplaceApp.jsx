@@ -15,6 +15,7 @@ const SearchPage = lazy(() => import('../pages/buyer/SearchPage').then(m => ({ d
 const ProductPage = lazy(() => import('../pages/buyer/ProductPage').then(m => ({ default: m.ProductPage })))
 const CartPage = lazy(() => import('../pages/buyer/CartPage').then(m => ({ default: m.CartPage })))
 const CheckoutPage = lazy(() => import('../pages/buyer/CheckoutPage').then(m => ({ default: m.CheckoutPage })))
+const OrderConfirmationPage = lazy(() => import('../pages/buyer/OrderConfirmationPage').then(m => ({ default: m.OrderConfirmationPage })))
 const WishlistPage = lazy(() => import('../pages/buyer/WishlistPage').then(m => ({ default: m.WishlistPage })))
 const SellersPage = lazy(() => import('../pages/buyer/SellersPage').then(m => ({ default: m.SellersPage })))
 const SellerPage = lazy(() => import('../pages/buyer/SellerStorefrontPage').then(m => ({ default: m.SellerPage })))
@@ -89,6 +90,8 @@ function PageTitleManager() {
           storage.writeJson('marchy-recently-viewed', [product.id, ...previous.filter(item => item !== product.id)].slice(0, 8))
         }
       } else if (path.startsWith('/orders/')) title = 'Order tracking ' + path.split('/').pop()
+      else if (path.startsWith('/order-confirmation/')) title = 'Order Confirmed #' + path.split('/').pop()
+      else if (path.startsWith('/checkout')) title = 'Checkout & Order Placement'
       else if (path.startsWith('/seller/')) {
         const { sellers } = await import('../data/sellers')
         const slug = path.split('/').pop()
@@ -148,6 +151,8 @@ export default function App() {
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/checkout/:step" element={<CheckoutPage />} />
+            <Route path="/order-confirmation/:id" element={<OrderConfirmationPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/sellers" element={<SellersPage />} />

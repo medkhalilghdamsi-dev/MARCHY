@@ -4,7 +4,9 @@ import { resolve } from 'node:path'
 // Render static sites do not read Netlify-style _redirects files. Generate
 // directory index fallbacks so React Router URLs work on direct visits/reloads.
 const routes = [
-  'search', 'cart', 'checkout', 'wishlist', 'categories', 'sellers', 'account',
+  'search', 'cart', 'checkout', 'checkout/address', 'checkout/delivery', 'checkout/payment', 'checkout/review',
+  'order-confirmation/MC-1048',
+  'wishlist', 'categories', 'sellers', 'account',
   'login', 'signup', 'help', 'delivery', 'returns', 'seller-help', 'sell', 'seller-dashboard',
   'orders', 'orders/MC-1048', 'operations/delivery', 'admin',
   ...Array.from({ length: 30 }, (_, index) => `product/${index + 1}`),

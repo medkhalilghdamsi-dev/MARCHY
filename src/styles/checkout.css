@@ -501,3 +501,76 @@ html[data-theme="dark"] .checkout-saved-addresses-bar .saved-addr-chip.is-select
 .checkout-fields>.ui-form-field>[aria-invalid="true"]{border-color:var(--danger,var(--orange-dark));box-shadow:0 0 0 3px color-mix(in srgb,var(--danger,var(--orange-dark)) 14%,transparent)}
 .ui-form-required{color:var(--danger,var(--orange-dark))}
 html[data-theme="dark"] .checkout-fields>.ui-form-field>label{color:var(--ink)}
+
+/* Progressive 4-step Stepper */
+.checkout-steps-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;list-style:none;padding:0;margin:0 0 24px}
+@media(max-width:860px){.checkout-steps-4{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+@media(max-width:440px){.checkout-steps-4{grid-template-columns:1fr;gap:6px}}
+
+/* Option selection cards for shipping and payment */
+.checkout-option-cards{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.checkout-option-card{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s}
+.checkout-option-card:hover{border-color:var(--forest);background:var(--surface-soft)}
+.checkout-option-card.is-selected{border-color:var(--forest);background:color-mix(in srgb,var(--forest) 5%,#fff);box-shadow:0 2px 8px rgba(0,122,100,0.08)}
+.checkout-option-card input[type="radio"]{margin-top:4px;accent-color:var(--forest);width:17px;height:17px}
+.option-card-body{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.option-header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.option-header b{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink)}
+.option-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--line);color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.option-badge.primary-badge{background:var(--sand);color:var(--forest)}
+.option-card-body p{margin:0;font-size:11px;color:var(--muted);line-height:1.5}
+
+/* Dedicated Order Confirmation Page */
+.order-confirmation-page{max-width:1120px;margin:0 auto;padding-bottom:60px}
+.confirmation-hero-banner{text-align:center;padding:36px 20px;border-radius:16px;background:linear-gradient(180deg,#e8f6f0 0%,#f5f8f6 100%);border:1px solid #c9e8dc;margin-bottom:28px}
+.confirmation-badge-icon{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:#d2edd9;display:flex;align-items:center;justify-content:center;color:var(--forest)}
+.confirmation-hero-banner h1{font:800 clamp(26px,3.8vw,38px)/1.1 Manrope,sans-serif;letter-spacing:-1px;margin:6px 0 10px;color:var(--ink)}
+.confirmation-lead{font-size:15px;color:var(--ink);max-width:580px;margin:0 auto 18px;line-height:1.6}
+.confirmation-tags{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.badge-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;background:#fff;border:1px solid var(--line);color:var(--ink)}
+.badge-pill.cod-badge{background:#ddf2e9;border-color:#b4e3ce;color:#007a64}
+
+.confirmation-grid{display:grid;grid-template-columns:minmax(0,1fr) 350px;align-items:start;gap:24px}
+@media(max-width:880px){.confirmation-grid{grid-template-columns:1fr}}
+
+.confirmation-main-card,.confirmation-summary-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.confirmation-card-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.confirmation-card-header h2{font:800 20px/1.2 Manrope,sans-serif;letter-spacing:-.4px;margin:3px 0 0;color:var(--ink)}
+.print-receipt-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:8px 14px}
+
+.confirmation-item-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.confirmation-item-row{display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:14px;padding:12px;border-radius:10px;background:var(--surface-soft);border:1px solid var(--line)}
+.confirmation-item-thumb{width:54px;height:54px;object-fit:cover;border-radius:8px;background:#fff;border:1px solid var(--line)}
+.confirmation-item-details{display:flex;flex-direction:column;gap:3px;min-width:0}
+.confirmation-item-title{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.confirmation-variant-tag{font-size:10px;color:var(--forest);font-weight:600}
+.confirmation-item-seller{font-size:11px;color:var(--muted)}
+.confirmation-item-qty{font-size:11px;color:var(--ink)}
+.confirmation-item-subtotal{font:800 13px Manrope,sans-serif;color:var(--ink);white-space:nowrap}
+
+.confirmation-next-steps{padding:18px;border-radius:10px;background:#f8faf9;border:1px solid #e1ebe5}
+.confirmation-next-steps h3{font:800 14px Manrope,sans-serif;color:var(--ink);margin:0 0 12px}
+.next-steps-timeline{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.next-steps-timeline li b{font-size:12px;color:var(--ink);display:block;margin-bottom:2px}
+.next-steps-timeline li p{font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+
+.confirmation-summary-card .summary-section{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.confirmation-summary-card .recipient-summary p{margin:4px 0;font-size:12px;color:var(--ink);display:flex;align-items:center;gap:7px}
+.confirmation-summary-card .delivery-note-preview{font-style:italic;color:var(--muted);font-size:11px;margin-top:6px}
+.payment-method-pill{display:flex;flex-direction:column;gap:2px;padding:10px 12px;background:var(--surface-soft);border-radius:8px;margin:6px 0 0}
+.payment-method-pill strong{font-size:12px;color:var(--forest)}
+.payment-method-pill small{font-size:10px;color:var(--muted)}
+
+.totals-breakdown .summary-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:8px}
+.totals-breakdown .free-tag{color:var(--forest);font-size:11px}
+.summary-total-row{display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px dashed var(--line);margin-top:10px}
+.summary-total-row span{font-size:13px;font-weight:700;color:var(--ink)}
+.summary-total-row strong{font:800 20px Manrope,sans-serif;color:var(--forest)}
+
+.confirmation-action-buttons{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.confirmation-action-buttons a{justify-content:center;display:flex;align-items:center;gap:8px}
+
+.is-rtl .confirmation-item-row{direction:rtl;text-align:right}
+.is-rtl .next-steps-timeline{direction:rtl}
+.is-rtl .confirmation-summary-card .recipient-summary p{direction:rtl}
+

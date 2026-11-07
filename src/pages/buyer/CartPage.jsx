@@ -5,7 +5,7 @@ import { money } from '../../utils/marketplace'
 import { translateTree } from '../../i18n/translate'
 import { useMarketplace } from '../../providers/MarketplaceContext'
 import { MarketplaceService } from '../../services/marketplaceService'
-import { ArrowRight, Check, ShoppingCart, X } from 'lucide-react'
+import { ArrowRight, Check, ShoppingCart, X, AlertTriangle } from 'lucide-react'
 import { useToast } from '../../providers/ToastProvider'
 
 export function CartPage() {
@@ -47,6 +47,10 @@ export function CartPage() {
     const offer = MarketplaceService.getProductOffers(item.id).find(entry => entry.sellerSlug === slug)
     return Number(offer?.stock ?? 0)
   }
+  const hasStockIssues = cart.some(item => {
+    const stock = getLineStock(item)
+    return stock <= 0 || item.qty > stock
+  })
   const sellerGroups = [...new Set(cart.map(item => item.sellerSlug || sellerForProduct(item).slug))].map(slug => {
     const items = cart.filter(item => (item.sellerSlug || sellerForProduct(item).slug) === slug)
     const seller = sellers.find(entry => entry.slug === slug) || {
@@ -172,7 +176,26 @@ export function CartPage() {
         </form>
         <div className="summary-total"><span>Estimated product total</span><strong>{money(finalTotal)}</strong></div>
         <p className="cart-summary-note">Delivery charges, availability and final prices are not yet connected to live seller systems. They are not included in this estimate.</p>
-        <Link to="/checkout" className="primary-btn full-btn cart-checkout-button">Continue to checkout <ArrowRight size={16}/></Link>
+        {hasStockIssues && (
+          <div className="cart-stock-alert-banner" role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', background: 'rgba(217, 83, 79, 0.1)', color: '#d9534f', borderRadius: '8px', fontSize: '11px', fontWeight: '600', marginBottom: '12px' }}>
+            <AlertTriangle size={15} style={{ flexShrink: 0 }} />
+            <span>Some items exceed available merchant stock. Please adjust quantities to proceed.</span>
+          </div>
+        )}
+        {hasStockIssues ? (
+          <button
+            type="button"
+            disabled
+            className="primary-btn full-btn cart-checkout-button is-disabled"
+            aria-disabled="true"
+            title="Please adjust quantities for unavailable or over-subscribed items before checkout"
+            style={{ opacity: 0.6, cursor: 'not-allowed', background: '#a0b0aa' }}
+          >
+            Adjust quantities to checkout
+          </button>
+        ) : (
+          <Link to="/checkout" className="primary-btn full-btn cart-checkout-button">Continue to checkout <ArrowRight size={16}/></Link>
+        )}
         <div className="cart-trust-note"><span>ⓘ</span><p>You're reviewing a sample basket. No payment is taken and no order is placed.</p></div>
       </aside>
     </div> : <div className="cart-empty-state"><div className="cart-empty-icon"><ShoppingCart size={30}/></div><span className="eyebrow">A FRESH START</span><h2>Your cart is empty</h2><p>Explore the marketplace and add products you'd like to come back to.</p><div><Link to="/search" className="primary-btn">Explore products <ArrowRight size={15}/></Link><Link to="/categories" className="cart-empty-secondary">Browse categories</Link></div>
