@@ -163,6 +163,34 @@ Do not add feature CSS to unrelated global files. Do not reorder the global impo
 
 The current stylesheet collection still contains legacy refinement layers. The next cleanup phase is ownership-based consolidation, not another mass rewrite.
 
+### CSS ownership targets
+
+The following is the migration target, not a claim that every selector has already been consolidated:
+
+| UI surface | Canonical owner | Legacy sources to migrate from |
+|---|---|---|
+| Tokens, typography, colors | `design-system.css` | `design-foundation.css`, scattered token overrides |
+| Global reset/base elements | `base.css` | feature files with global element selectors |
+| Page/container geometry | `page-layout-system.css` | responsive overflow and page-specific geometry patches |
+| Shared buttons, fields, cards, badges | `component-system.css` | repeated primitive declarations in feature/refinement files |
+| Product-card domain composition | `discovery.css` + shared primitives | `upwork-navigation-discovery.css`, `upwork-shared-cascade.css`, later refinements |
+| Header/search interaction | `buyer-header-search.css` and layout component | `buyer-chrome.css`, `buyer-product-navigation.css`, `responsive-overflow-guards.css` |
+| Homepage discovery sections | `buyer-home-discovery.css` | `buyer-home-foundation.css`, `upwork-discovery-sections.css`, `upwork-buyer-funnel.css` |
+| Search/result composition | `buyer-search-results.css` | broad discovery and late shared-cascade overrides |
+| Product detail composition | `product-page-refinement.css` | product-detail rules in `discovery.css` and `buyer-product-detail.css` |
+| Checkout composition | `checkout.css` | `upwork-product-checkout.css` and generic refinement rules |
+| Mobile overflow containment | `page-layout-system.css` | `responsive-overflow-guards.css` (retain only proven exceptions) |
+
+### CSS migration rules
+
+1. Treat the current import order as production behavior. Do not reorder imports as a cleanup shortcut.
+2. A selector appearing in multiple files is a review candidate, not automatically dead or redundant CSS. Compare declarations, specificity, at-rule context and actual computed styles.
+3. Move a complete selector rule and its responsive/RTL variants together. Preserve source order until visual regression confirms the new order.
+4. Do not move feature-specific selectors into `component-system.css`; that file owns primitives, not page composition.
+5. Keep `responsive-overflow-guards.css` temporary and exception-only. Fix the owning layout/component first, then remove only the now-redundant guard.
+6. After each migration batch, run `npm run build`, `npm run audit:css`, and Playwright at desktop, tablet, narrow mobile and RTL. Record any intentional duplicate and its reason.
+7. Delete a legacy stylesheet import only when its remaining rules have been migrated and visual regression has passed.
+
 ## Frontend evolution rule
 
 When adding a feature:
